@@ -48,7 +48,7 @@ export default function CharacterSummaryCard(props) {
           {character.classes}
         </Typography>
         <StatSummaryWidget character={character} />
-        <ItemSummaryWidget items={character.equippedItems} />
+        <ItemSummaryWidget items={character.equipped_items} />
       </CardContent>
       <CardActions
         sx={{
