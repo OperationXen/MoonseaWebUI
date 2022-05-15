@@ -2,6 +2,8 @@ import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
 import { Typography, IconButton, Button } from "@mui/material";
 import { Tooltip, Avatar } from "@mui/material";
 
+import AddBoxIcon from "@mui/icons-material/AddBox";
+
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "./ItemSummaryWidget";
 
@@ -57,11 +59,21 @@ export default function CharacterSummaryCard(props) {
           justifyContent: "space-between",
         }}
       >
+        <Tooltip title="Add an event, such as a game or a DM reward">
+          <AddBoxIcon
+            sx={{ width: 40, height: 40 }}
+            onClick={() => alert("pew")}
+          />
+        </Tooltip>
         <Tooltip title="Go to character details">
           <Button>View Details</Button>
         </Tooltip>
         <Tooltip title="View character sheet on D&D Beyond">
-          <Avatar src={"/icons/beyond2.png"} onClick={() => alert("pew")} />
+          <Avatar
+            src={"/icons/beyond2.png"}
+            sx={{ width: 40, height: 40 }}
+            onClick={() => alert("pew")}
+          />
         </Tooltip>
       </CardActions>
     </Card>
