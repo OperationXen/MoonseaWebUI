@@ -2,10 +2,18 @@ import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
 import { Typography, IconButton, Button } from "@mui/material";
 import { Tooltip, Avatar } from "@mui/material";
 
-import StatSummaryRow from "./StatSummaryRow";
+import StatSummaryWidget from "./StatSummaryWidget";
+import ItemSummaryWidget from "./ItemSummaryWidget";
 
 export default function CharacterSummaryCard(props) {
   const { character } = props;
+
+  const getTier = () => {
+    if (character.level >= 17) return "Tier 4";
+    if (character.level >= 11) return "Tier 3";
+    if (character.level >= 5) return "Tier 2";
+    return "Tier 1";
+  };
 
   return (
     <Card sx={{ width: "400px", border: "1px solid black" }}>
@@ -27,9 +35,11 @@ export default function CharacterSummaryCard(props) {
           <Typography gutterBottom variant="h5" component="div">
             {character.name}
           </Typography>
-          <Typography gutterBottom variant="h5" component="div">
-            {character.level}
-          </Typography>
+          <Tooltip title={getTier()}>
+            <Typography gutterBottom variant="h5" component="div">
+              {character.level}
+            </Typography>
+          </Tooltip>
         </div>
         <Typography variant="body2" color="text.secondary">
           {character.race}
@@ -37,7 +47,8 @@ export default function CharacterSummaryCard(props) {
         <Typography variant="body2" color="text.secondary">
           {character.classes}
         </Typography>
-        <StatSummaryRow character={character} />
+        <StatSummaryWidget character={character} />
+        <ItemSummaryWidget items={character.equippedItems} />
       </CardContent>
       <CardActions
         sx={{

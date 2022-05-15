@@ -6,7 +6,7 @@ import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
 import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
 import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 
-export default function StatSummaryRow(props) {
+export default function StatSummaryWidget(props) {
   const { character } = props;
 
   return (
