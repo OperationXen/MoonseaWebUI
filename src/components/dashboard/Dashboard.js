@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 
-import { Paper, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { fetchAllCharacters } from "../../api/character";
 import useCharacterStore from "../../datastore/character";

@@ -1,14 +1,29 @@
+import { useNavigate } from "react-router-dom";
+
 import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
-import { Typography, IconButton, Button } from "@mui/material";
+import { Typography, ButtonGroup, Button } from "@mui/material";
 import { Tooltip, Avatar } from "@mui/material";
 
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
+import useSnackbar from "../../datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "./ItemSummaryWidget";
 
 export default function CharacterSummaryCard(props) {
   const { character } = props;
+  const navigate = useNavigate();
+  const snackbar = useSnackbar((s) => s.displayMessage);
+  const detailsLink = "/character/" + character.id; // link to full character sheet
+
+  const copyCharacterLink = () => {
+    navigator.clipboard.writeText(window.location.origin + detailsLink);
+    snackbar("Copied character link to clipboard");
+  };
+  const openDetails = () => {
+    navigate(detailsLink);
+  };
 
   const getTier = () => {
     if (character.level >= 17) return "Tier 4";
@@ -18,10 +33,10 @@ export default function CharacterSummaryCard(props) {
   };
 
   return (
-    <Card sx={{ width: "400px", border: "1px solid black" }}>
+    <Card sx={{ width: "400px", border: "1px solid black" }} width={"400px"}>
       <CardMedia
         component="img"
-        height="250px"
+        height="320px"
         image="https://i.pinimg.com/originals/9a/d0/52/9ad052721c009d7377353e725add74a3.png"
         //image={character.token}
         alt={character.name}
@@ -65,9 +80,18 @@ export default function CharacterSummaryCard(props) {
             onClick={() => alert("pew")}
           />
         </Tooltip>
-        <Tooltip title="Go to character details">
-          <Button>View Details</Button>
-        </Tooltip>
+
+        <ButtonGroup>
+          <Tooltip title="Go to character details">
+            <Button onClick={openDetails}>View Details</Button>
+          </Tooltip>
+          <Tooltip title="Copy link to character">
+            <Button onClick={copyCharacterLink}>
+              <ContentCopyIcon />
+            </Button>
+          </Tooltip>
+        </ButtonGroup>
+
         <Tooltip title="View character sheet on D&D Beyond">
           <Avatar
             src={"/icons/beyond2.png"}

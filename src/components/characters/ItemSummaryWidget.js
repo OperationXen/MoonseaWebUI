@@ -1,35 +1,51 @@
-import { List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
-import { Avatar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 export default function ItemSummaryWidget(props) {
   const { items } = props;
 
   const getRarityColour = (rarity) => {
-    if (rarity == "legendary") return "orange";
-    if (rarity == "veryrare") return "purple";
-    if (rarity == "rare") return "blue";
-    if (rarity == "uncommon") return "darkgreen";
+    if (rarity === "legendary") return "orange";
+    if (rarity === "veryrare") return "purple";
+    if (rarity === "rare") return "blue";
+    if (rarity === "uncommon") return "darkgreen";
     return "darkgrey";
   };
 
-  if (!items) return null;
+  const emptyList = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexGrow: 1,
+          margin: "20px",
+          border: "4px dashed darkgrey",
+          opacity: 0.5,
+          borderRadius: "10px",
+        }}
+      >
+        <Typography variant="h6" sx={{ color: "darkgrey", margin: "auto" }}>
+          No items equipped
+        </Typography>
+      </div>
+    );
+  };
 
   return (
-    <List>
-      {items.map((item) => {
-        return (
-          <ListItem key={item.id}>
-            <ListItemAvatar>
-              <Avatar sx={{ width: 24, height: 24 }} />
-            </ListItemAvatar>
+    <div style={{ display: "flex", minHeight: "9em", flexFlow: "column wrap" }}>
+      {((!items || !items.length) && emptyList()) ||
+        items.map((item) => {
+          return (
             <Typography
-              sx={{ color: getRarityColour(item.rarity), fontWeight: "bold" }}
+              sx={{
+                color: getRarityColour(item.rarity),
+                fontWeight: "bold",
+                opacity: 0.6,
+              }}
             >
               {item.name}
             </Typography>
-          </ListItem>
-        );
-      })}
-    </List>
+          );
+        })}
+    </div>
   );
 }
