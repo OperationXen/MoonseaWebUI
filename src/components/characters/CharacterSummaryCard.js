@@ -37,8 +37,7 @@ export default function CharacterSummaryCard(props) {
       <CardMedia
         component="img"
         height="320px"
-        image="https://i.pinimg.com/originals/9a/d0/52/9ad052721c009d7377353e725add74a3.png"
-        //image={character.token}
+        image={"media" + character.token}
         alt={character.name}
       />
       <CardContent>
@@ -96,7 +95,7 @@ export default function CharacterSummaryCard(props) {
           <Avatar
             src={"/icons/beyond2.png"}
             sx={{ width: 40, height: 40 }}
-            onClick={() => alert("pew")}
+            onClick={() => window.open(character.sheet)}
           />
         </Tooltip>
       </CardActions>
