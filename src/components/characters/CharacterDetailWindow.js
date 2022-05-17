@@ -6,6 +6,7 @@ import { Tabs, Tab } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 
 import { getCharacterDetails } from "../../api/character";
+import CharacterDetails from "./CharacterDetails";
 
 export default function CharacterDetailWindow(props) {
   const { id } = useParams();
@@ -28,21 +29,7 @@ export default function CharacterDetailWindow(props) {
         padding: "0.5em",
       }}
     >
-      <Paper
-        elevation={8}
-        style={{
-          display: "flex column",
-          flex: 0.98,
-          flexDirection: "column",
-        }}
-      >
-        <div style={{ display: "flex" }}>
-          <Card>Artwork</Card>
-          <Card>Summary</Card>
-        </div>
-
-        <Typography>{data.name}</Typography>
-      </Paper>
+      <CharacterDetails characterData={data} />
       <Paper
         elevation={8}
         sx={{
