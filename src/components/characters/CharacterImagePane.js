@@ -1,39 +1,40 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 
 export default function CharacterImagePane(props) {
   const { characterData } = props;
-  const parentRef = useRef(null);
-  const [showControls, setShowControls] = useState(false);
-  const [left, setLeft] = useState(0);
-  const [right, setRight] = useState(0);
-  const [top, setTop] = useState(0);
-  const [bottom, setBottom] = useState(0);
 
-  const handeMouseOver = (e) => {
-    const parent = parentRef.current.getBoundingClientRect();
-    setLeft(parent.left);
-    setRight(parent.left + parent.width);
-    setShowControls(true);
-  };
+  const [showControls, setShowControls] = useState(false);
+  
+  const getArtworkURL = () => {
+    if(characterData.artwork) return "/media" + characterData.artwork;
+    else return "/images/placegoblin.jpg"
+  }
 
   return (
     <div
-      ref={parentRef}
       style={{
+        margin: "auto",
+        position: "relative",
         background: "black",
         textAlign: "center",
+        height: "20em",
+        width: "26em"
+        
       }}
-      onMouseOver={handeMouseOver}
+      onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
     >
       {showControls && (
         <Box
           sx={{
             position: "absolute",
-            left: left,
-            right: right,
-            background: " red",
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
+            background: "black",
+            opacity: "70%"
           }}
         >
           Pew pew
@@ -41,8 +42,12 @@ export default function CharacterImagePane(props) {
       )}
       <Box
         component="img"
-        src={"/media" + characterData.artwork}
-        sx={{ maxHeight: "20em" }}
+        src={getArtworkURL()}
+        sx={{ 
+          maxHeight: "20em",
+          objectFit: "cover",
+          maxWidth: "26em"
+        }}
       />
     </div>
   );

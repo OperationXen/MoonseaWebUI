@@ -16,26 +16,14 @@ export default function CharacterDetails(props) {
         flexDirection: "column",
       }}
     >
-      <Box
-        sx={{
-          height: "3em",
-          borderBottom: "1px solid black",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Typography variant="h4">{characterData.name}</Typography>
-      </Box>
-
-      <Grid container style={{ height: "20em" }}>
-        <Grid item xs={4}>
-          <CharacterImagePane characterData={characterData} />
-        </Grid>
-        <Grid item xs={8}>
-          <Box sx={{ width: "64%", border: "2px solid green" }}>Summary</Box>
-        </Grid>
-      </Grid>
+      <div style={{height: "20em", display: "flex"}}>
+        <CharacterImagePane characterData={characterData} />  
+        <Box sx={{ width: "64%", border: "2px solid green" }}>
+          <Typography variant="h4">{characterData.name}</Typography>
+        </Box>
+      </div>
       <Box sx={{ border: "2px solid blue" }}>Event History</Box>
+
     </Paper>
   );
 }
