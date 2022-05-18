@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 export default function CharacterImagePane(props) {
   const { characterData } = props;
@@ -17,10 +17,8 @@ export default function CharacterImagePane(props) {
         margin: "auto",
         position: "relative",
         background: "black",
-        textAlign: "center",
         height: "20em",
-        width: "26em"
-        
+        maxWidth: "26em"
       }}
       onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
@@ -34,16 +32,26 @@ export default function CharacterImagePane(props) {
             width: "100%",
             height: "100%",
             background: "black",
-            opacity: "70%"
+            opacity: "90%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignContent: "center"
           }}
         >
-          Pew pew
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <Button variant="outlined">Show token</Button>
+          </div>
+          <div style={{display: "flex", justifyContent: "space-around"}}>
+            <Button variant="outlined">Set artwork</Button>  
+            <Button variant="outlined">Set token</Button> 
+          </div>
         </Box>
       )}
       <Box
         component="img"
         src={getArtworkURL()}
-        sx={{ 
+        sx={{
           maxHeight: "20em",
           objectFit: "cover",
           maxWidth: "26em"
