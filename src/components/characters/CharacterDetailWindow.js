@@ -23,7 +23,7 @@ export default function CharacterDetailWindow(props) {
     <Grid
       container
       style={{
-        height: "calc(100% - 0.7em)",
+        height: "calc(100% - 2.5em)",
         padding: "0.5em",
       }}
     >

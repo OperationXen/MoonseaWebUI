@@ -33,7 +33,14 @@ export default function CharacterSummaryCard(props) {
   };
 
   return (
-    <Card sx={{ width: "400px", border: "1px solid black" }} width={"400px"}>
+    <Card
+      sx={{
+        minWidth: "20em",
+        border: "1px solid black",
+        borderRadius: "10px",
+        margin: "0.5em",
+      }}
+    >
       <CardMedia
         component="img"
         height="320px"
@@ -91,13 +98,22 @@ export default function CharacterSummaryCard(props) {
           </Tooltip>
         </ButtonGroup>
 
-        <Tooltip title="View character sheet on D&D Beyond">
-          <Avatar
-            src={"/icons/beyond2.png"}
-            sx={{ width: 40, height: 40 }}
-            onClick={() => window.open(character.sheet)}
-          />
-        </Tooltip>
+        {(character.sheet && (
+          <Tooltip title="View character sheet on D&D Beyond">
+            <Avatar
+              src={"/icons/beyond2.png"}
+              sx={{ width: 40, height: 40, opacity: 0.9 }}
+              onClick={() => window.open(character.sheet)}
+            />
+          </Tooltip>
+        )) || (
+          <Tooltip title="No character sheet set">
+            <Avatar
+              src={"/icons/beyond2.png"}
+              sx={{ width: 40, height: 40, opacity: 0.3 }}
+            />
+          </Tooltip>
+        )}
       </CardActions>
     </Card>
   );

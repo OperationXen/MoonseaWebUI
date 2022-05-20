@@ -25,10 +25,11 @@ export default function Dashboard() {
   return (
     <Box
       sx={{
-        margin: "2em",
+        margin: "1em",
         display: "flex",
-        flexDirection: "row wrap",
-        justifyContent: "space-around",
+        flexFlow: "row wrap",
+        justifyContent: "space-between",
+        flexGrow: 1,
       }}
     >
       {characters.map((character) => (
