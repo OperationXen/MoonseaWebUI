@@ -32,7 +32,7 @@ export default function CreateCharacterEvent(props) {
           Add event to character
         </Typography>
         <Divider variant="middle" />
-        <Box marginBottom="0.4em">
+        <Box margin="0.4em 0">
           <InputLabel id="type-label">Event Type</InputLabel>
           <Select
             fullWidth
@@ -58,19 +58,50 @@ export default function CreateCharacterEvent(props) {
             borderRadius="8px"
             sx={{
               display: "flex",
-              height: "18em",
+              height: "26em",
               justifyContent: "space-between",
               flexFlow: "row wrap",
               padding: "0.4em",
               alignContent: "space-between",
             }}
           >
-            <Typography>Game details</Typography>
+            <Typography>
+              Game Details (Use this event type to record modules played and
+              rewards earned)
+            </Typography>
+
             <TextField fullWidth label="Game code / name" />
+            <TextField label="DM Name" />
+            <TextField label="Game date" />
             <TextField label="Downtime" />
-            <TextField label="Gold" />
+            <TextField label="Gold earned" />
             <TextField fullWidth label="Item Reward" />
             <TextField fullWidth label="Consumables" />
+          </Box>
+        )}
+        {event === "trade-npc" && (
+          <Box
+            border="1px solid black"
+            borderRadius="8px"
+            sx={{
+              display: "flex",
+              flexFlow: "row wrap",
+              height: "24em",
+              justifyContent: "space-around",
+              flexFlow: "column",
+              padding: "0.4em",
+              alignContent: "space-between",
+            }}
+          >
+            <Typography>Trade with NPC</Typography>
+            <TextField fullWidth multiline label="Items purchased" />
+            <TextField fullWidth multiline label="Items sold" />
+            <TextField
+              number
+              label="Gold"
+              helperText="Negative for gold spent, positive for profit"
+            />
+            <TextField label="Game date" />
           </Box>
         )}
       </Paper>
