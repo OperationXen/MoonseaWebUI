@@ -8,15 +8,13 @@ export default function SeasonRewards(props) {
 
   return (
     <Box
-      border={"1px solid black"}
-      flexGrow={1}
-      width={"100%"}
       display="flex"
+      width={"100%"}
       justifyContent={"space-around"}
-      sx={{ flexFlow: "row wrap" }}
+      sx={{ flexFlow: "row wrap", overflowY: "scroll" }}
     >
-      {rewards.map((reward) => {
-        return <SeasonRewardWidget {...reward} />;
+      {rewards.map((reward, index) => {
+        return <SeasonRewardWidget {...reward} key={index} />;
       })}
     </Box>
   );

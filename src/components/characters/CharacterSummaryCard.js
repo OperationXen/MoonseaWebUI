@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
 import { Typography, ButtonGroup, Button } from "@mui/material";
-import { Tooltip, Avatar } from "@mui/material";
+import { Tooltip, Avatar, Divider } from "@mui/material";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -47,6 +47,7 @@ export default function CharacterSummaryCard(props) {
         image={"media" + character.token}
         alt={character.name}
       />
+      <Divider variant="middle" />
       <CardContent>
         <div
           style={{
