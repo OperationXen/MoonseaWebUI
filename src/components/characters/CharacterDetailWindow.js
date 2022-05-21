@@ -6,7 +6,7 @@ import { Box, Grid } from "@mui/material";
 import { getCharacterDetails } from "../../api/character";
 import CharacterDetails from "./CharacterDetails";
 import CharacterBiographyPane from "./CharacterBiographyPane";
-import EventHistory from "../events/EventHistory";
+import CharacterEvents from "../events/CharacterEvents";
 import ItemSidebar from "../items/ItemSidebar";
 
 export default function CharacterDetailWindow(props) {
@@ -35,13 +35,15 @@ export default function CharacterDetailWindow(props) {
           flexDirection: "column",
           border: "1px solid black",
           borderRadius: "10px",
+          overflow: "hidden",
         }}
       >
         <CharacterDetails characterData={data} />
         <CharacterBiographyPane />
       </Grid>
+
       <Grid item xs={5}>
-        <EventHistory characterID={data.id} />
+        <CharacterEvents characterID={data.id} />
       </Grid>
       <Grid item xs={3} sx={{ paddingLeft: "0.4em", display: "flex" }}>
         <ItemSidebar itemData={data} />

@@ -5,11 +5,11 @@ export default function CharacterImagePane(props) {
   const { characterData } = props;
 
   const [showControls, setShowControls] = useState(false);
-  
+
   const getArtworkURL = () => {
-    if(characterData.artwork) return "/media" + characterData.artwork;
-    else return "/images/placegoblin.jpg"
-  }
+    if (characterData.artwork) return "/media" + characterData.artwork;
+    else return "/images/placegoblin.jpg";
+  };
 
   return (
     <div
@@ -17,8 +17,9 @@ export default function CharacterImagePane(props) {
         margin: "auto",
         position: "relative",
         background: "black",
-        height: "20em",
-        maxWidth: "26em"
+        textAlign: "center",
+        maxWidth: "18em",
+        minWidth: "18em",
       }}
       onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
@@ -36,15 +37,15 @@ export default function CharacterImagePane(props) {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-evenly",
-            alignContent: "center"
+            alignContent: "center",
           }}
         >
-          <div style={{display: "flex", justifyContent: "center"}}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <Button variant="outlined">Show token</Button>
           </div>
-          <div style={{display: "flex", justifyContent: "space-around"}}>
-            <Button variant="outlined">Set artwork</Button>  
-            <Button variant="outlined">Set token</Button> 
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <Button variant="outlined">Set artwork</Button>
+            <Button variant="outlined">Set token</Button>
           </div>
         </Box>
       )}
@@ -54,7 +55,7 @@ export default function CharacterImagePane(props) {
         sx={{
           maxHeight: "20em",
           objectFit: "cover",
-          maxWidth: "26em"
+          maxWidth: "26em",
         }}
       />
     </div>

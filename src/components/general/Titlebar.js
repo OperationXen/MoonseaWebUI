@@ -36,7 +36,7 @@ export default function Titlebar() {
             Trading Post
           </Button>
           <Button color="inherit" onClick={() => navigate("/items")}>
-            Items
+            Item Vault
           </Button>
           <Button color="inherit" onClick={() => navigate("/dungeonmaster")}>
             DM Records

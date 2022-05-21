@@ -10,7 +10,7 @@ export default function MagicItemList(props) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       {magicItems.map((item) => {
-        return <ItemWidget data={item} />;
+        return <ItemWidget data={item} key={item.id} />;
       })}
     </Box>
   );
