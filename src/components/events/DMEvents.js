@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 
-import { DataGrid } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
+import { DataGrid, GridPagination } from "@mui/x-data-grid";
+
+import AddIcon from "@mui/icons-material/Add";
 
 import { getEventsForCharacter } from "../../api/events.js";
 
 export default function DMEvents(props) {
   const { characterID } = props;
 
+  const [createOpen, setCreateOpen] = useState(false);
   const [events, setEvents] = useState([
     {
       id: 0,
@@ -60,7 +64,31 @@ export default function DMEvents(props) {
       columns={columns}
       rows={events}
       rowHeight={36}
-      sx={{ border: "1px solid black" }}
+      sx={{ border: "1px solid black", borderRadius: "8px" }}
+      components={{
+        Footer: () => (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              borderTop: "1px solid black",
+            }}
+          >
+            <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                onClick={() => setCreateOpen(true)}
+              >
+                Add event
+              </Button>
+            </div>
+            <GridPagination
+              style={{ justifySelf: "center", alignSelf: "center" }}
+            />
+          </div>
+        ),
+      }}
     />
   );
 }

@@ -11,13 +11,14 @@ import DMEvents from "../events/DMEvents";
 
 export default function DungeonMasterWindow(props) {
   const [showControls, setShowControls] = useState(false);
+  const [serviceHours, setServiceHours] = useState(props.hours || 0);
 
   return (
     <Box
       sx={{
         display: "flex",
         padding: "0.5em",
-        height: "calc(100% - 4em)",
+        height: "calc(100% - 3.5em)",
         position: "relative",
         justifyContent: "space-around",
       }}
@@ -44,10 +45,10 @@ export default function DungeonMasterWindow(props) {
                 orientation="vertical"
                 sx={{ opacity: showControls ? 0.8 : 0.1 }}
               >
-                <Button>
+                <Button onClick={() => setServiceHours(serviceHours + 1)}>
                   <KeyboardArrowUpIcon />
                 </Button>
-                <Button>
+                <Button onClick={() => setServiceHours(serviceHours - 1)}>
                   <KeyboardArrowDownIcon />
                 </Button>
               </ButtonGroup>
@@ -78,7 +79,7 @@ export default function DungeonMasterWindow(props) {
               }}
             >
               <div>
-                <Typography variant="h1">42</Typography>
+                <Typography variant="h1">{serviceHours}</Typography>
                 <Typography>Hours</Typography>
               </div>
             </div>

@@ -39,6 +39,7 @@ export default function CharacterSummaryCard(props) {
         border: "1px solid black",
         borderRadius: "10px",
         margin: "0.5em",
+        padding: "0.2em",
       }}
     >
       <CardMedia
@@ -47,7 +48,7 @@ export default function CharacterSummaryCard(props) {
         image={"media" + character.token}
         alt={character.name}
       />
-      <Divider variant="middle" />
+      <Divider variant="middle" sx={{ marginTop: "0.2em" }} />
       <CardContent>
         <div
           style={{
