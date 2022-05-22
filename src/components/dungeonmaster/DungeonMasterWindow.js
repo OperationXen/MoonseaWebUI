@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Grid, ButtonGroup, Button } from "@mui/material";
+import { Grid, Box, ButtonGroup, Button } from "@mui/material";
 import { Divider, Typography, Tooltip } from "@mui/material";
 
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -13,21 +13,21 @@ export default function DungeonMasterWindow(props) {
   const [showControls, setShowControls] = useState(false);
 
   return (
-    <Grid
-      container
+    <Box
       sx={{
+        display: "flex",
         padding: "0.5em",
-        height: "calc(100% - 2.5em)",
+        height: "calc(100% - 4em)",
         position: "relative",
+        justifyContent: "space-around",
       }}
     >
-      <Grid
-        item
-        xs={4}
+      <Box
         sx={{
           border: "1px solid black",
           borderRadius: "8px",
           display: "flex",
+          flexGrow: 0.3,
           flexDirection: "column",
           alignItems: "center",
         }}
@@ -39,18 +39,19 @@ export default function DungeonMasterWindow(props) {
           onMouseOut={() => setShowControls(false)}
         >
           <Grid item xs={2} margin={"auto 0 auto 0.4em"}>
-            {showControls && (
-              <Tooltip title="Manually adjust hours">
-                <ButtonGroup orientation="vertical">
-                  <Button>
-                    <KeyboardArrowUpIcon />
-                  </Button>
-                  <Button>
-                    <KeyboardArrowDownIcon />
-                  </Button>
-                </ButtonGroup>
-              </Tooltip>
-            )}
+            <Tooltip title="Manually adjust hours">
+              <ButtonGroup
+                orientation="vertical"
+                sx={{ opacity: showControls ? 0.8 : 0.1 }}
+              >
+                <Button>
+                  <KeyboardArrowUpIcon />
+                </Button>
+                <Button>
+                  <KeyboardArrowDownIcon />
+                </Button>
+              </ButtonGroup>
+            </Tooltip>
           </Grid>
           <Grid
             item
@@ -86,10 +87,11 @@ export default function DungeonMasterWindow(props) {
         </Grid>
         <Divider style={{ width: "95%" }} />
         <SeasonRewards />
-      </Grid>
-      <Grid item xs={8}>
+      </Box>
+
+      <Box sx={{ flexGrow: 0.68 }}>
         <DMEvents />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }

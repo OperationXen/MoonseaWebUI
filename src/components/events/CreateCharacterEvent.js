@@ -16,7 +16,7 @@ export default function CreateCharacterEvent(props) {
     <Modal
       open={open}
       onClose={() => setOpen(false)}
-      sx={{ left: "calc(50% - 20em)", top: "12em" }}
+      sx={{ left: "calc(50% - 20em)", top: "15%" }}
     >
       <Paper
         sx={{
@@ -44,12 +44,24 @@ export default function CreateCharacterEvent(props) {
             <MenuItem value="game">Played a game</MenuItem>
             <MenuItem value="trade-npc">Trade mundane equipment</MenuItem>
             <Divider>Downtime activities</Divider>
-            <MenuItem value="dt-catchup">Catching up (gain a level)</MenuItem>
-            <MenuItem value="trade-item">Trade magical items</MenuItem>
-            <MenuItem value="spellbook">Copy spells to spellbook</MenuItem>
-            <MenuItem value="dt-scribe">Scribe scrolls</MenuItem>
-            <MenuItem value="dt-brew">Brew potions</MenuItem>
-            <MenuItem value="rebuild">Rebuild character</MenuItem>
+            <MenuItem value="dt-catchup" disabled>
+              Catching up (gain a level)
+            </MenuItem>
+            <MenuItem value="trade-item" disabled>
+              Trade magical items
+            </MenuItem>
+            <MenuItem value="spellbook" disabled>
+              Copy spells to spellbook
+            </MenuItem>
+            <MenuItem value="dt-scribe" disabled>
+              Scribe scrolls
+            </MenuItem>
+            <MenuItem value="dt-brew" disabled>
+              Brew potions
+            </MenuItem>
+            <MenuItem value="rebuild" disabled>
+              Rebuild character
+            </MenuItem>
           </Select>
         </Box>
         {event === "game" && (

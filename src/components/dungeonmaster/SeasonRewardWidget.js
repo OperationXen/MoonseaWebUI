@@ -11,9 +11,8 @@ export default function SeasonRewardWidget(props) {
     <Card
       sx={{
         margin: "0.4em 1em",
-        height: "5em",
+        minHeight: "5em",
         minWidth: "14em",
-        flexGrow: 0.48,
         border: `2px solid ${getRarityColour(rarity)}`,
         background: `${getRarityColour(rarity)}50`,
         boxShadow: "2px 2px 4px darkgrey",
