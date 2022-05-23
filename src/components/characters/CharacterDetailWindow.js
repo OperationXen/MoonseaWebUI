@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { Card, Typography, Tabs, Tab, Paper } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
 import { getCharacterDetails } from "../../api/character";
+import CharacterDetails from "./CharacterDetails";
+import CharacterBiographyPane from "./CharacterBiographyPane";
+import CharacterEvents from "../events/CharacterEvents";
+import ItemSidebar from "../items/ItemSidebar";
 
 export default function CharacterDetailWindow(props) {
   const { id } = useParams();
   const [data, setData] = useState({});
-  const [itemTab, setItemTab] = useState(0);
 
   useEffect(() => {
     getCharacterDetails(id).then((response) => {
@@ -17,49 +20,34 @@ export default function CharacterDetailWindow(props) {
   }, [id]);
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
-        border: "2px solid black",
+        padding: "0.5em",
+        height: "calc(100% - 3.5em)",
         justifyContent: "space-around",
-        height: "100%",
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
-          flex: 0.62,
-          border: "1px solid red",
-        }}
-      >
-        <Card>Artwork</Card>
-        <Card>Token</Card>
-        <Typography>{data.name}</Typography>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.35,
-          border: "1px solid blue",
           flexDirection: "column",
-          height: "100%",
+          flexGrow: 0.32,
+          border: "1px solid black",
+          borderRadius: "8px",
+          overflow: "hidden",
         }}
       >
-        <Tabs
-          value={itemTab}
-          onChange={(e) => setItemTab(e.target.value)}
-          aria-label="item categories"
-          centered
-        >
-          <Tab label="Magic Items" />
-          <Tab label="Consumables" />
-          <Tab label="Common Items" />
-          <Tab label="Story Rewards" />
-        </Tabs>
-        <Paper elevation={8} sx={{ display: "flex", flexGrow: 2 }}>
-          g
-        </Paper>
-      </div>
-    </div>
+        <CharacterDetails characterData={data} />
+        <CharacterBiographyPane />
+      </Box>
+
+      <Box sx={{ flexGrow: 0.4, flexShrink: 1 }}>
+        <CharacterEvents characterID={data.id} />
+      </Box>
+      <Box sx={{ display: "flex", flexGrow: 0.25 }}>
+        <ItemSidebar itemData={data} />
+      </Box>
+    </Box>
   );
 }

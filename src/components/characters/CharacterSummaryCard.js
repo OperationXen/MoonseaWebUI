@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
 import { Typography, ButtonGroup, Button } from "@mui/material";
-import { Tooltip, Avatar } from "@mui/material";
+import { Tooltip, Avatar, Divider } from "@mui/material";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -33,14 +33,22 @@ export default function CharacterSummaryCard(props) {
   };
 
   return (
-    <Card sx={{ width: "400px", border: "1px solid black" }} width={"400px"}>
+    <Card
+      sx={{
+        minWidth: "20em",
+        border: "1px solid black",
+        borderRadius: "10px",
+        margin: "0.5em",
+        padding: "0.2em",
+      }}
+    >
       <CardMedia
         component="img"
         height="320px"
-        image="https://i.pinimg.com/originals/9a/d0/52/9ad052721c009d7377353e725add74a3.png"
-        //image={character.token}
+        image={"media" + character.token}
         alt={character.name}
       />
+      <Divider variant="middle" sx={{ marginTop: "0.2em" }} />
       <CardContent>
         <div
           style={{
@@ -72,6 +80,7 @@ export default function CharacterSummaryCard(props) {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          padding: "0em",
         }}
       >
         <Tooltip title="Add an event, such as a game or a DM reward">
@@ -92,13 +101,22 @@ export default function CharacterSummaryCard(props) {
           </Tooltip>
         </ButtonGroup>
 
-        <Tooltip title="View character sheet on D&D Beyond">
-          <Avatar
-            src={"/icons/beyond2.png"}
-            sx={{ width: 40, height: 40 }}
-            onClick={() => alert("pew")}
-          />
-        </Tooltip>
+        {(character.sheet && (
+          <Tooltip title="View character sheet on D&D Beyond">
+            <Avatar
+              src={"/icons/beyond2.png"}
+              sx={{ width: 40, height: 40, opacity: 0.9 }}
+              onClick={() => window.open(character.sheet)}
+            />
+          </Tooltip>
+        )) || (
+          <Tooltip title="No character sheet set">
+            <Avatar
+              src={"/icons/beyond2.png"}
+              sx={{ width: 40, height: 40, opacity: 0.3 }}
+            />
+          </Tooltip>
+        )}
       </CardActions>
     </Card>
   );

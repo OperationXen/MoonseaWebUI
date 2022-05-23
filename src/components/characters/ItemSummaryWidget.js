@@ -1,15 +1,9 @@
 import { Typography } from "@mui/material";
 
+import { getRarityColour } from "../../utils/itemUtils";
+
 export default function ItemSummaryWidget(props) {
   const { items } = props;
-
-  const getRarityColour = (rarity) => {
-    if (rarity === "legendary") return "orange";
-    if (rarity === "veryrare") return "purple";
-    if (rarity === "rare") return "blue";
-    if (rarity === "uncommon") return "darkgreen";
-    return "darkgrey";
-  };
 
   const emptyList = () => {
     return (
