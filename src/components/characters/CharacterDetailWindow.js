@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { getCharacterDetails } from "../../api/character";
 import CharacterDetails from "./CharacterDetails";
