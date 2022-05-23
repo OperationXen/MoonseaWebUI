@@ -36,6 +36,7 @@ export default function CharacterDetails(props) {
         sx={{
           padding: "0.4em",
           flexGrow: 0.65,
+          flexShrink: 1,
         }}
       >
         <Grid container height="2.2em">

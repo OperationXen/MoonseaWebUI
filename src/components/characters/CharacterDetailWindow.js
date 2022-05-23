@@ -20,34 +20,34 @@ export default function CharacterDetailWindow(props) {
   }, [id]);
 
   return (
-    <Grid
-      container
-      style={{
-        height: "calc(100% - 2.5em)",
+    <Box
+      sx={{
+        display: "flex",
         padding: "0.5em",
+        height: "calc(100% - 3.5em)",
+        justifyContent: "space-around",
       }}
     >
-      <Grid
-        item
-        xs={4}
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
+          flexGrow: 0.32,
           border: "1px solid black",
-          borderRadius: "10px",
+          borderRadius: "8px",
           overflow: "hidden",
         }}
       >
         <CharacterDetails characterData={data} />
         <CharacterBiographyPane />
-      </Grid>
+      </Box>
 
-      <Grid item xs={5}>
+      <Box sx={{ flexGrow: 0.4, flexShrink: 1 }}>
         <CharacterEvents characterID={data.id} />
-      </Grid>
-      <Grid item xs={3} sx={{ paddingLeft: "0.4em", display: "flex" }}>
+      </Box>
+      <Box sx={{ display: "flex", flexGrow: 0.25 }}>
         <ItemSidebar itemData={data} />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }

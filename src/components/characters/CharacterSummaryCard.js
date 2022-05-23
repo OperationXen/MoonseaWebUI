@@ -80,6 +80,7 @@ export default function CharacterSummaryCard(props) {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          padding: "0em",
         }}
       >
         <Tooltip title="Add an event, such as a game or a DM reward">
