@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Modal, Paper, Box, Divider } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import { TextField } from "@mui/material";
-import { Translate } from "@mui/icons-material";
 
 export default function CreateCharacterEvent(props) {
   const { open, setOpen } = props;
@@ -97,7 +96,6 @@ export default function CreateCharacterEvent(props) {
             borderRadius="8px"
             sx={{
               display: "flex",
-              flexFlow: "row wrap",
               height: "24em",
               justifyContent: "space-around",
               flexFlow: "column",

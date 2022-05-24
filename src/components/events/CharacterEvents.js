@@ -61,6 +61,11 @@ export default function CharacterEvents(props) {
         columns={columns}
         rows={events}
         rowHeight={36}
+        pagination="server"
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        pageNum={pageNum}
+        onPageChange={setPageNum}
         sx={{
           border: "1px solid black",
         }}

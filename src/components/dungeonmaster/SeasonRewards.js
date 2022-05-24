@@ -1,4 +1,4 @@
-import { Box, List, Typography, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 
 import SeasonRewardWidget from "./SeasonRewardWidget";
 import rewardData from "./season11b.json";

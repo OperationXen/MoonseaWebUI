@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Button } from "@mui/material";
+import { Button, Dialog } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -60,35 +60,48 @@ export default function DMEvents(props) {
   ];
 
   return (
-    <DataGrid
-      columns={columns}
-      rows={events}
-      rowHeight={36}
-      sx={{ border: "1px solid black", borderRadius: "8px" }}
-      components={{
-        Footer: () => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              borderTop: "1px solid black",
-            }}
-          >
-            <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
-              <Button
-                variant="outlined"
-                startIcon={<AddIcon />}
-                onClick={() => setCreateOpen(true)}
-              >
-                Add event
-              </Button>
+    <React.Fragment>
+      <DataGrid
+        columns={columns}
+        rows={events}
+        rowHeight={36}
+        pagination="server"
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        pageNum={pageNum}
+        onPageChange={setPageNum}
+        sx={{ border: "1px solid black", borderRadius: "8px" }}
+        components={{
+          Footer: () => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderTop: "1px solid black",
+              }}
+            >
+              <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<AddIcon />}
+                  onClick={() => setCreateOpen(true)}
+                >
+                  Add event
+                </Button>
+              </div>
+              <GridPagination
+                style={{ justifySelf: "center", alignSelf: "center" }}
+              />
             </div>
-            <GridPagination
-              style={{ justifySelf: "center", alignSelf: "center" }}
-            />
-          </div>
-        ),
-      }}
-    />
+          ),
+        }}
+      />
+      <Dialog
+        open={createOpen}
+        onClose={() => {
+          setCreateOpen(false);
+        }}
+      />
+    </React.Fragment>
   );
 }

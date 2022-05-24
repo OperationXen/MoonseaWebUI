@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
-import { Box, Container, Button, TextField, Typography } from "@mui/material";
+import { Box, Container, Dialog } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -41,6 +42,10 @@ export default function ItemVaultWindow(props) {
     { field: "col4", headerName: "Source", flex: 0.2 },
     { field: "col5", headerName: "Details", flex: 0.2 },
   ];
+
+  useEffect(() => {
+    if (false) setItems([]);
+  }, []);
 
   return (
     <Container
@@ -99,6 +104,12 @@ export default function ItemVaultWindow(props) {
           }}
         />
       </Box>
+      <Dialog
+        open={createOpen}
+        onClose={() => {
+          setCreateOpen(false);
+        }}
+      />
     </Container>
   );
 }

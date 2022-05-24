@@ -4,7 +4,7 @@ import iconData from "./coins.svg";
 export default function CoinIcon(props) {
   return (
     <Icon>
-      <img src={iconData} height={20} width={20} />
+      <img src={iconData} alt="A pile of coins" height={20} width={20} />
     </Icon>
   );
 }
