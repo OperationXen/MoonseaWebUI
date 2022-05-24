@@ -44,7 +44,7 @@ jobs:
         uses: easingthemes/ssh-deploy@v2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-          SOURCE: "build"
+          SOURCE: "build/"
           REMOTE_HOST: ${{ secrets.SERVER }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: "webui"
