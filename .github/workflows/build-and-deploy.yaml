@@ -45,3 +45,4 @@ jobs:
           SOURCE: "build"
           REMOTE_HOST: ${{ secrets.SERVER }}
           REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: "webui"
