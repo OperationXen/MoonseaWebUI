@@ -15,8 +15,20 @@ export default function CharacterBiographyPane(props) {
         justifyContent: "space-around",
       }}
     >
-      <TextField placeholder="Character biography" multiline rows={10} />
-      <TextField placeholder="DM helper text" multiline rows={10} />
+      <TextField
+        placeholder="Character biography"
+        value={biography}
+        onChange={(e) => setBiography(e.target.value)}
+        multiline
+        rows={10}
+      />
+      <TextField
+        placeholder="DM helper text"
+        value={dmText}
+        onChange={(e) => setDMText(e.target.value)}
+        multiline
+        rows={10}
+      />
     </Box>
   );
 }

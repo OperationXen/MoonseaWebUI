@@ -10,7 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { getRarityColour } from "../../utils/itemUtils";
 
 export default function ItemWidget(props) {
-  const { id, name, rarity } = props.data;
+  const { name, rarity } = props.data;
   const [equipped, setEquipped] = useState(props.data.equipped);
   const [showControls, setShowControls] = useState(false);
   const colour = getRarityColour(rarity);

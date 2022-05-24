@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Box, Card, Typography, Tooltip } from "@mui/material";
-import { Select, MenuItem, FormControl } from "@mui/material";
 
 import { getRarityColour } from "../../utils/itemUtils";
 
