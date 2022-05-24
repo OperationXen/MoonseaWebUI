@@ -9,7 +9,7 @@ import Titlebar from "./components/general/Titlebar";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/moonseacodex">
       <Titlebar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
