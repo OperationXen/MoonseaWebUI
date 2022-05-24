@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Moonsea Codex UI
 
 on:
@@ -31,3 +28,20 @@ jobs:
           name: webui-app
           path: build/
           retention-days: 1
+
+  Deploy-To-Server:
+    runs-on: ubuntu-latest
+    needs: Build-React-App
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: webui-app
+      - name: Deploy to Staging server
+        uses: easingthemes/ssh-deploy@v2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SOURCE: "build"
+          REMOTE_HOST: ${{ secrets.SERVER }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
