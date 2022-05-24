@@ -38,11 +38,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: webui-app
-      - name: List files
-        run: |
-          ls -lah
-          pwd
-          ls -lah MoonseaWebUI/
+          path: build/
+
       - name: Deploy to Staging server
         uses: easingthemes/ssh-deploy@v2
         env:
