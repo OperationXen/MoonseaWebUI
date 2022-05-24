@@ -25,12 +25,9 @@ jobs:
         run: npm ci
       - name: Build production app
         run: npm run build --if-present
-
-      - name: Compress build files
-        run: tar -czvf moonsea-codex-webui.tar.gz build/
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: compressed-webui-app
-          path: moonsea-codex-webui.tar.gz
+          name: webui-app
+          path: build/
           retention-days: 1
