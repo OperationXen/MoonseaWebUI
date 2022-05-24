@@ -3,8 +3,6 @@ name: Moonsea Codex UI
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   Build-React-App:
