@@ -10,7 +10,7 @@ on:
     branches: [main]
 
 jobs:
-  Build React App:
+  Build-React-App:
     runs-on: ubuntu-latest
 
     steps:
