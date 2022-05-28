@@ -14,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/character/:id" element={<CharacterDetailWindow />} />
-        <Route path="/dungeonmaster" element={<DungeonMasterWindow />} />
+        <Route path="/dungeonmaster/:id" element={<DungeonMasterWindow />} />
         <Route path="/itemvault" element={<ItemVaultWindow />} />
       </Routes>
       <FeedbackBar />

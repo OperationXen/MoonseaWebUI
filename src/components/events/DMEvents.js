@@ -82,6 +82,7 @@ export default function DMEvents(props) {
             >
               <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
                 <Button
+                  disabled={!props.allowUpdates}
                   variant="outlined"
                   startIcon={<AddIcon />}
                   onClick={() => setCreateOpen(true)}
