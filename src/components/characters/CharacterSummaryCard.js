@@ -45,7 +45,7 @@ export default function CharacterSummaryCard(props) {
       <CardMedia
         component="img"
         height="320px"
-        image={"media" + character.token}
+        image={character.token}
         alt={character.name}
       />
       <Divider variant="middle" sx={{ marginTop: "0.2em" }} />
@@ -112,7 +112,7 @@ export default function CharacterSummaryCard(props) {
         )) || (
           <Tooltip title="No character sheet set">
             <Avatar
-              src={"/icons/beyond2.png"}
+              src={`${process.env.PUBLIC_URL}/icons/beyond2.png`}
               sx={{ width: 40, height: 40, opacity: 0.3 }}
             />
           </Tooltip>
