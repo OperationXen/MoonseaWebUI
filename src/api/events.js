@@ -7,5 +7,5 @@ export function getEventsForCharacter(ID, limit = 100, offset = 0) {
     offset: offset,
   };
 
-  return axios.get("/api/events", { params: data });
+  return axios.get(`${process.env.PUBLIC_URL}/api/events`, { params: data });
 }
