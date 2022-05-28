@@ -104,7 +104,7 @@ export default function CharacterSummaryCard(props) {
         {(character.sheet && (
           <Tooltip title="View character sheet on D&D Beyond">
             <Avatar
-              src={"/icons/beyond2.png"}
+              src={`${process.env.PUBLIC_URL}/icons/beyond2.png`}
               sx={{ width: 40, height: 40, opacity: 0.9 }}
               onClick={() => window.open(character.sheet)}
             />
