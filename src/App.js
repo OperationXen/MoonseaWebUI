@@ -6,6 +6,7 @@ import ItemVaultWindow from "./components/items/ItemVaultWindow";
 import FeedbackBar from "./components/general/FeedbackBar";
 import Dashboard from "./components/dashboard/Dashboard";
 import Titlebar from "./components/general/Titlebar";
+import DataManager from "./datamanager/DataManager";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/itemvault" element={<ItemVaultWindow />} />
       </Routes>
       <FeedbackBar />
+      <DataManager />
     </BrowserRouter>
   );
 }

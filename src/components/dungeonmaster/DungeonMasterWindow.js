@@ -8,24 +8,27 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import userStore from "../../datastore/user";
-import { getDMLogData } from "../../api/dungeonmaster";
+import useSnackbar from "../../datastore/snackbar";
+import { getDMLogData, updateDMLogData } from "../../api/dungeonmaster";
 
 import LoadingOverlay from "../general/LoadingOverlay";
 import SeasonRewards from "./SeasonRewards";
 import DMEvents from "../events/DMEvents";
 
 export default function DungeonMasterWindow(props) {
-  const { id } = useParams();
+  const displayMessage = useSnackbar((s) => s.displayMessage);
   const { dmID, userID } = userStore.getState();
+  const { id } = useParams();
 
   const [dmName, setDMName] = useState("");
   const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
-  const [serviceHours, setServiceHours] = useState(props.hours || 0);
+  const initialHours = props.hours || 0;
+  const [serviceHours, setServiceHours] = useState(initialHours);
 
   useEffect(() => {
-    setAllowUpdates(id === dmID);
+    setAllowUpdates(id == dmID);
 
     getDMLogData(id)
       .then((response) => {
@@ -38,6 +41,13 @@ export default function DungeonMasterWindow(props) {
 
   const updateServiceHours = (val) => {
     setServiceHours(serviceHours + val);
+  };
+  const handleServiceHoursUpdate = () => {
+    if (serviceHours !== initialHours) {
+      updateDMLogData(id, serviceHours).then((response) => {
+        displayMessage("DM Log updated", "success");
+      });
+    }
   };
 
   return (
@@ -75,6 +85,7 @@ export default function DungeonMasterWindow(props) {
                   disabled={!allowUpdates}
                   orientation="vertical"
                   sx={{ opacity: showControls ? 0.8 : 0.1 }}
+                  onMouseOut={handleServiceHoursUpdate}
                 >
                   <Button onClick={() => updateServiceHours(+1)}>
                     <KeyboardArrowUpIcon />
