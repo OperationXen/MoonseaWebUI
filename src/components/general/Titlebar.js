@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import { Button, IconButton, Tooltip } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
+import userStore from "../../datastore/user";
+
 export default function Titlebar() {
   const navigate = useNavigate();
+  const { dmID, userID, userName } = userStore.getState();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -33,25 +36,25 @@ export default function Titlebar() {
             <Button color="inherit" onClick={() => navigate("/")}>
               Dashboard
             </Button>
-            <Tooltip title="Not yet implemented">
-              <Button
-                disabled
-                color="inherit"
-                onClick={() => navigate("/tradingpost")}
-              >
-                Trading Post
-              </Button>
-            </Tooltip>
-            <Tooltip title="Not yet implemented">
-              <Button
-                disabled
-                color="inherit"
-                onClick={() => navigate("/itemvault")}
-              >
-                Item Vault
-              </Button>
-            </Tooltip>
-            <Button color="inherit" onClick={() => navigate("/dungeonmaster")}>
+            <Button
+              disabled
+              color="inherit"
+              onClick={() => navigate("/tradingpost")}
+            >
+              Trading Post
+            </Button>
+            <Button
+              disabled
+              color="inherit"
+              onClick={() => navigate("/itemvault")}
+            >
+              Item Vault
+            </Button>
+            <Button
+              disabled={dmID === null}
+              color="inherit"
+              onClick={() => navigate(`/dungeonmaster/${dmID}`)}
+            >
               DM Records
             </Button>
             <Button color="inherit">Login</Button>
