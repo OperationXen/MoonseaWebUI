@@ -17,10 +17,9 @@ import DMEvents from "../events/DMEvents";
 
 export default function DungeonMasterWindow(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { dmID, userID } = userStore.getState();
+  const { dmID } = userStore.getState();
   const { id } = useParams();
 
-  const [dmName, setDMName] = useState("");
   const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
@@ -28,7 +27,7 @@ export default function DungeonMasterWindow(props) {
   const [serviceHours, setServiceHours] = useState(initialHours);
 
   useEffect(() => {
-    setAllowUpdates(id == dmID);
+    setAllowUpdates(id === dmID);
 
     getDMLogData(id)
       .then((response) => {
@@ -37,7 +36,7 @@ export default function DungeonMasterWindow(props) {
       .finally(() => {
         setLoading(false);
       });
-  }, [id]);
+  }, [id, dmID]);
 
   const updateServiceHours = (val) => {
     setServiceHours(serviceHours + val);

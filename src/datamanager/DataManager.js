@@ -1,22 +1,5 @@
-import { useState, useEffect } from "react";
-
-import userStore from "../datastore/user";
+import UserDataManager from "./UserDataManager"
 
 export default function DataManager() {
-  const [setUsername, setUserID, setDMID] = userStore((s) => [
-    s.setUsername,
-    s.setUserID,
-    s.setDMID,
-  ]);
-
-  useEffect(() => {
-    getUserDetails().then((response) => {
-      debugger;
-      setUsername(response.data.username);
-      setUserID(response.data.uuid);
-      setDMID(response.data.dmID);
-    });
-  }, []);
-
-  return null;
+    return(<UserDataManager />)
 }

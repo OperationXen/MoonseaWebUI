@@ -5,6 +5,7 @@ import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow"
 import ItemVaultWindow from "./components/items/ItemVaultWindow";
 import FeedbackBar from "./components/general/FeedbackBar";
 import Dashboard from "./components/dashboard/Dashboard";
+import LoginWindow from "./components/user/LoginWindow";
 import Titlebar from "./components/general/Titlebar";
 import DataManager from "./datamanager/DataManager";
 
@@ -14,6 +15,7 @@ export default function App() {
       <Titlebar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<LoginWindow/>} />
         <Route path="/character/:id" element={<CharacterDetailWindow />} />
         <Route path="/dungeonmaster/:id" element={<DungeonMasterWindow />} />
         <Route path="/itemvault" element={<ItemVaultWindow />} />

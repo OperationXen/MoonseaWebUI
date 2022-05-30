@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./base";
 
 export function getEventsForCharacter(ID, limit = 100, offset = 0) {
   const data = {
@@ -7,5 +7,5 @@ export function getEventsForCharacter(ID, limit = 100, offset = 0) {
     offset: offset,
   };
 
-  return axios.get(`${process.env.PUBLIC_URL}/api/events`, { params: data });
+  return api.get('/api/events', { params: data });
 }

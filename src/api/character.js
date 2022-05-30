@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "./base";
 
 export function fetchAllCharacters() {
-  return axios.get(`${process.env.PUBLIC_URL}/api/character/`);
+  return api.get('/api/character/');
 }
 
 export function getCharacterDetails(ID) {
-  return axios.get(`${process.env.PUBLIC_URL}/api/character/${ID}`);
+  return api.get(`/api/character/${ID}`);
 }
