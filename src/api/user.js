@@ -12,10 +12,14 @@ export async function doLogin(username, password) {
   let data = { username: username, password: password };
 
   return api.post(url, data).then((response) => {
+    let dm_info = response.data.dm_info[0];
+
     userStore.setState({
-      userID: response.data.userID,
-      dmID: response.data.dmID,
       username: response.data.username,
+      email: response.data.email,
+      discordID: response.data.discord_id,
+      dmUUID: dm_info.uuid,
+      dmHours: dm_info.hours,
     });
   });
 }
