@@ -1,37 +1,46 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Box, Paper } from "@mui/material";
+import { Container, Box, Paper } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
+import useSnackbar from "../../datastore/snackbar";
 import { doLogin } from "../../api/user";
 
 export default function LoginWindow() {
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    doLogin(username, password);
+    doLogin(username, password)
+      .then(() => navigate("/"))
+      .catch((error) => {
+        if (error.response.status === 403)
+          displayMessage(error.data.message, "error");
+        else displayMessage("Server error", "error");
+      });
+  };
+
+  const keyPressHandler = (e) => {
+    if (e.key === "Enter" && username && password) handleSubmit();
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Container sx={{ display: "flex", height: "70%" }}>
       <Paper
         elevation={12}
         sx={{
-          marginTop: "10%",
+          alignSelf: "center",
           width: "25em",
+          margin: "auto",
           display: "flex",
           padding: "0.8em 2em",
           flexDirection: "column",
           alignItems: "center",
         }}
+        onKeyDown={keyPressHandler}
       >
         <Typography variant="h4">User login</Typography>
         <Box sx={{ margin: "0.4em", width: "100%" }}>
@@ -56,11 +65,12 @@ export default function LoginWindow() {
         <Button
           sx={{ width: "50%", margin: "0.4em" }}
           variant="contained"
+          disabled={!username || !password}
           onClick={handleSubmit}
         >
           Login
         </Button>
       </Paper>
-    </Box>
+    </Container>
   );
 }
