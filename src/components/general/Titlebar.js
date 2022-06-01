@@ -33,10 +33,7 @@ export default function Titlebar() {
           >
             Moonsea Codex
           </Typography>
-          <Box marginRight={"1em"}>
-            <Button color="inherit" onClick={() => navigate("/")}>
-              Dashboard
-            </Button>
+          <Box marginRight={"3em"}>
             <Button
               disabled
               color="inherit"
@@ -52,14 +49,14 @@ export default function Titlebar() {
               Item Vault
             </Button>
             <Button
-              disabled={dmID === null}
+              disabled={!dmID}
               color="inherit"
               onClick={() => navigate(`/dungeonmaster/${dmID}`)}
             >
               DM Records
             </Button>
-            <AuthButton />
           </Box>
+          <AuthButton />
         </Toolbar>
       </AppBar>
     </Box>

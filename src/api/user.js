@@ -15,6 +15,7 @@ export async function doLogin(username, password) {
     let dm_info = response.data.dm_info[0];
 
     userStore.setState({
+      authenticated: true,
       username: response.data.username,
       email: response.data.email,
       discordID: response.data.discord_id,

@@ -17,9 +17,9 @@ export default function LoginWindow() {
     doLogin(username, password)
       .then(() => navigate("/"))
       .catch((error) => {
-        if (error.response.status === 403)
-          displayMessage(error.data.message, "error");
-        else displayMessage("Server error", "error");
+        if (error.response.status === 401) {
+          displayMessage("Wrong username or password", "error");
+        } else displayMessage("Server error", "error");
       });
   };
 
