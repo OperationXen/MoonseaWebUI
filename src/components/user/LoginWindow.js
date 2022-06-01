@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Container, Box, Paper } from "@mui/material";
+import { Container, Box, Paper, Link } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
@@ -70,6 +70,13 @@ export default function LoginWindow() {
         >
           Login
         </Button>
+
+        <Link variant="caption" href="/login">
+          Register an account
+        </Link>
+        <Link variant="caption" href="/login">
+          I forgot my password
+        </Link>
       </Paper>
     </Container>
   );

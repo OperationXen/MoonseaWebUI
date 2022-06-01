@@ -5,7 +5,7 @@ const userStore = create((set) => ({
   username: "",
   email: "",
   discordID: "",
-  dmUUID: "test",
+  dmUUID: "",
   dmHours: 0,
 
   setAuthenticated: (newVal) => set((state) => ({ authenticated: newVal })),
