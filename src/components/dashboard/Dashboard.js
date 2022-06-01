@@ -1,12 +1,16 @@
 import { useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
-import { fetchAllCharacters } from "../../api/character";
+import userStore from "../../datastore/user";
 import useCharacterStore from "../../datastore/character";
+import { fetchAllCharacters } from "../../api/character";
 import CharacterSummaryCard from "../characters/CharacterSummaryCard";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const authenticated = userStore((s) => s.authenticated);
   const [characters, setCharacters] = useCharacterStore((s) => [
     s.characters,
     s.setCharacters,
@@ -18,9 +22,11 @@ export default function Dashboard() {
     });
   }, [setCharacters]);
 
+  // On initial load
   useEffect(() => {
+    if (!authenticated) navigate("/login");
     getCharacterData();
-  }, [getCharacterData]);
+  }, [getCharacterData, navigate, authenticated]);
 
   return (
     <Box

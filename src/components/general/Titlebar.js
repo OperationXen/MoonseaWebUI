@@ -5,11 +5,12 @@ import { Button, IconButton } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
+import AuthButton from "../user/AuthButton";
 import userStore from "../../datastore/user";
 
 export default function Titlebar() {
   const navigate = useNavigate();
-  const { dmID, userID, userName } = userStore.getState();
+  const { dmID } = userStore.getState();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -32,10 +33,7 @@ export default function Titlebar() {
           >
             Moonsea Codex
           </Typography>
-          <Box marginRight={"1em"}>
-            <Button color="inherit" onClick={() => navigate("/")}>
-              Dashboard
-            </Button>
+          <Box marginRight={"3em"}>
             <Button
               disabled
               color="inherit"
@@ -51,14 +49,14 @@ export default function Titlebar() {
               Item Vault
             </Button>
             <Button
-              disabled={dmID === null}
+              disabled={!dmID}
               color="inherit"
               onClick={() => navigate(`/dungeonmaster/${dmID}`)}
             >
               DM Records
             </Button>
-            <Button color="inherit">Login</Button>
           </Box>
+          <AuthButton />
         </Toolbar>
       </AppBar>
     </Box>
