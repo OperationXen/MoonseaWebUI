@@ -71,10 +71,10 @@ export default function LoginWindow() {
           Login
         </Button>
 
-        <Link variant="caption" href="/login">
+        <Link variant="caption" onClick={() => navigate("/login")}>
           Register an account
         </Link>
-        <Link variant="caption" href="/login">
+        <Link variant="caption" onClick={() => navigate("/forgotpassword")}>
           I forgot my password
         </Link>
       </Paper>
