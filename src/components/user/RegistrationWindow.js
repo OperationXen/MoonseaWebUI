@@ -142,7 +142,11 @@ export default function RegistrationWindow() {
         >
           Create Account
         </Button>
-        <Link variant="caption" onClick={() => navigate("/login")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => navigate("/login")}
+        >
           Sign in with existing account
         </Link>
       </Paper>

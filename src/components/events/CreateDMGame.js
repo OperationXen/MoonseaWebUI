@@ -1,0 +1,197 @@
+import { useState } from "react";
+
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
+import { Box, Paper, Typography, TextField } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
+import useSnackbar from "../../datastore/snackbar";
+import { createDMGame } from "../../api/events";
+
+const row = {
+  display: "flex",
+  justifyContent: "space-between",
+  flexDirection: "row",
+  alignItems: "center",
+};
+
+export default function CreateDMGame(props) {
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const [code, setCode] = useState("");
+  const [name, setName] = useState("");
+  const [hours, setHours] = useState(4);
+  const [breakdown, setBreakdown] = useState("");
+
+  const [gold, setGold] = useState(0);
+  const [downtime, setDowntime] = useState(10);
+  const [levelup, setLevelup] = useState(true);
+  const [item, setItem] = useState("");
+
+  const [location, setLocation] = useState("");
+  const [datetime, setDatetime] = useState(null);
+  const [notes, setNotes] = useState("");
+
+  const handleSubmit = () => {
+    createDMGame(
+      datetime,
+      code,
+      name,
+      gold,
+      downtime,
+      levelup ? 1 : 0,
+      hours,
+      breakdown,
+      location,
+      notes
+    )
+      .then((response) => {
+        displayMessage("Game added successfully", "success");
+        props.onAdd();
+      })
+      .catch((error) => {
+        displayMessage("Unable to create this game", "error");
+      });
+  };
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Paper
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "2em",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h3">Add New Game</Typography>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Module Info
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <TextField
+            label="Module Code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            required
+          />
+          <TextField
+            label="Module Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Box>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Service hours
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <Box sx={{ flexGrow: 0.08, ...row }}>
+            <IconButton onClick={() => hours > 0 && setHours(hours - 1)}>
+              <RemoveIcon />
+            </IconButton>
+            <Typography variant="h5">{hours}</Typography>
+            <IconButton onClick={() => setHours(hours + 1)}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+          <TextField
+            sx={{ flexGrow: 0.8 }}
+            label="Service hours breakdown"
+            value={breakdown}
+            onChange={(e) => setBreakdown(e.target.value)}
+          />
+        </Box>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Rewards
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <TextField
+            type="number"
+            sx={{ width: "10em" }}
+            label="Gold"
+            value={gold}
+            onChange={(e) => e.target.value >= 0 && setGold(e.target.value)}
+          ></TextField>
+          <TextField
+            type="number"
+            sx={{ width: "10em" }}
+            label="Downtime"
+            value={downtime}
+            onChange={(e) => e.target.value >= 0 && setDowntime(e.target.value)}
+          ></TextField>
+          <FormGroup sx={{ width: "6em" }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={levelup}
+                  onChange={(e) => setLevelup(e.target.value)}
+                />
+              }
+              label="Levelup"
+            />
+          </FormGroup>
+        </Box>
+        <TextField
+          label="Item"
+          fullWidth
+          sx={{ marginTop: "0.6em" }}
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+        ></TextField>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Details
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <TextField
+            label="Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          ></TextField>
+
+          <DateTimePicker
+            label="Date and Time"
+            value={datetime}
+            inputFormat="yyyy/MM/dd HH:mm"
+            onChange={setDatetime}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </Box>
+        <TextField
+          label="Notes"
+          fullWidth
+          multiline={true}
+          minRows={2}
+          maxRows={4}
+          sx={{ marginTop: "0.6em" }}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        ></TextField>
+        <Button
+          variant="contained"
+          sx={{ width: "60%", marginTop: "0.6em" }}
+          onClick={handleSubmit}
+          disabled={!code || !name}
+        >
+          Add Game
+        </Button>
+      </Paper>
+    </LocalizationProvider>
+  );
+}

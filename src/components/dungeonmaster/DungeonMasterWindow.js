@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -15,35 +15,40 @@ import LoadingOverlay from "../general/LoadingOverlay";
 import SeasonRewards from "./SeasonRewards";
 import DMEvents from "../events/DMEvents";
 
-export default function DungeonMasterWindow(props) {
+export default function DungeonMasterWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { dmID } = userStore.getState();
+  const [dmUUID] = userStore((s) => [s.dmUUID]);
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
-  const initialHours = props.hours || 0;
-  const [serviceHours, setServiceHours] = useState(initialHours);
+  const [serviceHours, setServiceHours] = useState(0);
+  const [hoursChanged, setHoursChanged] = useState(false);
 
-  useEffect(() => {
-    setAllowUpdates(id === dmID);
-
-    getDMLogData(id)
+  const refreshDMData = useCallback(() => {
+    getDMLogData(dmUUID)
       .then((response) => {
         setServiceHours(response.data.hours);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [id, dmID]);
+  }, [dmUUID]);
+
+  useEffect(() => {
+    setAllowUpdates(id === dmUUID);
+    refreshDMData();
+  }, [refreshDMData, id, dmUUID]);
 
   const updateServiceHours = (val) => {
+    setHoursChanged(true);
     setServiceHours(serviceHours + val);
   };
   const handleServiceHoursUpdate = () => {
-    if (serviceHours !== initialHours) {
+    if (hoursChanged) {
       updateDMLogData(id, serviceHours).then((response) => {
+        setHoursChanged(false);
         displayMessage("DM Log updated", "success");
       });
     }
@@ -84,7 +89,7 @@ export default function DungeonMasterWindow(props) {
                   disabled={!allowUpdates}
                   orientation="vertical"
                   sx={{ opacity: showControls ? 0.8 : 0.1 }}
-                  onMouseOut={handleServiceHoursUpdate}
+                  onMouseLeave={handleServiceHoursUpdate}
                 >
                   <Button onClick={() => updateServiceHours(+1)}>
                     <KeyboardArrowUpIcon />
@@ -137,7 +142,11 @@ export default function DungeonMasterWindow(props) {
         </Box>
 
         <Box sx={{ flexGrow: 0.68 }}>
-          <DMEvents allowUpdates={allowUpdates} />
+          <DMEvents
+            allowUpdates={allowUpdates}
+            dmUUID={id}
+            onChange={refreshDMData}
+          />
         </Box>
       </Box>
     </React.Fragment>

@@ -1,62 +1,102 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
-import { Button, Dialog } from "@mui/material";
+import { Button, Dialog, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import { getEventsForCharacter } from "../../api/events.js";
+import useSnackbar from "../../datastore/snackbar";
+import { getDateString } from "../../utils/format";
+import { getDMEvents, deleteDMEvent } from "../../api/events.js";
+import CreateDMGame from "./CreateDMGame.js";
 
 export default function DMEvents(props) {
-  const { characterID } = props;
+  const { dmUUID, onChange } = props;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [events, setEvents] = useState([
-    {
-      id: 0,
-      col1: "Claimed Service Reward",
-      col2: -10,
-      col3: "2022/05/04",
-      col4: "Periapt of health",
-    },
-    {
-      id: 1,
-      col1: "DMed Game",
-      col2: 12,
-      col3: "2022/05/03",
-      col4: "DDAL0505 - Best served cold, mentoring, streamed",
-    },
-    {
-      id: 2,
-      col1: "DMed Game",
-      col2: 10,
-      col3: "2022/05/02",
-      col4: "DDAL0505 - Best served cold, mentoring, streamed",
-    },
-    {
-      id: 3,
-      col1: "DMed Game",
-      col2: 10,
-      col3: "2022/05/01",
-      col4: "DDAL0505 - Best served cold, mentoring, streamed",
-    },
-  ]);
+  const [events, setEvents] = useState([]);
   const [pageSize, setPageSize] = useState(15);
   const [pageNum, setPageNum] = useState(1);
 
+  const refreshDMEvents = useCallback(() => {
+    getDMEvents(dmUUID, pageSize, pageSize * (pageNum - 1)).then((response) => {
+      setEvents(response.data.results);
+    });
+  }, [dmUUID, pageSize, pageNum]);
+
+  const onGameAdded = () => {
+    refreshDMEvents();
+    onChange();
+    setCreateOpen(false);
+  };
+
+  // fetch data on page changes
   useEffect(() => {
-    getEventsForCharacter(characterID, pageSize, pageSize * (pageNum - 1)).then(
-      (result) => {
-        setEvents(result.data);
-      }
+    refreshDMEvents();
+  }, [refreshDMEvents, pageNum, pageSize]);
+
+  const deleteGame = (uuid) => {
+    deleteDMEvent(uuid).then(() => {
+      displayMessage("Removed event", "info");
+      onChange();
+      refreshDMEvents();
+    });
+  };
+
+  const rowActions = (params) => {
+    return (
+      <IconButton onClick={() => deleteGame(params.row.uuid)}>
+        <DeleteIcon />
+      </IconButton>
     );
-  }, [characterID, pageNum, pageSize]);
+  };
+
+  const rowType = (params) => {
+    return "DMed game";
+  };
+  const rowDate = (params) => {
+    let datetime = new Date(params.row.datetime);
+    return getDateString(datetime);
+  };
+  const rowDetails = (params) => {
+    let data = params.row;
+    return `${data.name} (${data.module})`;
+  };
 
   const columns = [
-    { field: "col1", headerName: "Event", flex: 0.2 },
-    { field: "col2", headerName: "Service Hours", flex: 0.1 },
-    { field: "col3", headerName: "Date", flex: 0.15 },
-    { field: "col4", headerName: "Details", flex: 0.6 },
+    { field: "type", headerName: "Event", flex: 0.15, valueGetter: rowType },
+    {
+      field: "hours",
+      headerName: "Service Hours",
+      flex: 0.15,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "datetime",
+      headerName: "Date",
+      flex: 0.15,
+      headerAlign: "center",
+      align: "center",
+      valueGetter: rowDate,
+    },
+    {
+      field: "details",
+      headerName: "Details",
+      flex: 0.6,
+      headerAlign: "center",
+      valueGetter: rowDetails,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.1,
+      align: "right",
+      headerAlign: "center",
+      renderCell: rowActions,
+    },
   ];
 
   return (
@@ -68,9 +108,11 @@ export default function DMEvents(props) {
         pagination="server"
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
+        rowsPerPageOptions={[15, 25, 50, 100]}
         pageNum={pageNum}
         onPageChange={setPageNum}
         sx={{ border: "1px solid black", borderRadius: "8px" }}
+        getRowId={(row) => row.uuid}
         components={{
           Footer: () => (
             <div
@@ -87,7 +129,7 @@ export default function DMEvents(props) {
                   startIcon={<AddIcon />}
                   onClick={() => setCreateOpen(true)}
                 >
-                  Add event
+                  Add Game
                 </Button>
               </div>
               <GridPagination
@@ -102,7 +144,9 @@ export default function DMEvents(props) {
         onClose={() => {
           setCreateOpen(false);
         }}
-      />
+      >
+        <CreateDMGame onAdd={onGameAdded} />
+      </Dialog>
     </React.Fragment>
   );
 }

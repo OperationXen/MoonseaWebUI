@@ -7,6 +7,7 @@ const userStore = create((set) => ({
   discordID: "",
   dmUUID: "",
   dmHours: 0,
+  refresh: false,
 
   setAuthenticated: (newVal) => set((state) => ({ authenticated: newVal })),
   setUsername: (newVal) => set((state) => ({ username: newVal })),
@@ -15,6 +16,8 @@ const userStore = create((set) => ({
 
   setDMUUID: (newVal) => set((state) => ({ dmUUID: newVal })),
   setDMHours: (newVal) => set((state) => ({ dmHours: newVal })),
+  // request refresh function forces the datamanager to refetch state from the server
+  requestRefresh: () => set((state) => ({ refresh: !state.refresh })),
 }));
 
 export default userStore;
