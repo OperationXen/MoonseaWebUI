@@ -19,7 +19,7 @@ export default function UserDataManager() {
       setUserID(response.data.uuid);
       setDMID(response.data.dmID);
     });
-  }, [setUsername, setUserID, setDMID]);
+  }, [setAuthenticated, setUsername, setUserID, setDMID]);
 
   return null;
 }

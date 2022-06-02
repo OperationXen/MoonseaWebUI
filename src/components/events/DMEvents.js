@@ -5,6 +5,7 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
 
+import { getDateString } from "../../utils/format";
 import { getDMEvents } from "../../api/events.js";
 import CreateDMGame from "./CreateDMGame.js";
 
@@ -31,11 +32,33 @@ export default function DMEvents(props) {
     refreshDMEvents();
   }, [refreshDMEvents, pageNum, pageSize]);
 
+  const rowType = (params) => {
+    return "DMed game";
+  };
+  const rowDate = (params) => {
+    let datetime = new Date(params.row.datetime);
+    return getDateString(datetime);
+  };
+  const rowDetails = (params) => {
+    let data = params.row;
+    return `${data.name} (${data.module})`;
+  };
+
   const columns = [
-    { field: "type", headerName: "Event", flex: 0.2 },
+    { field: "type", headerName: "Event", flex: 0.2, valueGetter: rowType },
     { field: "hours", headerName: "Service Hours", flex: 0.1 },
-    { field: "datetime", headerName: "Date", flex: 0.15 },
-    { field: "name", headerName: "Details", flex: 0.6 },
+    {
+      field: "datetime",
+      headerName: "Date",
+      flex: 0.15,
+      valueGetter: rowDate,
+    },
+    {
+      field: "details",
+      headerName: "Details",
+      flex: 0.6,
+      valueGetter: rowDetails,
+    },
   ];
 
   return (
@@ -67,7 +90,7 @@ export default function DMEvents(props) {
                   startIcon={<AddIcon />}
                   onClick={() => setCreateOpen(true)}
                 >
-                  Add event
+                  Add Game
                 </Button>
               </div>
               <GridPagination

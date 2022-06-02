@@ -161,14 +161,18 @@ export default function CreateDMGame(props) {
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         ></TextField>
-        <TextField label="Date and time"></TextField>
+        <TextField
+          label="Date and time"
+          value={datetime}
+          onChange={(e) => setDatetime(e.target.value)}
+        ></TextField>
       </Box>
       <TextField
         label="Notes"
         fullWidth
         multiline={true}
-        minRows={4}
-        maxRows={8}
+        minRows={2}
+        maxRows={4}
         sx={{ marginTop: "0.6em" }}
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
