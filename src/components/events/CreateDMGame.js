@@ -10,7 +10,6 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import useSnackbar from "../../datastore/snackbar";
-import userStore from "../../datastore/user";
 import { createDMGame } from "../../api/events";
 
 const row = {
@@ -21,7 +20,6 @@ const row = {
 };
 
 export default function CreateDMGame(props) {
-  const refreshUserData = userStore((s) => s.refresh);
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
@@ -56,9 +54,6 @@ export default function CreateDMGame(props) {
       })
       .catch((error) => {
         displayMessage("Unable to create this game", "error");
-      })
-      .finally(() => {
-        refreshUserData();
       });
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -17,7 +17,7 @@ import DMEvents from "../events/DMEvents";
 
 export default function DungeonMasterWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [dmID] = userStore((s) => [s.dmUUID]);
+  const [dmUUID] = userStore((s) => [s.dmUUID]);
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -26,17 +26,20 @@ export default function DungeonMasterWindow() {
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
 
-  useEffect(() => {
-    setAllowUpdates(id === dmID);
-
-    getDMLogData(id)
+  const refreshDMData = useCallback(() => {
+    getDMLogData(dmUUID)
       .then((response) => {
         setServiceHours(response.data.hours);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [id, dmID]);
+  }, [dmUUID]);
+
+  useEffect(() => {
+    setAllowUpdates(id === dmUUID);
+    refreshDMData();
+  }, [refreshDMData, id, dmUUID]);
 
   const updateServiceHours = (val) => {
     setHoursChanged(true);
@@ -139,7 +142,11 @@ export default function DungeonMasterWindow() {
         </Box>
 
         <Box sx={{ flexGrow: 0.68 }}>
-          <DMEvents allowUpdates={allowUpdates} dmUUID={id} />
+          <DMEvents
+            allowUpdates={allowUpdates}
+            dmUUID={id}
+            onChange={refreshDMData}
+          />
         </Box>
       </Box>
     </React.Fragment>

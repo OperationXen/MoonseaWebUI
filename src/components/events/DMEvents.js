@@ -12,7 +12,7 @@ import { getDMEvents, deleteDMEvent } from "../../api/events.js";
 import CreateDMGame from "./CreateDMGame.js";
 
 export default function DMEvents(props) {
-  const { dmUUID } = props;
+  const { dmUUID, onChange } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -28,6 +28,7 @@ export default function DMEvents(props) {
 
   const onGameAdded = () => {
     refreshDMEvents();
+    onChange();
     setCreateOpen(false);
   };
 
@@ -37,19 +38,16 @@ export default function DMEvents(props) {
   }, [refreshDMEvents, pageNum, pageSize]);
 
   const deleteGame = (uuid) => {
-    deleteDMEvent(uuid);
+    deleteDMEvent(uuid).then(() => {
+      displayMessage("Removed event", "info");
+      onChange();
+      refreshDMEvents();
+    });
   };
 
   const rowActions = (params) => {
     return (
-      <IconButton
-        onClick={() => {
-          deleteGame(params.row.uuid).then(() => {
-            displayMessage("Removed event", "info");
-            refreshDMEvents();
-          });
-        }}
-      >
+      <IconButton onClick={() => deleteGame(params.row.uuid)}>
         <DeleteIcon />
       </IconButton>
     );
