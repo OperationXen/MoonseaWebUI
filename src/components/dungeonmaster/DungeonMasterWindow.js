@@ -15,16 +15,16 @@ import LoadingOverlay from "../general/LoadingOverlay";
 import SeasonRewards from "./SeasonRewards";
 import DMEvents from "../events/DMEvents";
 
-export default function DungeonMasterWindow(props) {
+export default function DungeonMasterWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { dmID } = userStore.getState();
+  const [dmID] = userStore((s) => [s.dmUUID]);
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
-  const initialHours = props.hours || 0;
-  const [serviceHours, setServiceHours] = useState(initialHours);
+  const [serviceHours, setServiceHours] = useState(0);
+  const [hoursChanged, setHoursChanged] = useState(false);
 
   useEffect(() => {
     setAllowUpdates(id === dmID);
@@ -39,11 +39,13 @@ export default function DungeonMasterWindow(props) {
   }, [id, dmID]);
 
   const updateServiceHours = (val) => {
+    setHoursChanged(true);
     setServiceHours(serviceHours + val);
   };
   const handleServiceHoursUpdate = () => {
-    if (serviceHours !== initialHours) {
+    if (hoursChanged) {
       updateDMLogData(id, serviceHours).then((response) => {
+        setHoursChanged(false);
         displayMessage("DM Log updated", "success");
       });
     }
@@ -84,7 +86,7 @@ export default function DungeonMasterWindow(props) {
                   disabled={!allowUpdates}
                   orientation="vertical"
                   sx={{ opacity: showControls ? 0.8 : 0.1 }}
-                  onMouseOut={handleServiceHoursUpdate}
+                  onMouseLeave={handleServiceHoursUpdate}
                 >
                   <Button onClick={() => updateServiceHours(+1)}>
                     <KeyboardArrowUpIcon />
@@ -137,7 +139,7 @@ export default function DungeonMasterWindow(props) {
         </Box>
 
         <Box sx={{ flexGrow: 0.68 }}>
-          <DMEvents allowUpdates={allowUpdates} />
+          <DMEvents allowUpdates={allowUpdates} dmUUID={id} />
         </Box>
       </Box>
     </React.Fragment>

@@ -71,10 +71,18 @@ export default function LoginWindow() {
           Login
         </Button>
 
-        <Link variant="caption" onClick={() => navigate("/login")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => navigate("/register")}
+        >
           Register an account
         </Link>
-        <Link variant="caption" onClick={() => navigate("/forgotpassword")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => navigate("/forgotpassword")}
+        >
           I forgot my password
         </Link>
       </Paper>

@@ -10,7 +10,7 @@ import userStore from "../../datastore/user";
 
 export default function Titlebar() {
   const navigate = useNavigate();
-  const { dmID } = userStore.getState();
+  const [dmID] = userStore((s) => [s.dmUUID]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

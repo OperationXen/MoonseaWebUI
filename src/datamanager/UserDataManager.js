@@ -4,7 +4,8 @@ import userStore from "../datastore/user";
 import { getUserDetails } from "../api/user";
 
 export default function UserDataManager() {
-  const [setUsername, setUserID, setDMID] = userStore((s) => [
+  const [setAuthenticated, setUsername, setUserID, setDMID] = userStore((s) => [
+    s.setAuthenticated,
     s.setUsername,
     s.setUserID,
     s.setDMID,
@@ -13,7 +14,7 @@ export default function UserDataManager() {
   // Get user details on application load
   useEffect(() => {
     getUserDetails().then((response) => {
-      debugger;
+      setAuthenticated(true);
       setUsername(response.data.username);
       setUserID(response.data.uuid);
       setDMID(response.data.dmID);
