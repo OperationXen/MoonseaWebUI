@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { Box, Paper, Typography, TextField } from "@mui/material";
 import { Button, IconButton } from "@mui/material";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
@@ -8,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import useSnackbar from "../../datastore/snackbar";
+import userStore from "../../datastore/user";
 import { createDMGame } from "../../api/events";
 
 const row = {
@@ -18,6 +21,7 @@ const row = {
 };
 
 export default function CreateDMGame(props) {
+  const refreshUserData = userStore((s) => s.refresh);
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
@@ -35,7 +39,7 @@ export default function CreateDMGame(props) {
 
   const handleSubmit = () => {
     createDMGame(
-      null,
+      datetime,
       code,
       name,
       gold,
@@ -52,139 +56,147 @@ export default function CreateDMGame(props) {
       })
       .catch((error) => {
         displayMessage("Unable to create this game", "error");
+      })
+      .finally(() => {
+        refreshUserData();
       });
   };
 
   return (
-    <Paper
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "2em",
-        justifyContent: "space-around",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="h3">Add New Game</Typography>
-      <Typography
-        sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-        variant="body1"
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Paper
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "2em",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
       >
-        Module Info
-      </Typography>
-      <Box sx={{ ...row, width: "100%" }}>
-        <TextField
-          label="Module Code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          required
-        />
-        <TextField
-          label="Module Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </Box>
-      <Typography
-        sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-        variant="body1"
-      >
-        Service hours
-      </Typography>
-      <Box sx={{ ...row, width: "100%" }}>
-        <Box sx={{ flexGrow: 0.08, ...row }}>
-          <IconButton onClick={() => hours > 0 && setHours(hours - 1)}>
-            <RemoveIcon />
-          </IconButton>
-          <Typography variant="h5">{hours}</Typography>
-          <IconButton onClick={() => setHours(hours + 1)}>
-            <AddIcon />
-          </IconButton>
+        <Typography variant="h3">Add New Game</Typography>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Module Info
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <TextField
+            label="Module Code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            required
+          />
+          <TextField
+            label="Module Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Box>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Service hours
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <Box sx={{ flexGrow: 0.08, ...row }}>
+            <IconButton onClick={() => hours > 0 && setHours(hours - 1)}>
+              <RemoveIcon />
+            </IconButton>
+            <Typography variant="h5">{hours}</Typography>
+            <IconButton onClick={() => setHours(hours + 1)}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+          <TextField
+            sx={{ flexGrow: 0.8 }}
+            label="Service hours breakdown"
+            value={breakdown}
+            onChange={(e) => setBreakdown(e.target.value)}
+          />
+        </Box>
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Rewards
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <TextField
+            type="number"
+            sx={{ width: "10em" }}
+            label="Gold"
+            value={gold}
+            onChange={(e) => e.target.value >= 0 && setGold(e.target.value)}
+          ></TextField>
+          <TextField
+            type="number"
+            sx={{ width: "10em" }}
+            label="Downtime"
+            value={downtime}
+            onChange={(e) => e.target.value >= 0 && setDowntime(e.target.value)}
+          ></TextField>
+          <FormGroup sx={{ width: "6em" }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={levelup}
+                  onChange={(e) => setLevelup(e.target.value)}
+                />
+              }
+              label="Levelup"
+            />
+          </FormGroup>
         </Box>
         <TextField
-          sx={{ flexGrow: 0.8 }}
-          label="Service hours breakdown"
-          value={breakdown}
-          onChange={(e) => setBreakdown(e.target.value)}
-        />
-      </Box>
-      <Typography
-        sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-        variant="body1"
-      >
-        Rewards
-      </Typography>
-      <Box sx={{ ...row, width: "100%" }}>
-        <TextField
-          type="number"
-          sx={{ width: "10em" }}
-          label="Gold"
-          value={gold}
-          onChange={(e) => e.target.value >= 0 && setGold(e.target.value)}
+          label="Item"
+          fullWidth
+          sx={{ marginTop: "0.6em" }}
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
         ></TextField>
-        <TextField
-          type="number"
-          sx={{ width: "10em" }}
-          label="Downtime"
-          value={downtime}
-          onChange={(e) => e.target.value >= 0 && setDowntime(e.target.value)}
-        ></TextField>
-        <FormGroup sx={{ width: "6em" }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={levelup}
-                onChange={(e) => setLevelup(e.target.value)}
-              />
-            }
-            label="Levelup"
+        <Typography
+          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
+          variant="body1"
+        >
+          Details
+        </Typography>
+        <Box sx={{ ...row, width: "100%" }}>
+          <TextField
+            label="Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          ></TextField>
+
+          <DateTimePicker
+            label="Date and Time"
+            value={datetime}
+            inputFormat="yyyy/MM/dd HH:mm"
+            onChange={setDatetime}
+            renderInput={(params) => <TextField {...params} />}
           />
-        </FormGroup>
-      </Box>
-      <TextField
-        label="Item"
-        fullWidth
-        sx={{ marginTop: "0.6em" }}
-        value={item}
-        onChange={(e) => setItem(e.target.value)}
-      ></TextField>
-      <Typography
-        sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-        variant="body1"
-      >
-        Details
-      </Typography>
-      <Box sx={{ ...row, width: "100%" }}>
+        </Box>
         <TextField
-          label="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          label="Notes"
+          fullWidth
+          multiline={true}
+          minRows={2}
+          maxRows={4}
+          sx={{ marginTop: "0.6em" }}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
         ></TextField>
-        <TextField
-          label="Date and time"
-          value={datetime}
-          onChange={(e) => setDatetime(e.target.value)}
-        ></TextField>
-      </Box>
-      <TextField
-        label="Notes"
-        fullWidth
-        multiline={true}
-        minRows={2}
-        maxRows={4}
-        sx={{ marginTop: "0.6em" }}
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-      ></TextField>
-      <Button
-        variant="contained"
-        sx={{ width: "60%", marginTop: "0.6em" }}
-        onClick={handleSubmit}
-        disabled={!code || !name}
-      >
-        Add Game
-      </Button>
-    </Paper>
+        <Button
+          variant="contained"
+          sx={{ width: "60%", marginTop: "0.6em" }}
+          onClick={handleSubmit}
+          disabled={!code || !name}
+        >
+          Add Game
+        </Button>
+      </Paper>
+    </LocalizationProvider>
   );
 }

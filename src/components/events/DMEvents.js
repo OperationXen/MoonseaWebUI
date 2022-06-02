@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import { Button, Dialog } from "@mui/material";
+import { Button, Dialog, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
+import useSnackbar from "../../datastore/snackbar";
 import { getDateString } from "../../utils/format";
-import { getDMEvents } from "../../api/events.js";
+import { getDMEvents, deleteDMEvent } from "../../api/events.js";
 import CreateDMGame from "./CreateDMGame.js";
 
 export default function DMEvents(props) {
   const { dmUUID } = props;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [events, setEvents] = useState([]);
@@ -28,9 +31,29 @@ export default function DMEvents(props) {
     setCreateOpen(false);
   };
 
+  // fetch data on page changes
   useEffect(() => {
     refreshDMEvents();
   }, [refreshDMEvents, pageNum, pageSize]);
+
+  const deleteGame = (uuid) => {
+    deleteDMEvent(uuid);
+  };
+
+  const rowActions = (params) => {
+    return (
+      <IconButton
+        onClick={() => {
+          deleteGame(params.row.uuid).then(() => {
+            displayMessage("Removed event", "info");
+            refreshDMEvents();
+          });
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+    );
+  };
 
   const rowType = (params) => {
     return "DMed game";
@@ -45,19 +68,36 @@ export default function DMEvents(props) {
   };
 
   const columns = [
-    { field: "type", headerName: "Event", flex: 0.2, valueGetter: rowType },
-    { field: "hours", headerName: "Service Hours", flex: 0.1 },
+    { field: "type", headerName: "Event", flex: 0.15, valueGetter: rowType },
+    {
+      field: "hours",
+      headerName: "Service Hours",
+      flex: 0.15,
+      headerAlign: "center",
+      align: "center",
+    },
     {
       field: "datetime",
       headerName: "Date",
       flex: 0.15,
+      headerAlign: "center",
+      align: "center",
       valueGetter: rowDate,
     },
     {
       field: "details",
       headerName: "Details",
       flex: 0.6,
+      headerAlign: "center",
       valueGetter: rowDetails,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.1,
+      align: "right",
+      headerAlign: "center",
+      renderCell: rowActions,
     },
   ];
 
@@ -70,6 +110,7 @@ export default function DMEvents(props) {
         pagination="server"
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
+        rowsPerPageOptions={[15, 25, 50, 100]}
         pageNum={pageNum}
         onPageChange={setPageNum}
         sx={{ border: "1px solid black", borderRadius: "8px" }}

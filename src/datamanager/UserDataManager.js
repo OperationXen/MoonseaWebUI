@@ -1,25 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 import userStore from "../datastore/user";
 import { getUserDetails } from "../api/user";
 
 export default function UserDataManager() {
-  const [setAuthenticated, setUsername, setUserID, setDMID] = userStore((s) => [
-    s.setAuthenticated,
-    s.setUsername,
-    s.setUserID,
-    s.setDMID,
-  ]);
+  const refreshUserData = userStore((s) => s.refresh);
+
+  const refreshUserDetails = useCallback(() => {
+    getUserDetails().then((response) => {
+      userStore.setState({
+        authenticated: true,
+        username: response.data.username,
+        email: response.data.email,
+        discordID: response.data.discord_id,
+        dmUUID: response.data.dmID,
+        dmHours: response.data.hours,
+      });
+    });
+  }, []);
 
   // Get user details on application load
   useEffect(() => {
-    getUserDetails().then((response) => {
-      setAuthenticated(true);
-      setUsername(response.data.username);
-      setUserID(response.data.uuid);
-      setDMID(response.data.dmID);
-    });
-  }, [setAuthenticated, setUsername, setUserID, setDMID]);
+    refreshUserDetails();
+  }, [refreshUserDetails, refreshUserData]);
 
   return null;
 }

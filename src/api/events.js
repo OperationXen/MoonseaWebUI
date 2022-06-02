@@ -28,6 +28,7 @@ export function createDMGame(
 ) {
   let url = "/api/dm_game/";
   let data = {
+    datetime: datetime,
     module: module,
     name: name,
     gold: gold,
@@ -40,4 +41,10 @@ export function createDMGame(
   };
 
   return api.post(url, data);
+}
+
+export function deleteDMEvent(uuid) {
+  let url = `/api/dm_game/${uuid}/`;
+
+  return api.delete(url);
 }
