@@ -138,7 +138,7 @@ export default function DungeonMasterWindow() {
           <Box
             sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }}
           />
-          <SeasonRewards />
+          <SeasonRewards hours={serviceHours} />
         </Box>
 
         <Box sx={{ flexGrow: 0.68 }}>

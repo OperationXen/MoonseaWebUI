@@ -3,7 +3,20 @@ import { Box, Card, Typography, Tooltip } from "@mui/material";
 import { getRarityColour } from "../../utils/itemUtils";
 
 export default function SeasonRewardWidget(props) {
-  const { name, rarity, reward, level, downtime, gold } = props;
+  const { name, rarity, reward, level, downtime, gold, cost, locked } = props;
+
+  const getBackgroundColour = () => {
+    if (locked) return "#42424240";
+    return `${getRarityColour(rarity)}42`;
+  };
+  const getBorderColour = () => {
+    if (locked) return "#00000050";
+    return getRarityColour(rarity);
+  };
+  const getTextStyle = () => {
+    if (locked) return { color: "#00000050" };
+    return { color: "black" };
+  };
 
   return (
     <Card
@@ -11,10 +24,11 @@ export default function SeasonRewardWidget(props) {
         margin: "0.4em 1em",
         minHeight: "5em",
         minWidth: "14em",
-        border: `2px solid ${getRarityColour(rarity)}`,
-        background: `${getRarityColour(rarity)}50`,
+        border: `2px solid ${getBorderColour()}`,
+        background: getBackgroundColour(),
         boxShadow: "2px 2px 4px darkgrey",
       }}
+      onClick={props.onSelect}
     >
       <Box
         style={{
@@ -23,12 +37,12 @@ export default function SeasonRewardWidget(props) {
           justifyContent: "space-between",
         }}
       >
-        <Typography fontWeight={550} padding={"0.2em"}>
+        <Typography fontWeight={550} padding={"0.2em"} sx={getTextStyle()}>
           {name}
         </Typography>
         <Tooltip title="Cost in hours">
-          <Typography fontWeight={550} padding={"0.2em"}>
-            10
+          <Typography fontWeight={550} padding={"0.2em"} sx={getTextStyle()}>
+            {cost}
           </Typography>
         </Tooltip>
       </Box>
@@ -42,12 +56,20 @@ export default function SeasonRewardWidget(props) {
       >
         {level && (
           <Tooltip title="(Optional) level up for one of your characters">
-            <Typography variant="body2">Level Up</Typography>
+            <Typography variant="body2" sx={getTextStyle()}>
+              Level Up
+            </Typography>
           </Tooltip>
         )}
-        {gold && <Typography variant="body2">{gold} gp</Typography>}
+        {gold && (
+          <Typography variant="body2" sx={getTextStyle()}>
+            {gold} gp
+          </Typography>
+        )}
         {downtime && (
-          <Typography variant="body2">{downtime} downtime days</Typography>
+          <Typography variant="body2" sx={getTextStyle()}>
+            {downtime} downtime days
+          </Typography>
         )}
       </Box>
       <Box
@@ -60,7 +82,9 @@ export default function SeasonRewardWidget(props) {
       >
         {reward && (
           <Tooltip title="Includes an item">
-            <Typography variant="caption">Item reward</Typography>
+            <Typography variant="caption" sx={getTextStyle()}>
+              Item reward
+            </Typography>
           </Tooltip>
         )}
       </Box>
