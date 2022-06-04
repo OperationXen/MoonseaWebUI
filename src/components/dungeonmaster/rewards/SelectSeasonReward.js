@@ -8,10 +8,14 @@ import { getRarityColour } from "../../../utils/itemUtils";
 import RewardSelectWidget from "./RewardSelectWidget";
 
 export default function SelectSeasonReward(props) {
-  const { data } = props;
+  const { data, open, onClose } = props;
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
   const [rewardItem, setRewardItem] = useState(0);
+
+  const handleSubmit = () => {
+    onClose();
+  };
 
   const getRewardText = () => {
     let retval = "Misc rewards:";
@@ -23,8 +27,8 @@ export default function SelectSeasonReward(props) {
 
   return (
     <Dialog
-      open={props.open}
-      onClose={props.onClose}
+      open={open}
+      onClose={onClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -129,6 +133,7 @@ export default function SelectSeasonReward(props) {
       <Button
         variant="contained"
         sx={{ marginBottom: "1em", width: "50%" }}
+        onClick={handleSubmit}
       >{`Claim reward (${data.cost} hours)`}</Button>
     </Dialog>
   );
