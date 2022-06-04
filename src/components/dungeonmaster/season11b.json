@@ -2,7 +2,7 @@
   {
     "name": "Emerald Pen",
     "downtime": 10,
-    "reward": "Emerald Pen",
+    "rewards": ["Emerald Pen"],
     "rarity": "uncommon",
     "level": 1,
     "cost": 5
@@ -10,7 +10,7 @@
   {
     "name": "Periapt of health",
     "downtime": 10,
-    "reward": "Periapt of health",
+    "rewards": ["Periapt of health"],
     "rarity": "uncommon",
     "level": 1,
     "cost": 5
@@ -18,7 +18,7 @@
   {
     "name": "Bag of tricks (tan)",
     "downtime": 10,
-    "reward": "Bag of tricks (tan)",
+    "rewards": ["Bag of tricks (tan)"],
     "rarity": "uncommon",
     "level": 1,
     "cost": 5
@@ -26,7 +26,7 @@
   {
     "name": "Teir 1 Adventure Reward",
     "gold": 250,
-    "reward": "Any tier 1 adventure item",
+    "rewards": "Any tier 1 adventure item",
     "rarity": "uncommon",
     "level": 1,
     "cost": 5
@@ -34,7 +34,7 @@
   {
     "name": "Dragon wing bow",
     "downtime": 20,
-    "reward": [
+    "rewards": [
       "Dragon wing hand crossbow (poison)",
       "Dragon wing heavy crossbow (thunder)",
       "Dragon wing light crossbow (fire)",
@@ -48,7 +48,7 @@
   {
     "name": "Gem of seeing",
     "downtime": 20,
-    "reward": "Gem of seeing",
+    "rewards": ["Gem of seeing"],
     "rarity": "rare",
     "level": 1,
     "cost": 10
@@ -56,7 +56,7 @@
   {
     "name": "Dragon slayer",
     "downtime": 20,
-    "reward": [
+    "rewards": [
       "Dragonslayer (Greatsword)",
       "Dragonslayer (Longsword)",
       "Dragonslayer (Shortsword)",
@@ -70,7 +70,7 @@
   {
     "name": "Teir 2 Adventure Reward",
     "gold": 2500,
-    "reward": "Any tier 2 adventure item",
+    "rewards": ["Any tier 2 adventure item"],
     "rarity": "rare",
     "level": 1,
     "cost": 10
@@ -78,7 +78,7 @@
   {
     "name": "Sapphire Buckler",
     "downtime": 30,
-    "reward": "Sapphire buckler",
+    "rewards": ["Sapphire buckler"],
     "rarity": "veryrare",
     "level": 1,
     "cost": 20
@@ -86,7 +86,7 @@
   {
     "name": "Dragon Scalemail",
     "downtime": 30,
-    "reward": [
+    "rewards": [
       "Dragon scalemail (Brass)",
       "Dragon scalemail (Bronze)",
       "Dragon scalemail (Copper)",
@@ -100,7 +100,7 @@
   {
     "name": "Tome of Clear Thought",
     "downtime": 30,
-    "reward": "Tome of clear thought",
+    "rewards": ["Tome of clear thought"],
     "rarity": "veryrare",
     "level": 1,
     "cost": 20
@@ -108,7 +108,7 @@
   {
     "name": "Teir 3 Adventure Reward",
     "gold": 10000,
-    "reward": "Any tier 3 adventure item",
+    "rewards": "Any tier 3 adventure item",
     "rarity": "veryrare",
     "level": 1,
     "cost": 20

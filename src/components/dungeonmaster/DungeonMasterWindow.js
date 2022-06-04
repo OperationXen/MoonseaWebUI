@@ -12,7 +12,7 @@ import useSnackbar from "../../datastore/snackbar";
 import { getDMLogData, updateDMLogData } from "../../api/dungeonmaster";
 
 import LoadingOverlay from "../general/LoadingOverlay";
-import SeasonRewards from "./SeasonRewards";
+import SeasonRewards from "./rewards/SeasonRewards";
 import DMEvents from "../events/DMEvents";
 
 export default function DungeonMasterWindow() {
@@ -138,7 +138,12 @@ export default function DungeonMasterWindow() {
           <Box
             sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }}
           />
-          <SeasonRewards hours={serviceHours} />
+          <SeasonRewards
+            allowUpdates={allowUpdates}
+            dmUUID={id}
+            hours={serviceHours}
+            onChange={refreshDMData}
+          />
         </Box>
 
         <Box sx={{ flexGrow: 0.68 }}>
