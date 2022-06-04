@@ -34,7 +34,11 @@ export default function RewardSelectWidget(props) {
           disabled={rewards.length === 1}
         >
           {rewards.map((reward, index) => {
-            return <MenuItem value={index}>{reward}</MenuItem>;
+            return (
+              <MenuItem key={`${index}-${reward}`} value={index}>
+                {reward}
+              </MenuItem>
+            );
           })}
         </Select>
       </FormControl>

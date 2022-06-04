@@ -10,31 +10,13 @@ export function getEventsForCharacter(ID, limit = 100, offset = 0) {
   return api.get("/api/events", { params: data });
 }
 
-export function createDMReward(
-  name,
-  hours,
-  gold,
-  downtime,
-  levels,
-  item,
-  charLevels,
-  charItems
-) {
-  let data = {
-    name: name,
-    hours: hours,
-    gold: gold,
-    downtime: downtime,
-    levels: levels,
-    item: item,
-    char_levels: charLevels,
-    char_items: charItems,
-  };
+// function expects an object - possibly should convert to typescript to prevent the inevitable
+export function createDMReward(data) {
   return api.post("/api/dm_reward/", data);
 }
 
-export function getDMEvents(dmUUID, limit = 100, offset = 0) {
-  return api.get(`/api/dm_game/?dm=${dmUUID}`);
+export function getDMEvents(dmUUID) {
+  return api.get(`/api/dm_events/${dmUUID}`);
 }
 
 export function deleteDMEvent(uuid) {

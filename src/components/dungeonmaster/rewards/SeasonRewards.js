@@ -27,7 +27,6 @@ export default function SeasonRewards(props) {
         sx={{ flexFlow: "column", overflowY: "scroll" }}
       >
         {rewards.map((reward, index) => {
-          debugger;
           return (
             <SeasonRewardWidget
               {...reward}

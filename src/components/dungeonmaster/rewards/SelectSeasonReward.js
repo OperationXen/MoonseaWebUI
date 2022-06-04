@@ -4,17 +4,36 @@ import { Dialog, Box, Typography } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Divider, Button } from "@mui/material";
 
+import useSnackBar from "../../../datastore/snackbar";
 import { getRarityColour } from "../../../utils/itemUtils";
+import { createDMReward } from "../../../api/events";
 import RewardSelectWidget from "./RewardSelectWidget";
 
 export default function SelectSeasonReward(props) {
-  const { data, open, onClose } = props;
+  const { data, open, onClose, onChange } = props;
+  const displayMessage = useSnackBar((s) => s.displayMessage);
+
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
   const [rewardItem, setRewardItem] = useState(0);
 
   const handleSubmit = () => {
-    onClose();
+    let temp = {
+      name: data.name,
+      hours: data.cost,
+      gold: data.gold,
+      downtime: data.downtime,
+      levels: data.levels,
+      item: rewardItem,
+      charLevels: levelChar,
+      charItems: rewardChar,
+    };
+
+    createDMReward(temp).then(() => {
+      displayMessage(`Purchased DM reward for ${data.cost} hours`, "success");
+      onChange();
+      onClose();
+    });
   };
 
   const getRewardText = () => {

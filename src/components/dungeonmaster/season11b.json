@@ -24,7 +24,7 @@
     "cost": 5
   },
   {
-    "name": "Teir 1 Adventure Reward",
+    "name": "Tier 1 Adventure Reward",
     "gold": 250,
     "rewards": "Any tier 1 adventure item",
     "rarity": "uncommon",
@@ -68,7 +68,7 @@
     "cost": 10
   },
   {
-    "name": "Teir 2 Adventure Reward",
+    "name": "Tier 2 Adventure Reward",
     "gold": 2500,
     "rewards": ["Any tier 2 adventure item"],
     "rarity": "rare",
@@ -106,7 +106,7 @@
     "cost": 20
   },
   {
-    "name": "Teir 3 Adventure Reward",
+    "name": "Tier 3 Adventure Reward",
     "gold": 10000,
     "rewards": "Any tier 3 adventure item",
     "rarity": "veryrare",
