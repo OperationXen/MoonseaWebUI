@@ -10,8 +10,19 @@ export function getEventsForCharacter(ID, limit = 100, offset = 0) {
   return api.get("/api/events", { params: data });
 }
 
-export function getDMEvents(dmUUID, limit = 100, offset = 0) {
-  return api.get(`/api/dm_game/?dm=${dmUUID}`);
+// function expects an object - possibly should convert to typescript to prevent the inevitable
+export function createDMReward(data) {
+  return api.post("/api/dm_reward/", data);
+}
+
+export function getDMEvents(dmUUID) {
+  return api.get(`/api/dm_events/${dmUUID}`);
+}
+
+export function deleteDMEvent(uuid) {
+  let url = `/api/dm_game/${uuid}/`;
+
+  return api.delete(url);
 }
 
 export function createDMGame(
@@ -41,10 +52,4 @@ export function createDMGame(
   };
 
   return api.post(url, data);
-}
-
-export function deleteDMEvent(uuid) {
-  let url = `/api/dm_game/${uuid}/`;
-
-  return api.delete(url);
 }

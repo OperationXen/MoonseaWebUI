@@ -21,21 +21,20 @@ export default function DMEvents(props) {
   const [pageNum, setPageNum] = useState(1);
 
   const refreshDMEvents = useCallback(() => {
-    getDMEvents(dmUUID, pageSize, pageSize * (pageNum - 1)).then((response) => {
-      setEvents(response.data.results);
+    getDMEvents(dmUUID).then((response) => {
+      setEvents(response.data);
     });
-  }, [dmUUID, pageSize, pageNum]);
+  }, [dmUUID]);
+
+  useEffect(() => {
+    refreshDMEvents();
+  }, [refreshDMEvents]);
 
   const onGameAdded = () => {
     refreshDMEvents();
     onChange();
     setCreateOpen(false);
   };
-
-  // fetch data on page changes
-  useEffect(() => {
-    refreshDMEvents();
-  }, [refreshDMEvents, pageNum, pageSize]);
 
   const deleteGame = (uuid) => {
     deleteDMEvent(uuid).then(() => {
@@ -54,15 +53,25 @@ export default function DMEvents(props) {
   };
 
   const rowType = (params) => {
-    return "DMed game";
+    if (params.row.event_type === "game") return "DMed game";
+    if (params.row.event_type === "reward") return "Service reward";
   };
   const rowDate = (params) => {
     let datetime = new Date(params.row.datetime);
     return getDateString(datetime);
   };
+  const rowHours = (params) => {
+    if (params.row.event_type === "game") return params.row.hours;
+    if (params.row.event_type === "reward") return -params.row.hours;
+  };
   const rowDetails = (params) => {
     let data = params.row;
-    return `${data.name} (${data.module})`;
+    if (data.event_type === "game") {
+      return `${data.name} (${data.module})`;
+    }
+    if (data.event_type === "reward") {
+      return `${data.name} (Meepo)`;
+    }
   };
 
   const columns = [
@@ -73,6 +82,7 @@ export default function DMEvents(props) {
       flex: 0.15,
       headerAlign: "center",
       align: "center",
+      valueGetter: rowHours,
     },
     {
       field: "datetime",
@@ -105,7 +115,6 @@ export default function DMEvents(props) {
         columns={columns}
         rows={events}
         rowHeight={36}
-        pagination="server"
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
         rowsPerPageOptions={[15, 25, 50, 100]}
