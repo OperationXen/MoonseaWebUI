@@ -13,8 +13,8 @@ export default function UserDataManager() {
         username: response.data.username,
         email: response.data.email,
         discordID: response.data.discord_id,
-        dmUUID: response.data.dmID,
-        dmHours: response.data.hours,
+        dmUUID: response.data.dm_info[0].uuid,
+        dmHours: response.data.dm_info[0].hours,
       });
     });
   }, []);

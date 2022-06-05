@@ -1,10 +1,8 @@
-import React, { useState, useLayoutEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
 
 import { Box, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import userStore from "../../datastore/user";
 import useCharacterStore from "../../datastore/character";
 import { fetchAllCharacters } from "../../api/character";
 import CreateCharacterWindow from "../characters/CreateCharacterWindow";
@@ -13,8 +11,6 @@ import EmptyDashboardWidget from "./EmptyDashboardWidget";
 import LoadingOverlay from "../general/LoadingOverlay";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const authenticated = userStore((s) => s.authenticated);
   const [characters, setCharacters] = useCharacterStore((s) => [
     s.characters,
     s.setCharacters,
@@ -30,11 +26,9 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, [setCharacters]);
 
-  // On initial load
-  useLayoutEffect(() => {
-    if (!authenticated) navigate("/login");
+  useEffect(() => {
     getCharacterData();
-  }, [getCharacterData, navigate, authenticated]);
+  }, [getCharacterData]);
 
   return (
     <React.Fragment>

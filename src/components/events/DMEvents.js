@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import { Button, Dialog, IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -33,7 +33,6 @@ export default function DMEvents(props) {
   const onGameAdded = () => {
     refreshDMEvents();
     onChange();
-    setCreateOpen(false);
   };
 
   const deleteGame = (uuid) => {
@@ -148,14 +147,11 @@ export default function DMEvents(props) {
           ),
         }}
       />
-      <Dialog
+      <CreateDMGame
         open={createOpen}
-        onClose={() => {
-          setCreateOpen(false);
-        }}
-      >
-        <CreateDMGame onAdd={onGameAdded} />
-      </Dialog>
+        onClose={() => setCreateOpen(false)}
+        onAdd={onGameAdded}
+      />
     </React.Fragment>
   );
 }

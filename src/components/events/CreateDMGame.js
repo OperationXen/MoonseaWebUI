@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
-import { Box, Paper, Typography, TextField } from "@mui/material";
+import { Box, Dialog, Typography, TextField } from "@mui/material";
 import { Button, IconButton, Divider } from "@mui/material";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
@@ -20,6 +20,8 @@ const row = {
 };
 
 export default function CreateDMGame(props) {
+  const { open, onClose, onAdd } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
@@ -50,7 +52,8 @@ export default function CreateDMGame(props) {
     )
       .then((response) => {
         displayMessage("Game added successfully", "success");
-        props.onAdd();
+        onAdd();
+        onClose();
       })
       .catch((error) => {
         displayMessage("Unable to create this game", "error");
@@ -59,13 +62,21 @@ export default function CreateDMGame(props) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Paper
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          padding: "2em",
-          justifyContent: "space-around",
-          alignItems: "center",
+      <Dialog
+        open={open}
+        onClose={onClose}
+        PaperProps={{
+          sx: {
+            display: "flex",
+            flexDirection: "column",
+            padding: "1em 2em",
+            justifyContent: "space-around",
+            alignItems: "center",
+            borderRadius: "8px",
+            border: "2px solid black",
+            boxShadow: `0 0 8px inset black`,
+            width: "42em",
+          },
         }}
       >
         <Typography variant="h3">Add New Game</Typography>
@@ -171,7 +182,7 @@ export default function CreateDMGame(props) {
         >
           Add Game
         </Button>
-      </Paper>
+      </Dialog>
     </LocalizationProvider>
   );
 }

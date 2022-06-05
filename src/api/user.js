@@ -14,7 +14,7 @@ function clearUserData() {
 
 // Checks the users' session and populates data store
 export function getUserDetails() {
-  let url = "/auth/userdetails";
+  let url = "/auth/user_details";
 
   return api.get(url).catch((error) => {
     if (error.response.status === 403) clearUserData();
