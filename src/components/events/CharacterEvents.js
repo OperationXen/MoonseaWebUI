@@ -62,6 +62,7 @@ export default function CharacterEvents(props) {
         rows={events}
         rowHeight={36}
         pagination="server"
+        rowsPerPageOptions={[15, 25, 50, 100]}
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
         pageNum={pageNum}

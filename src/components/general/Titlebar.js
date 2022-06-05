@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -10,22 +11,35 @@ import userStore from "../../datastore/user";
 
 export default function Titlebar() {
   const navigate = useNavigate();
-  const [dmID] = userStore((s) => [s.dmUUID]);
+  const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ width: "100vw" }}>
         <Toolbar variant="dense">
           <IconButton
-            disabled
+            disabled={!authenticated}
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={(e) => {
+              setMenuOpen(true);
+              setAnchorEl(e.currentTarget);
+            }}
           >
             <MenuIcon />
           </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={menuOpen}
+            onClose={() => setMenuOpen(false)}
+          >
+            <MenuItem>Create character</MenuItem>
+          </Menu>
           <Typography
             variant="h6"
             sx={{ flexGrow: 1, cursor: "pointer" }}
