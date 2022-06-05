@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { Box, Paper, Typography, TextField } from "@mui/material";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Divider } from "@mui/material";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -69,12 +69,7 @@ export default function CreateDMGame(props) {
         }}
       >
         <Typography variant="h3">Add New Game</Typography>
-        <Typography
-          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-          variant="body1"
-        >
-          Module Info
-        </Typography>
+        <Divider sx={{ width: "95%", margin: "0.4em" }}>Module Info</Divider>
         <Box sx={{ ...row, width: "100%" }}>
           <TextField
             label="Module Code"
@@ -89,12 +84,7 @@ export default function CreateDMGame(props) {
             required
           />
         </Box>
-        <Typography
-          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-          variant="body1"
-        >
-          Service hours
-        </Typography>
+        <Divider sx={{ width: "95%", margin: "0.4em" }}>Service Hours</Divider>
         <Box sx={{ ...row, width: "100%" }}>
           <Box sx={{ flexGrow: 0.08, ...row }}>
             <IconButton onClick={() => hours > 0 && setHours(hours - 1)}>
@@ -112,12 +102,7 @@ export default function CreateDMGame(props) {
             onChange={(e) => setBreakdown(e.target.value)}
           />
         </Box>
-        <Typography
-          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-          variant="body1"
-        >
-          Rewards
-        </Typography>
+        <Divider sx={{ width: "95%", margin: "0.4em" }}>Rewards</Divider>
         <Box sx={{ ...row, width: "100%" }}>
           <TextField
             type="number"
@@ -152,12 +137,7 @@ export default function CreateDMGame(props) {
           value={item}
           onChange={(e) => setItem(e.target.value)}
         ></TextField>
-        <Typography
-          sx={{ margin: "0.4em", alignSelf: "flex-start" }}
-          variant="body1"
-        >
-          Details
-        </Typography>
+        <Divider sx={{ width: "95%", margin: "0.4em" }}>Details</Divider>
         <Box sx={{ ...row, width: "100%" }}>
           <TextField
             label="Location"
