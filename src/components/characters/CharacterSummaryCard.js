@@ -35,7 +35,7 @@ export default function CharacterSummaryCard(props) {
   return (
     <Card
       sx={{
-        minWidth: "20em",
+        width: "25em",
         border: "1px solid black",
         borderRadius: "10px",
         margin: "0.5em",
@@ -61,7 +61,11 @@ export default function CharacterSummaryCard(props) {
             {character.name}
           </Typography>
           <Tooltip title={getTier()}>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              sx={{ cursor: "context-menu" }}
+            >
               {character.level}
             </Typography>
           </Tooltip>
@@ -85,8 +89,8 @@ export default function CharacterSummaryCard(props) {
       >
         <Tooltip title="Add an event, such as a game or a DM reward">
           <AddBoxIcon
-            sx={{ width: 40, height: 40 }}
-            onClick={() => alert("pew")}
+            sx={{ width: 40, height: 40, cursor: "pointer" }}
+            onClick={() => {}}
           />
         </Tooltip>
 
@@ -105,7 +109,7 @@ export default function CharacterSummaryCard(props) {
           <Tooltip title="View character sheet on D&D Beyond">
             <Avatar
               src={`${process.env.PUBLIC_URL}/icons/beyond2.png`}
-              sx={{ width: 40, height: 40, opacity: 0.9 }}
+              sx={{ width: 40, height: 40, opacity: 0.9, cursor: "pointer" }}
               onClick={() => window.open(character.sheet)}
             />
           </Tooltip>
