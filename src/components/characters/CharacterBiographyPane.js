@@ -37,7 +37,7 @@ export default function CharacterBiographyPane(props) {
     <Box
       sx={{
         display: "flex",
-        flexGrow: 1,
+        margin: "0.4em",
         justifyContent: "space-around",
       }}
     >

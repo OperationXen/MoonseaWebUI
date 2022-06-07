@@ -5,7 +5,7 @@ import { TabPanel, TabContext } from "@mui/lab";
 
 import MagicItemList from "./MagicItemList";
 
-export default function ItemSidebar(props) {
+export default function ItemPane(props) {
   const { itemData } = props;
   const [itemTab, setItemTab] = useState("magicitems");
 
@@ -26,6 +26,7 @@ export default function ItemSidebar(props) {
           centered
           sx={{
             padding: "0 0.2em",
+            borderTop: "1px solid black",
             borderBottom: "1px solid black",
           }}
         >
