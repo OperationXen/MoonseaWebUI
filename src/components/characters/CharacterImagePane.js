@@ -18,8 +18,10 @@ export default function CharacterImagePane(props) {
         position: "relative",
         background: "black",
         textAlign: "center",
-        maxWidth: "18em",
-        minWidth: "18em",
+        width: "20em",
+        height: "20em",
+        overflow: "hidden",
+        display: "flex",
       }}
       onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
@@ -40,12 +42,17 @@ export default function CharacterImagePane(props) {
             alignContent: "center",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button variant="outlined">Show token</Button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Button variant="contained">Show token</Button>
           </div>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <Button variant="outlined">Set artwork</Button>
-            <Button variant="outlined">Set token</Button>
+            <Button variant="contained">Set artwork</Button>
+            <Button variant="contained">Set token</Button>
           </div>
         </Box>
       )}
@@ -53,9 +60,8 @@ export default function CharacterImagePane(props) {
         component="img"
         src={getArtworkURL()}
         sx={{
-          maxHeight: "20em",
           objectFit: "cover",
-          maxWidth: "26em",
+          maxWidth: "20em",
         }}
       />
     </div>

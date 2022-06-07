@@ -65,6 +65,7 @@ export default function CharacterDetails(props) {
             >
               <ShieldIcon sx={{ mr: 0.2, my: 0.5 }} />
               <TextField
+                value={characterData.ac}
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
                 type="number"
                 size="small"
@@ -78,6 +79,7 @@ export default function CharacterDetails(props) {
             >
               <HealthIcon sx={{ mr: 0.2, my: 0.5 }} />
               <TextField
+                value={characterData.hp}
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
                 type="number"
                 size="small"
@@ -91,6 +93,7 @@ export default function CharacterDetails(props) {
             >
               <PerceptionIcon sx={{ mr: 0.2, my: 0.5 }} />
               <TextField
+                value={characterData.pp}
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
                 type="number"
                 size="small"
@@ -104,6 +107,7 @@ export default function CharacterDetails(props) {
             >
               <SaveDCIcon sx={{ mr: 0.2, my: 0.5 }} />
               <TextField
+                value={characterData.dc}
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
                 type="number"
                 size="small"
@@ -119,6 +123,7 @@ export default function CharacterDetails(props) {
             >
               <CoinIcon sx={{ mr: 0.7, my: 0.5 }} />
               <TextField
+                value={characterData.gold}
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
                 type="number"
                 margin="none"
@@ -134,6 +139,7 @@ export default function CharacterDetails(props) {
             >
               <DowntimeIcon sx={{ mr: 0.7, my: 0.5 }} />
               <TextField
+                value={characterData.downtime}
                 inputProps={{ min: 0, style: { textAlign: "center" } }}
                 type="number"
                 margin="none"

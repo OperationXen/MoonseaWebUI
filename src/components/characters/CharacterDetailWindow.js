@@ -7,7 +7,7 @@ import { getCharacterDetails } from "../../api/character";
 import CharacterDetails from "./CharacterDetails";
 import CharacterBiographyPane from "./CharacterBiographyPane";
 import CharacterEvents from "../events/CharacterEvents";
-import ItemSidebar from "../items/ItemSidebar";
+import ItemPane from "../items/ItemPane";
 
 export default function CharacterDetailWindow(props) {
   const { id } = useParams();
@@ -32,21 +32,23 @@ export default function CharacterDetailWindow(props) {
         sx={{
           display: "flex",
           flexDirection: "column",
-          flexGrow: 0.32,
+          flexGrow: 0.38,
           border: "1px solid black",
           borderRadius: "8px",
           overflow: "hidden",
         }}
       >
         <CharacterDetails characterData={data} />
-        <CharacterBiographyPane />
+        <CharacterBiographyPane
+          id={id}
+          biography={data.biography}
+          dmText={data.dm_text}
+        />
+        <ItemPane itemData={data.items} />
       </Box>
 
-      <Box sx={{ flexGrow: 0.4, flexShrink: 1 }}>
+      <Box sx={{ flexGrow: 0.58 }}>
         <CharacterEvents characterID={data.id} />
-      </Box>
-      <Box sx={{ display: "flex", flexGrow: 0.25 }}>
-        <ItemSidebar itemData={data} />
       </Box>
     </Box>
   );
