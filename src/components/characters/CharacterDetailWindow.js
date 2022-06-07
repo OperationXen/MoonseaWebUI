@@ -44,7 +44,7 @@ export default function CharacterDetailWindow(props) {
           biography={data.biography}
           dmText={data.dm_text}
         />
-        <ItemPane itemData={data} />
+        <ItemPane itemData={data.items} />
       </Box>
 
       <Box sx={{ flexGrow: 0.58 }}>

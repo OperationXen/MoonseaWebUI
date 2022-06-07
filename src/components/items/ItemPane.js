@@ -35,7 +35,7 @@ export default function ItemPane(props) {
           <Tab label="Common" value={"commonitems"} />
         </Tabs>
         <TabPanel value={"magicitems"}>
-          <MagicItemList magicItems={itemData.equipped_items} />
+          <MagicItemList magicItems={itemData} />
         </TabPanel>
         <TabPanel value={"consumables"}>Consumables</TabPanel>
         <TabPanel value={"commonitems"}>Common items</TabPanel>

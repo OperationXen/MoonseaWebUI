@@ -5,7 +5,7 @@ export function fetchAllCharacters() {
 }
 
 export function getCharacterDetails(ID) {
-  return api.get(`/api/character/${ID}`);
+  return api.get(`/api/character/${ID}/`);
 }
 
 export function createCharacter(data) {
