@@ -11,3 +11,7 @@ export function getCharacterDetails(ID) {
 export function createCharacter(data) {
   return api.post("/api/character/", data);
 }
+
+export function updateCharacter(data) {
+  return api.patch("/api/character/", data);
+}
