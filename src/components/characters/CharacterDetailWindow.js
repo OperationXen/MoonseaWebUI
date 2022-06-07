@@ -39,7 +39,11 @@ export default function CharacterDetailWindow(props) {
         }}
       >
         <CharacterDetails characterData={data} />
-        <CharacterBiographyPane />
+        <CharacterBiographyPane
+          id={id}
+          biography={data.biography}
+          dmText={data.dm_text}
+        />
       </Box>
 
       <Box sx={{ flexGrow: 0.4, flexShrink: 1 }}>

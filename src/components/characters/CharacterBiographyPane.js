@@ -7,7 +7,7 @@ import useSnackbar from "../../datastore/snackbar";
 
 export default function CharacterBiographyPane(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [biography, setBiography] = useState(props.bio || "");
+  const [biography, setBiography] = useState(props.biography || "");
   const [biographyChanged, setBiographyChanged] = useState(false);
   const [dmText, setDMText] = useState(props.dmText || "");
   const [dmTextChanged, setDMTextChanged] = useState(false);
