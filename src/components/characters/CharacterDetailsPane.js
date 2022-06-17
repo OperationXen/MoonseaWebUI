@@ -20,7 +20,7 @@ const dataBoxStyle = {
   padding: "0.4em",
 };
 
-export default function CharacterDetails(props) {
+export default function CharacterDetailsPane(props) {
   const { characterData } = props;
   if (!characterData || characterData === {}) return null;
 

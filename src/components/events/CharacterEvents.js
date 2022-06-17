@@ -69,6 +69,8 @@ export default function CharacterEvents(props) {
         onPageChange={setPageNum}
         sx={{
           border: "1px solid black",
+          borderRadius: "8px",
+          boxShadow: "1px 1px 5px 1px grey",
         }}
         components={{
           Footer: () => (
