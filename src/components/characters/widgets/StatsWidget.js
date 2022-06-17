@@ -5,13 +5,23 @@ import { Box, Grid } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { type } from "@testing-library/user-event/dist/type";
 
 export default function StatsWidget(props) {
   const { value, setValue, name, icon } = props;
   const [active, setActive] = useState(false);
 
   const handleChange = (e) => {
-    setValue(parseInt(e.target.value));
+    let raw = e.target.value;
+    if (raw && !isNaN(raw)) setValue(parseInt(raw));
+  };
+  const handleIncrement = () => {
+    let val = parseInt(value);
+    setValue(val + 1);
+  };
+  const handleDecrement = () => {
+    let val = parseInt(value);
+    if (val > 0) setValue(val - 1);
   };
 
   return (
@@ -48,10 +58,7 @@ export default function StatsWidget(props) {
           justifyContent: "space-around",
         }}
       >
-        <IconButton
-          disabled={!active}
-          onClick={() => value > 0 && setValue(value - 1)}
-        >
+        <IconButton disabled={!active} onClick={handleDecrement}>
           <RemoveIcon />
         </IconButton>
         <InputBase
@@ -59,7 +66,7 @@ export default function StatsWidget(props) {
           inputProps={{ sx: { textAlign: "center" } }}
           onChange={handleChange}
         />
-        <IconButton disabled={!active} onClick={() => setValue(value + 1)}>
+        <IconButton disabled={!active} onClick={handleIncrement}>
           <AddIcon />
         </IconButton>
       </Box>

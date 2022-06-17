@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Box, Typography, Grid } from "@mui/material";
 import { TextField, Tooltip } from "@mui/material";
 
@@ -9,6 +11,7 @@ import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import CoinIcon from "../general/icons/CoinIcon";
 
 import CharacterImagePane from "./CharacterImagePane";
+import StatsWidget from "./widgets/StatsWidget";
 
 const dataBoxStyle = {
   display: "flex",
@@ -22,6 +25,20 @@ const dataBoxStyle = {
 
 export default function CharacterDetailsPane(props) {
   const { characterData } = props;
+
+  const [updated, setUpdated] = useState(false);
+  const [ac, setAC] = useState(characterData.ac);
+
+  const handleUpdateAC = (v) => {
+    setUpdated(true);
+    setAC(v);
+  };
+  const handleUpdateHP = () => {};
+  const handleUpdatePP = () => {};
+  const handleUpdateDC = () => {};
+  const handleUpdateGold = () => {};
+  const handleUpdateDowntime = () => {};
+
   if (!characterData || characterData === {}) return null;
 
   return (
@@ -61,95 +78,50 @@ export default function CharacterDetailsPane(props) {
           }}
         >
           <Box sx={{ ...dataBoxStyle }}>
-            <Box
-              sx={{ display: "flex", alignItems: "center", maxWidth: "8em" }}
-            >
-              <ShieldIcon sx={{ mr: 0.2, my: 0.5 }} />
-              <TextField
-                value={characterData.ac}
-                inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="number"
-                size="small"
-                variant="standard"
-                label="Base AC"
-              />
-            </Box>
-
-            <Box
-              sx={{ display: "flex", alignItems: "center", maxWidth: "8em" }}
-            >
-              <HealthIcon sx={{ mr: 0.2, my: 0.5 }} />
-              <TextField
-                value={characterData.hp}
-                inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="number"
-                size="small"
-                variant="standard"
-                label="Max HP"
-                sx={{ maxWidth: "8em" }}
-              />
-            </Box>
-            <Box
-              sx={{ display: "flex", alignItems: "center", maxWidth: "10em" }}
-            >
-              <PerceptionIcon sx={{ mr: 0.2, my: 0.5 }} />
-              <TextField
-                value={characterData.pp}
-                inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="number"
-                size="small"
-                variant="standard"
-                label="Passive Perception"
-                sx={{ maxWidth: "8em" }}
-              />
-            </Box>
-            <Box
-              sx={{ display: "flex", alignItems: "center", maxWidth: "8em" }}
-            >
-              <SaveDCIcon sx={{ mr: 0.2, my: 0.5 }} />
-              <TextField
-                value={characterData.dc}
-                inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="number"
-                size="small"
-                variant="standard"
-                label="Spell DC"
-                sx={{ maxWidth: "8em" }}
-              />
-            </Box>
+            <StatsWidget
+              name="AC"
+              icon={<ShieldIcon fontSize="small" />}
+              value={ac}
+              setValue={handleUpdateAC}
+              sx={{ width: "25%" }}
+            />
+            <StatsWidget
+              name="HP"
+              icon={<HealthIcon fontSize="small" />}
+              value={characterData.hp}
+              setValue={handleUpdateHP}
+              sx={{ width: "25%" }}
+            />
+            <StatsWidget
+              name="PP"
+              icon={<PerceptionIcon fontSize="small" />}
+              value={characterData.pp}
+              setValue={handleUpdatePP}
+              sx={{ width: "25%" }}
+            />
+            <StatsWidget
+              name="DC"
+              icon={<SaveDCIcon fontSize="small" />}
+              value={characterData.dc}
+              setValue={handleUpdateDC}
+              sx={{ width: "25%" }}
+            />
           </Box>
           <Box sx={dataBoxStyle}>
-            <Box
-              sx={{ display: "flex", alignItems: "center", maxWidth: "8em" }}
-            >
-              <CoinIcon sx={{ mr: 0.7, my: 0.5 }} />
-              <TextField
-                value={characterData.gold}
-                inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="number"
-                margin="none"
-                size="small"
-                variant="standard"
-                label="Gold"
-                sx={{ maxWidth: "8em" }}
-              />
-            </Box>
-
-            <Box
-              sx={{ display: "flex", alignItems: "center", maxWidth: "8em" }}
-            >
-              <DowntimeIcon sx={{ mr: 0.7, my: 0.5 }} />
-              <TextField
-                value={characterData.downtime}
-                inputProps={{ min: 0, style: { textAlign: "center" } }}
-                type="number"
-                margin="none"
-                size="small"
-                variant="standard"
-                label="Downtime"
-                sx={{ maxWidth: "8em" }}
-              />
-            </Box>
+            <StatsWidget
+              name="Gold"
+              icon={<CoinIcon fontSize="small" />}
+              value={characterData.gold}
+              setValue={handleUpdateGold}
+              sx={{ width: "25%" }}
+            />
+            <StatsWidget
+              name="Downtime"
+              icon={<DowntimeIcon fontSize="small" />}
+              value={characterData.gold}
+              setValue={handleUpdateGold}
+              sx={{ width: "25%" }}
+            />
           </Box>
           <Box
             sx={{
