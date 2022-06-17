@@ -4,14 +4,17 @@ import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 
 import { getCharacterDetails } from "../../api/character";
-import CharacterDetails from "./CharacterDetails";
 import CharacterBiographyPane from "./CharacterBiographyPane";
 import CharacterEvents from "../events/CharacterEvents";
+import CharacterControls from "./CharacterControls";
+import CharacterDetails from "./CharacterDetails";
+import DeleteConfirm from "./widgets/DeleteConfirm";
 import ItemPane from "../items/ItemPane";
 
 export default function CharacterDetailWindow(props) {
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     getCharacterDetails(id).then((response) => {
@@ -38,12 +41,23 @@ export default function CharacterDetailWindow(props) {
           overflow: "hidden",
         }}
       >
-        <CharacterDetails characterData={data} />
-        <CharacterBiographyPane
-          id={id}
-          biography={data.biography}
-          dmText={data.dm_text}
-        />
+        <Box sx={{ display: "flex", width: "100%" }}>
+          <CharacterDetails characterData={data} />
+          <CharacterControls onDeleteClicked={() => setShowDelete(true)} />
+          <DeleteConfirm
+            name={data.name}
+            ID={data.id}
+            open={showDelete}
+            onClose={() => setShowDelete(false)}
+          />
+        </Box>
+        <Box sx={{ display: "flex", width: "100%" }}>
+          <CharacterBiographyPane
+            id={id}
+            biography={data.biography}
+            dmText={data.dm_text}
+          />
+        </Box>
         <ItemPane itemData={data.items} />
       </Box>
 

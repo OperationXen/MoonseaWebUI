@@ -1,34 +1,25 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Box, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import useCharacterStore from "../../datastore/character";
-import { fetchAllCharacters } from "../../api/character";
 import CreateCharacterWindow from "../characters/CreateCharacterWindow";
 import CharacterSummaryCard from "../characters/CharacterSummaryCard";
 import EmptyDashboardWidget from "./EmptyDashboardWidget";
 import LoadingOverlay from "../general/LoadingOverlay";
 
 export default function Dashboard() {
-  const [characters, setCharacters] = useCharacterStore((s) => [
+  const [characters, refreshCharacterData, loading] = useCharacterStore((s) => [
     s.characters,
-    s.setCharacters,
+    s.requestRefresh,
+    s.loading,
   ]);
-  const [loading, setLoading] = useState(true);
   const [createOpen, setCreateOpen] = useState(false);
 
-  const getCharacterData = useCallback(() => {
-    fetchAllCharacters()
-      .then((response) => {
-        setCharacters(response.data.results);
-      })
-      .finally(() => setLoading(false));
-  }, [setCharacters]);
-
   useEffect(() => {
-    getCharacterData();
-  }, [getCharacterData]);
+    refreshCharacterData();
+  }, [refreshCharacterData]);
 
   return (
     <React.Fragment>

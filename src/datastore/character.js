@@ -1,8 +1,14 @@
-import create from 'zustand'
+import create from "zustand";
 
-const useCharacterStore = create(set => ({
+const useCharacterStore = create((set) => ({
   characters: [],
-  setCharacters: (newVal) => set(state => ({characters: newVal}))
-}))
+  loading: false,
 
-export default useCharacterStore
+  setCharacters: (newVal) => set((state) => ({ characters: newVal })),
+  setLoading: (newVal) => set((state) => ({ loading: newVal })),
+  // request refresh function forces the datamanager to refetch state from the server
+  refresh: false,
+  requestRefresh: () => set((state) => ({ refresh: !state.refresh })),
+}));
+
+export default useCharacterStore;

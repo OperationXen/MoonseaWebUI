@@ -6,6 +6,7 @@ import { TextField, Divider, IconButton, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
+import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
 import { createCharacter } from "../../api/character";
 import StatsWidget from "./widgets/StatsWidget";
@@ -21,6 +22,7 @@ const row = {
 export default function CreateCharacterWindow(props) {
   const { open, onClose } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const requestRefresh = useCharacterStore((s) => s.requestRefresh);
 
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
@@ -58,6 +60,7 @@ export default function CreateCharacterWindow(props) {
     };
     createCharacter(data).then((response) => {
       displayMessage(`Character ${name} created`, "success");
+      requestRefresh();
       onClose();
     });
   };
