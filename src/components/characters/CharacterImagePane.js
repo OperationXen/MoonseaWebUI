@@ -14,7 +14,6 @@ export default function CharacterImagePane(props) {
   return (
     <div
       style={{
-        margin: "auto",
         position: "relative",
         background: "black",
         textAlign: "center",

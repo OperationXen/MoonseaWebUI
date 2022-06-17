@@ -27,6 +27,7 @@ export default function CharacterDetails(props) {
   return (
     <div
       style={{
+        flexGrow: 100,
         maxHeight: "35em",
         display: "flex",
       }}
@@ -35,7 +36,7 @@ export default function CharacterDetails(props) {
       <Box
         sx={{
           padding: "0.4em",
-          flexGrow: 0.65,
+          flexGrow: 100,
           flexShrink: 1,
         }}
       >

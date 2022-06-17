@@ -18,7 +18,7 @@ export default function Titlebar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ width: "100vw" }}>
-        <Toolbar variant="dense">
+        <Toolbar variant="dense" sx={{ display: "flex" }}>
           <IconButton
             disabled={!authenticated}
             size="large"
@@ -47,7 +47,13 @@ export default function Titlebar() {
           >
             Moonsea Codex
           </Typography>
-          <Box marginRight={"3em"}>
+          <Box
+            sx={{ width: "32em", display: "flex", justifyContent: "center" }}
+          >
+            <Button color="inherit" onClick={() => navigate("/")}>
+              Dashboard
+            </Button>
+
             <Button
               disabled
               color="inherit"
@@ -70,7 +76,9 @@ export default function Titlebar() {
               DM Records
             </Button>
           </Box>
-          <AuthButton />
+          <Box sx={{ width: "6em", display: "flex", justifyContent: "center" }}>
+            <AuthButton />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
