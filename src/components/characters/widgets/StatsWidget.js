@@ -5,16 +5,16 @@ import { Box, Grid } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { type } from "@testing-library/user-event/dist/type";
 
 export default function StatsWidget(props) {
-  const { value, setValue, name, icon } = props;
+  const { value, setValue, name, icon, onMouseOut } = props;
   const [active, setActive] = useState(false);
 
   const handleChange = (e) => {
     let raw = e.target.value;
     if (raw && !isNaN(raw)) setValue(parseInt(raw));
   };
+
   const handleIncrement = () => {
     let val = parseInt(value);
     setValue(val + 1);
@@ -27,7 +27,10 @@ export default function StatsWidget(props) {
   return (
     <Box
       onMouseOver={() => setActive(true)}
-      onMouseOut={() => setActive(false)}
+      onMouseOut={() => {
+        setActive(false);
+        onMouseOut();
+      }}
       sx={{
         ...props.sx,
         display: "flex",
