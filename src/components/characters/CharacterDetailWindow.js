@@ -7,7 +7,7 @@ import { getCharacterDetails } from "../../api/character";
 import CharacterBiographyPane from "./CharacterBiographyPane";
 import CharacterEvents from "../events/CharacterEvents";
 import CharacterControls from "./CharacterControls";
-import CharacterDetails from "./CharacterDetails";
+import CharacterDetailsPane from "./CharacterDetailsPane";
 import DeleteConfirm from "./widgets/DeleteConfirm";
 import ItemPane from "../items/ItemPane";
 
@@ -38,11 +38,12 @@ export default function CharacterDetailWindow(props) {
           flexGrow: 0.38,
           border: "1px solid black",
           borderRadius: "8px",
+          boxShadow: "1px 1px 5px 1px grey",
           overflow: "hidden",
         }}
       >
         <Box sx={{ display: "flex", width: "100%" }}>
-          <CharacterDetails characterData={data} />
+          <CharacterDetailsPane characterData={data} />
           <CharacterControls onDeleteClicked={() => setShowDelete(true)} />
           <DeleteConfirm
             name={data.name}

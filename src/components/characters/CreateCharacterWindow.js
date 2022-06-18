@@ -5,6 +5,10 @@ import { TextField, Divider, IconButton, Button } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import ShieldIcon from "@mui/icons-material/Shield";
+import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
+import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
+import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 
 import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
@@ -72,8 +76,8 @@ export default function CreateCharacterWindow(props) {
       PaperProps={{
         sx: {
           borderRadius: "8px",
-          border: "2px solid black",
-          boxShadow: `0 0 8px inset black`,
+          border: "1px solid black",
+          boxShadow: `0 0 4px inset black`,
           display: "flex",
           width: "42em",
           flexDirection: "column",
@@ -82,7 +86,7 @@ export default function CreateCharacterWindow(props) {
         },
       }}
     >
-      <Typography variant="h3">Create new character</Typography>
+      <Typography variant="h4">Create new character</Typography>
       <Divider sx={{ width: "95%" }}>Details</Divider>
       <Box sx={row}>
         <TextField
@@ -142,24 +146,28 @@ export default function CreateCharacterWindow(props) {
       <Box sx={row}>
         <StatsWidget
           name="AC"
+          icon={<ShieldIcon fontSize="small" />}
           value={ac}
           setValue={setAC}
           sx={{ width: "25%" }}
         />
         <StatsWidget
           name="HP"
+          icon={<HealthIcon fontSize="small" />}
           value={hp}
           setValue={setHP}
           sx={{ width: "25%" }}
         />
         <StatsWidget
           name="PP"
+          icon={<PerceptionIcon fontSize="small" />}
           value={pp}
           setValue={setPP}
           sx={{ width: "25%" }}
         />
         <StatsWidget
           name="DC"
+          icon={<SaveDCIcon fontSize="small" />}
           value={dc}
           setValue={setDC}
           sx={{ width: "25%" }}

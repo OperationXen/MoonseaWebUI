@@ -23,11 +23,20 @@ export default function DeleteConfirm(props) {
       open={props.open}
       onClose={props.onClose}
       PaperProps={{
-        sx: { padding: "0.6em", width: "32em" },
+        sx: {
+          borderRadius: "8px",
+          border: "1px solid darkred",
+          boxShadow: `0 0 8px inset darkred`,
+          display: "flex",
+          width: "32em",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "1em 2em",
+        },
       }}
     >
       <Typography variant="h4">Confirm Delete</Typography>
-      <Divider />
+      <Divider width="95%" />
       <Typography variant="body" sx={{ padding: "0.6em" }}>
         Are you sure you want to delete {props.name}?
       </Typography>
@@ -36,6 +45,7 @@ export default function DeleteConfirm(props) {
       </Typography>
       <Box
         sx={{
+          width: "100%",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
@@ -43,7 +53,11 @@ export default function DeleteConfirm(props) {
       >
         <Button
           variant="contained"
-          sx={{ width: "35%" }}
+          sx={{
+            width: "35%",
+            background: "darkred",
+            ":hover": { background: "firebrick" },
+          }}
           onClick={handleDelete}
         >
           Delete
