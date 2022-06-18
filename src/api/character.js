@@ -19,3 +19,9 @@ export function updateCharacter(data) {
 export function deleteCharacter(ID) {
   return api.delete(`/api/character/${ID}/`);
 }
+
+export function uploadCharacterImage(ID, imageType, fileData) {
+  return api.post(`/api/character/${ID}/${imageType}`, fileData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
