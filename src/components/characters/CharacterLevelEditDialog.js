@@ -1,11 +1,13 @@
-import { Typography, Dialog, Box, Divider, IconButton } from "@mui/material";
-import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Typography, Dialog, Divider } from "@mui/material";
 
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
 export default function CharacterLevelEditDialog(props) {
   const { open, onClose, data } = props;
+
+  if (data) {
+    console.log(data);
+  }
 
   return (
     <Dialog
@@ -28,36 +30,9 @@ export default function CharacterLevelEditDialog(props) {
         Configure class levels
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.6em 0" }} />
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <FormControl>
-          <InputLabel>Character Class</InputLabel>
-          <Select label="Character Class" sx={{ minWidth: "12em" }}>
-            <MenuItem value="barbarian">Barbarian</MenuItem>
-            <MenuItem value="bard">Bard</MenuItem>
-            <MenuItem value="cleric">Cleric</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel>Subclass</InputLabel>
-          <Select label="Subclass" sx={{ minWidth: "18em" }}></Select>
-        </FormControl>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <IconButton>
-            <RemoveIcon />
-          </IconButton>
-          <Typography>10</Typography>
-          <IconButton>
-            <AddIcon />
-          </IconButton>
-        </Box>
-      </Box>
+      {data.map((existing) => {
+        return <ClassLevelPickerWidget data={existing} />;
+      })}
     </Dialog>
   );
 }

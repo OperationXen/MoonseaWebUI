@@ -2,12 +2,19 @@ import React, { useState } from "react";
 
 import { Box, Button } from "@mui/material";
 
+import useSnackbar from "../../datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./widgets/ClassChipWidget";
 
 export default function CharacterLevelsPane(props) {
   const { data, setData } = props;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
   const [levelOpen, setLevelOpen] = useState(false);
+
+  const handleEditClose = () => {
+    setLevelOpen(false);
+    displayMessage("Updated character classes and levels", "info");
+  };
 
   return (
     <React.Fragment>
@@ -33,8 +40,9 @@ export default function CharacterLevelsPane(props) {
       </Box>
       <CharacterLevelEditDialog
         open={levelOpen}
-        onClose={() => setLevelOpen(false)}
+        onClose={handleEditClose}
         data={data}
+        update={setData}
       />
     </React.Fragment>
   );

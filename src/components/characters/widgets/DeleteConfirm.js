@@ -53,7 +53,11 @@ export default function DeleteConfirm(props) {
       >
         <Button
           variant="contained"
-          sx={{ width: "35%" }}
+          sx={{
+            width: "35%",
+            background: "darkred",
+            ":hover": { background: "firebrick" },
+          }}
           onClick={handleDelete}
         >
           Delete

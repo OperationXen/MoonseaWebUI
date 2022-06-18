@@ -70,8 +70,8 @@ export default function CharacterDetailsPane(props) {
   };
 
   const levels = [
-    { main: "Wizard", variant: "Abjuration", count: 8 },
-    { main: "Fighter", variant: "", count: 2 },
+    { name: "Wizard", subclass: "School of Abjuration", value: 8 },
+    { name: "Fighter", subclass: "", value: 2 },
   ];
 
   const handleChanges = () => {
