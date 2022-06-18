@@ -7,7 +7,7 @@ import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
 import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
 import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
-import CoinIcon from "../general/icons/CoinIcon";
+import { GiTwoCoins } from "react-icons/gi";
 
 import { updateCharacter } from "../../api/character";
 import CharacterLevelsPane from "./CharacterLevelsPane";
@@ -168,7 +168,7 @@ export default function CharacterDetailsPane(props) {
           <Box sx={dataBoxStyle}>
             <StatsWidget
               name="Gold"
-              icon={<CoinIcon fontSize="small" />}
+              icon={<GiTwoCoins />}
               value={gold}
               setValue={handleUpdateGold}
               sx={{ width: "25%" }}

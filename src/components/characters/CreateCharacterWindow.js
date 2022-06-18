@@ -76,8 +76,8 @@ export default function CreateCharacterWindow(props) {
       PaperProps={{
         sx: {
           borderRadius: "8px",
-          border: "2px solid black",
-          boxShadow: `0 0 8px inset black`,
+          border: "1px solid black",
+          boxShadow: `0 0 4px inset black`,
           display: "flex",
           width: "42em",
           flexDirection: "column",
@@ -86,7 +86,7 @@ export default function CreateCharacterWindow(props) {
         },
       }}
     >
-      <Typography variant="h3">Create new character</Typography>
+      <Typography variant="h4">Create new character</Typography>
       <Divider sx={{ width: "95%" }}>Details</Divider>
       <Box sx={row}>
         <TextField
