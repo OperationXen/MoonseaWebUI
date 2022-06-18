@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFilePicker } from "use-file-picker";
+
 import { Box, Button } from "@mui/material";
+
+import { uploadCharacterArtwork } from "../../api/character";
+import useSnackbar from "../../datastore/snackbar";
 
 export default function CharacterImagePane(props) {
   const { characterData } = props;
-
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    maxFileSize: 0.5,
+  });
   const [showControls, setShowControls] = useState(false);
 
   const getArtworkURL = () => {
     if (characterData.artwork) return "/media" + characterData.artwork;
     else return "/images/placegoblin.jpg";
   };
+
+  //when file information set
+  useEffect(() => {
+    if (filesContent.length) {
+      uploadCharacterArtwork(characterData.id, filesContent[0]).then(() =>
+        displayMessage("Character artwork uploaded", "success")
+      );
+    }
+  }, [filesContent]);
 
   return (
     <div
@@ -50,7 +70,9 @@ export default function CharacterImagePane(props) {
             <Button variant="contained">Show token</Button>
           </div>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <Button variant="contained">Set artwork</Button>
+            <Button variant="contained" onClick={() => openFileSelector()}>
+              Set artwork
+            </Button>
             <Button variant="contained">Set token</Button>
           </div>
         </Box>
