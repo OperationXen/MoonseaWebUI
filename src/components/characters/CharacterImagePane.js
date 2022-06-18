@@ -3,30 +3,54 @@ import { useFilePicker } from "use-file-picker";
 
 import { Box, Button } from "@mui/material";
 
-import { uploadCharacterArtwork } from "../../api/character";
+import { uploadCharacterImage } from "../../api/character";
 import useSnackbar from "../../datastore/snackbar";
 
 export default function CharacterImagePane(props) {
   const { characterData } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [openFileSelector, { filesContent, loading, errors }] = useFilePicker({
+  const [openFileSelector, { filesContent }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
     maxFileSize: 0.5,
   });
   const [showControls, setShowControls] = useState(false);
+  const [artworkURL, setArtworkURL] = useState("");
+  const [tokenURL, setTokenURL] = useState("");
+  const [showImage, setShowImage] = useState("artwork");
 
   const getArtworkURL = () => {
-    if (characterData.artwork) return "/media" + characterData.artwork;
+    if (artworkURL) return `${artworkURL}`;
     else return "/images/placegoblin.jpg";
   };
+  const getTokenURL = () => {
+    if (tokenURL) return `${tokenURL}`;
+    else return "/images/placegoblin.jpg";
+  };
+
+  const handleImageChange = () => {
+    if (showImage === "artwork") setShowImage("token");
+    else setShowImage("artwork");
+  };
+
+  useEffect(() => {
+    setTokenURL(characterData.token);
+    setArtworkURL(characterData.artwork);
+  }, [characterData]);
 
   //when file information set
   useEffect(() => {
     if (filesContent.length) {
-      uploadCharacterArtwork(characterData.id, filesContent[0]).then(() =>
-        displayMessage("Character artwork uploaded", "success")
+      uploadCharacterImage(characterData.id, showImage, filesContent[0]).then(
+        (response) => {
+          if (showImage === "artwork") {
+            setArtworkURL(response.data.path);
+          } else {
+            setTokenURL(response.data.path);
+          }
+          displayMessage(`Character ${showImage} uploaded`, "success");
+        }
       );
     }
   }, [filesContent]);
@@ -67,24 +91,37 @@ export default function CharacterImagePane(props) {
               justifyContent: "center",
             }}
           >
-            <Button variant="contained">Show token</Button>
+            <Button variant="contained" onClick={handleImageChange}>
+              {(showImage === "artwork" && "Show token") || "Show artwork"}
+            </Button>
           </div>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <Button variant="contained" onClick={() => openFileSelector()}>
-              Set artwork
+              {`Set ${showImage}`}
             </Button>
-            <Button variant="contained">Set token</Button>
           </div>
         </Box>
       )}
-      <Box
-        component="img"
-        src={getArtworkURL()}
-        sx={{
-          objectFit: "cover",
-          maxWidth: "20em",
-        }}
-      />
+
+      {(showImage === "artwork" && (
+        <Box
+          component="img"
+          src={getArtworkURL()}
+          sx={{
+            objectFit: "cover",
+            maxWidth: "20em",
+          }}
+        />
+      )) || (
+        <Box
+          component="img"
+          src={getTokenURL()}
+          sx={{
+            objectFit: "cover",
+            maxWidth: "20em",
+          }}
+        />
+      )}
     </div>
   );
 }

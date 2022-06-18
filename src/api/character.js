@@ -20,15 +20,8 @@ export function deleteCharacter(ID) {
   return api.delete(`/api/character/${ID}/`);
 }
 
-export function uploadCharacterArtwork(ID, fileData) {
-  let formData = new FormData();
-  formData.append("file", fileData);
-
-  return api.post(`/api/character/${ID}/artwork`, formData, {
+export function uploadCharacterImage(ID, imageType, fileData) {
+  return api.post(`/api/character/${ID}/${imageType}`, fileData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-}
-
-export function setCharacterToken(ID, data) {
-  return api.post(`/api/character/${ID}/token`);
 }
