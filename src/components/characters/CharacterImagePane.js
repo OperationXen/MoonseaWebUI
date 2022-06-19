@@ -9,7 +9,7 @@ import useSnackbar from "../../datastore/snackbar";
 export default function CharacterImagePane(props) {
   const { characterData } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [openFileSelector, { filesContent }] = useFilePicker({
+  const [openFileSelector, { filesContent, clear }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
@@ -49,11 +49,12 @@ export default function CharacterImagePane(props) {
           } else {
             setTokenURL(response.data.path);
           }
+          clear();
           displayMessage(`Character ${showImage} uploaded`, "success");
         }
       );
     }
-  }, [filesContent, characterData, displayMessage, showImage]);
+  }, [filesContent, characterData, displayMessage, showImage, clear]);
 
   return (
     <div
