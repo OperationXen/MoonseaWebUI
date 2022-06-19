@@ -53,7 +53,7 @@ export default function CharacterImagePane(props) {
         }
       );
     }
-  }, [filesContent]);
+  }, [filesContent, characterData, displayMessage, showImage]);
 
   return (
     <div
