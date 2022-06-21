@@ -42,17 +42,18 @@ export default function CharacterImagePane(props) {
   //when file information set
   useEffect(() => {
     if (filesContent.length) {
-      uploadCharacterImage(characterData.id, showImage, filesContent[0]).then(
-        (response) => {
+      uploadCharacterImage(characterData.uuid, showImage, filesContent[0])
+        .then((response) => {
           if (showImage === "artwork") {
             setArtworkURL(response.data.path);
           } else {
             setTokenURL(response.data.path);
           }
-          clear();
           displayMessage(`Character ${showImage} uploaded`, "success");
-        }
-      );
+        })
+        .finally(() => {
+          clear();
+        });
     }
   }, [filesContent, characterData, displayMessage, showImage, clear]);
 

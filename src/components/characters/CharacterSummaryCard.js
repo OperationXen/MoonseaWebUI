@@ -15,7 +15,7 @@ export default function CharacterSummaryCard(props) {
   const { character } = props;
   const navigate = useNavigate();
   const snackbar = useSnackbar((s) => s.displayMessage);
-  const detailsLink = "/character/" + character.id; // link to full character sheet
+  const detailsLink = "/character/" + character.uuid; // link to full character sheet
 
   const copyCharacterLink = () => {
     navigator.clipboard.writeText(window.location.origin + detailsLink);

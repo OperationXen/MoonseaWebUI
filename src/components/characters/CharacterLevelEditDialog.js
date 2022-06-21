@@ -1,12 +1,12 @@
-import { Typography, Dialog, Divider } from "@mui/material";
+import { Typography, Dialog, Divider, Button } from "@mui/material";
 
+import { updateCharacter } from "../../api/character";
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
 export default function CharacterLevelEditDialog(props) {
   const { open, onClose, data } = props;
 
   if (data) {
-    console.log(data);
   }
 
   return (
@@ -33,6 +33,7 @@ export default function CharacterLevelEditDialog(props) {
       {data.map((existing) => {
         return <ClassLevelPickerWidget data={existing} />;
       })}
+      <Button sx={{ width: "60%" }}>Update</Button>
     </Dialog>
   );
 }

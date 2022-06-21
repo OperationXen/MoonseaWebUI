@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
+import useSnackbar from "../../datastore/snackbar";
 import { getCharacterDetails } from "../../api/character";
 import CharacterBiographyPane from "./CharacterBiographyPane";
 import CharacterEvents from "../events/CharacterEvents";
@@ -12,15 +13,23 @@ import DeleteConfirm from "./widgets/DeleteConfirm";
 import ItemPane from "../items/ItemPane";
 
 export default function CharacterDetailWindow(props) {
-  const { id } = useParams();
+  const { uuid } = useParams();
+  const navigate = useNavigate();
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+
   const [data, setData] = useState({});
   const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
-    getCharacterDetails(id).then((response) => {
-      setData(response.data);
-    });
-  }, [id]);
+    getCharacterDetails(uuid)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        displayMessage("Character not known", "error");
+        navigate("/");
+      });
+  }, [uuid, navigate, displayMessage]);
 
   return (
     <Box
@@ -47,14 +56,14 @@ export default function CharacterDetailWindow(props) {
           <CharacterControls onDeleteClicked={() => setShowDelete(true)} />
           <DeleteConfirm
             name={data.name}
-            ID={data.id}
+            uuid={data.uuid}
             open={showDelete}
             onClose={() => setShowDelete(false)}
           />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane
-            id={id}
+            uuid={uuid}
             biography={data.biography}
             dmText={data.dm_text}
           />
@@ -63,7 +72,7 @@ export default function CharacterDetailWindow(props) {
       </Box>
 
       <Box sx={{ flexGrow: 0.58 }}>
-        <CharacterEvents characterID={data.id} />
+        <CharacterEvents characteruuid={data.uuid} />
       </Box>
     </Box>
   );

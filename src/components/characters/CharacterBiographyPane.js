@@ -13,7 +13,7 @@ export default function CharacterBiographyPane(props) {
   const [dmTextChanged, setDMTextChanged] = useState(false);
 
   const handleBioUpdate = () => {
-    let data = { id: props.id };
+    let data = { uuid: props.uuid };
 
     if (biographyChanged) {
       data.biography = biography;
@@ -24,7 +24,7 @@ export default function CharacterBiographyPane(props) {
     }
   };
   const handleDMTextUpdate = () => {
-    let data = { id: props.id };
+    let data = { uuid: props.uuid };
 
     if (dmTextChanged) {
       data.dm_text = dmText;

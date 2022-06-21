@@ -11,7 +11,7 @@ export default function DeleteConfirm(props) {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    deleteCharacter(props.ID).then(() => {
+    deleteCharacter(props.uuid).then(() => {
       requestRefresh();
       displayMessage(`Character ${props.name} deleted`, "info");
       navigate("/");

@@ -77,7 +77,7 @@ export default function CharacterDetailsPane(props) {
   const handleChanges = () => {
     if (updated) {
       let data = {
-        id: characterData.id,
+        uuid: characterData.uuid,
         ac: ac,
         hp: hp,
         pp: pp,
@@ -94,7 +94,6 @@ export default function CharacterDetailsPane(props) {
   };
 
   if (!characterData || characterData === {}) return null;
-
   return (
     <div
       style={{
