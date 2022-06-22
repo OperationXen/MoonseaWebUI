@@ -10,12 +10,15 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import useSnackbar from "../../datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "./ItemSummaryWidget";
+import { getCharClassShort } from "../../utils/format";
 
 export default function CharacterSummaryCard(props) {
   const { character } = props;
   const navigate = useNavigate();
   const snackbar = useSnackbar((s) => s.displayMessage);
+
   const detailsLink = "/character/" + character.uuid; // link to full character sheet
+  const classesText = getCharClassShort(character.classes);
 
   const copyCharacterLink = () => {
     navigator.clipboard.writeText(window.location.origin + detailsLink);
@@ -74,7 +77,7 @@ export default function CharacterSummaryCard(props) {
           {character.race}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {character.classes}
+          {classesText || "Commoner"}
         </Typography>
         <StatSummaryWidget character={character} />
         <ItemSummaryWidget items={character.equipped_items} />

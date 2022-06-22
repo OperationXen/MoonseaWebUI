@@ -1,10 +1,8 @@
 import { useState } from "react";
 
 import { Box, Dialog, Typography } from "@mui/material";
-import { TextField, Divider, IconButton, Button } from "@mui/material";
+import { TextField, Divider, Button } from "@mui/material";
 
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import ShieldIcon from "@mui/icons-material/Shield";
 import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
 import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
@@ -14,6 +12,7 @@ import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
 import { createCharacter } from "../../api/character";
 import StatsWidget from "./widgets/StatsWidget";
+import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
 const row = {
   width: "100%",
@@ -30,7 +29,7 @@ export default function CreateCharacterWindow(props) {
 
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
-  const [classes, setClasses] = useState("");
+  const [classes, setClasses] = useState({ name: "", subclass: "", value: 1 });
   const [level, setLevel] = useState(1);
   const [sheet, setSheet] = useState("");
   const [vision, setVision] = useState("");
@@ -104,27 +103,7 @@ export default function CreateCharacterWindow(props) {
         />
       </Box>
       <Box sx={{ ...row, margin: "0.6em 0" }}>
-        <TextField
-          sx={{ flexGrow: 0.8 }}
-          placeholder="Wizard (Evocation)"
-          label="Class"
-          value={classes}
-          onChange={(e) => setClasses(e.target.value)}
-        />
-        <Box sx={{}}>
-          <Box sx={{ ...row, alignItems: "center" }}>
-            <Typography variant="body2" sx={{ opacity: 0.7 }}>
-              Total Level
-            </Typography>
-            <IconButton onClick={() => level > 0 && setLevel(level - 1)}>
-              <RemoveIcon />
-            </IconButton>
-            <Typography variant="h5">{level}</Typography>
-            <IconButton onClick={() => setLevel(level + 1)}>
-              <AddIcon />
-            </IconButton>
-          </Box>
-        </Box>
+        <ClassLevelPickerWidget data={classes} update={setClasses} />
       </Box>
       <Box sx={row}>
         <TextField

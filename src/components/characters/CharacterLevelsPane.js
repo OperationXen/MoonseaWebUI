@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box, Button } from "@mui/material";
 
@@ -7,9 +7,13 @@ import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./widgets/ClassChipWidget";
 
 export default function CharacterLevelsPane(props) {
-  const { data, setData } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [levelOpen, setLevelOpen] = useState(false);
+  const [classes, setClasses] = useState([]);
+
+  useEffect(() => {
+    if (Array.isArray(props.classes)) setClasses(props.classes);
+  }, [props.classes]);
 
   const handleEditClose = () => {
     setLevelOpen(false);
@@ -27,8 +31,8 @@ export default function CharacterLevelsPane(props) {
           minHeight: "3em",
         }}
       >
-        {(data &&
-          data.map((item) => {
+        {(classes &&
+          classes.map((item) => {
             return (
               <ClassChipWidget data={item} onClick={() => setLevelOpen(true)} />
             );
@@ -41,8 +45,8 @@ export default function CharacterLevelsPane(props) {
       <CharacterLevelEditDialog
         open={levelOpen}
         onClose={handleEditClose}
-        data={data}
-        update={setData}
+        classes={classes}
+        update={setClasses}
       />
     </React.Fragment>
   );

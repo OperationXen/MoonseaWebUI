@@ -69,11 +69,6 @@ export default function CharacterDetailsPane(props) {
     setDowntime(x);
   };
 
-  const levels = [
-    { name: "Wizard", subclass: "School of Abjuration", value: 8 },
-    { name: "Fighter", subclass: "", value: 2 },
-  ];
-
   const handleChanges = () => {
     if (updated) {
       let data = {
@@ -182,7 +177,7 @@ export default function CharacterDetailsPane(props) {
               onMouseOut={handleChanges}
             />
           </Box>
-          <CharacterLevelsPane data={levels} />
+          <CharacterLevelsPane classes={characterData.classes} />
         </Box>
       </Box>
     </div>
