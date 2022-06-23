@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Box, Button } from "@mui/material";
 
+import { updateCharacter } from "../../api/character";
 import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
@@ -9,7 +10,8 @@ import ClassChipWidget from "./widgets/ClassChipWidget";
 
 export default function CharacterLevelsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [classes, setClasses] = useCharacterStore((s) => [
+  const [uuid, classes, setClasses] = useCharacterStore((s) => [
+    s.uuid,
     s.classes,
     s.setClasses,
   ]);
@@ -17,7 +19,11 @@ export default function CharacterLevelsPane() {
 
   const handleEditClose = () => {
     setLevelOpen(false);
-    displayMessage("Updated character classes and levels", "info");
+    updateCharacter(uuid, { classes: classes })
+      .then(() => {
+        displayMessage("Updated character classes and levels", "info");
+      })
+      .catch(() => "Error updating character classes", "error");
   };
 
   return (

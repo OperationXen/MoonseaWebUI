@@ -27,7 +27,7 @@ export default function CharacterDetailsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
 
-  const { ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
+  const { uuid, ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
   const { gold, downtime, setGold, setDowntime } = charData;
   const [updated, setUpdated] = useState(false);
 
@@ -59,7 +59,6 @@ export default function CharacterDetailsPane() {
   const handleChanges = () => {
     if (updated) {
       let data = {
-        uuid: charData.uuid,
         ac: ac,
         hp: hp,
         pp: pp,
@@ -68,7 +67,7 @@ export default function CharacterDetailsPane() {
         downtime: downtime,
       };
 
-      updateCharacter(data).then(() =>
+      updateCharacter(uuid, data).then(() =>
         displayMessage("Character updated", "success")
       );
       setUpdated(false);
