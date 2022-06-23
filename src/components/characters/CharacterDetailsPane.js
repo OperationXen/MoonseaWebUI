@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Tooltip, Box, Typography, Grid } from "@mui/material";
+import { Tooltip, Box, Typography, Link, Grid } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
 import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
@@ -93,7 +93,16 @@ export default function CharacterDetailsPane() {
       >
         <Grid container height="2.2em">
           <Grid item xs={8}>
-            <Typography variant="h5">{charData.name}</Typography>
+            <Link
+              href={charData.sheet}
+              target="_blank"
+              rel="noopener"
+              variant="h5"
+              underline="hover"
+              color="inherit"
+            >
+              {charData.name}
+            </Link>
           </Grid>
           <Grid item xs={4}>
             <Tooltip title="Current level">

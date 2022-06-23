@@ -4,7 +4,7 @@ import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
 import { Typography, ButtonGroup, Button } from "@mui/material";
 import { Tooltip, Avatar, Divider } from "@mui/material";
 
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ShareIcon from "@mui/icons-material/Share";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import useSnackbar from "../../datastore/snackbar";
@@ -17,7 +17,7 @@ export default function CharacterSummaryCard(props) {
   const navigate = useNavigate();
   const snackbar = useSnackbar((s) => s.displayMessage);
 
-  const detailsLink = "/character/" + character.uuid; // link to full character sheet
+  const detailsLink = "/moonseacodex/character/" + character.uuid; // link to full character sheet
   const classesText = getCharClassShort(character.classes);
 
   const copyCharacterLink = () => {
@@ -103,7 +103,7 @@ export default function CharacterSummaryCard(props) {
           </Tooltip>
           <Tooltip title="Copy link to character">
             <Button onClick={copyCharacterLink}>
-              <ContentCopyIcon />
+              <ShareIcon />
             </Button>
           </Tooltip>
         </ButtonGroup>
