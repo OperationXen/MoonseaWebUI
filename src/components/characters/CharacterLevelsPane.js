@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Fab, Tooltip, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { Box, Button, Typography } from "@mui/material";
 
 import { updateCharacter } from "../../api/character";
 import useCharacterStore from "../../datastore/character";
@@ -34,31 +33,42 @@ export default function CharacterLevelsPane() {
       <Box
         sx={{
           display: "flex",
-          flexFlow: "row wrap",
-          alignItems: "center",
+          flexDirection: "column",
           justifyContent: "center",
-          gap: "0.4em",
-          minHeight: "3em",
         }}
       >
-        {(classes &&
-          classes.map((item) => {
-            return (
-              <ClassChipWidget data={item} onClick={() => setLevelOpen(true)} />
-            );
-          })) || (
-          <Typography variant="caption">No character classes</Typography>
-        )}
-        <Tooltip title="Edit classes">
-          <Fab
-            onClick={() => setLevelOpen(true)}
-            size="small"
-            color="primary"
-            sx={{ alignSelf: "center", marginLeft: "auto" }}
-          >
-            <AddIcon />
-          </Fab>
-        </Tooltip>
+        <Box
+          sx={{
+            display: "flex",
+            flexFlow: "row wrap",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "0.4em",
+            minHeight: "3em",
+          }}
+        >
+          {(classes &&
+            classes.map((item) => {
+              return (
+                <ClassChipWidget
+                  data={item}
+                  onClick={() => setLevelOpen(true)}
+                />
+              );
+            })) || (
+            <Typography variant="caption">No character classes</Typography>
+          )}
+        </Box>
+
+        <Button
+          variant="outlined"
+          onClick={() => setLevelOpen(true)}
+          size="small"
+          color="primary"
+          sx={{ alignSelf: "center" }}
+        >
+          Manage classes
+        </Button>
       </Box>
       {levelOpen && (
         <CharacterLevelEditDialog
