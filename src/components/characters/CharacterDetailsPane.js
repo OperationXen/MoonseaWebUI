@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Tooltip, Box, Typography, Grid } from "@mui/material";
 
@@ -9,6 +9,7 @@ import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
+import useCharacterStore from "../../datastore/character";
 import { updateCharacter } from "../../api/character";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import CharacterImagePane from "./CharacterImagePane";
@@ -22,27 +23,13 @@ const dataBoxStyle = {
   padding: "0.4em",
 };
 
-export default function CharacterDetailsPane(props) {
-  const { characterData } = props;
+export default function CharacterDetailsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const charData = useCharacterStore();
 
+  const { ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
+  const { gold, downtime, setGold, setDowntime } = charData;
   const [updated, setUpdated] = useState(false);
-  const [ac, setAC] = useState();
-  const [hp, setHP] = useState();
-  const [pp, setPP] = useState();
-  const [dc, setDC] = useState();
-  const [gold, setGold] = useState();
-  const [downtime, setDowntime] = useState();
-
-  // Set internal state on component load
-  useEffect(() => {
-    setAC(characterData.ac);
-    setHP(characterData.hp);
-    setPP(characterData.pp);
-    setDC(characterData.dc);
-    setGold(characterData.gold);
-    setDowntime(characterData.downtime);
-  }, [characterData]);
 
   const handleUpdateAC = (x) => {
     setUpdated(true);
@@ -72,7 +59,7 @@ export default function CharacterDetailsPane(props) {
   const handleChanges = () => {
     if (updated) {
       let data = {
-        uuid: characterData.uuid,
+        uuid: charData.uuid,
         ac: ac,
         hp: hp,
         pp: pp,
@@ -88,7 +75,7 @@ export default function CharacterDetailsPane(props) {
     }
   };
 
-  if (!characterData || characterData === {}) return null;
+  if (!charData || charData === {}) return null;
   return (
     <div
       style={{
@@ -97,7 +84,7 @@ export default function CharacterDetailsPane(props) {
         display: "flex",
       }}
     >
-      <CharacterImagePane characterData={characterData} />
+      <CharacterImagePane />
       <Box
         sx={{
           padding: "0.4em",
@@ -107,12 +94,12 @@ export default function CharacterDetailsPane(props) {
       >
         <Grid container height="2.2em">
           <Grid item xs={8}>
-            <Typography variant="h5">{characterData.name}</Typography>
+            <Typography variant="h5">{charData.name}</Typography>
           </Grid>
           <Grid item xs={4}>
             <Tooltip title="Current level">
               <Typography variant="h5" align="right">
-                {characterData.level}
+                {charData.level}
               </Typography>
             </Tooltip>
           </Grid>
@@ -177,7 +164,7 @@ export default function CharacterDetailsPane(props) {
               onMouseOut={handleChanges}
             />
           </Box>
-          <CharacterLevelsPane classes={characterData.classes} />
+          <CharacterLevelsPane data={charData} />
         </Box>
       </Box>
     </div>

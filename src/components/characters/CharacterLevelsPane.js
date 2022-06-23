@@ -9,11 +9,7 @@ import ClassChipWidget from "./widgets/ClassChipWidget";
 export default function CharacterLevelsPane(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [levelOpen, setLevelOpen] = useState(false);
-  const [classes, setClasses] = useState([]);
-
-  useEffect(() => {
-    if (Array.isArray(props.classes)) setClasses(props.classes);
-  }, [props.classes]);
+  const { classes, setClasses } = props;
 
   const handleEditClose = () => {
     setLevelOpen(false);

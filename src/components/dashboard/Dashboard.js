@@ -3,14 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Box, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import useCharacterStore from "../../datastore/character";
+import usePlayerStore from "../../datastore/player";
 import CreateCharacterWindow from "../characters/CreateCharacterWindow";
 import CharacterSummaryCard from "../characters/CharacterSummaryCard";
 import EmptyDashboardWidget from "./EmptyDashboardWidget";
 import LoadingOverlay from "../general/LoadingOverlay";
 
 export default function Dashboard() {
-  const [characters, refreshCharacterData, loading] = useCharacterStore((s) => [
+  const [characters, refreshCharacterData, loading] = usePlayerStore((s) => [
     s.characters,
     s.requestRefresh,
     s.loading,

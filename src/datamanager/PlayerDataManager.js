@@ -1,10 +1,10 @@
 import { useEffect, useCallback } from "react";
 
-import useCharacterStore from "../datastore/character";
+import usePlayerStore from "../datastore/player";
 import { fetchAllCharacters } from "../api/character";
 
-export default function CharacterDataManager() {
-  const [refreshPending, setCharacters, setLoading] = useCharacterStore((s) => [
+export default function PlayerDataManager() {
+  const [refreshPending, setCharacters, setLoading] = usePlayerStore((s) => [
     s.refresh,
     s.setCharacters,
     s.setLoading,

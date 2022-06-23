@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
+import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
 import { getCharacterDetails } from "../../api/character";
 import CharacterBiographyPane from "./CharacterBiographyPane";
@@ -16,14 +17,14 @@ export default function CharacterDetailWindow(props) {
   const { uuid } = useParams();
   const navigate = useNavigate();
   const displayMessage = useSnackbar((s) => s.displayMessage);
-
-  const [data, setData] = useState({});
+  const charData = useCharacterStore();
   const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     getCharacterDetails(uuid)
       .then((response) => {
-        setData(response.data);
+        debugger;
+        charData.setAll(response.data);
       })
       .catch((error) => {
         displayMessage("Character not known", "error");
@@ -52,27 +53,23 @@ export default function CharacterDetailWindow(props) {
         }}
       >
         <Box sx={{ display: "flex", width: "100%" }}>
-          <CharacterDetailsPane characterData={data} />
+          <CharacterDetailsPane />
           <CharacterControls onDeleteClicked={() => setShowDelete(true)} />
           <DeleteConfirm
-            name={data.name}
-            uuid={data.uuid}
+            name={charData.name}
+            uuid={uuid}
             open={showDelete}
             onClose={() => setShowDelete(false)}
           />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
-          <CharacterBiographyPane
-            uuid={uuid}
-            biography={data.biography}
-            dmText={data.dm_text}
-          />
+          <CharacterBiographyPane />
         </Box>
-        <ItemPane itemData={data.items} />
+        <ItemPane itemData={charData.items} />
       </Box>
 
       <Box sx={{ flexGrow: 0.58 }}>
-        <CharacterEvents characteruuid={data.uuid} />
+        <CharacterEvents characteruuid={uuid} />
       </Box>
     </Box>
   );

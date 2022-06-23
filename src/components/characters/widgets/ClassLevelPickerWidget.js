@@ -9,7 +9,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import classes from "../../../config/classes.json";
 
 export default function ClassLevelPickerWidget(props) {
-  const { update } = props;
+  const { update, deletable, onDelete } = props;
 
   const [name, setName] = useState("");
   const [subClass, setSubClass] = useState("");
@@ -39,6 +39,7 @@ export default function ClassLevelPickerWidget(props) {
     let newVal = e.target.value;
 
     if (newVal === "delete") {
+      onDelete();
     } else {
       setName(newVal);
       setSubClass("");
@@ -67,7 +68,9 @@ export default function ClassLevelPickerWidget(props) {
               return <MenuItem value={item.name}>{item.name}</MenuItem>;
             })}
             <Divider />
-            <MenuItem value="delete">Delete row</MenuItem>
+            <MenuItem value="delete" disabled={!deletable}>
+              Delete row
+            </MenuItem>
           </Select>
         </FormControl>
       </Grid>

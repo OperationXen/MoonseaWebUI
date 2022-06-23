@@ -1,9 +1,12 @@
+import { useState, useEffect } from "react";
 import { Typography, Dialog, Divider, Button } from "@mui/material";
 
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
 export default function CharacterLevelEditDialog(props) {
   const { open, onClose, classes, update } = props;
+
+  const [blankClasses, setBlankClasses] = useState(0);
 
   const handleUpdate = (newVal, index) => {
     let tempArray = classes;
@@ -40,12 +43,17 @@ export default function CharacterLevelEditDialog(props) {
         classes.map((existing, index) => {
           return (
             <ClassLevelPickerWidget
+              deletable={!!index}
               data={existing}
               update={(newVal) => handleUpdate(newVal, index)}
             />
           );
         })}
-      <Button variant="outlined" onClick={handleAddClass}>
+      <Button
+        variant="outlined"
+        onClick={handleAddClass}
+        disabled={blankClasses}
+      >
         Add new class
       </Button>
     </Dialog>

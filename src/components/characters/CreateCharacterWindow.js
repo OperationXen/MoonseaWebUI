@@ -8,7 +8,7 @@ import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
 import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
 import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 
-import useCharacterStore from "../../datastore/character";
+import usePlayerStore from "../../datastore/player";
 import useSnackbar from "../../datastore/snackbar";
 import { createCharacter } from "../../api/character";
 import StatsWidget from "./widgets/StatsWidget";
@@ -25,7 +25,7 @@ const row = {
 export default function CreateCharacterWindow(props) {
   const { open, onClose } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestRefresh = useCharacterStore((s) => s.requestRefresh);
+  const requestRefresh = usePlayerStore((s) => s.requestRefresh);
 
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
