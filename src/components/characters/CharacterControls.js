@@ -18,7 +18,7 @@ export default function CharacterControls(props) {
         borderRadius: "8px",
       }}
     >
-      <IconButton disabled>
+      <IconButton onClick={() => props.onEditClicked()}>
         <EditIcon fontSize="small" />
       </IconButton>
       <IconButton

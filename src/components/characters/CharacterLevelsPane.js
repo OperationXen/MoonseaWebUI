@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { Box, Button } from "@mui/material";
+import { Box, Fab, Tooltip, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import { updateCharacter } from "../../api/character";
 import useCharacterStore from "../../datastore/character";
@@ -34,6 +35,7 @@ export default function CharacterLevelsPane() {
           flexFlow: "row wrap",
           alignItems: "center",
           justifyContent: "center",
+          gap: "0.4em",
           minHeight: "3em",
         }}
       >
@@ -43,10 +45,18 @@ export default function CharacterLevelsPane() {
               <ClassChipWidget data={item} onClick={() => setLevelOpen(true)} />
             );
           })) || (
-          <Button onClick={() => setLevelOpen(true)}>
-            Add a character class
-          </Button>
+          <Typography variant="caption">No character classes</Typography>
         )}
+        <Tooltip title="Edit classes">
+          <Fab
+            onClick={() => setLevelOpen(true)}
+            size="small"
+            color="primary"
+            sx={{ alignSelf: "center", marginLeft: "auto" }}
+          >
+            <AddIcon />
+          </Fab>
+        </Tooltip>
       </Box>
       {levelOpen && (
         <CharacterLevelEditDialog
