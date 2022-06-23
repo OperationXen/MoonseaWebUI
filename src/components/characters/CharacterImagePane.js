@@ -50,7 +50,15 @@ export default function CharacterImagePane() {
           clear();
         });
     }
-  }, [filesContent, charData, displayMessage, showImage, clear]);
+  }, [
+    filesContent,
+    charData,
+    displayMessage,
+    showImage,
+    clear,
+    setArtwork,
+    setToken,
+  ]);
 
   return (
     <div

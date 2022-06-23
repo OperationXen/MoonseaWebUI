@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Box, Button } from "@mui/material";
 
+import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./widgets/ClassChipWidget";
 
-export default function CharacterLevelsPane(props) {
+export default function CharacterLevelsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const [classes, setClasses] = useCharacterStore((s) => [
+    s.classes,
+    s.setClasses,
+  ]);
   const [levelOpen, setLevelOpen] = useState(false);
-  const { classes, setClasses } = props;
 
   const handleEditClose = () => {
     setLevelOpen(false);
@@ -38,12 +42,14 @@ export default function CharacterLevelsPane(props) {
           </Button>
         )}
       </Box>
-      <CharacterLevelEditDialog
-        open={levelOpen}
-        onClose={handleEditClose}
-        classes={classes}
-        update={setClasses}
-      />
+      {levelOpen && (
+        <CharacterLevelEditDialog
+          open={levelOpen}
+          onClose={handleEditClose}
+          initialClasses={classes}
+          update={setClasses}
+        />
+      )}
     </React.Fragment>
   );
 }

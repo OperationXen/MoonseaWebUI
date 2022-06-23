@@ -2,34 +2,36 @@ import { useState } from "react";
 
 import { Box, TextField } from "@mui/material";
 
+import useCharacterStore from "../../datastore/character";
 import { updateCharacter } from "../../api/character";
 import useSnackbar from "../../datastore/snackbar";
 
-export default function CharacterBiographyPane(props) {
+export default function CharacterBiographyPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [biography, setBiography] = useState(props.biography || "");
+  const [uuid, bio, setBio, dmText, setDMText] = useCharacterStore((s) => [
+    s.uuid,
+    s.biography,
+    s.setBiography,
+    s.dm_text,
+    s.setDMText,
+  ]);
   const [biographyChanged, setBiographyChanged] = useState(false);
-  const [dmText, setDMText] = useState(props.dmText || "");
   const [dmTextChanged, setDMTextChanged] = useState(false);
 
   const handleBioUpdate = () => {
-    let data = { uuid: props.uuid };
-
     if (biographyChanged) {
-      data.biography = biography;
       setBiographyChanged(false);
-      updateCharacter(data).then(
+      updateCharacter(uuid, { biography: bio }).then(
         displayMessage("Biography updated", "success")
       );
     }
   };
   const handleDMTextUpdate = () => {
-    let data = { uuid: props.uuid };
-
     if (dmTextChanged) {
-      data.dm_text = dmText;
       setDMTextChanged(false);
-      updateCharacter(data).then(displayMessage("DM info updated", "success"));
+      updateCharacter(uuid, { dm_text: dmText }).then(
+        displayMessage("DM info updated", "success")
+      );
     }
   };
 
@@ -45,10 +47,10 @@ export default function CharacterBiographyPane(props) {
       <TextField
         sx={{ flexGrow: 0.48 }}
         placeholder="Character biography"
-        value={biography}
+        value={bio}
         onChange={(e) => {
           setBiographyChanged(true);
-          setBiography(e.target.value);
+          setBio(e.target.value);
         }}
         multiline
         rows={4}

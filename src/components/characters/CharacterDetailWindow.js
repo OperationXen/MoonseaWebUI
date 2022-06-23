@@ -18,19 +18,19 @@ export default function CharacterDetailWindow(props) {
   const navigate = useNavigate();
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
+  const setCharData = useCharacterStore((s) => s.setAll);
   const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     getCharacterDetails(uuid)
       .then((response) => {
-        debugger;
-        charData.setAll(response.data);
+        setCharData(response.data);
       })
       .catch((error) => {
         displayMessage("Character not known", "error");
         navigate("/");
       });
-  }, [uuid, navigate, displayMessage]);
+  }, [uuid, navigate, displayMessage, setCharData]);
 
   return (
     <Box

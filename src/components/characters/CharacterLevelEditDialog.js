@@ -1,27 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Typography, Dialog, Divider, Button } from "@mui/material";
 
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
 export default function CharacterLevelEditDialog(props) {
-  const { open, onClose, classes, update } = props;
+  const { open, onClose, initialClasses, update } = props;
+  const [classes, setClasses] = useState(initialClasses);
 
-  const [blankClasses, setBlankClasses] = useState(0);
+  const blankClasses = () => {
+    return classes.filter((x) => !x.name).length;
+  };
+
+  const handleClose = () => {
+    update(classes);
+    onClose();
+  };
 
   const handleUpdate = (newVal, index) => {
     let tempArray = classes;
     tempArray[index] = newVal;
-    update(tempArray);
+    setClasses(tempArray);
   };
 
   const handleAddClass = () => {
-    update(classes.concat([{ name: "", subclass: "", value: 1 }]));
+    setClasses(classes.concat([{ name: "", subclass: "", value: 1 }]));
   };
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -39,20 +47,19 @@ export default function CharacterLevelEditDialog(props) {
         Configure class levels
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.6em 0" }} />
-      {classes &&
-        classes.map((existing, index) => {
-          return (
-            <ClassLevelPickerWidget
-              deletable={!!index}
-              data={existing}
-              update={(newVal) => handleUpdate(newVal, index)}
-            />
-          );
-        })}
+      {classes.map((existing, index) => {
+        return (
+          <ClassLevelPickerWidget
+            deletable={!!index}
+            data={existing}
+            update={(newVal) => handleUpdate(newVal, index)}
+          />
+        );
+      })}
       <Button
         variant="outlined"
         onClick={handleAddClass}
-        disabled={blankClasses}
+        disabled={blankClasses()}
       >
         Add new class
       </Button>

@@ -30,7 +30,7 @@ export default function CreateCharacterWindow(props) {
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
   const [classes, setClasses] = useState({ name: "", subclass: "", value: 1 });
-  const [level, setLevel] = useState(1);
+  const [level] = useState(1);
   const [sheet, setSheet] = useState("");
   const [vision, setVision] = useState("");
   const [ac, setAC] = useState(10);
