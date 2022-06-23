@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 import { deleteCharacter } from "../../../api/character";
 import useSnackbar from "../../../datastore/snackbar";
-import useCharacterStore from "../../../datastore/character";
+import usePlayerStore from "../../../datastore/player";
 
 export default function DeleteConfirm(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestRefresh = useCharacterStore((s) => s.requestRefresh);
+  const requestRefresh = usePlayerStore((s) => s.requestRefresh);
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    deleteCharacter(props.ID).then(() => {
+    deleteCharacter(props.uuid).then(() => {
       requestRefresh();
       displayMessage(`Character ${props.name} deleted`, "info");
       navigate("/");

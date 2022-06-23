@@ -3,11 +3,11 @@ import { useFilePicker } from "use-file-picker";
 
 import { Box, Button } from "@mui/material";
 
+import useCharacterStore from "../../datastore/character";
 import { uploadCharacterImage } from "../../api/character";
 import useSnackbar from "../../datastore/snackbar";
 
-export default function CharacterImagePane(props) {
-  const { characterData } = props;
+export default function CharacterImagePane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [openFileSelector, { filesContent, clear }] = useFilePicker({
     readAs: "DataURL",
@@ -15,17 +15,17 @@ export default function CharacterImagePane(props) {
     multiple: false,
     maxFileSize: 0.5,
   });
+  const charData = useCharacterStore();
   const [showControls, setShowControls] = useState(false);
-  const [artworkURL, setArtworkURL] = useState("");
-  const [tokenURL, setTokenURL] = useState("");
   const [showImage, setShowImage] = useState("artwork");
+  const { artwork, token, setArtwork, setToken } = charData;
 
   const getArtworkURL = () => {
-    if (artworkURL) return `${artworkURL}`;
+    if (artwork) return `${artwork}`;
     else return "/images/placegoblin.jpg";
   };
   const getTokenURL = () => {
-    if (tokenURL) return `${tokenURL}`;
+    if (token) return `${token}`;
     else return "/images/placegoblin.jpg";
   };
 
@@ -34,27 +34,31 @@ export default function CharacterImagePane(props) {
     else setShowImage("artwork");
   };
 
-  useEffect(() => {
-    setTokenURL(characterData.token);
-    setArtworkURL(characterData.artwork);
-  }, [characterData]);
-
   //when file information set
   useEffect(() => {
     if (filesContent.length) {
-      uploadCharacterImage(characterData.id, showImage, filesContent[0]).then(
-        (response) => {
+      uploadCharacterImage(charData.uuid, showImage, filesContent[0])
+        .then((response) => {
           if (showImage === "artwork") {
-            setArtworkURL(response.data.path);
+            setArtwork(response.data.path);
           } else {
-            setTokenURL(response.data.path);
+            setToken(response.data.path);
           }
-          clear();
           displayMessage(`Character ${showImage} uploaded`, "success");
-        }
-      );
+        })
+        .finally(() => {
+          clear();
+        });
     }
-  }, [filesContent, characterData, displayMessage, showImage, clear]);
+  }, [
+    filesContent,
+    charData,
+    displayMessage,
+    showImage,
+    clear,
+    setArtwork,
+    setToken,
+  ]);
 
   return (
     <div

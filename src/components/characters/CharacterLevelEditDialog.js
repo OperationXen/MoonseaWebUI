@@ -1,18 +1,35 @@
-import { Typography, Dialog, Divider } from "@mui/material";
+import { useState } from "react";
+import { Typography, Dialog, Divider, Button } from "@mui/material";
 
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
 export default function CharacterLevelEditDialog(props) {
-  const { open, onClose, data } = props;
+  const { open, onClose, initialClasses, update } = props;
+  const [classes, setClasses] = useState(initialClasses);
 
-  if (data) {
-    console.log(data);
-  }
+  const blankClasses = () => {
+    return classes.filter((x) => !x.name).length;
+  };
+
+  const handleClose = () => {
+    update(classes);
+    onClose();
+  };
+
+  const handleUpdate = (newVal, index) => {
+    let tempArray = classes;
+    tempArray[index] = newVal;
+    setClasses(tempArray);
+  };
+
+  const handleAddClass = () => {
+    setClasses(classes.concat([{ name: "", subclass: "", value: 1 }]));
+  };
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -30,9 +47,22 @@ export default function CharacterLevelEditDialog(props) {
         Configure class levels
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.6em 0" }} />
-      {data.map((existing) => {
-        return <ClassLevelPickerWidget data={existing} />;
+      {classes.map((existing, index) => {
+        return (
+          <ClassLevelPickerWidget
+            deletable={!!index}
+            data={existing}
+            update={(newVal) => handleUpdate(newVal, index)}
+          />
+        );
       })}
+      <Button
+        variant="outlined"
+        onClick={handleAddClass}
+        disabled={blankClasses()}
+      >
+        Add new class
+      </Button>
     </Dialog>
   );
 }

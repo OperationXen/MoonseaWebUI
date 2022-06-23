@@ -1,13 +1,13 @@
 import React from "react";
 
 import UserDataManager from "./UserDataManager";
-import CharacterDataManager from "./CharacterDataManager";
+import PlayerDataManager from "./PlayerDataManager";
 
 export default function DataManager() {
   return (
     <React.Fragment>
       <UserDataManager />
-      <CharacterDataManager />
+      <PlayerDataManager />
     </React.Fragment>
   );
 }

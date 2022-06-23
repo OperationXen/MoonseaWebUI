@@ -33,8 +33,8 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </React.Fragment>
         )}
-        <Route path="/character/:id" element={<CharacterDetailWindow />} />
-        <Route path="/dungeonmaster/:id" element={<DungeonMasterWindow />} />
+        <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
+        <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
       </Routes>
       <FeedbackBar />
       <DataManager />

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
+import useCharacterStore from "../../datastore/character";
+import useSnackbar from "../../datastore/snackbar";
 import { getCharacterDetails } from "../../api/character";
 import CharacterBiographyPane from "./CharacterBiographyPane";
 import CharacterEvents from "../events/CharacterEvents";
@@ -12,15 +14,23 @@ import DeleteConfirm from "./widgets/DeleteConfirm";
 import ItemPane from "../items/ItemPane";
 
 export default function CharacterDetailWindow(props) {
-  const { id } = useParams();
-  const [data, setData] = useState({});
+  const { uuid } = useParams();
+  const navigate = useNavigate();
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const charData = useCharacterStore();
+  const setCharData = useCharacterStore((s) => s.setAll);
   const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
-    getCharacterDetails(id).then((response) => {
-      setData(response.data);
-    });
-  }, [id]);
+    getCharacterDetails(uuid)
+      .then((response) => {
+        setCharData(response.data);
+      })
+      .catch((error) => {
+        displayMessage("Character not known", "error");
+        navigate("/");
+      });
+  }, [uuid, navigate, displayMessage, setCharData]);
 
   return (
     <Box
@@ -43,27 +53,23 @@ export default function CharacterDetailWindow(props) {
         }}
       >
         <Box sx={{ display: "flex", width: "100%" }}>
-          <CharacterDetailsPane characterData={data} />
+          <CharacterDetailsPane />
           <CharacterControls onDeleteClicked={() => setShowDelete(true)} />
           <DeleteConfirm
-            name={data.name}
-            ID={data.id}
+            name={charData.name}
+            uuid={uuid}
             open={showDelete}
             onClose={() => setShowDelete(false)}
           />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
-          <CharacterBiographyPane
-            id={id}
-            biography={data.biography}
-            dmText={data.dm_text}
-          />
+          <CharacterBiographyPane />
         </Box>
-        <ItemPane itemData={data.items} />
+        <ItemPane itemData={charData.items} />
       </Box>
 
       <Box sx={{ flexGrow: 0.58 }}>
-        <CharacterEvents characterID={data.id} />
+        <CharacterEvents characteruuid={uuid} />
       </Box>
     </Box>
   );
