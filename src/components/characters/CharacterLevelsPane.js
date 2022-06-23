@@ -11,17 +11,19 @@ import ClassChipWidget from "./widgets/ClassChipWidget";
 
 export default function CharacterLevelsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [uuid, classes, setClasses] = useCharacterStore((s) => [
-    s.uuid,
+  const uuid = useCharacterStore((s) => s.uuid);
+  const [classes, setClasses] = useCharacterStore((s) => [
     s.classes,
     s.setClasses,
   ]);
+  const setLevel = useCharacterStore((s) => s.setLevel);
   const [levelOpen, setLevelOpen] = useState(false);
 
   const handleEditClose = () => {
     setLevelOpen(false);
     updateCharacter(uuid, { classes: classes })
-      .then(() => {
+      .then((response) => {
+        setLevel(response.data.level);
         displayMessage("Updated character classes and levels", "info");
       })
       .catch(() => "Error updating character classes", "error");
