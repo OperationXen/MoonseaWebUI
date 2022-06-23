@@ -17,16 +17,16 @@ export default function CharacterSummaryCard(props) {
   const navigate = useNavigate();
   const snackbar = useSnackbar((s) => s.displayMessage);
 
-  const detailsLink = "moonseacodex/character/" + character.uuid; // link to full character sheet
+  const detailsLink = "/character/" + character.uuid; // link to full character sheet
   const classesText = getCharClassShort(character.classes);
 
   const copyCharacterLink = () => {
-    debugger;
-    navigator.clipboard.writeText(window.location.origin + detailsLink);
+    navigator.clipboard.writeText(
+      window.location.origin + "/moonseacodex" + detailsLink
+    );
     snackbar("Copied character link to clipboard");
   };
   const openDetails = () => {
-    debugger;
     navigate(detailsLink);
   };
 
