@@ -29,6 +29,10 @@ export default function CharacterSummaryCard(props) {
   const openDetails = () => {
     navigate(detailsLink);
   };
+  const getTokenURL = () => {
+    if (character.token) return character.token;
+    return "/moonseacodex/images/placegoblin-token.jpg";
+  };
 
   const getTier = () => {
     if (character.level >= 17) return "Tier 4";
@@ -47,12 +51,16 @@ export default function CharacterSummaryCard(props) {
         padding: "0.2em",
       }}
     >
-      <CardMedia
-        component="img"
-        height="320px"
-        image={character.token}
-        alt={character.name}
-      />
+      <Tooltip
+        title={character.token ? "Character token" : "Character token not set!"}
+      >
+        <CardMedia
+          component="img"
+          height="320px"
+          image={getTokenURL()}
+          alt={character.name}
+        />
+      </Tooltip>
       <Divider variant="middle" sx={{ marginTop: "0.2em" }} />
       <CardContent>
         <div
