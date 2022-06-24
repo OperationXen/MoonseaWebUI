@@ -29,13 +29,13 @@ export default function StatSummaryWidget(props) {
         <Tooltip title="Maximum hit points">
           <div style={{ display: "flex" }}>
             <HealthIcon />
-            <Typography>{character.hp}</Typography>
+            <Typography sx={{ marginLeft: "2px" }}>{character.hp}</Typography>
           </div>
         </Tooltip>
         <Tooltip title="Passive perception">
           <div style={{ display: "flex" }}>
             <PerceptionIcon />
-            <Typography>{character.pp}</Typography>
+            <Typography sx={{ marginLeft: "2px" }}>{character.pp}</Typography>
           </div>
         </Tooltip>
         <Tooltip title="Spell save DC">
