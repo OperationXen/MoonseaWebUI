@@ -49,6 +49,8 @@ const getClassIcon = (name) => {
 export default function ClassChipWidget(props) {
   const { name } = props.data;
 
+  if (!name) return null;
+
   return (
     <Chip
       label={getLevelText(props.data)}

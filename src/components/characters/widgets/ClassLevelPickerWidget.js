@@ -9,18 +9,12 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import classes from "../../../config/classes.json";
 
 export default function ClassLevelPickerWidget(props) {
-  const { update, deletable, onDelete } = props;
+  const { update, deletable, onDelete, data } = props;
 
-  const [name, setName] = useState("");
-  const [subClass, setSubClass] = useState("");
-  const [value, setValue] = useState(1);
+  const [name, setName] = useState(data.name);
+  const [subClass, setSubClass] = useState(data.subclass);
+  const [value, setValue] = useState(data.value);
   const [subClasses, setSubClasses] = useState([]);
-
-  useEffect(() => {
-    setName(props.data.name);
-    setSubClass(props.data.subclass);
-    setValue(props.data.value);
-  }, [props.data]);
 
   useEffect(() => {
     update({ name: name, subclass: subClass, value: value });
