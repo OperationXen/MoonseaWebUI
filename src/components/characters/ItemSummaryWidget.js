@@ -11,10 +11,10 @@ export default function ItemSummaryWidget(props) {
         style={{
           display: "flex",
           flexGrow: 1,
-          margin: "20px",
+          margin: "15px",
           border: "4px dashed darkgrey",
           opacity: 0.5,
-          borderRadius: "10px",
+          borderRadius: "8px",
         }}
       >
         <Typography variant="h6" sx={{ color: "darkgrey", margin: "auto" }}>
