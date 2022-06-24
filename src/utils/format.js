@@ -18,7 +18,7 @@ export function getCharClassShort(classes) {
   classes.sort(levelCompare);
   // construct an array of strings, and then join them with formatting characters
   classes.map((item) => {
-    classStrings.push(`${item.name} (${item.value})`);
+    if (item.name) classStrings.push(`${item.name} (${item.value})`);
     return null;
   });
   return classStrings.join(" / ");
