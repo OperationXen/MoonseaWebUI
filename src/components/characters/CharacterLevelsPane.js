@@ -18,9 +18,9 @@ export default function CharacterLevelsPane() {
   const setLevel = useCharacterStore((s) => s.setLevel);
   const [levelOpen, setLevelOpen] = useState(false);
 
-  const handleEditClose = () => {
-    setLevelOpen(false);
-    updateCharacter(uuid, { classes: classes })
+  const handleUpdate = (newVal) => {
+    setClasses(newVal);
+    updateCharacter(uuid, { classes: newVal })
       .then((response) => {
         setLevel(response.data.level);
         displayMessage("Updated character classes and levels", "info");
@@ -28,14 +28,22 @@ export default function CharacterLevelsPane() {
       .catch(() => "Error updating character classes", "error");
   };
 
+  const handleEditClose = () => {
+    setLevelOpen(false);
+  };
+
   const getClassChips = () => {
     let retVal = [];
 
     if (classes) {
-      retVal = classes.map((item) => {
+      retVal = classes.map((item, index) => {
         if (item.name)
           return (
-            <ClassChipWidget data={item} onClick={() => setLevelOpen(true)} />
+            <ClassChipWidget
+              data={item}
+              key={index}
+              onClick={() => setLevelOpen(true)}
+            />
           );
         else return null;
       });
@@ -89,7 +97,7 @@ export default function CharacterLevelsPane() {
           open={levelOpen}
           onClose={handleEditClose}
           initialClasses={classes}
-          update={setClasses}
+          update={handleUpdate}
         />
       )}
     </React.Fragment>

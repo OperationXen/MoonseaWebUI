@@ -20,6 +20,8 @@ export default function CharacterLevelEditDialog(props) {
   }, [classes, calcBlankClasses]);
 
   const handleClose = () => {
+    console.log("updating");
+    console.log(classes);
     update(classes);
     onClose();
   };
@@ -67,7 +69,7 @@ export default function CharacterLevelEditDialog(props) {
         return (
           <ClassLevelPickerWidget
             key={index}
-            deletable={index + 1 === classes.length}
+            deletable={classes.length > 1 && index + 1 === classes.length}
             data={existing}
             update={(newVal) => handleUpdate(newVal, index)}
             onDelete={() => handleDelete(index)}
@@ -78,7 +80,7 @@ export default function CharacterLevelEditDialog(props) {
         <Button
           variant="outlined"
           onClick={handleAddClass}
-          disabled={blankClasses}
+          disabled={!!blankClasses}
         >
           Add new class
         </Button>

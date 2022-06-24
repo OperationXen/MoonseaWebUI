@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 
 import { IconButton, Typography, Grid, Divider } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
@@ -11,23 +11,24 @@ import classes from "../../../config/classes.json";
 export default function ClassLevelPickerWidget(props) {
   const { update, deletable, onDelete, data } = props;
 
-  const [name, setName] = useState(data.name);
-  const [subClass, setSubClass] = useState(data.subclass);
-  const [value, setValue] = useState(data.value);
-  const [subClasses, setSubClasses] = useState([]);
-
-  useEffect(() => {
-    update({ name: name, subclass: subClass, value: value });
-  }, [name, subClass, value, update]);
-
-  useEffect(() => {
-    if (!name) return;
+  const getValidSubclasses = useCallback((className) => {
+    if (!className) return [];
 
     let temp = classes.filter((item) => {
-      return item.name === name;
+      return item.name === className;
     });
-    setSubClasses(temp[0].subclasses);
-  }, [name]);
+    return temp[0].subclasses;
+  }, []);
+
+  const setName = (newVal) => {
+    update({ name: newVal, subclass: "", value: data.value });
+  };
+  const setSubclass = (newVal) => {
+    update({ name: data.name, subclass: newVal, value: data.value });
+  };
+  const setValue = (newVal) => {
+    update({ name: data.name, subclass: data.subclass, value: newVal });
+  };
 
   const handleClassChange = (e) => {
     let newVal = e.target.value;
@@ -36,15 +37,14 @@ export default function ClassLevelPickerWidget(props) {
       onDelete();
     } else {
       setName(newVal);
-      setSubClass("");
     }
   };
 
   const handleDecrement = () => {
-    if (value > 1) setValue(value - 1);
+    if (data.value > 1) setValue(data.value - 1);
   };
   const handleIncrement = () => {
-    if (value < 20) setValue(value + 1);
+    if (data.value < 20) setValue(data.value + 1);
   };
 
   return (
@@ -55,11 +55,15 @@ export default function ClassLevelPickerWidget(props) {
           <Select
             label="Character Class"
             sx={{ minWidth: "12em" }}
-            value={name}
+            value={data.name}
             onChange={handleClassChange}
           >
-            {classes.map((item) => {
-              return <MenuItem value={item.name}>{item.name}</MenuItem>;
+            {classes.map((item, index) => {
+              return (
+                <MenuItem value={item.name} key={index}>
+                  {item.name}
+                </MenuItem>
+              );
             })}
             <Divider />
             <MenuItem value="delete" disabled={!deletable}>
@@ -74,12 +78,16 @@ export default function ClassLevelPickerWidget(props) {
           <Select
             label="Subclass"
             sx={{ minWidth: "18em" }}
-            disabled={!name}
-            value={subClass}
-            onChange={(e) => setSubClass(e.target.value)}
+            disabled={!data.name}
+            value={data.subclass}
+            onChange={(e) => setSubclass(e.target.value)}
           >
-            {subClasses.map((item) => {
-              return <MenuItem value={item}>{item}</MenuItem>;
+            {getValidSubclasses(data.name).map((item, index) => {
+              return (
+                <MenuItem value={item} key={index}>
+                  {item}
+                </MenuItem>
+              );
             })}
             <Divider />
             <MenuItem value="">No subclass</MenuItem>
@@ -87,11 +95,11 @@ export default function ClassLevelPickerWidget(props) {
         </FormControl>
       </Grid>
       <Grid item xs={2} sx={{ display: "flex", alignItems: "center" }}>
-        <IconButton onClick={handleDecrement} disabled={value <= 1}>
+        <IconButton onClick={handleDecrement} disabled={data.value <= 1}>
           <RemoveIcon />
         </IconButton>
-        <Typography>{value}</Typography>
-        <IconButton onClick={handleIncrement} disabled={value >= 20}>
+        <Typography>{data.value}</Typography>
+        <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
           <AddIcon />
         </IconButton>
       </Grid>
