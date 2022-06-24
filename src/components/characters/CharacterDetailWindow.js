@@ -39,7 +39,7 @@ export default function CharacterDetailWindow(props) {
       sx={{
         display: "flex",
         padding: "0.5em",
-        height: "calc(100% - 3.5em)",
+        height: "calc(100% - 4em)",
         justifyContent: "space-around",
       }}
     >

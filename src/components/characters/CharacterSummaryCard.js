@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { Card, CardContent, CardMedia, CardActions } from "@mui/material";
+import { Card, Box, CardMedia } from "@mui/material";
 import { Typography, ButtonGroup, Button } from "@mui/material";
 import { Tooltip, Avatar, Divider } from "@mui/material";
 
@@ -46,8 +46,7 @@ export default function CharacterSummaryCard(props) {
       sx={{
         width: "25em",
         border: "1px solid black",
-        borderRadius: "10px",
-        margin: "0.5em",
+        borderRadius: "8px",
         padding: "0.2em",
       }}
     >
@@ -57,47 +56,47 @@ export default function CharacterSummaryCard(props) {
         <CardMedia
           component="img"
           height="320px"
-          image={getTokenURL()}
+          src={getTokenURL()}
           alt={character.name}
+          sx={{ borderRadius: "8px", overflow: "hidden" }}
         />
       </Tooltip>
       <Divider variant="middle" sx={{ marginTop: "0.2em" }} />
-      <CardContent>
-        <div
-          style={{
+      <Box sx={{ margin: "0 0.4em" }}>
+        <Box
+          sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography variant="h5" component="div">
             {character.name}
           </Typography>
           <Tooltip title={getTier()}>
-            <Typography
-              gutterBottom
-              variant="h5"
-              sx={{ cursor: "context-menu" }}
-            >
+            <Typography variant="h5" sx={{ cursor: "context-menu" }}>
               {"Level " + character.level}
             </Typography>
           </Tooltip>
-        </div>
-        <Typography variant="body2" color="text.secondary">
-          {character.race}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {classesText || "Commoner"}
-        </Typography>
+        </Box>
+        <Box sx={{ height: "2em" }}>
+          <Typography variant="body2" color="text.secondary">
+            {character.race}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {classesText || "Commoner"}
+          </Typography>
+        </Box>
         <StatSummaryWidget character={character} />
         <ItemSummaryWidget items={character.equipped_items} />
-      </CardContent>
-      <CardActions
+      </Box>
+      <Box
         sx={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          padding: "0em",
+          alignItems: "center",
         }}
       >
         <Tooltip title="Add an event, such as a game or a DM reward">
@@ -134,7 +133,7 @@ export default function CharacterSummaryCard(props) {
             />
           </Tooltip>
         )}
-      </CardActions>
+      </Box>
     </Card>
   );
 }

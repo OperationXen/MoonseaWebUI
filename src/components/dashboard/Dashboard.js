@@ -28,7 +28,8 @@ export default function Dashboard() {
           margin: "1em",
           display: "flex",
           flexFlow: "row wrap",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
+          alignItems: "center",
           flexGrow: 1,
         }}
       >
