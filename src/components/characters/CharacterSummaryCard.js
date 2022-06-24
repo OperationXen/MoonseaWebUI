@@ -79,7 +79,7 @@ export default function CharacterSummaryCard(props) {
               variant="h5"
               sx={{ cursor: "context-menu" }}
             >
-              {"Level" + " " + character.level}
+              {"Level " + character.level}
             </Typography>
           </Tooltip>
         </div>
