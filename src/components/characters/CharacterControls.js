@@ -5,7 +5,13 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShareIcon from "@mui/icons-material/Share";
 
+import useCharacterStore from "../../datastore/character";
+
 export default function CharacterControls(props) {
+  const editable = useCharacterStore((s) => s.editable);
+
+  if (!editable) return null;
+
   return (
     <Box
       sx={{

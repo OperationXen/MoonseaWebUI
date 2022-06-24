@@ -10,7 +10,7 @@ import ClassChipWidget from "./widgets/ClassChipWidget";
 
 export default function CharacterLevelsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const uuid = useCharacterStore((s) => s.uuid);
+  const [uuid, editable] = useCharacterStore((s) => [s.uuid, s.editable]);
   const [classes, setClasses] = useCharacterStore((s) => [
     s.classes,
     s.setClasses,
@@ -42,7 +42,9 @@ export default function CharacterLevelsPane() {
             <ClassChipWidget
               data={item}
               key={index}
-              onClick={() => setLevelOpen(true)}
+              onClick={() => {
+                if (editable) setLevelOpen(true);
+              }}
             />
           );
         else return null;
@@ -68,15 +70,17 @@ export default function CharacterLevelsPane() {
       >
         <Box width="100%" mb={"0.4em"}>
           <Divider width="95%">
-            <Button
-              variant="outlined"
-              onClick={() => setLevelOpen(true)}
-              size="small"
-              color="primary"
-              sx={{ alignSelf: "center", cursor: "pointer" }}
-            >
-              Manage classes
-            </Button>
+            {editable && (
+              <Button
+                variant="outlined"
+                onClick={() => setLevelOpen(true)}
+                size="small"
+                color="primary"
+                sx={{ alignSelf: "center", cursor: "pointer" }}
+              >
+                Manage classes
+              </Button>
+            )}
           </Divider>
         </Box>
 
@@ -92,7 +96,6 @@ export default function CharacterLevelsPane() {
         >
           {getClassChips()}
         </Box>
-
       </Box>
       {levelOpen && (
         <CharacterLevelEditDialog
