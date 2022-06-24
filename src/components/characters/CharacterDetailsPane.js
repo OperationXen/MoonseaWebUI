@@ -27,8 +27,8 @@ export default function CharacterDetailsPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
 
-  const { uuid, ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
-  const { gold, downtime, setGold, setDowntime } = charData;
+  const { uuid, editable, gold, downtime, setGold, setDowntime } = charData;
+  const { ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
   const [updated, setUpdated] = useState(false);
 
   const handleUpdateAC = (x) => {
@@ -57,7 +57,7 @@ export default function CharacterDetailsPane() {
   };
 
   const handleChanges = () => {
-    if (updated) {
+    if (editable && updated) {
       let data = {
         ac: ac,
         hp: hp,
@@ -122,6 +122,7 @@ export default function CharacterDetailsPane() {
         >
           <Box sx={{ ...dataBoxStyle }}>
             <StatsWidget
+              locked={!editable}
               name="AC"
               icon={<ShieldIcon fontSize="small" />}
               value={ac}
@@ -130,6 +131,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
+              locked={!editable}
               name="HP"
               icon={<HealthIcon fontSize="small" />}
               value={hp}
@@ -138,6 +140,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
+              locked={!editable}
               name="PP"
               icon={<PerceptionIcon fontSize="small" />}
               value={pp}
@@ -146,6 +149,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
+              locked={!editable}
               name="DC"
               icon={<SaveDCIcon fontSize="small" />}
               value={dc}
@@ -156,6 +160,7 @@ export default function CharacterDetailsPane() {
           </Box>
           <Box sx={dataBoxStyle}>
             <StatsWidget
+              locked={!editable}
               name="Gold"
               icon={<GiTwoCoins />}
               value={gold}
@@ -164,6 +169,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
+              locked={!editable}
               name="Downtime"
               icon={<DowntimeIcon fontSize="small" />}
               value={downtime}

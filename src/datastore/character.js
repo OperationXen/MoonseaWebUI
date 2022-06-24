@@ -2,6 +2,7 @@ import create from "zustand";
 
 const useCharacterStore = create((set) => ({
   uuid: "",
+  editable: false,
 
   name: "Meepo",
   artwork: "",

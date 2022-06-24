@@ -7,11 +7,13 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function StatsWidget(props) {
-  const { value, setValue, name, icon, onMouseOut } = props;
+  const { locked, value, setValue, name, icon, onMouseOut } = props;
   const [active, setActive] = useState(false);
 
   const handleChange = (e) => {
     let raw = e.target.value;
+    if (locked) return;
+
     if (raw && !isNaN(raw)) setValue(parseInt(raw));
   };
 
@@ -61,17 +63,22 @@ export default function StatsWidget(props) {
           justifyContent: "space-around",
         }}
       >
-        <IconButton disabled={!active} onClick={handleDecrement}>
-          <RemoveIcon />
-        </IconButton>
+        {!locked && (
+          <IconButton disabled={!active} onClick={handleDecrement}>
+            <RemoveIcon />
+          </IconButton>
+        )}
         <InputBase
+          disabled={locked}
           value={value}
           inputProps={{ sx: { textAlign: "center" } }}
           onChange={handleChange}
         />
-        <IconButton disabled={!active} onClick={handleIncrement}>
-          <AddIcon />
-        </IconButton>
+        {!locked && (
+          <IconButton disabled={!active} onClick={handleIncrement}>
+            <AddIcon />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

@@ -18,7 +18,7 @@ export default function CharacterImagePane() {
   const charData = useCharacterStore();
   const [showControls, setShowControls] = useState(false);
   const [showImage, setShowImage] = useState("artwork");
-  const { artwork, token, setArtwork, setToken } = charData;
+  const { editable, artwork, token, setArtwork, setToken } = charData;
 
   const getArtworkURL = () => {
     if (artwork) return `${artwork}`;
@@ -70,6 +70,7 @@ export default function CharacterImagePane() {
         height: "20em",
         overflow: "hidden",
         display: "flex",
+        justifyContent: "center",
       }}
       onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
@@ -100,33 +101,24 @@ export default function CharacterImagePane() {
               {(showImage === "artwork" && "Show token") || "Show artwork"}
             </Button>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <Button variant="contained" onClick={() => openFileSelector()}>
-              {`Set ${showImage}`}
-            </Button>
-          </div>
+          {editable && (
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <Button variant="contained" onClick={() => openFileSelector()}>
+                {`Set ${showImage}`}
+              </Button>
+            </div>
+          )}
         </Box>
       )}
 
-      {(showImage === "artwork" && (
-        <Box
-          component="img"
-          src={getArtworkURL()}
-          sx={{
-            objectFit: "cover",
-            maxWidth: "20em",
-          }}
-        />
-      )) || (
-        <Box
-          component="img"
-          src={getTokenURL()}
-          sx={{
-            objectFit: "cover",
-            maxWidth: "20em",
-          }}
-        />
-      )}
+      <Box
+        component="img"
+        src={(showImage === "artwork" && getArtworkURL()) || getTokenURL()}
+        sx={{
+          objectFit: "contain",
+          maxWidth: "20em",
+        }}
+      />
     </div>
   );
 }
