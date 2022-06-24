@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Divider } from "@mui/material";
 
 import { updateCharacter } from "../../api/character";
 import useCharacterStore from "../../datastore/character";
@@ -18,14 +18,43 @@ export default function CharacterLevelsPane() {
   const setLevel = useCharacterStore((s) => s.setLevel);
   const [levelOpen, setLevelOpen] = useState(false);
 
-  const handleEditClose = () => {
-    setLevelOpen(false);
-    updateCharacter(uuid, { classes: classes })
+  const handleUpdate = (newVal) => {
+    setClasses(newVal);
+    updateCharacter(uuid, { classes: newVal })
       .then((response) => {
         setLevel(response.data.level);
         displayMessage("Updated character classes and levels", "info");
       })
       .catch(() => "Error updating character classes", "error");
+  };
+
+  const handleEditClose = () => {
+    setLevelOpen(false);
+  };
+
+  const getClassChips = () => {
+    let retVal = [];
+
+    if (classes) {
+      retVal = classes.map((item, index) => {
+        if (item.name)
+          return (
+            <ClassChipWidget
+              data={item}
+              key={index}
+              onClick={() => setLevelOpen(true)}
+            />
+          );
+        else return null;
+      });
+    }
+    retVal = retVal.filter((x) => x !== null);
+    if (retVal.length) return retVal;
+    return (
+      <Typography variant="caption" sx={{ opacity: 0.3 }}>
+        Character has no class levels yet
+      </Typography>
+    );
   };
 
   return (
@@ -37,6 +66,20 @@ export default function CharacterLevelsPane() {
           justifyContent: "center",
         }}
       >
+        <Box width="100%" mb={"0.4em"}>
+          <Divider width="95%">
+            <Button
+              variant="outlined"
+              onClick={() => setLevelOpen(true)}
+              size="small"
+              color="primary"
+              sx={{ alignSelf: "center", cursor: "pointer" }}
+            >
+              Manage classes
+            </Button>
+          </Divider>
+        </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -47,35 +90,16 @@ export default function CharacterLevelsPane() {
             minHeight: "3em",
           }}
         >
-          {(classes &&
-            classes.map((item) => {
-              return (
-                <ClassChipWidget
-                  data={item}
-                  onClick={() => setLevelOpen(true)}
-                />
-              );
-            })) || (
-            <Typography variant="caption">No character classes</Typography>
-          )}
+          {getClassChips()}
         </Box>
 
-        <Button
-          variant="outlined"
-          onClick={() => setLevelOpen(true)}
-          size="small"
-          color="primary"
-          sx={{ alignSelf: "center" }}
-        >
-          Manage classes
-        </Button>
       </Box>
       {levelOpen && (
         <CharacterLevelEditDialog
           open={levelOpen}
           onClose={handleEditClose}
           initialClasses={classes}
-          update={setClasses}
+          update={handleUpdate}
         />
       )}
     </React.Fragment>

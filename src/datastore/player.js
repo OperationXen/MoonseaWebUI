@@ -1,6 +1,6 @@
 import create from "zustand";
 
-const useCharacterStore = create((set) => ({
+const usePlayerStore = create((set) => ({
   characters: [],
   loading: false,
 
@@ -11,4 +11,4 @@ const useCharacterStore = create((set) => ({
   requestRefresh: () => set((state) => ({ refresh: !state.refresh })),
 }));
 
-export default useCharacterStore;
+export default usePlayerStore;
