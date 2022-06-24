@@ -79,6 +79,7 @@ export default function CharacterLevelsPane() {
             </Button>
           </Divider>
         </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -91,6 +92,7 @@ export default function CharacterLevelsPane() {
         >
           {getClassChips()}
         </Box>
+
       </Box>
       {levelOpen && (
         <CharacterLevelEditDialog
