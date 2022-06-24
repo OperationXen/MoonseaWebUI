@@ -70,6 +70,7 @@ export default function CharacterImagePane() {
         height: "20em",
         overflow: "hidden",
         display: "flex",
+        justifyContent: "center",
       }}
       onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
@@ -110,25 +111,14 @@ export default function CharacterImagePane() {
         </Box>
       )}
 
-      {(showImage === "artwork" && (
-        <Box
-          component="img"
-          src={getArtworkURL()}
-          sx={{
-            objectFit: "cover",
-            maxWidth: "20em",
-          }}
-        />
-      )) || (
-        <Box
-          component="img"
-          src={getTokenURL()}
-          sx={{
-            objectFit: "cover",
-            maxWidth: "20em",
-          }}
-        />
-      )}
+      <Box
+        component="img"
+        src={(showImage === "artwork" && getArtworkURL()) || getTokenURL()}
+        sx={{
+          objectFit: "contain",
+          maxWidth: "20em",
+        }}
+      />
     </div>
   );
 }
