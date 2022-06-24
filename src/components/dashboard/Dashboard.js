@@ -29,6 +29,7 @@ export default function Dashboard() {
           display: "flex",
           flexFlow: "row wrap",
           justifyContent: "space-evenly",
+          alignItems: "center",
           flexGrow: 1,
         }}
       >

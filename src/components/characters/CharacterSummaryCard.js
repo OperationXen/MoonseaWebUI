@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { Card, Box, CardMedia, CardActions } from "@mui/material";
+import { Card, Box, CardMedia } from "@mui/material";
 import { Typography, ButtonGroup, Button } from "@mui/material";
 import { Tooltip, Avatar, Divider } from "@mui/material";
 

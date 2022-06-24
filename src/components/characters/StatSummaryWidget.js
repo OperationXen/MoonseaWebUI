@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Typography, Tooltip } from "@mui/material";
+import { Divider, Typography, Tooltip, Box } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
 import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
@@ -12,8 +12,8 @@ export default function StatSummaryWidget(props) {
   return (
     <React.Fragment>
       <Divider sx={{ margin: "8px" }} />
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
@@ -21,30 +21,30 @@ export default function StatSummaryWidget(props) {
         }}
       >
         <Tooltip title="Armour Class">
-          <div style={{ display: "flex" }}>
+          <Box sx={{ display: "flex", cursor: "pointer" }}>
             <ShieldIcon />
             <Typography>{character.ac}</Typography>
-          </div>
+          </Box>
         </Tooltip>
         <Tooltip title="Maximum hit points">
-          <div style={{ display: "flex" }}>
+          <Box sx={{ display: "flex", cursor: "pointer" }}>
             <HealthIcon />
             <Typography sx={{ marginLeft: "2px" }}>{character.hp}</Typography>
-          </div>
+          </Box>
         </Tooltip>
         <Tooltip title="Passive perception">
-          <div style={{ display: "flex" }}>
+          <Box sx={{ display: "flex", cursor: "pointer" }}>
             <PerceptionIcon />
             <Typography sx={{ marginLeft: "2px" }}>{character.pp}</Typography>
-          </div>
+          </Box>
         </Tooltip>
         <Tooltip title="Spell save DC">
-          <div style={{ display: "flex" }}>
+          <Box sx={{ display: "flex", cursor: "pointer" }}>
             <SaveDCIcon />
             <Typography>{character.dc}</Typography>
-          </div>
+          </Box>
         </Tooltip>
-      </div>
+      </Box>
       <Divider sx={{ margin: "8px" }} />
     </React.Fragment>
   );
