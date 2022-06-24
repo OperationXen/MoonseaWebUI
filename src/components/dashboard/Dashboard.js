@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 
 import { Box, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,7 +17,7 @@ export default function Dashboard() {
   ]);
   const [createOpen, setCreateOpen] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     refreshCharacterData();
   }, [refreshCharacterData]);
 
