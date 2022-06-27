@@ -80,7 +80,7 @@ export default function CharacterDetailWindow(props) {
       </Box>
 
       <Box sx={{ flexGrow: 0.58 }}>
-        <CharacterEvents characteruuid={uuid} />
+        <CharacterEvents characterUUID={uuid} characterName={charData.name} />
       </Box>
     </Box>
   );

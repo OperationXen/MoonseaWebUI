@@ -1,11 +1,16 @@
 import { useState } from "react";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import { Box, Typography, Button, FormGroup } from "@mui/material";
+import { Box, Typography, Button, FormGroup, Tooltip } from "@mui/material";
 import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
+import useSnackbar from "../../../datastore/snackbar";
+import { createPlayerGame } from "../../../api/events";
 import StatsWidget from "../../characters/widgets/StatsWidget";
 
 const row = {
@@ -17,13 +22,35 @@ const row = {
 };
 
 export default function CreateCharacterGame(props) {
+  const { characterUUID, onClose } = props;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
+  const [date, setDate] = useState(new Date());
   const [dmName, setDMName] = useState("");
   const [location, setLocation] = useState("");
   const [level, setLevel] = useState(true);
   const [gold, setGold] = useState(250);
   const [downtime, setDowntime] = useState(10);
+
+  const handleSubmit = () => {
+    createPlayerGame(characterUUID, {
+      module: code,
+      name: name,
+      datetime: date,
+      dm_name: dmName,
+      location: location,
+      gold: gold,
+      downtime: downtime,
+      levels: level ? 1 : 0,
+    })
+      .then((response) => {
+        displayMessage("Game added to log", "success");
+        onClose && onClose();
+      })
+      .catch(() => displayMessage("Error creating game", "error"));
+  };
 
   return (
     <Box
@@ -47,19 +74,32 @@ export default function CreateCharacterGame(props) {
 
       <Box sx={row}>
         <TextField
-          sx={{ flexGrow: 2 }}
+          sx={{ maxWidth: "30%" }}
           label="Module code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="DDAL00-02A"
+          required
         />
         <TextField
-          sx={{ flexGrow: 8 }}
+          sx={{ flexGrow: 10 }}
           label="Module name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="The Darkwood Webs"
+          required
         />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DesktopDatePicker
+            label="Game date"
+            inputFormat="yyyy/MM/dd"
+            value={date}
+            onChange={setDate}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ maxWidth: "30%" }} />
+            )}
+          />
+        </LocalizationProvider>
       </Box>
       <Box sx={row}>
         <TextField
@@ -76,7 +116,6 @@ export default function CreateCharacterGame(props) {
           placeholder="Triden Games"
         />
       </Box>
-      <TextField sx={{ flexGrow: 1 }} label="Game date" />
       <Divider sx={{ width: "95%", margin: "auto" }}>
         <Typography>Rewards</Typography>
       </Divider>
@@ -109,14 +148,23 @@ export default function CreateCharacterGame(props) {
         />
       </Box>
       <Box sx={row}>
-        <TextField fullWidth label="Item Reward" />
+        <Tooltip title="No implemented yet" placement="left">
+          <TextField fullWidth label="Item Reward" disabled />
+        </Tooltip>
       </Box>
       <Box sx={row}>
-        <TextField fullWidth label="Consumables" />
+        <Tooltip title="No implemented yet" placement="left">
+          <TextField fullWidth label="Consumables" disabled />
+        </Tooltip>
       </Box>
 
       <Box width={"100%"} display="flex">
-        <Button variant="contained" sx={{ width: "60%", margin: "auto" }}>
+        <Button
+          variant="contained"
+          sx={{ width: "60%", margin: "auto" }}
+          disabled={!code && !name}
+          onClick={handleSubmit}
+        >
           Create Game
         </Button>
       </Box>

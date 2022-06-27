@@ -9,7 +9,7 @@ import { getEventsForCharacter } from "../../api/events.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 
 export default function CharacterEvents(props) {
-  const { characterID } = props;
+  const { characterUUID, characterName } = props;
 
   const [createOpen, setCreateOpen] = useState(false);
   const [events, setEvents] = useState([
@@ -42,12 +42,14 @@ export default function CharacterEvents(props) {
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
-    getEventsForCharacter(characterID, pageSize, pageSize * (pageNum - 1)).then(
-      (result) => {
-        setEvents(result.data);
-      }
-    );
-  }, [characterID, pageNum, pageSize]);
+    getEventsForCharacter(
+      characterUUID,
+      pageSize,
+      pageSize * (pageNum - 1)
+    ).then((result) => {
+      setEvents(result.data);
+    });
+  }, [characterUUID, pageNum, pageSize]);
 
   const columns = [
     { field: "col1", headerName: "Event", flex: 0.2 },
@@ -97,7 +99,12 @@ export default function CharacterEvents(props) {
           ),
         }}
       />
-      <CreateCharacterEvent open={createOpen} setOpen={setCreateOpen} />
+      <CreateCharacterEvent
+        characterUUID={characterUUID}
+        open={createOpen}
+        setOpen={setCreateOpen}
+        name={characterName}
+      />
     </React.Fragment>
   );
 }

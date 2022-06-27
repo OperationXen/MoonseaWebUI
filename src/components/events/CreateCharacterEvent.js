@@ -1,21 +1,24 @@
 import { useState } from "react";
 
-import { Dialog, Paper, Box, Divider, TextField, Button } from "@mui/material";
+import { Dialog, Box, Divider, TextField } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
 
 export default function CreateCharacterEvent(props) {
-  const { open, setOpen } = props;
+  const { characterUUID, open, setOpen } = props;
 
   const [event, setEvent] = useState("game");
 
   if (!open) return null;
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Dialog
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={onClose}
       PaperProps={{
         sx: {
           width: "40em",
@@ -29,7 +32,7 @@ export default function CreateCharacterEvent(props) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        Add event to character
+        {props.name ? `Add event to ${props.name}` : "Add event to character"}
       </Typography>
       <Divider variant="middle" />
       <Box margin="0.4em 0">
@@ -66,7 +69,9 @@ export default function CreateCharacterEvent(props) {
           </MenuItem>
         </Select>
       </Box>
-      {event === "game" && <CreateCharacterGame />}
+      {event === "game" && (
+        <CreateCharacterGame characterUUID={characterUUID} onClose={onClose} />
+      )}
       {event === "trade-npc" && (
         <Box
           border="1px solid black"

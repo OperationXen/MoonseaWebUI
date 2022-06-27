@@ -53,3 +53,8 @@ export function createDMGame(
 
   return api.post(url, data);
 }
+
+export function createPlayerGame(ID, gameData) {
+  let data = { character_uuid: ID, ...gameData };
+  return api.post(`/api/game/`, data);
+}
