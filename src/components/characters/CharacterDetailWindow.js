@@ -19,7 +19,10 @@ export default function CharacterDetailWindow(props) {
   const navigate = useNavigate();
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
-  const setCharData = useCharacterStore((s) => s.setAll);
+  const [setCharData, refreshPending] = useCharacterStore((s) => [
+    s.setAll,
+    s.refresh,
+  ]);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -32,7 +35,7 @@ export default function CharacterDetailWindow(props) {
         displayMessage("Character not known", "error");
         navigate("/");
       });
-  }, [uuid, navigate, displayMessage, setCharData]);
+  }, [uuid, navigate, displayMessage, setCharData, refreshPending]);
 
   return (
     <Box

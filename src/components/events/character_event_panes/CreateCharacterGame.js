@@ -10,8 +10,9 @@ import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
 import useSnackbar from "../../../datastore/snackbar";
-import { createPlayerGame } from "../../../api/events";
+import useCharacterStore from "../../../datastore/character";
 import StatsWidget from "../../characters/widgets/StatsWidget";
+import { createPlayerGame } from "../../../api/events";
 
 const row = {
   display: "flex",
@@ -22,8 +23,10 @@ const row = {
 };
 
 export default function CreateCharacterGame(props) {
-  const { characterUUID, onClose } = props;
+  const { onClose } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const characterUUID = useCharacterStore((s) => s.uuid);
+  const requestCharacterRefresh = useCharacterStore((s) => s.requestRefresh);
 
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
@@ -33,6 +36,8 @@ export default function CreateCharacterGame(props) {
   const [level, setLevel] = useState(true);
   const [gold, setGold] = useState(250);
   const [downtime, setDowntime] = useState(10);
+
+  const [highlight, setHighlight] = useState(false);
 
   const handleSubmit = () => {
     createPlayerGame(characterUUID, {
@@ -47,6 +52,7 @@ export default function CreateCharacterGame(props) {
     })
       .then((response) => {
         displayMessage("Game added to log", "success");
+        requestCharacterRefresh();
         onClose && onClose();
       })
       .catch(() => displayMessage("Error creating game", "error"));
@@ -80,6 +86,7 @@ export default function CreateCharacterGame(props) {
           onChange={(e) => setCode(e.target.value)}
           placeholder="DDAL00-02A"
           required
+          error={highlight && !code}
         />
         <TextField
           sx={{ flexGrow: 10 }}
@@ -87,7 +94,6 @@ export default function CreateCharacterGame(props) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="The Darkwood Webs"
-          required
         />
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
@@ -107,6 +113,8 @@ export default function CreateCharacterGame(props) {
           label="DM Name"
           value={dmName}
           onChange={(e) => setDMName(e.target.value)}
+          required
+          error={highlight && !dmName}
         />
         <TextField
           sx={{ flexGrow: 1 }}
@@ -158,11 +166,15 @@ export default function CreateCharacterGame(props) {
         </Tooltip>
       </Box>
 
-      <Box width={"100%"} display="flex">
+      <Box
+        display="flex"
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
+      >
         <Button
           variant="contained"
           sx={{ width: "60%", margin: "auto" }}
-          disabled={!code && !name}
+          disabled={!code || !dmName}
           onClick={handleSubmit}
         >
           Create Game
