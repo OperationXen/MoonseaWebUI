@@ -6,19 +6,19 @@ import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
 
 export default function CreateCharacterEvent(props) {
-  const { characterUUID, open, setOpen } = props;
+  const { characterUUID, open, onClose } = props;
 
   const [event, setEvent] = useState("game");
 
   if (!open) return null;
-  const onClose = () => {
-    setOpen(false);
+  const handleClose = () => {
+    onClose();
   };
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       PaperProps={{
         sx: {
           width: "40em",
@@ -70,7 +70,10 @@ export default function CreateCharacterEvent(props) {
         </Select>
       </Box>
       {event === "game" && (
-        <CreateCharacterGame characterUUID={characterUUID} onClose={onClose} />
+        <CreateCharacterGame
+          characterUUID={characterUUID}
+          onClose={handleClose}
+        />
       )}
       {event === "trade-npc" && (
         <Box

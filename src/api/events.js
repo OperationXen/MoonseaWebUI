@@ -1,13 +1,8 @@
 import api from "./base";
 
-export function getEventsForCharacter(ID, limit = 100, offset = 0) {
-  const data = {
-    character: ID,
-    limit: limit,
-    offset: offset,
-  };
-
-  return api.get("/api/events", { params: data });
+// unpaginated fetch of all character events
+export function getEventsForCharacter(ID) {
+  return api.get(`/api/character_events/${ID}`);
 }
 
 // function expects an object - possibly should convert to typescript to prevent the inevitable
@@ -56,5 +51,12 @@ export function createDMGame(
 
 export function createPlayerGame(ID, gameData) {
   let data = { character_uuid: ID, ...gameData };
+
   return api.post(`/api/game/`, data);
+}
+
+export function removeCharacterGame(gameUUID, characterUUID) {
+  return api.delete(`/api/game/${gameUUID}/`, {
+    data: { character_uuid: characterUUID },
+  });
 }

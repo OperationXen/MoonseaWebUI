@@ -31,7 +31,7 @@ export default function StatsWidget(props) {
       onMouseOver={() => setActive(true)}
       onMouseOut={() => {
         setActive(false);
-        onMouseOut();
+        if (onMouseOut) onMouseOut();
       }}
       sx={{
         ...props.sx,
