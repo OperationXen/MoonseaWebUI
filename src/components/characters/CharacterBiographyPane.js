@@ -9,7 +9,7 @@ import useSnackbar from "../../datastore/snackbar";
 export default function CharacterBiographyPane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [uuid, editable] = useCharacterStore((s) => [s.uuid, s.editable]);
-  const [bio, setBio] = useCharacterStore((s) => [s.bio, s.setBio]);
+  const [bio, setBio] = useCharacterStore((s) => [s.biography, s.setBiography]);
   const [dmText, setDMText] = useCharacterStore((s) => [
     s.dm_text,
     s.setDMText,

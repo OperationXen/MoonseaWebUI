@@ -1,72 +1,105 @@
 import React, { useState, useEffect } from "react";
 
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import { getEventsForCharacter } from "../../api/events.js";
+import {
+  getEventsForCharacter,
+  removeCharacterGame,
+} from "../../api/events.js";
+import useSnackbar from "../../datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 
 export default function CharacterEvents(props) {
-  const { characterID } = props;
+  const { characterUUID, characterName } = props;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [events, setEvents] = useState([
-    {
-      id: 0,
-      col1: "Downtime Activity",
-      col2: "2022/05/19",
-      col3: "Catching up, exchanged 10 downtime days for 1 level",
-    },
-    {
-      id: 1,
-      col1: "Game",
-      col2: "2022/05/17",
-      col3: "Module CCC-PDXAGE-02-01 The Dark Hunt. Gained 200GP",
-    },
-    {
-      id: 2,
-      col1: "DM Service Reward",
-      col2: "2022/05/04",
-      col3: "Exchanged 10 hours service for 2500gp, tier 2 item: Bracers of defence",
-    },
-    {
-      id: 3,
-      col1: "Shopping",
-      col2: "2022/05/04",
-      col3: "Purchased chest, crowbar, bell, book, candle for 5gp, 4sp",
-    },
-  ]);
-  const [pageSize, setPageSize] = useState(15);
-  const [pageNum, setPageNum] = useState(1);
+  const [events, setEvents] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    getEventsForCharacter(characterID, pageSize, pageSize * (pageNum - 1)).then(
-      (result) => {
-        setEvents(result.data);
-      }
+    getEventsForCharacter(characterUUID).then((result) => {
+      setEvents(result.data);
+    });
+  }, [characterUUID, refresh]);
+
+  const rowActions = (params) => {
+    return (
+      <IconButton
+        onClick={() =>
+          removeCharacterGame(params.row.uuid, characterUUID).then(() => {
+            displayMessage("Event deleted", "info");
+            setRefresh(!refresh);
+          })
+        }
+      >
+        <DeleteIcon />
+      </IconButton>
     );
-  }, [characterID, pageNum, pageSize]);
+  };
+  const rowEventType = (params) => {
+    if (params.row.event_type === "game") {
+      return "Game";
+    }
+  };
+  const rowDate = (params) => {
+    return params.row.datetime.slice(0, 10).replaceAll("-", " / ");
+  };
+
+  const rowDetails = (params) => {
+    let data = params.row;
+    if (data.event_type === "game") {
+      return `${data.name} (${data.module})`;
+    }
+  };
 
   const columns = [
-    { field: "col1", headerName: "Event", flex: 0.2 },
-    { field: "col2", headerName: "Date", flex: 0.15 },
-    { field: "col3", headerName: "Details", flex: 0.6 },
+    {
+      field: "event_type",
+      headerName: "Event Type",
+      flex: 0.2,
+      headerAlign: "center",
+      align: "center",
+      valueGetter: rowEventType,
+    },
+    {
+      field: "datetime",
+      headerName: "Date",
+      flex: 0.15,
+      headerAlign: "center",
+      align: "center",
+      valueGetter: rowDate,
+    },
+    {
+      field: "details",
+      headerName: "Details",
+      flex: 0.6,
+      headerAlign: "center",
+      align: "left",
+      valueGetter: rowDetails,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.1,
+      align: "right",
+      headerAlign: "center",
+      renderCell: rowActions,
+    },
   ];
 
   return (
     <React.Fragment>
       <DataGrid
+        getRowId={(r) => r.uuid}
         columns={columns}
         rows={events}
         rowHeight={36}
-        pagination="server"
         rowsPerPageOptions={[15, 25, 50, 100]}
-        pageSize={pageSize}
-        onPageSizeChange={setPageSize}
-        pageNum={pageNum}
-        onPageChange={setPageNum}
         sx={{
           border: "1px solid black",
           borderRadius: "8px",
@@ -97,7 +130,15 @@ export default function CharacterEvents(props) {
           ),
         }}
       />
-      <CreateCharacterEvent open={createOpen} setOpen={setCreateOpen} />
+      <CreateCharacterEvent
+        characterUUID={characterUUID}
+        open={createOpen}
+        onClose={() => {
+          setRefresh(!refresh);
+          setCreateOpen(false);
+        }}
+        name={characterName}
+      />
     </React.Fragment>
   );
 }

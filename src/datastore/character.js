@@ -44,6 +44,9 @@ const useCharacterStore = create((set) => ({
   setDowntime: (newVal) => set((state) => ({ downtime: newVal })),
   setItems: (newVal) => set((state) => ({ items: newVal })),
 
+  refresh: 0,
+  requestRefresh: () => set((state) => ({ refresh: state.refresh + 1 })),
+
   setAll: (newVal) => set((state) => ({ ...newVal })),
 }));
 
