@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
 import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
@@ -38,26 +38,29 @@ export default function CharacterDetailWindow(props) {
   }, [uuid, navigate, displayMessage, setCharData, refreshPending]);
 
   return (
-    <Box
+    <Grid
+      container
       sx={{
-        display: "flex",
-        padding: "0.5em",
+        minWidth: "45em",
+        padding: "0.4em",
         height: "calc(100% - 4em)",
-        justifyContent: "space-around",
+        minHeight: "50em",
       }}
     >
-      <Box
+      <Grid
+        item
+        xs={12}
+        lg={6.97}
         sx={{
           display: "flex",
           flexDirection: "column",
-          flexGrow: 0.38,
           border: "1px solid black",
           borderRadius: "8px",
           boxShadow: "1px 1px 5px 1px grey",
           overflow: "hidden",
         }}
       >
-        <Box sx={{ display: "flex", width: "100%" }}>
+        <Box sx={{ display: "flex" }}>
           <CharacterDetailsPane />
           <CharacterControls
             onEditClicked={() => setShowEdit(true)}
@@ -80,11 +83,16 @@ export default function CharacterDetailWindow(props) {
           <CharacterBiographyPane />
         </Box>
         <ItemPane itemData={charData.items} />
-      </Box>
+      </Grid>
+      <Grid item xs={0.06} />
 
-      <Box sx={{ flexGrow: 0.58 }}>
-        <CharacterEvents characterUUID={uuid} characterName={charData.name} />
-      </Box>
-    </Box>
+      <Grid item xs={12} lg={4.97} sx={{ minHeight: "50em" }}>
+        <CharacterEvents
+          characterUUID={uuid}
+          characterName={charData.name}
+          editable={charData.editable}
+        />
+      </Grid>
+    </Grid>
   );
 }

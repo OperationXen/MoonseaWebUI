@@ -14,7 +14,7 @@ import useSnackbar from "../../datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 
 export default function CharacterEvents(props) {
-  const { characterUUID, characterName } = props;
+  const { characterUUID, characterName, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -28,6 +28,7 @@ export default function CharacterEvents(props) {
   }, [characterUUID, refresh]);
 
   const rowActions = (params) => {
+    if (!editable) return null;
     return (
       <IconButton
         onClick={() =>
@@ -116,6 +117,7 @@ export default function CharacterEvents(props) {
             >
               <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
                 <Button
+                  disabled={!editable}
                   variant="outlined"
                   startIcon={<AddIcon />}
                   onClick={() => setCreateOpen(true)}
