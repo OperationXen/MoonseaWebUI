@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Dialog, Box, Divider, TextField } from "@mui/material";
+import { Dialog, Box, Divider, TextField, FormControl } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
@@ -35,39 +35,41 @@ export default function CreateCharacterEvent(props) {
         {props.name ? `Add event to ${props.name}` : "Add event to character"}
       </Typography>
       <Divider variant="middle" />
-      <Box margin="0.4em 0">
-        <InputLabel id="type-label">Event Type</InputLabel>
-        <Select
-          fullWidth
-          labelId="type-label"
-          value={event}
-          onChange={(e) => setEvent(e.target.value)}
-        >
-          <Divider>Quick select</Divider>
-          <MenuItem value="game">Played a game</MenuItem>
-          <MenuItem value="trade-npc" disabled>
-            Trade mundane equipment
-          </MenuItem>
-          <Divider>Downtime activities</Divider>
-          <MenuItem value="dt-catchup" disabled>
-            Catching up (gain a level)
-          </MenuItem>
-          <MenuItem value="trade-item" disabled>
-            Trade magical items
-          </MenuItem>
-          <MenuItem value="spellbook" disabled>
-            Copy spells to spellbook
-          </MenuItem>
-          <MenuItem value="dt-scribe" disabled>
-            Scribe scrolls
-          </MenuItem>
-          <MenuItem value="dt-brew" disabled>
-            Brew potions
-          </MenuItem>
-          <MenuItem value="rebuild" disabled>
-            Rebuild character
-          </MenuItem>
-        </Select>
+      <Box margin="0.6em 0">
+        <FormControl fullWidth>
+          <InputLabel id="type-label">Event Type</InputLabel>
+          <Select
+            fullWidth
+            label="Event Type"
+            value={event}
+            onChange={(e) => setEvent(e.target.value)}
+          >
+            <Divider>Quick select</Divider>
+            <MenuItem value="game">Played a game</MenuItem>
+            <MenuItem value="trade-npc" disabled>
+              Trade mundane equipment
+            </MenuItem>
+            <Divider>Downtime activities</Divider>
+            <MenuItem value="dt-catchup" disabled>
+              Catching up (gain a level)
+            </MenuItem>
+            <MenuItem value="trade-item" disabled>
+              Trade magical items
+            </MenuItem>
+            <MenuItem value="spellbook" disabled>
+              Copy spells to spellbook
+            </MenuItem>
+            <MenuItem value="dt-scribe" disabled>
+              Scribe scrolls
+            </MenuItem>
+            <MenuItem value="dt-brew" disabled>
+              Brew potions
+            </MenuItem>
+            <MenuItem value="rebuild" disabled>
+              Rebuild character
+            </MenuItem>
+          </Select>
+        </FormControl>
       </Box>
       {event === "game" && (
         <CreateCharacterGame

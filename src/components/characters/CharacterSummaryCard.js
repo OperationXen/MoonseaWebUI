@@ -9,7 +9,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import useSnackbar from "../../datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
-import ItemSummaryWidget from "./ItemSummaryWidget";
+import ItemSummaryWidget from "../items/ItemSummaryWidget";
 import { getCharClassShort } from "../../utils/format";
 
 export default function CharacterSummaryCard(props) {
@@ -89,7 +89,7 @@ export default function CharacterSummaryCard(props) {
           </Typography>
         </Box>
         <StatSummaryWidget character={character} />
-        <ItemSummaryWidget items={character.equipped_items} />
+        <ItemSummaryWidget items={character.items} />
       </Box>
       <Box
         sx={{

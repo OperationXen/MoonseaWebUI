@@ -34,7 +34,10 @@ export default function ItemPane(props) {
           <Tab label="Consumables" value={"consumables"} />
           <Tab label="Common" value={"commonitems"} />
         </Tabs>
-        <TabPanel value={"magicitems"}>
+        <TabPanel
+          value={"magicitems"}
+          sx={{ display: "flex", flexGrow: 1, padding: 0 }}
+        >
           <MagicItemList magicItems={itemData} />
         </TabPanel>
         <TabPanel value={"consumables"}>Consumables</TabPanel>
