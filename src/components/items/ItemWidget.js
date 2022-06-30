@@ -7,16 +7,22 @@ import ArticleIcon from "@mui/icons-material/Article";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
+import { updateMagicItem, deleteMagicItem } from "../../api/items";
+import useSnackbar from "../../datastore/snackbar";
+import useCharacterStore from "../../datastore/character";
 import { getRarityColour } from "../../utils/itemUtils";
 
 export default function ItemWidget(props) {
-  const { name, rarity } = props.data;
-  const [equipped, setEquipped] = useState(props.data.equipped);
+  const { uuid, name, rarity, equipped } = props.data;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const refreshData = useCharacterStore((s) => s.requestRefresh);
+
   const [showControls, setShowControls] = useState(false);
   const colour = getRarityColour(rarity);
 
   const handleClick = () => {
-    setEquipped(!!!equipped);
+    updateMagicItem(uuid, { equipped: !equipped });
+    refreshData();
   };
   const handleDetailClick = (e) => {
     e.stopPropagation();
@@ -28,6 +34,12 @@ export default function ItemWidget(props) {
     e.stopPropagation();
   };
   const handleDeleteClick = (e) => {
+    deleteMagicItem(uuid)
+      .then(() => {
+        displayMessage(`Deleted ${name}`, "info");
+        refreshData();
+      })
+      .catch((error) => displayMessage("Unable to delete", "error"));
     e.stopPropagation();
   };
 
