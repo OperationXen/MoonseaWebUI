@@ -16,6 +16,7 @@ export default function ItemPane(props) {
         display: "flex",
         flexGrow: 1,
         flexDirection: "column",
+        maxHeight: "28em",
       }}
     >
       <TabContext value={itemTab}>
