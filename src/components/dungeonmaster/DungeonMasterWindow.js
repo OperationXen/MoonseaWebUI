@@ -18,7 +18,7 @@ import DMEvents from "../events/DMEvents";
 export default function DungeonMasterWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [dmUUID] = userStore((s) => [s.dmUUID]);
-  const { id } = useParams();
+  const { uuid } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
@@ -37,9 +37,9 @@ export default function DungeonMasterWindow() {
   }, [dmUUID]);
 
   useEffect(() => {
-    setAllowUpdates(id === dmUUID);
+    setAllowUpdates(uuid === dmUUID);
     refreshDMData();
-  }, [refreshDMData, id, dmUUID]);
+  }, [refreshDMData, uuid, dmUUID]);
 
   const updateServiceHours = (val) => {
     setHoursChanged(true);
@@ -47,7 +47,7 @@ export default function DungeonMasterWindow() {
   };
   const handleServiceHoursUpdate = () => {
     if (hoursChanged) {
-      updateDMLogData(id, serviceHours).then((response) => {
+      updateDMLogData(uuid, serviceHours).then((response) => {
         setHoursChanged(false);
         displayMessage("DM Log updated", "success");
       });
@@ -140,7 +140,7 @@ export default function DungeonMasterWindow() {
           />
           <SeasonRewards
             allowUpdates={allowUpdates}
-            dmUUID={id}
+            dmUUID={uuid}
             hours={serviceHours}
             onChange={refreshDMData}
           />
@@ -149,7 +149,7 @@ export default function DungeonMasterWindow() {
         <Box sx={{ flexGrow: 0.68 }}>
           <DMEvents
             allowUpdates={allowUpdates}
-            dmUUID={id}
+            dmUUID={uuid}
             onChange={refreshDMData}
           />
         </Box>
