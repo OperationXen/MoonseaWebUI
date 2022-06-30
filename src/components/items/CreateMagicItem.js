@@ -21,6 +21,10 @@ export default function CreateMagicItem(props) {
   const [highlight, setHighlight] = useState(false);
 
   const handleClose = () => {
+    setName("");
+    setDesc("");
+    setFlavour("");
+    setAttunement(false);
     onClose();
   };
   const handleSubmit = () => {
