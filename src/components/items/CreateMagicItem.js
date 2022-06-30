@@ -5,10 +5,18 @@ import { Select, MenuItem, InputLabel } from "@mui/material";
 import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
+import useSnackbar from "../../datastore/snackbar";
+import useCharacterStore from "../../datastore/character";
+import { createMagicItem } from "../../api/items";
 import { getRarityColour } from "../../utils/itemUtils";
 
 export default function CreateMagicItem(props) {
   const { open, onClose } = props;
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const [characterUUID, requestRefresh] = useCharacterStore((s) => [
+    s.uuid,
+    s.requestRefresh,
+  ]);
 
   const [rarity, setRarity] = useState("uncommon");
   const [attunement, setAttunement] = useState(false);
@@ -20,7 +28,24 @@ export default function CreateMagicItem(props) {
   const handleClose = () => {
     onClose();
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    let data = {
+      name: name,
+      rarity: rarity,
+      attunement: attunement,
+      description: desc,
+      flavour: flavour,
+    };
+    createMagicItem(characterUUID, data)
+      .then((response) => {
+        displayMessage(`Added ${response.data.name}`, "success");
+        requestRefresh();
+        handleClose();
+      })
+      .catch((error) => {
+        displayMessage("Error adding item to character", "error");
+      });
+  };
 
   return (
     <Dialog
