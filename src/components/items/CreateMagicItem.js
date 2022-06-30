@@ -6,17 +6,12 @@ import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
-import useCharacterStore from "../../datastore/character";
 import { createMagicItem } from "../../api/items";
 import { getRarityColour } from "../../utils/itemUtils";
 
 export default function CreateMagicItem(props) {
-  const { open, onClose } = props;
+  const { open, onClose, characterUUID, onCreate } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [characterUUID, requestRefresh] = useCharacterStore((s) => [
-    s.uuid,
-    s.requestRefresh,
-  ]);
 
   const [rarity, setRarity] = useState("uncommon");
   const [attunement, setAttunement] = useState(false);
@@ -39,7 +34,7 @@ export default function CreateMagicItem(props) {
     createMagicItem(characterUUID, data)
       .then((response) => {
         displayMessage(`Added ${response.data.name}`, "success");
-        requestRefresh();
+        onCreate();
         handleClose();
       })
       .catch((error) => {

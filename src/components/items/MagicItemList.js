@@ -4,11 +4,16 @@ import { Box, Button } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
+import useCharacterStore from "../../datastore/character";
 import CreateMagicItem from "./CreateMagicItem";
 import ItemWidget from "./ItemWidget";
 
 export default function MagicItemList(props) {
   const { magicItems } = props;
+  const [characterUUID, refreshData] = useCharacterStore((s) => [
+    s.uuid,
+    s.requestRefresh,
+  ]);
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
@@ -45,7 +50,12 @@ export default function MagicItemList(props) {
           Add Item
         </Button>
       </Box>
-      <CreateMagicItem open={createOpen} onClose={() => setCreateOpen(false)} />
+      <CreateMagicItem
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        onCreate={() => refreshData()}
+        characterUUID={characterUUID}
+      />
     </Box>
   );
 }
