@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { Button, IconButton, Menu, MenuItem } from "@mui/material";
@@ -11,6 +11,7 @@ import userStore from "../../datastore/user";
 
 export default function Titlebar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,26 +51,38 @@ export default function Titlebar() {
           <Box
             sx={{ width: "32em", display: "flex", justifyContent: "center" }}
           >
-            <Button color="inherit" onClick={() => navigate("/")}>
+            <Button
+              color="inherit"
+              disabled={!authenticated || location.pathname === "/"}
+              onClick={() => navigate("/")}
+            >
               Dashboard
             </Button>
 
             <Button
-              disabled
+              disabled={
+                true ||
+                !authenticated ||
+                location.pathname.includes("/tradingpost")
+              }
               color="inherit"
               onClick={() => navigate("/tradingpost")}
             >
               Trading Post
             </Button>
             <Button
-              disabled
+              disabled={
+                true ||
+                !authenticated ||
+                location.pathname.includes("/itemvault")
+              }
               color="inherit"
               onClick={() => navigate("/itemvault")}
             >
               Item Vault
             </Button>
             <Button
-              disabled={!dmID}
+              disabled={!dmID || location.pathname.includes("/dungeonmaster")}
               color="inherit"
               onClick={() => navigate(`/dungeonmaster/${dmID}`)}
             >
