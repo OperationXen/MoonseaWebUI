@@ -6,6 +6,7 @@ import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
+import ProfileWidget from "../user/ProfileWidget";
 import AuthButton from "../user/AuthButton";
 import userStore from "../../datastore/user";
 
@@ -90,7 +91,7 @@ export default function Titlebar() {
             </Button>
           </Box>
           <Box sx={{ width: "6em", display: "flex", justifyContent: "center" }}>
-            <AuthButton />
+            {(authenticated && <ProfileWidget />) || <AuthButton />}
           </Box>
         </Toolbar>
       </AppBar>

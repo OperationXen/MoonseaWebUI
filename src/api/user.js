@@ -22,6 +22,20 @@ export function getUserDetails() {
   });
 }
 
+export function updateDiscordID(discordID) {
+  let url = "/auth/user_details";
+  let data = { discord_id: discordID };
+
+  return api.patch(url, data);
+}
+
+export function updatePassword(oldPass, newPass1, newPass2) {
+  let url = "/auth/change_password";
+  let data = { oldPass: oldPass, newPass1: newPass1, newPass2: newPass2 };
+
+  return api.post(url, data);
+}
+
 // Logs the user in and updates the user information store
 export async function doLogin(username, password) {
   let url = "/auth/login";
