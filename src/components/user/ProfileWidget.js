@@ -3,10 +3,13 @@ import { useState } from "react";
 import { Avatar, Menu, MenuItem } from "@mui/material";
 import { blue } from "@mui/material/colors";
 
+import { doLogout } from "../../api/user";
 import userStore from "../../datastore/user";
+import ProfileWindow from "./ProfileWindow";
 
 export default function ProfileWidget() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const menuOpen = Boolean(anchorEl);
   const { username } = userStore.getState();
 
@@ -16,6 +19,9 @@ export default function ProfileWidget() {
   const handleMenuClose = (event) => {
     setAnchorEl(null);
     event.stopPropagation();
+  };
+  const logout = () => {
+    doLogout();
   };
 
   return (
@@ -35,9 +41,12 @@ export default function ProfileWidget() {
         open={menuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem>Profile Management</MenuItem>
-        <MenuItem>Log Out</MenuItem>
+        <MenuItem onClick={() => setProfileOpen(true)}>
+          Profile Management
+        </MenuItem>
+        <MenuItem onClick={logout}>Log Out</MenuItem>
       </Menu>
+      <ProfileWindow open={profileOpen} onClose={() => setProfileOpen(false)} />
     </Avatar>
   );
 }
