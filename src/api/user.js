@@ -80,5 +80,11 @@ export async function doLogout() {
 export async function requestPasswordReset(email) {
   let url = "/auth/requestpasswordreset";
 
-  return api.post(url);
+  return api.post(url, { email: email });
+}
+
+export async function doPasswordReset(token, password) {
+  let url = "/auth/passwordreset";
+
+  return api.post(url, { token: token, password: password });
 }

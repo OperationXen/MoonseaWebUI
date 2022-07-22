@@ -11,6 +11,7 @@ import DataManager from "./datamanager/DataManager";
 
 import RegistrationWindow from "./components/user/RegistrationWindow";
 import ForgotPassword from "./components/user/ForgotPassword";
+import PasswordReset from "./components/user/PasswordReset";
 import LoginWindow from "./components/user/LoginWindow";
 
 import userStore from "./datastore/user";
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/login" element={<LoginWindow />} />
             <Route path="/register" element={<RegistrationWindow />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/passwordreset/:token" element={<PasswordReset />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </React.Fragment>
         )) || (
