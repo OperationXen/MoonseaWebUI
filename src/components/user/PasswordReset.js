@@ -11,7 +11,7 @@ import { validatePassword } from "../../utils/user";
 
 export default function PasswordReset() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
   const { userID, token } = useParams();
 
   const [highlight, setHighlight] = useState(false);
@@ -20,7 +20,10 @@ export default function PasswordReset() {
 
   const handleSubmit = () => {
     doPasswordReset(userID, token, password1)
-      .then(() => navigate("/"))
+      .then(() => {
+        displayMessage("Password updated", "success");
+        navigate("/");
+      })
       .catch((error) => {
         displayMessage("Unable to reset password", "error");
       });
