@@ -76,3 +76,15 @@ export async function doLogout() {
     clearUserData();
   });
 }
+
+export async function requestPasswordReset(email) {
+  let url = "/auth/forgot_password";
+
+  return api.post(url, { email: email });
+}
+
+export async function doPasswordReset(userID, token, password) {
+  let url = "/auth/password_reset";
+
+  return api.post(url, { user_id: userID, token: token, password: password });
+}

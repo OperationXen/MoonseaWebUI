@@ -1,0 +1,95 @@
+import { useState } from "react";
+import { useNavigate, useParams, Navigate } from "react-router-dom";
+
+import { Container, Paper, Typography, Divider } from "@mui/material";
+import { Box, Stack, Button, TextField } from "@mui/material";
+
+import useSnackbar from "../../datastore/snackbar";
+
+import { doPasswordReset } from "../../api/user";
+import { validatePassword } from "../../utils/user";
+
+export default function PasswordReset() {
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const navigate = useNavigate();
+  const { userID, token } = useParams();
+
+  const [highlight, setHighlight] = useState(false);
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  const handleSubmit = () => {
+    doPasswordReset(userID, token, password1)
+      .then(() => {
+        displayMessage("Password updated", "success");
+        navigate("/");
+      })
+      .catch((error) => {
+        displayMessage("Unable to reset password", "error");
+      });
+  };
+
+  const keyPressHandler = (e) => {
+    if (e.key === "Enter" && password1 === password2 && validatePassword())
+      handleSubmit();
+  };
+
+  if (!userID.match(/\d+/) || !token.match(/[0-9a-f-]{30,42}/)) {
+    return <Navigate to="/" />;
+  }
+
+  return (
+    <Container sx={{ display: "flex", height: "70%" }}>
+      <Paper
+        elevation={12}
+        sx={{
+          alignSelf: "center",
+          width: "25em",
+          margin: "auto",
+          display: "flex",
+          padding: "0.8em 2em",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        onKeyDown={keyPressHandler}
+      >
+        <Typography variant="h4">Set a new password</Typography>
+        <Divider sx={{ width: "100%", marginBottom: "0.4em" }} />
+        <Stack spacing={1} width="100%" sx={{ alignItems: "center" }}>
+          <TextField
+            fullWidth
+            type="password"
+            value={password1}
+            onChange={(e) => setPassword1(e.target.value)}
+            label="New password"
+            error={highlight && !validatePassword(password1)}
+            placeholder="Password must be at least 8 characters"
+          />
+          <TextField
+            fullWidth
+            type="password"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            label="Confirm new password"
+            error={highlight && password1 !== password2}
+            placeholder="Reenter the same password"
+          />
+          <Box
+            sx={{ width: "60%" }}
+            onMouseOver={() => setHighlight(true)}
+            onMouseOut={() => setHighlight(false)}
+          >
+            <Button
+              fullWidth
+              variant="contained"
+              disabled={password1 !== password2 || !validatePassword(password1)}
+              onClick={handleSubmit}
+            >
+              Change Password
+            </Button>
+          </Box>
+        </Stack>
+      </Paper>
+    </Container>
+  );
+}
