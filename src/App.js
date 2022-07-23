@@ -28,7 +28,10 @@ export default function App() {
             <Route path="/login" element={<LoginWindow />} />
             <Route path="/register" element={<RegistrationWindow />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/passwordreset/:token" element={<PasswordReset />} />
+            <Route
+              path="/passwordreset/:userID/:token"
+              element={<PasswordReset />}
+            />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </React.Fragment>
         )) || (

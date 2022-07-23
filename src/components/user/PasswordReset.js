@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Navigate } from "react-router-dom";
 
 import { Container, Paper, Typography, Divider } from "@mui/material";
 import { Box, Stack, Button, TextField } from "@mui/material";
@@ -12,14 +12,14 @@ import { validatePassword } from "../../utils/user";
 export default function PasswordReset() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { navigate } = useNavigate();
-  const { token } = useParams();
+  const { userID, token } = useParams();
 
   const [highlight, setHighlight] = useState(false);
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
   const handleSubmit = () => {
-    doPasswordReset(token, password1)
+    doPasswordReset(userID, token, password1)
       .then(() => navigate("/"))
       .catch((error) => {
         displayMessage("Unable to reset password", "error");
@@ -30,6 +30,10 @@ export default function PasswordReset() {
     if (e.key === "Enter" && password1 === password2 && validatePassword())
       handleSubmit();
   };
+
+  if (!userID.match(/\d+/) || !token.match(/[0-9a-f-]{30,42}/)) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Container sx={{ display: "flex", height: "70%" }}>

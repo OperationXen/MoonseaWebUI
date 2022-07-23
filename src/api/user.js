@@ -78,13 +78,13 @@ export async function doLogout() {
 }
 
 export async function requestPasswordReset(email) {
-  let url = "/auth/requestpasswordreset";
+  let url = "/auth/forgot_password";
 
   return api.post(url, { email: email });
 }
 
-export async function doPasswordReset(token, password) {
-  let url = "/auth/passwordreset";
+export async function doPasswordReset(userID, token, password) {
+  let url = "/auth/password_reset";
 
-  return api.post(url, { token: token, password: password });
+  return api.post(url, { user_id: userID, token: token, password: password });
 }
