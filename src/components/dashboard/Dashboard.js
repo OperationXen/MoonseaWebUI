@@ -25,12 +25,13 @@ export default function Dashboard() {
     <React.Fragment>
       <Box
         sx={{
-          margin: "1em",
+          margin: "0.8em",
           display: "flex",
           flexFlow: "row wrap",
           justifyContent: "space-evenly",
           alignItems: "center",
           flexGrow: 1,
+          gap: "0.8em",
         }}
       >
         {characters.map((character) => (
