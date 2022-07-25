@@ -7,6 +7,8 @@ import { Tooltip, Avatar, Divider } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
+import defaultToken from "../../media/images/placegoblin-token.png";
+
 import useSnackbar from "../../datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "../items/ItemSummaryWidget";
@@ -31,7 +33,7 @@ export default function CharacterSummaryCard(props) {
   };
   const getTokenURL = () => {
     if (character.token) return character.token;
-    return "/moonseacodex/images/placegoblin-token.jpg";
+    return defaultToken;
   };
 
   const getTier = () => {

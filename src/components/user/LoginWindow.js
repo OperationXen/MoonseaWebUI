@@ -18,7 +18,10 @@ export default function LoginWindow() {
       .then(() => navigate("/"))
       .catch((error) => {
         if (error.response.status === 401) {
-          displayMessage("Wrong username or password", "error");
+          displayMessage(
+            "Wrong username or password - have you activated your account?",
+            "error"
+          );
         } else displayMessage("Server error", "error");
       });
   };

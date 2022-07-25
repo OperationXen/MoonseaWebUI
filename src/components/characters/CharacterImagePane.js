@@ -3,6 +3,9 @@ import { useFilePicker } from "use-file-picker";
 
 import { Box, Button } from "@mui/material";
 
+import defaultArtwork from "../../media/images/placegoblin.jpg";
+import defaultToken from "../../media/images/placegoblin-token.png";
+
 import useCharacterStore from "../../datastore/character";
 import { uploadCharacterImage } from "../../api/character";
 import useSnackbar from "../../datastore/snackbar";
@@ -22,11 +25,11 @@ export default function CharacterImagePane() {
 
   const getArtworkURL = () => {
     if (artwork) return `${artwork}`;
-    else return "/images/placegoblin.jpg";
+    else return defaultArtwork;
   };
   const getTokenURL = () => {
     if (token) return `${token}`;
-    else return "/images/placegoblin.jpg";
+    else return defaultToken;
   };
 
   const handleImageChange = () => {
