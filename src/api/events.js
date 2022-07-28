@@ -10,11 +10,17 @@ export function createDMReward(data) {
   return api.post("/api/dm_reward/", data);
 }
 
+export function deleteDMReward(uuid) {
+  let url = `/api/dm_reward/${uuid}/`;
+
+  return api.delete(url);
+}
+
 export function getDMEvents(dmUUID) {
   return api.get(`/api/dm_events/${dmUUID}`);
 }
 
-export function deleteDMEvent(uuid) {
+export function deleteDMGame(uuid) {
   let url = `/api/dm_game/${uuid}/`;
 
   return api.delete(url);

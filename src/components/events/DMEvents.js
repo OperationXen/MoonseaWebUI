@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import useSnackbar from "../../datastore/snackbar";
 import { getDateString } from "../../utils/format";
-import { getDMEvents, deleteDMEvent } from "../../api/events.js";
+import { getDMEvents, deleteDMGame, deleteDMReward } from "../../api/events.js";
 import CreateDMGame from "./CreateDMGame.js";
 
 export default function DMEvents(props) {
@@ -35,17 +35,27 @@ export default function DMEvents(props) {
     onChange();
   };
 
-  const deleteGame = (uuid) => {
-    deleteDMEvent(uuid).then(() => {
-      displayMessage("Removed event", "info");
-      onChange();
-      refreshDMEvents();
-    });
+  const deleteItem = (type, uuid) => {
+    if (type === "game") {
+      deleteDMGame(uuid).then(() => {
+        displayMessage("Removed DMed game", "info");
+        onChange();
+        refreshDMEvents();
+      });
+    } else if (type === "reward") {
+      deleteDMReward(uuid).then(() => {
+        displayMessage("Removed service reward", "info");
+        onChange();
+        refreshDMEvents();
+      });
+    }
   };
 
   const rowActions = (params) => {
     return (
-      <IconButton onClick={() => deleteGame(params.row.uuid)}>
+      <IconButton
+        onClick={() => deleteItem(params.row.event_type, params.row.uuid)}
+      >
         <DeleteIcon />
       </IconButton>
     );
