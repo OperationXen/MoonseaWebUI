@@ -32,6 +32,7 @@ export default function Dashboard() {
           alignItems: "center",
           flexGrow: 1,
           gap: "0.8em",
+          paddingBottom: "1.4em",
         }}
       >
         {characters.map((character) => (
@@ -45,7 +46,7 @@ export default function Dashboard() {
       <Fab
         color="primary"
         onClick={() => setCreateOpen(true)}
-        sx={{ position: "absolute", right: "2em", bottom: "2em" }}
+        sx={{ position: "fixed", right: "2em", bottom: "2em" }}
       >
         <AddIcon />
       </Fab>

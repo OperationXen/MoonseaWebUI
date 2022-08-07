@@ -19,7 +19,7 @@ export default function Titlebar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ width: "100vw" }}>
+      <AppBar position="static" sx={{ width: "100%" }}>
         <Toolbar variant="dense" sx={{ display: "flex" }}>
           <IconButton
             disabled={!authenticated}
