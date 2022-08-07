@@ -70,7 +70,7 @@
   {
     "name": "Tier 2 Adventure Reward",
     "gold": 2500,
-    "rewards": ["Any tier 2 adventure item"],
+    "rewards": "Any tier 2 adventure item",
     "rarity": "rare",
     "level": 1,
     "cost": 10

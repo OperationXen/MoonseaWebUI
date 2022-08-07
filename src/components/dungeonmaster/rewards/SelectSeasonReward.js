@@ -5,6 +5,7 @@ import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Divider, Button } from "@mui/material";
 
 import useSnackBar from "../../../datastore/snackbar";
+import usePlayerStore from "../../../datastore/player";
 import { getRarityColour } from "../../../utils/itemUtils";
 import { createDMReward } from "../../../api/events";
 import RewardSelectWidget from "./RewardSelectWidget";
@@ -12,6 +13,7 @@ import RewardSelectWidget from "./RewardSelectWidget";
 export default function SelectSeasonReward(props) {
   const { data, open, onClose, onChange } = props;
   const displayMessage = useSnackBar((s) => s.displayMessage);
+  const characters = usePlayerStore((s) => s.characters);
 
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
@@ -88,9 +90,9 @@ export default function SelectSeasonReward(props) {
                 <MenuItem value={0} divider>
                   None - skip level up
                 </MenuItem>
-                <MenuItem value={1}>Meepo</MenuItem>
-                <MenuItem value={2}>Meza'aki</MenuItem>
-                <MenuItem value={3}>Meeka</MenuItem>
+                {characters.map((char) => (
+                  <MenuItem value={char.uuid}>{char.name}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <Box
@@ -126,9 +128,9 @@ export default function SelectSeasonReward(props) {
             <MenuItem value={0} divider disabled>
               None - skip item rewards
             </MenuItem>
-            <MenuItem value={1}>Meepo</MenuItem>
-            <MenuItem value={2}>Meza'aki</MenuItem>
-            <MenuItem value={3}>Meeka</MenuItem>
+            {characters.map((char) => (
+              <MenuItem value={char.uuid}>{char.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
         <RewardSelectWidget
