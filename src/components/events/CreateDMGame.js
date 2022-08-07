@@ -23,6 +23,7 @@ export default function CreateDMGame(props) {
   const { open, onClose, onAdd } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const [highlight, setHighlight] = useState(false);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [hours, setHours] = useState(4);
@@ -36,6 +37,16 @@ export default function CreateDMGame(props) {
   const [location, setLocation] = useState("");
   const [datetime, setDatetime] = useState(null);
   const [notes, setNotes] = useState("");
+
+  const clearValues = () => {
+    setCode("");
+    setName("");
+    setItem("");
+    setBreakdown("");
+    setLocation("");
+    setNotes("");
+    setDatetime(null);
+  };
 
   const handleSubmit = () => {
     createDMGame(
@@ -51,6 +62,7 @@ export default function CreateDMGame(props) {
       notes
     )
       .then((response) => {
+        clearValues();
         displayMessage("Game added successfully", "success");
         onAdd();
         onClose();
@@ -87,12 +99,14 @@ export default function CreateDMGame(props) {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             required
+            error={highlight && code === ""}
           />
           <TextField
             label="Module Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            error={highlight && name === ""}
           />
         </Box>
         <Divider sx={{ width: "95%", margin: "0.4em" }}>Service Hours</Divider>
@@ -134,7 +148,7 @@ export default function CreateDMGame(props) {
               control={
                 <Checkbox
                   checked={levelup}
-                  onChange={(e) => setLevelup(e.target.value)}
+                  onChange={(e) => setLevelup(e.target.checked)}
                 />
               }
               label="Levelup"
@@ -174,14 +188,20 @@ export default function CreateDMGame(props) {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         ></TextField>
-        <Button
-          variant="contained"
-          sx={{ width: "60%", marginTop: "0.6em" }}
-          onClick={handleSubmit}
-          disabled={!code || !name}
+        <Box
+          width="60%"
+          onMouseOver={() => setHighlight(true)}
+          onMouseOut={() => setHighlight(false)}
         >
-          Add Game
-        </Button>
+          <Button
+            variant="contained"
+            sx={{ width: "100%", marginTop: "0.6em" }}
+            onClick={handleSubmit}
+            disabled={!code || !name}
+          >
+            Add Game
+          </Button>
+        </Box>
       </Dialog>
     </LocalizationProvider>
   );
