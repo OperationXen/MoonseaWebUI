@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Paper, Tabs, Tab } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 
-import MagicItemList from "./MagicItemList";
+import WindowMagicItems from "./WindowMagicItems";
+import WindowCommonItems from "./WindowCommonItems";
+import WindowConsumableItems from "./WindowConsumableItems";
 
 export default function ItemPane(props) {
   const { itemData } = props;
@@ -32,17 +34,19 @@ export default function ItemPane(props) {
           }}
         >
           <Tab label="Magic Items" value={"magicitems"} />
+          <Tab label="Common Items" value={"commonitems"} />
           <Tab label="Consumables" value={"consumables"} />
-          <Tab label="Common" value={"commonitems"} />
         </Tabs>
-        <TabPanel
-          value={"magicitems"}
-          sx={{ display: "flex", flexGrow: 1, padding: 0 }}
-        >
-          <MagicItemList magicItems={itemData} />
+
+        <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
+          <WindowMagicItems magicItems={itemData} />
         </TabPanel>
-        <TabPanel value={"consumables"}>Consumables</TabPanel>
-        <TabPanel value={"commonitems"}>Common items</TabPanel>
+        <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
+          <WindowConsumableItems />
+        </TabPanel>
+        <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
+          <WindowCommonItems />
+        </TabPanel>
       </TabContext>
     </Paper>
   );

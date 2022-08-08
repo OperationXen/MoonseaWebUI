@@ -54,6 +54,7 @@ export default function ItemWidget(props) {
         alignItems: "center",
         boxShadow: "2px 1px 4px #424242",
         maxWidth: "22em",
+        flexGrow: 1,
       }}
       onClick={handleClick}
       onMouseOver={() => setShowControls(true)}
