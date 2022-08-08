@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 import { Box, Button } from "@mui/material";
-
 import AddIcon from "@mui/icons-material/Add";
 
 import useCharacterStore from "../../datastore/character";
 import CreateMagicItem from "./CreateMagicItem";
+import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 import ItemWidget from "./ItemWidget";
 
-export default function MagicItemList(props) {
+export default function WindowMagicItems(props) {
   const { magicItems } = props;
   const [characterUUID, refreshData] = useCharacterStore((s) => [
     s.uuid,
@@ -22,13 +22,22 @@ export default function MagicItemList(props) {
         display: "flex",
         flexDirection: "column",
         position: "relative",
+        height: "100%",
         width: "100%",
       }}
     >
-      {magicItems &&
-        magicItems.map((item) => {
-          return <ItemWidget data={item} key={item.id} />;
-        })}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row wrap",
+        }}
+      >
+        {(magicItems &&
+          magicItems.length &&
+          magicItems.map((item) => {
+            return <ItemWidget data={item} key={item.id} />;
+          })) || <EmptyWindowWidget message="No magic items" />}
+      </Box>
       <Box
         sx={{
           marginTop: "auto",
@@ -47,7 +56,7 @@ export default function MagicItemList(props) {
           }}
           variant="outlined"
         >
-          Add Item
+          Add Magic Item
         </Button>
       </Box>
       <CreateMagicItem
