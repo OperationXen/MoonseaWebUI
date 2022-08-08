@@ -33,7 +33,7 @@ export default function WindowCommonItems() {
           paddingRight: "0.4em",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="outlined">
+        <Button startIcon={<AddIcon />} variant="outlined" disabled>
           Add Common Item
         </Button>
       </Box>
