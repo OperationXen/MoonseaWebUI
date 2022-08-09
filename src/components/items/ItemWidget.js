@@ -69,9 +69,14 @@ export default function ItemWidget(props) {
             />
           </Tooltip>
         </Grid>
-        <Grid item xs={8}>
-          <Typography fontWeight="550">{name}</Typography>
-        </Grid>
+        <Tooltip
+          title={equipped ? "Click to unequip item" : "Click to equip"}
+          placement="bottom"
+        >
+          <Grid item xs={8}>
+            <Typography fontWeight="550">{name}</Typography>
+          </Grid>
+        </Tooltip>
         <Grid item xs={3} sx={{ textAlign: "right" }}>
           {showControls && (
             <React.Fragment>
