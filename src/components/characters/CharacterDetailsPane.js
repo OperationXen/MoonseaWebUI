@@ -105,11 +105,16 @@ export default function CharacterDetailsPane() {
             </Link>
           </Grid>
           <Grid item xs={4}>
-            <Tooltip title="Current level">
-              <Typography variant="h5" align="right">
-                {charData.level}
-              </Typography>
-            </Tooltip>
+            <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+              <Tooltip title={charData.race === "Kobold" ? "Yip yip" : "Race"}>
+                <Typography variant="h5" sx={{ color: "#424242" }}>
+                  {charData.race}
+                </Typography>
+              </Tooltip>
+              <Tooltip title="Character level">
+                <Typography variant="h5">{charData.level}</Typography>
+              </Tooltip>
+            </Box>
           </Grid>
         </Grid>
         <Box

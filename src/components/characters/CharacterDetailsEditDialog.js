@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Dialog, Divider, Typography, TextField, Button } from "@mui/material";
+import { Dialog, Typography, TextField } from "@mui/material";
+import { Box, Button, Divider } from "@mui/material";
 
 import { updateCharacter } from "../../api/character";
 import useCharacterStore from "../../datastore/character";
@@ -9,13 +10,20 @@ export default function CharacterDetailsEditDialog(props) {
   const { open, onClose } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const uuid = useCharacterStore((s) => s.uuid);
+  const [highlight, setHighlight] = useState(false);
+
   const [name, setName] = useCharacterStore((s) => [s.name, s.setName]);
+  const [race, setRace] = useCharacterStore((s) => [s.race, s.setRace]);
   const [sheet, setSheet] = useCharacterStore((s) => [s.sheet, s.setSheet]);
   const [changed, setChanged] = useState(false);
 
   const handleClose = () => {
+    if (!name || !race) {
+      displayMessage("Your character must have a name and a race", "info");
+      return;
+    }
     if (changed)
-      updateCharacter(uuid, { name: name, sheet: sheet })
+      updateCharacter(uuid, { name: name, race: race, sheet: sheet })
         .then(() => {
           displayMessage("Updated character details", "success");
         })
@@ -44,9 +52,9 @@ export default function CharacterDetailsEditDialog(props) {
       }}
     >
       <Typography variant="h4" sx={{ alignSelf: "flex-start" }}>
-        Edit character details
+        Edit character
       </Typography>
-      <Divider sx={{ width: "95%" }} />
+      <Divider sx={{ width: "95%" }}>Details</Divider>
       <TextField
         fullWidth
         label="Character name"
@@ -55,7 +63,20 @@ export default function CharacterDetailsEditDialog(props) {
           setChanged(true);
           setName(e.target.value);
         }}
+        error={highlight && !name}
       />
+      <TextField
+        fullWidth
+        label="Race"
+        value={race}
+        onChange={(e) => {
+          setChanged(true);
+          setRace(e.target.value);
+        }}
+        placeholder="Kobold"
+        error={highlight && !race}
+      />
+      <Divider sx={{ width: "95%" }}>External Links</Divider>
       <TextField
         fullWidth
         label="Link to character sheet"
@@ -65,14 +86,20 @@ export default function CharacterDetailsEditDialog(props) {
           setSheet(e.target.value);
         }}
       />
-      <Button
-        variant="contained"
+      <Box
         sx={{ width: "60%" }}
-        disabled={!changed}
-        onClick={handleClose}
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
       >
-        Save changes
-      </Button>
+        <Button
+          variant="contained"
+          disabled={!changed || !race || !name}
+          onClick={handleClose}
+          fullWidth
+        >
+          Save changes
+        </Button>
+      </Box>
     </Dialog>
   );
 }
