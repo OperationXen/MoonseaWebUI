@@ -93,26 +93,33 @@ export default function CharacterDetailsPane() {
       >
         <Grid container height="2.2em">
           <Grid item xs={8}>
-            <Link
-              href={charData.sheet}
-              target="_blank"
-              rel="noopener"
-              variant="h5"
-              underline="hover"
-              color="inherit"
-            >
-              {charData.name}
-            </Link>
+            <Tooltip title="Open character sheet in a new window">
+              <Link
+                href={charData.sheet}
+                target="_blank"
+                rel="noopener"
+                variant="h5"
+                underline="hover"
+                color="inherit"
+              >
+                {charData.name}
+              </Link>
+            </Tooltip>
           </Grid>
           <Grid item xs={4}>
             <Box sx={{ display: "flex", justifyContent: "space-around" }}>
               <Tooltip title={charData.race === "Kobold" ? "Yip yip" : "Race"}>
-                <Typography variant="h5" sx={{ color: "#424242" }}>
+                <Typography
+                  variant="h5"
+                  sx={{ color: "#424242", cursor: "pointer" }}
+                >
                   {charData.race}
                 </Typography>
               </Tooltip>
               <Tooltip title="Character level">
-                <Typography variant="h5">{charData.level}</Typography>
+                <Typography variant="h5" sx={{ cursor: "pointer" }}>
+                  {charData.level}
+                </Typography>
               </Tooltip>
             </Box>
           </Grid>
