@@ -5,11 +5,12 @@ import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import classes from "../../../config/classes.json";
 
 export default function ClassLevelPickerWidget(props) {
-  const { update, deletable, onDelete, data } = props;
+  const { update, deletable, onDelete, data, highlight } = props;
 
   const getValidSubclasses = useCallback((className) => {
     if (!className) return [];
@@ -42,6 +43,7 @@ export default function ClassLevelPickerWidget(props) {
 
   const handleDecrement = () => {
     if (data.value > 1) setValue(data.value - 1);
+    else onDelete();
   };
   const handleIncrement = () => {
     if (data.value < 20) setValue(data.value + 1);
@@ -57,6 +59,7 @@ export default function ClassLevelPickerWidget(props) {
             sx={{ minWidth: "12em" }}
             value={data.name}
             onChange={handleClassChange}
+            error={highlight && !data.name}
           >
             {classes.map((item, index) => {
               return (
@@ -94,9 +97,13 @@ export default function ClassLevelPickerWidget(props) {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={2} sx={{ display: "flex", alignItems: "center" }}>
-        <IconButton onClick={handleDecrement} disabled={data.value <= 1}>
-          <RemoveIcon />
+      <Grid
+        item
+        xs={2}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <IconButton onClick={handleDecrement}>
+          {(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}
         </IconButton>
         <Typography>{data.value}</Typography>
         <IconButton onClick={handleIncrement} disabled={data.value >= 20}>

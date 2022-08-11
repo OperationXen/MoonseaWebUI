@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { Typography, Dialog, Divider } from "@mui/material";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Tooltip } from "@mui/material";
 
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
@@ -9,6 +9,7 @@ export default function CharacterLevelEditDialog(props) {
   const { open, onClose, initialClasses, update } = props;
   const [classes, setClasses] = useState(initialClasses);
   const [blankClasses, setBlankClasses] = useState(0);
+  const [highlight, setHighlight] = useState(false);
 
   const calcBlankClasses = useCallback((data) => {
     let blank = data.filter((x) => !x.name).length;
@@ -20,7 +21,12 @@ export default function CharacterLevelEditDialog(props) {
   }, [classes, calcBlankClasses]);
 
   const handleClose = () => {
-    console.log("updating");
+    // If we have invalid classes, prevent save and close
+    if (blankClasses) {
+      setHighlight(true);
+      return;
+    }
+
     console.log(classes);
     update(classes);
     onClose();
@@ -73,19 +79,27 @@ export default function CharacterLevelEditDialog(props) {
             data={existing}
             update={(newVal) => handleUpdate(newVal, index)}
             onDelete={() => handleDelete(index)}
+            highlight={highlight}
           />
         );
       })}
-      <ButtonGroup>
-        <Button
-          variant="outlined"
-          onClick={handleAddClass}
-          disabled={!!blankClasses}
-        >
-          Add new class
-        </Button>
-        <Button onClick={handleClose}>Save changes</Button>
-      </ButtonGroup>
+      <Tooltip
+        title={blankClasses ? "Cannot have blank classes" : ""}
+        placement="bottom"
+      >
+        <ButtonGroup>
+          <Button
+            variant="outlined"
+            onClick={handleAddClass}
+            disabled={!!blankClasses}
+          >
+            Add new class
+          </Button>
+          <Button onClick={handleClose} disabled={blankClasses}>
+            Save changes
+          </Button>
+        </ButtonGroup>
+      </Tooltip>
     </Dialog>
   );
 }
