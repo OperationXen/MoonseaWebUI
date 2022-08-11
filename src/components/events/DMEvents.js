@@ -84,34 +84,43 @@ export default function DMEvents(props) {
   };
 
   const columns = [
-    { field: "type", headerName: "Event", flex: 0.15, valueGetter: rowType },
+    {
+      field: "type",
+      headerName: "Event",
+      flex: 0.15,
+      headerAlign: "left",
+      align: "left",
+      valueGetter: rowType,
+    },
     {
       field: "hours",
       headerName: "Service Hours",
       flex: 0.15,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       valueGetter: rowHours,
     },
     {
       field: "datetime",
       headerName: "Date",
       flex: 0.15,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+
       valueGetter: rowDate,
     },
     {
       field: "details",
       headerName: "Details",
       flex: 0.6,
-      headerAlign: "center",
+      headerAlign: "left",
+      align: "left",
       valueGetter: rowDetails,
     },
     {
       field: "actions",
       headerName: "Actions",
       flex: 0.1,
+      type: "actions",
       align: "right",
       headerAlign: "center",
       renderCell: rowActions,
@@ -121,6 +130,7 @@ export default function DMEvents(props) {
   return (
     <React.Fragment>
       <DataGrid
+        disableColumnMenu
         columns={columns}
         rows={events}
         rowHeight={36}
@@ -131,6 +141,11 @@ export default function DMEvents(props) {
         onPageChange={setPageNum}
         sx={{ border: "1px solid black", borderRadius: "8px" }}
         getRowId={(row) => row.uuid}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "datetime", sort: "desc" }],
+          },
+        }}
         components={{
           Footer: () => (
             <div

@@ -63,23 +63,23 @@ export default function CharacterEvents(props) {
       field: "event_type",
       headerName: "Event Type",
       flex: 0.2,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       valueGetter: rowEventType,
     },
     {
       field: "datetime",
       headerName: "Date",
       flex: 0.15,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: "left",
+      align: "left",
       valueGetter: rowDate,
     },
     {
       field: "details",
       headerName: "Details",
       flex: 0.6,
-      headerAlign: "center",
+      headerAlign: "left",
       align: "left",
       valueGetter: rowDetails,
     },
@@ -89,6 +89,7 @@ export default function CharacterEvents(props) {
       flex: 0.1,
       align: "right",
       headerAlign: "center",
+      type: "actions",
       renderCell: rowActions,
     },
   ];
@@ -96,6 +97,7 @@ export default function CharacterEvents(props) {
   return (
     <React.Fragment>
       <DataGrid
+        disableColumnMenu
         getRowId={(r) => r.uuid}
         columns={columns}
         rows={events}
@@ -105,6 +107,11 @@ export default function CharacterEvents(props) {
           border: "1px solid black",
           borderRadius: "8px",
           boxShadow: "1px 1px 5px 1px grey",
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "datetime", sort: "desc" }],
+          },
         }}
         components={{
           Footer: () => (
