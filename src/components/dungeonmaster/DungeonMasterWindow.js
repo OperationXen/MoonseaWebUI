@@ -20,7 +20,7 @@ export default function DungeonMasterWindow() {
   const [dmUUID] = userStore((s) => [s.dmUUID]);
   const { uuid } = useParams();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
