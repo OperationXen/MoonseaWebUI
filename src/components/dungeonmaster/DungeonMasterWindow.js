@@ -20,21 +20,21 @@ export default function DungeonMasterWindow() {
   const [dmUUID] = userStore((s) => [s.dmUUID]);
   const { uuid } = useParams();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
 
   const refreshDMData = useCallback(() => {
-    getDMLogData(dmUUID)
+    getDMLogData(uuid)
       .then((response) => {
         setServiceHours(response.data.hours);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [dmUUID]);
+  }, [uuid]);
 
   useEffect(() => {
     setAllowUpdates(uuid === dmUUID);
