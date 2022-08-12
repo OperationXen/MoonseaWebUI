@@ -30,7 +30,7 @@ export default function SeasonRewards(props) {
           return (
             <SeasonRewardWidget
               {...reward}
-              locked={reward.cost > hours}
+              locked={!allowUpdates || reward.cost > hours}
               key={index}
               onSelect={() => handleSelect(reward)}
             />

@@ -27,14 +27,14 @@ export default function DungeonMasterWindow() {
   const [hoursChanged, setHoursChanged] = useState(false);
 
   const refreshDMData = useCallback(() => {
-    getDMLogData(dmUUID)
+    getDMLogData(uuid)
       .then((response) => {
         setServiceHours(response.data.hours);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [dmUUID]);
+  }, [uuid]);
 
   useEffect(() => {
     setAllowUpdates(uuid === dmUUID);

@@ -12,7 +12,7 @@ import { getDMEvents, deleteDMGame, deleteDMReward } from "../../api/events.js";
 import CreateDMGame from "./CreateDMGame.js";
 
 export default function DMEvents(props) {
-  const { dmUUID, onChange } = props;
+  const { dmUUID, onChange, allowUpdates } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -54,6 +54,7 @@ export default function DMEvents(props) {
   const rowActions = (params) => {
     return (
       <IconButton
+        disabled={!allowUpdates}
         onClick={() => deleteItem(params.row.event_type, params.row.uuid)}
       >
         <DeleteIcon />
@@ -157,7 +158,7 @@ export default function DMEvents(props) {
             >
               <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
                 <Button
-                  disabled={!props.allowUpdates}
+                  disabled={!allowUpdates}
                   variant="outlined"
                   startIcon={<AddIcon />}
                   onClick={() => setCreateOpen(true)}
