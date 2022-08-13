@@ -19,7 +19,7 @@ const row = {
   alignItems: "center",
 };
 
-export default function CreateDMGame(props) {
+export default function CreateEditDMGame(props) {
   const { open, onClose, onAdd } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
