@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
@@ -20,10 +20,11 @@ const row = {
 };
 
 export default function CreateEditDMGame(props) {
-  const { open, onClose, onAdd } = props;
+  const { open, onClose, onAdd, data } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [highlight, setHighlight] = useState(false);
+
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [hours, setHours] = useState(4);
@@ -38,6 +39,9 @@ export default function CreateEditDMGame(props) {
   const [datetime, setDatetime] = useState(null);
   const [notes, setNotes] = useState("");
 
+  const editMode = !!data.uuid;
+
+  // Helper function to clear out all game state
   const clearValues = () => {
     setCode("");
     setName("");
@@ -47,6 +51,20 @@ export default function CreateEditDMGame(props) {
     setNotes("");
     setDatetime(null);
   };
+
+  // Set initial state value to whatever is passed in as props if component is being used in edit mode
+  useEffect(() => {
+    setCode(data.module);
+    setName(data.name);
+    setHours(data.hours);
+    setBreakdown(data.hours_notes);
+    setLocation(data.location);
+    setNotes(data.notes);
+    setDatetime(data.datetime);
+    setDowntime(data.downtime);
+    setGold(data.gold);
+    setLevelup(!!data.levels);
+  }, [data]);
 
   const handleSubmit = () => {
     createDMGame(
@@ -91,7 +109,9 @@ export default function CreateEditDMGame(props) {
           },
         }}
       >
-        <Typography variant="h3">Add New Game</Typography>
+        <Typography variant="h3">
+          {editMode ? "Edit existing game" : "Add New Game"}
+        </Typography>
         <Divider sx={{ width: "95%", margin: "0.4em" }}>Module Info</Divider>
         <Box sx={{ ...row, width: "100%" }}>
           <TextField
