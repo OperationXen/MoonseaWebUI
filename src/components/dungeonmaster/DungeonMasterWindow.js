@@ -58,29 +58,32 @@ export default function DungeonMasterWindow() {
   return (
     <React.Fragment>
       <LoadingOverlay show={loading} />
-      <Box
+      <Grid
+        container
         sx={{
           display: "flex",
           padding: "0.5em",
-          height: "calc(100% - 4em)",
           position: "relative",
           justifyContent: "space-around",
         }}
       >
-        <Box
+        <Grid
+          item
+          xs={12}
+          lg={3.95}
           sx={{
             border: "1px solid black",
             borderRadius: "8px",
             display: "flex",
-            flexGrow: 0.3,
             flexDirection: "column",
             alignItems: "center",
             overflow: "hidden",
+            maxHeight: "calc(100vh - 4.5em)",
+            marginBottom: "0.4em",
           }}
         >
           <Grid
             container
-            sx={{ width: "100%" }}
             onMouseOver={() => setShowControls(allowUpdates)}
             onMouseOut={() => setShowControls(false)}
           >
@@ -148,9 +151,14 @@ export default function DungeonMasterWindow() {
               setRefreshEvents(true);
             }}
           />
-        </Box>
+        </Grid>
 
-        <Box sx={{ flexGrow: 0.68 }}>
+        <Grid
+          item
+          xs={12}
+          lg={8}
+          sx={{ height: "calc(100vh - 4.5em)", marginBottom: "0.4em" }}
+        >
           <DMEvents
             allowUpdates={allowUpdates}
             dmUUID={uuid}
@@ -158,8 +166,8 @@ export default function DungeonMasterWindow() {
             doRefresh={refreshEvents}
             setDoRefresh={setRefreshEvents}
           />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }
