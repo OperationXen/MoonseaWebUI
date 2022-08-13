@@ -25,6 +25,7 @@ export default function DungeonMasterWindow() {
   const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
+  const [refreshEvents, setRefreshEvents] = useState(false);
 
   const refreshDMData = useCallback(() => {
     getDMLogData(uuid)
@@ -142,7 +143,10 @@ export default function DungeonMasterWindow() {
             allowUpdates={allowUpdates}
             dmUUID={uuid}
             hours={serviceHours}
-            onChange={refreshDMData}
+            onChange={() => {
+              refreshDMData();
+              setRefreshEvents(true);
+            }}
           />
         </Box>
 
@@ -151,6 +155,8 @@ export default function DungeonMasterWindow() {
             allowUpdates={allowUpdates}
             dmUUID={uuid}
             onChange={refreshDMData}
+            doRefresh={refreshEvents}
+            setDoRefresh={setRefreshEvents}
           />
         </Box>
       </Box>

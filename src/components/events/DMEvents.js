@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
+import { useState, useCallback, useLayoutEffect, useEffect } from "react";
 
 import { Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
@@ -13,6 +14,7 @@ import CreateDMGame from "./CreateDMGame.js";
 
 export default function DMEvents(props) {
   const { dmUUID, onChange, allowUpdates } = props;
+  const { doRefresh, setDoRefresh } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -26,9 +28,18 @@ export default function DMEvents(props) {
     });
   }, [dmUUID]);
 
-  useEffect(() => {
+  // fetch events on component initial load
+  useLayoutEffect(() => {
     refreshDMEvents();
   }, [refreshDMEvents]);
+
+  // allow parent to trigger a refresh (leaving state here for encapsulation)
+  useEffect(() => {
+    if (doRefresh) {
+      refreshDMEvents();
+      setDoRefresh(false);
+    }
+  }, [doRefresh, refreshDMEvents, setDoRefresh]);
 
   const onGameAdded = () => {
     refreshDMEvents();
@@ -80,7 +91,7 @@ export default function DMEvents(props) {
       return `${data.name} (${data.module})`;
     }
     if (data.event_type === "reward") {
-      return `${data.name} (Meepo)`;
+      return `${data.name}`;
     }
   };
 
