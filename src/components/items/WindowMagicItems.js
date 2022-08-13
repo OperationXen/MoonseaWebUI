@@ -30,6 +30,7 @@ export default function WindowMagicItems(props) {
         sx={{
           display: "flex",
           flexDirection: "row wrap",
+          justifyContent: "space-evenly",
         }}
       >
         {(magicItems &&
