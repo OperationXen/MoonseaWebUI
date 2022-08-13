@@ -29,7 +29,8 @@ export default function WindowMagicItems(props) {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row wrap",
+          flexDirection: "row",
+          flexWrap: "wrap",
           justifyContent: "space-evenly",
         }}
       >
