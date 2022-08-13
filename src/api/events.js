@@ -26,6 +26,7 @@ export function deleteDMGame(uuid) {
   return api.delete(url);
 }
 
+// create new game
 export function createDMGame(
   datetime,
   module,
@@ -53,6 +54,13 @@ export function createDMGame(
   };
 
   return api.post(url, data);
+}
+
+// update existing game
+export function updateDMGame(uuid, data) {
+  let url = `/api/dm_game/${uuid}/`;
+
+  return api.patch(url, data);
 }
 
 export function createPlayerGame(ID, gameData) {

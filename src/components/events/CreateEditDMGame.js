@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import useSnackbar from "../../datastore/snackbar";
-import { createDMGame } from "../../api/events";
+import { createDMGame, updateDMGame } from "../../api/events";
 
 const row = {
   display: "flex",
@@ -73,27 +73,52 @@ export default function CreateEditDMGame(props) {
   }, [data, editMode]);
 
   const handleSubmit = () => {
-    createDMGame(
-      datetime,
-      code,
-      name,
-      gold,
-      downtime,
-      levelup ? 1 : 0,
-      hours,
-      breakdown,
-      location,
-      notes
-    )
-      .then((response) => {
-        clearValues();
-        displayMessage("Game added successfully", "success");
-        onAdd();
-        onClose();
-      })
-      .catch((error) => {
-        displayMessage("Unable to create this game", "error");
-      });
+    let gameData = {
+      datetime: datetime,
+      module: code,
+      name: name,
+      gold: gold,
+      downtime: downtime,
+      levels: levelup ? 1 : 0,
+      hours: hours,
+      hours_notes: breakdown,
+      location: location,
+      notes: notes,
+    };
+
+    if (editMode) {
+      updateDMGame(data.uuid, gameData)
+        .then((r) => {
+          displayMessage("Game updated", "info");
+          onAdd();
+          onClose();
+        })
+        .catch((e) =>
+          displayMessage(e.response.data.message ?? "Unable to update", "error")
+        );
+    } else {
+      createDMGame(
+        datetime,
+        code,
+        name,
+        gold,
+        downtime,
+        levelup ? 1 : 0,
+        hours,
+        breakdown,
+        location,
+        notes
+      )
+        .then((response) => {
+          clearValues();
+          displayMessage("Game added successfully", "success");
+          onAdd();
+          onClose();
+        })
+        .catch((error) => {
+          displayMessage("Unable to create this game", "error");
+        });
+    }
   };
 
   return (
