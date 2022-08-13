@@ -13,7 +13,7 @@ import useCharacterStore from "../../datastore/character";
 import { getRarityColour } from "../../utils/itemUtils";
 
 export default function ItemWidget(props) {
-  const { uuid, name, rarity, equipped } = props.data;
+  const { uuid, name, attunement, rarity, equipped } = props.data;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const refreshData = useCharacterStore((s) => s.requestRefresh);
 
@@ -53,7 +53,7 @@ export default function ItemWidget(props) {
         display: "flex",
         alignItems: "center",
         boxShadow: "2px 1px 4px #424242",
-        maxWidth: "22em",
+        width: "20em",
         flexGrow: 1,
       }}
       onClick={handleClick}
@@ -61,23 +61,48 @@ export default function ItemWidget(props) {
       onMouseOut={() => setShowControls(false)}
     >
       <Grid container sx={{ position: "relative" }}>
-        <Grid item xs={1} textAlign="center">
-          <Tooltip title="Item requires attunement">
-            <BrightnessAutoIcon
-              fontSize="small"
-              sx={{ opacity: equipped ? 0.8 : 0.2 }}
-            />
-          </Tooltip>
+        <Grid
+          item
+          xs={1}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {attunement && (
+            <Tooltip title="Item requires attunement">
+              <BrightnessAutoIcon fontSize="small" sx={{ opacity: 0.8 }} />
+            </Tooltip>
+          )}
         </Grid>
         <Tooltip
           title={equipped ? "Click to unequip item" : "Click to equip"}
           placement="bottom"
         >
-          <Grid item xs={8}>
-            <Typography fontWeight="550">{name}</Typography>
+          <Grid
+            item
+            xs={7}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Typography fontWeight="550" sx={{ cursor: "pointer" }}>
+              {name}
+            </Typography>
           </Grid>
         </Tooltip>
-        <Grid item xs={3} sx={{ textAlign: "right" }}>
+        <Grid
+          item
+          xs={4}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
           {showControls && (
             <React.Fragment>
               <Tooltip
