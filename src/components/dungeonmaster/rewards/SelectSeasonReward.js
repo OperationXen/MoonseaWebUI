@@ -91,7 +91,9 @@ export default function SelectSeasonReward(props) {
                   None - skip level up
                 </MenuItem>
                 {characters.map((char) => (
-                  <MenuItem value={char.uuid}>{char.name}</MenuItem>
+                  <MenuItem value={char.uuid} key={char.uuid}>
+                    {char.name}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -129,7 +131,9 @@ export default function SelectSeasonReward(props) {
               None - skip item rewards
             </MenuItem>
             {characters.map((char) => (
-              <MenuItem value={char.uuid}>{char.name}</MenuItem>
+              <MenuItem value={char.uuid} key={char.uuid}>
+                {char.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
