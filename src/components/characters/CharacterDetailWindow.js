@@ -43,7 +43,6 @@ export default function CharacterDetailWindow(props) {
       sx={{
         minWidth: "45em",
         padding: "0.4em",
-        height: "calc(100% - 4em)",
         minHeight: "50em",
       }}
     >
@@ -58,6 +57,7 @@ export default function CharacterDetailWindow(props) {
           borderRadius: "8px",
           boxShadow: "1px 1px 5px 1px grey",
           overflow: "hidden",
+          marginBottom: "0.4em",
         }}
       >
         <Box sx={{ display: "flex" }}>
@@ -86,7 +86,12 @@ export default function CharacterDetailWindow(props) {
       </Grid>
       <Grid item xs={0.06} />
 
-      <Grid item xs={12} lg={4.97} sx={{ minHeight: "50em" }}>
+      <Grid
+        item
+        xs={12}
+        lg={4.97}
+        sx={{ minHeight: "50em", marginBottom: "0.4em" }}
+      >
         <CharacterEvents
           characterUUID={uuid}
           characterName={charData.name}
