@@ -21,7 +21,9 @@ export default function ItemWidget(props) {
   const colour = getRarityColour(rarity);
 
   const handleClick = () => {
-    updateMagicItem(uuid, { equipped: !equipped });
+    updateMagicItem(uuid, { equipped: !equipped }).then(() => {
+      displayMessage(equipped ? "Item unequipped" : "Item equipped", "info");
+    });
     refreshData();
   };
   const handleDetailClick = (e) => {
@@ -54,7 +56,6 @@ export default function ItemWidget(props) {
         alignItems: "center",
         boxShadow: "2px 1px 4px #424242",
         width: "20em",
-        flexGrow: 1,
       }}
       onClick={handleClick}
       onMouseOver={() => setShowControls(true)}
@@ -106,7 +107,7 @@ export default function ItemWidget(props) {
           {showControls && (
             <React.Fragment>
               <Tooltip
-                title="View item details and history"
+                title="(Not implemented yet) View item details and history"
                 onClick={handleDetailClick}
               >
                 <ArticleIcon fontSize="small" />
@@ -115,7 +116,7 @@ export default function ItemWidget(props) {
                 title={
                   equipped
                     ? "Cannot trade equipped items"
-                    : "Offer item for trade"
+                    : "(Not implemented yet) Offer item for trade"
                 }
                 onClick={handleTradeClick}
               >
