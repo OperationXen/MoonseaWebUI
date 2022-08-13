@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import useSnackbar from "../../datastore/snackbar";
-import { createDMGame } from "../../api/events";
+import { createDMGame, updateDMGame } from "../../api/events";
 
 const row = {
   display: "flex",
@@ -19,11 +19,12 @@ const row = {
   alignItems: "center",
 };
 
-export default function CreateDMGame(props) {
-  const { open, onClose, onAdd } = props;
+export default function CreateEditDMGame(props) {
+  const { open, onClose, onAdd, data } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [highlight, setHighlight] = useState(false);
+
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [hours, setHours] = useState(4);
@@ -38,38 +39,86 @@ export default function CreateDMGame(props) {
   const [datetime, setDatetime] = useState(null);
   const [notes, setNotes] = useState("");
 
+  const editMode = !!data.uuid;
+
+  // Helper function to clear out all game state to a set of defaults
   const clearValues = () => {
     setCode("");
     setName("");
     setItem("");
+    setHours(4);
     setBreakdown("");
     setLocation("");
     setNotes("");
+    setGold(250);
+    setDowntime(10);
+    setLevelup(true);
     setDatetime(null);
   };
 
+  // Set initial state value to whatever is passed in as props if component is being used in edit mode
+  useEffect(() => {
+    if (editMode) {
+      setCode(data.module);
+      setName(data.name);
+      setHours(data.hours);
+      setBreakdown(data.hours_notes);
+      setLocation(data.location);
+      setNotes(data.notes);
+      setDatetime(data.datetime);
+      setDowntime(data.downtime);
+      setGold(data.gold);
+      setLevelup(!!data.levels);
+    } else clearValues();
+  }, [data, editMode]);
+
   const handleSubmit = () => {
-    createDMGame(
-      datetime,
-      code,
-      name,
-      gold,
-      downtime,
-      levelup ? 1 : 0,
-      hours,
-      breakdown,
-      location,
-      notes
-    )
-      .then((response) => {
-        clearValues();
-        displayMessage("Game added successfully", "success");
-        onAdd();
-        onClose();
-      })
-      .catch((error) => {
-        displayMessage("Unable to create this game", "error");
-      });
+    let gameData = {
+      datetime: datetime,
+      module: code,
+      name: name,
+      gold: gold,
+      downtime: downtime,
+      levels: levelup ? 1 : 0,
+      hours: hours,
+      hours_notes: breakdown,
+      location: location,
+      notes: notes,
+    };
+
+    if (editMode) {
+      updateDMGame(data.uuid, gameData)
+        .then((r) => {
+          displayMessage("Game updated", "info");
+          onAdd();
+          onClose();
+        })
+        .catch((e) =>
+          displayMessage(e.response.data.message ?? "Unable to update", "error")
+        );
+    } else {
+      createDMGame(
+        datetime,
+        code,
+        name,
+        gold,
+        downtime,
+        levelup ? 1 : 0,
+        hours,
+        breakdown,
+        location,
+        notes
+      )
+        .then((response) => {
+          clearValues();
+          displayMessage("Game added successfully", "success");
+          onAdd();
+          onClose();
+        })
+        .catch((error) => {
+          displayMessage("Unable to create this game", "error");
+        });
+    }
   };
 
   return (
@@ -91,7 +140,9 @@ export default function CreateDMGame(props) {
           },
         }}
       >
-        <Typography variant="h3">Add New Game</Typography>
+        <Typography variant="h3">
+          {editMode ? "Edit existing game" : "Add New Game"}
+        </Typography>
         <Divider sx={{ width: "95%", margin: "0.4em" }}>Module Info</Divider>
         <Box sx={{ ...row, width: "100%" }}>
           <TextField
@@ -199,7 +250,7 @@ export default function CreateDMGame(props) {
             onClick={handleSubmit}
             disabled={!code || !name}
           >
-            Add Game
+            {editMode ? "Update game" : "Add Game"}
           </Button>
         </Box>
       </Dialog>

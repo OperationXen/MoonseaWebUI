@@ -1,23 +1,26 @@
 import React from "react";
 import { useState, useCallback, useLayoutEffect, useEffect } from "react";
 
-import { Button, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import useSnackbar from "../../datastore/snackbar";
 import { getDateString } from "../../utils/format";
 import { getDMEvents, deleteDMGame, deleteDMReward } from "../../api/events.js";
-import CreateDMGame from "./CreateDMGame.js";
+import CreateEditDMGame from "./CreateEditDMGame.js";
 
 export default function DMEvents(props) {
   const { dmUUID, onChange, allowUpdates } = props;
   const { doRefresh, setDoRefresh } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
-  const [createOpen, setCreateOpen] = useState(false);
+  const [createEditOpen, setCreateEditOpen] = useState(false);
+  const [initialGameData, setInitialGameData] = useState([]);
   const [events, setEvents] = useState([]);
   const [pageSize, setPageSize] = useState(15);
   const [pageNum, setPageNum] = useState(1);
@@ -46,6 +49,13 @@ export default function DMEvents(props) {
     onChange();
   };
 
+  const editItem = (data) => {
+    if (data.event_type === "game") {
+      setInitialGameData(data);
+      setCreateEditOpen(true);
+    }
+  };
+
   const deleteItem = (type, uuid) => {
     if (type === "game") {
       deleteDMGame(uuid).then(() => {
@@ -62,15 +72,19 @@ export default function DMEvents(props) {
     }
   };
 
-  const rowActions = (params) => {
-    return (
-      <IconButton
+  const getRowActions = (params) => {
+    return [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        disabled={!allowUpdates}
+        onClick={() => editItem(params.row)}
+      />,
+      <GridActionsCellItem
+        icon={<DeleteIcon />}
         disabled={!allowUpdates}
         onClick={() => deleteItem(params.row.event_type, params.row.uuid)}
-      >
-        <DeleteIcon />
-      </IconButton>
-    );
+      />,
+    ];
   };
 
   const rowType = (params) => {
@@ -135,7 +149,7 @@ export default function DMEvents(props) {
       type: "actions",
       align: "right",
       headerAlign: "center",
-      renderCell: rowActions,
+      getActions: getRowActions,
     },
   ];
 
@@ -172,7 +186,10 @@ export default function DMEvents(props) {
                   disabled={!allowUpdates}
                   variant="outlined"
                   startIcon={<AddIcon />}
-                  onClick={() => setCreateOpen(true)}
+                  onClick={() => {
+                    setInitialGameData([]);
+                    setCreateEditOpen(true);
+                  }}
                 >
                   Add Game
                 </Button>
@@ -184,9 +201,10 @@ export default function DMEvents(props) {
           ),
         }}
       />
-      <CreateDMGame
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
+      <CreateEditDMGame
+        open={createEditOpen}
+        data={initialGameData}
+        onClose={() => setCreateEditOpen(false)}
         onAdd={onGameAdded}
       />
     </React.Fragment>
