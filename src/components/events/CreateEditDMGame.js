@@ -41,30 +41,36 @@ export default function CreateEditDMGame(props) {
 
   const editMode = !!data.uuid;
 
-  // Helper function to clear out all game state
+  // Helper function to clear out all game state to a set of defaults
   const clearValues = () => {
     setCode("");
     setName("");
     setItem("");
+    setHours(4);
     setBreakdown("");
     setLocation("");
     setNotes("");
+    setGold(250);
+    setDowntime(10);
+    setLevelup(true);
     setDatetime(null);
   };
 
   // Set initial state value to whatever is passed in as props if component is being used in edit mode
   useEffect(() => {
-    setCode(data.module);
-    setName(data.name);
-    setHours(data.hours);
-    setBreakdown(data.hours_notes);
-    setLocation(data.location);
-    setNotes(data.notes);
-    setDatetime(data.datetime);
-    setDowntime(data.downtime);
-    setGold(data.gold);
-    setLevelup(!!data.levels);
-  }, [data]);
+    if (editMode) {
+      setCode(data.module);
+      setName(data.name);
+      setHours(data.hours);
+      setBreakdown(data.hours_notes);
+      setLocation(data.location);
+      setNotes(data.notes);
+      setDatetime(data.datetime);
+      setDowntime(data.downtime);
+      setGold(data.gold);
+      setLevelup(!!data.levels);
+    } else clearValues();
+  }, [data, editMode]);
 
   const handleSubmit = () => {
     createDMGame(
@@ -219,7 +225,7 @@ export default function CreateEditDMGame(props) {
             onClick={handleSubmit}
             disabled={!code || !name}
           >
-            Add Game
+            {editMode ? "Update game" : "Add Game"}
           </Button>
         </Box>
       </Dialog>
