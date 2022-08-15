@@ -5,10 +5,14 @@ export function createMagicItem(characterUUID, itemData) {
   return api.post("/api/magicitem/", data);
 }
 
-export function updateMagicItem(ID, data) {
-  return api.patch(`/api/magicitem/${ID}/`, data);
+export function updateMagicItem(UUID, data) {
+  return api.patch(`/api/magicitem/${UUID}/`, data);
 }
 
-export function deleteMagicItem(ID) {
-  return api.delete(`/api/magicitem/${ID}/`);
+export function deleteMagicItem(UUID) {
+  return api.delete(`/api/magicitem/${UUID}/`);
+}
+
+export function getMagicItemDetails(UUID) {
+  return api.get(`/api/magicitem/${UUID}/`);
 }
