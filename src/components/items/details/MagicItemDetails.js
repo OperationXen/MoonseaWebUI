@@ -5,12 +5,16 @@ import { Box, Container, Typography, Divider } from "@mui/material";
 
 import { getMagicItemDetails } from "../../../api/items";
 import MagicItemInformationPane from "./MagicItemInformationPane";
+import MagicItemHistoryPane from "./MagicItemHistoryPane";
 
 export default function MagicItemDetails(props) {
   const { uuid } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [events, setEvents] = useState([
+    { uuid: 1, datetime: "asdfasdfasdfsdf" },
+  ]);
 
   useEffect(() => {
     getMagicItemDetails(uuid)
@@ -26,7 +30,10 @@ export default function MagicItemDetails(props) {
         Item Details
       </Typography>
       <Divider variant="middle" />
-      <MagicItemInformationPane item={data} />
+      <Box sx={{ display: "flex", flex: "row" }}>
+        <MagicItemInformationPane item={data} />
+        <MagicItemHistoryPane events={events} />
+      </Box>
     </Container>
   );
 }

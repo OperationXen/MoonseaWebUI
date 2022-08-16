@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Paper, Table, TableContainer, Typography } from "@mui/material";
+import { Paper, Table, Typography } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 
 const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
