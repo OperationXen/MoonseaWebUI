@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Box, Container, Typography, Divider } from "@mui/material";
-import { Stack } from "@mui/material";
 
 import { getMagicItemDetails } from "../../../api/items";
+import MagicItemInformationPane from "./MagicItemInformationPane";
 
 export default function MagicItemDetails(props) {
   const { uuid } = useParams();
@@ -26,20 +26,7 @@ export default function MagicItemDetails(props) {
         Item Details
       </Typography>
       <Divider variant="middle" />
-      <Stack
-        sx={{
-          gap: "0.2em",
-        }}
-      >
-        <Typography>Item name: {data.name}</Typography>
-
-        <Typography>Current Owner: {data.owner}</Typography>
-        <Typography>Description: {data.description}</Typography>
-        <Typography>Flavour Text: {data.flavour}</Typography>
-        <Typography>Rarity: {data.rarity}</Typography>
-        <Typography>Attunement Required: {data.attunement}</Typography>
-        <Typography>Currently Equipped: {data.equipped}</Typography>
-      </Stack>
+      <MagicItemInformationPane item={data} />
     </Container>
   );
 }
