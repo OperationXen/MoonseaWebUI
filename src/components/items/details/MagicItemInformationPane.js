@@ -3,7 +3,7 @@ import React from "react";
 import { Paper, Table, Typography } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 
-const rowStyle = { "&:last-child td, &:last-child th": { border: 0 } };
+const rowStyle = {};
 
 export default function MagicItemInformationPane(props) {
   const { item } = props;
@@ -11,7 +11,7 @@ export default function MagicItemInformationPane(props) {
   if (!item.uuid || !item.name) return null;
 
   return (
-    <Paper sx={{ width: "30em" }}>
+    <Paper sx={{ width: "30em", borderRadius: "8px 8px 0px 0px" }}>
       <Table>
         <TableBody>
           <TableRow sx={rowStyle}>
