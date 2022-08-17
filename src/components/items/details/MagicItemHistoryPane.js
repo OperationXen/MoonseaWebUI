@@ -15,11 +15,13 @@ export default function MagicItemHistoryPane(props) {
     {
       field: "datetime",
       headerName: "Date",
-      flex: 0.15,
+      flex: 0.3,
       headerAlign: "left",
       align: "left",
       valueGetter: rowDate,
     },
+    { field: "event-type", headerName: "Event Type", flex: 0.3 },
+    { field: "detail", headerName: "Details", flex: 0.4 },
   ];
 
   return (
