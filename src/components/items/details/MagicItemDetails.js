@@ -15,9 +15,6 @@ export default function MagicItemDetails(props) {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [events, setEvents] = useState([
-    { uuid: 1, datetime: "asdfasdfasdfsdf" },
-  ]);
 
   useEffect(() => {
     getMagicItemDetails(uuid)
@@ -29,7 +26,7 @@ export default function MagicItemDetails(props) {
 
   return (
     <Container sx={{ marginTop: "0.4em" }}>
-      <Typography variant="h4" marginLeft="0.4em">
+      <Typography variant="h5" sx={{ textAlign: "center" }}>
         Item Details
       </Typography>
       <Divider variant="middle" />
@@ -42,13 +39,20 @@ export default function MagicItemDetails(props) {
           gap: "0.4em",
         }}
       >
-        <Stack>
+        <Stack
+          sx={{
+            flexGrow: 1,
+            alignItems: "center",
+            border: "1px solid black",
+            borderRadius: "8px",
+          }}
+        >
           <MagicItemInformationPane item={data} />
           <MagicItemImagePane item={data} />
-          <MagicItemControlPane item={data} />
+          <MagicItemControlPane uuid={uuid} />
         </Stack>
-        <Stack>
-          <MagicItemHistoryPane events={events} />
+        <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
+          <MagicItemHistoryPane events={uuid} />
         </Stack>
       </Box>
     </Container>

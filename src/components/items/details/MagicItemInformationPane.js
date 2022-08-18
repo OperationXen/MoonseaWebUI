@@ -11,7 +11,7 @@ export default function MagicItemInformationPane(props) {
   if (!item.uuid || !item.name) return null;
 
   return (
-    <Paper sx={{ width: "30em", borderRadius: "8px 8px 0px 0px" }}>
+    <Paper sx={{ width: "100%", borderRadius: "8px 8px 0px 0px" }}>
       <Table>
         <TableBody>
           <TableRow sx={rowStyle}>

@@ -10,7 +10,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import useSnackbar from "../../../datastore/snackbar";
 
 export default function MagicItemControlPane(props) {
-  //const { data } = props;
+  //const { uuid } = props;
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const handleCopy = () => {
@@ -25,6 +25,7 @@ export default function MagicItemControlPane(props) {
         display: "flex",
         flex: "row wrap",
         alignItems: "center",
+        width: "100%",
         justifyContent: "space-around",
         background: "#AAAAAA70",
         borderRadius: "0px 0px 8px 8px",

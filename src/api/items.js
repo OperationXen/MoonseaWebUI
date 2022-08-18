@@ -16,3 +16,7 @@ export function deleteMagicItem(UUID) {
 export function getMagicItemDetails(UUID) {
   return api.get(`/api/magicitem/${UUID}/`);
 }
+
+export function getMagicItemHistory(UUID) {
+  return api.get(`/api/history/${UUID}`);
+}

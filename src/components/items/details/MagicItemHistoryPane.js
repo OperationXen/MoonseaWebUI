@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 
+import { getMagicItemHistory } from "../../../api/items";
+
 export default function MagicItemHistoryPane(props) {
-  const { events } = props;
+  const { uuid } = props;
+
+  const [loading, setLoading] = useState(false);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    getMagicItemHistory(uuid)
+      .then((response) => {
+        setEvents(response.data);
+      })
+      .finally(() => setLoading(false));
+  }, [uuid]);
 
   // format the date information
   const rowDate = (params) => {
@@ -31,6 +44,7 @@ export default function MagicItemHistoryPane(props) {
         disableColumnMenu
         columns={columns}
         rows={events}
+        loading={loading}
         rowHeight={36}
         rowsPerPageOptions={[15, 25, 50, 100]}
         sx={{
