@@ -15,7 +15,7 @@ export default function MagicItemHistoryPane(props) {
     getMagicItemHistory(uuid)
       .then((r) => {
         let allEvents = [r.data.origin];
-        allEvents.concat(r.data.trades);
+        allEvents = allEvents.concat(r.data.trades);
         setEvents(allEvents);
       })
       .finally(() => setLoading(false));
@@ -32,12 +32,16 @@ export default function MagicItemHistoryPane(props) {
     let data = params.row;
 
     if (data.event_type === "manual") return "Manually created";
+    else if (data.event_type === "trade") return "Item traded";
   };
   const formatDetails = (params) => {
     let data = params.row;
 
     if (data.event_type === "manual")
       return `For character: ${data.character_name}`;
+    else if (data.event_type === "trade") {
+      return `${data.exchanged_item ?? "Unknown item"} / ${data.sender_name}`;
+    }
   };
 
   const columns = [
