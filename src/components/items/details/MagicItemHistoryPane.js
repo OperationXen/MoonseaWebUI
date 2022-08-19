@@ -31,16 +31,23 @@ export default function MagicItemHistoryPane(props) {
   const formatEventType = (params) => {
     let data = params.row;
 
-    if (data.event_type === "manual") return "Manually created";
-    else if (data.event_type === "trade") return "Item traded";
+    if (data.event_type === "trade") return "Item traded";
+    else if (data.event_type === "manual") return "Manually created";
+    else if (data.event_type === "game") return "Found on adventure";
+    else if (data.event_type === "dmreward") return "DM Reward";
+    return "Divine intervention";
   };
   const formatDetails = (params) => {
     let data = params.row;
 
-    if (data.event_type === "manual")
+    if (data.event_type === "manual") {
       return `For character: ${data.character_name}`;
-    else if (data.event_type === "trade") {
+    } else if (data.event_type === "trade") {
       return `${data.exchanged_item ?? "Unknown item"} / ${data.sender_name}`;
+    } else if (data.event_type === "game") {
+      return `${data.name} (${data.dm_name})`;
+    } else if (data.event_type === "dm_reward") {
+      return `${data.name}`;
     }
   };
 
