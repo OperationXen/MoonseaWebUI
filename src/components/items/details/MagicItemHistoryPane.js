@@ -13,28 +13,52 @@ export default function MagicItemHistoryPane(props) {
 
   useEffect(() => {
     getMagicItemHistory(uuid)
-      .then((response) => {
-        setEvents(response.data);
+      .then((r) => {
+        let allEvents = [r.data.origin];
+        allEvents.concat(r.data.trades);
+        setEvents(allEvents);
       })
       .finally(() => setLoading(false));
   }, [uuid]);
 
   // format the date information
   const rowDate = (params) => {
-    return params.row.datetime.slice(0, 10).replaceAll("-", " / ");
+    if (params.row.datetime) {
+      return params.row.datetime.slice(0, 10).replaceAll("-", " / ");
+    }
+    return "No date information";
+  };
+  const formatEventType = (params) => {
+    let data = params.row;
+
+    if (data.event_type === "manual") return "Manually created";
+  };
+  const formatDetails = (params) => {
+    let data = params.row;
+
+    if (data.event_type === "manual")
+      return `For character: ${data.character_name}`;
   };
 
   const columns = [
     {
       field: "datetime",
       headerName: "Date",
-      flex: 0.3,
-      headerAlign: "left",
-      align: "left",
+      flex: 0.25,
       valueGetter: rowDate,
     },
-    { field: "event-type", headerName: "Event Type", flex: 0.3 },
-    { field: "detail", headerName: "Details", flex: 0.4 },
+    {
+      field: "event_type",
+      headerName: "Event Type",
+      flex: 0.3,
+      valueGetter: formatEventType,
+    },
+    {
+      field: "detail",
+      headerName: "Details",
+      flex: 0.5,
+      valueGetter: formatDetails,
+    },
   ];
 
   return (

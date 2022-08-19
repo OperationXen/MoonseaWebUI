@@ -17,6 +17,8 @@ export default function MagicItemControlPane(props) {
     navigator.clipboard.writeText(window.location.href);
     snackbar("Copied character link to clipboard");
   };
+  const handleEdit = () => {};
+  const handleDelete = () => {};
   const handleTrade = () => {};
 
   return (
@@ -38,7 +40,7 @@ export default function MagicItemControlPane(props) {
       </Tooltip>
 
       <Tooltip title="Edit item">
-        <IconButton disabled onClick={() => props.onEditClicked()}>
+        <IconButton onClick={handleEdit}>
           <EditIcon fontSize="small" />
         </IconButton>
       </Tooltip>
@@ -48,12 +50,7 @@ export default function MagicItemControlPane(props) {
         </IconButton>
       </Tooltip>
       <Tooltip title="Delete item">
-        <IconButton
-          disabled
-          onClick={() => {
-            props.onDeleteClicked();
-          }}
-        >
+        <IconButton onClick={handleDelete}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Tooltip>

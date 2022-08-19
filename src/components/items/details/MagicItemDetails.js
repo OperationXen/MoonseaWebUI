@@ -13,15 +13,12 @@ import MagicItemImagePane from "./MagicItemImagePane";
 export default function MagicItemDetails(props) {
   const { uuid } = useParams();
 
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getMagicItemDetails(uuid)
-      .then((response) => {
-        setData(response.data);
-      })
-      .finally(() => setLoading(false));
+    getMagicItemDetails(uuid).then((response) => {
+      setData(response.data);
+    });
   }, [uuid]);
 
   return (
@@ -52,7 +49,7 @@ export default function MagicItemDetails(props) {
           <MagicItemControlPane uuid={uuid} />
         </Stack>
         <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
-          <MagicItemHistoryPane events={uuid} />
+          <MagicItemHistoryPane uuid={uuid} />
         </Stack>
       </Box>
     </Container>
