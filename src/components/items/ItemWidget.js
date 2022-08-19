@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Card, Typography, Grid, Tooltip } from "@mui/material";
 
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
@@ -16,6 +18,7 @@ export default function ItemWidget(props) {
   const { uuid, name, attunement, rarity, equipped } = props.data;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const refreshData = useCharacterStore((s) => s.requestRefresh);
+  const navigate = useNavigate();
 
   const [showControls, setShowControls] = useState(false);
   const colour = getRarityColour(rarity);
@@ -27,6 +30,7 @@ export default function ItemWidget(props) {
     refreshData();
   };
   const handleDetailClick = (e) => {
+    navigate(`/magicitem/${uuid}`);
     e.stopPropagation();
   };
   const handleTradeClick = (e) => {
@@ -57,7 +61,6 @@ export default function ItemWidget(props) {
         boxShadow: "2px 1px 4px #424242",
         width: "20em",
       }}
-      onClick={handleClick}
       onMouseOver={() => setShowControls(true)}
       onMouseOut={() => setShowControls(false)}
     >
@@ -89,6 +92,7 @@ export default function ItemWidget(props) {
               alignItems: "center",
               justifyContent: "flex-start",
             }}
+            onClick={handleClick}
           >
             <Typography fontWeight="550" sx={{ cursor: "pointer" }}>
               {name}
@@ -106,11 +110,13 @@ export default function ItemWidget(props) {
         >
           {showControls && (
             <React.Fragment>
-              <Tooltip
-                title="(Not implemented yet) View item details and history"
-                onClick={handleDetailClick}
-              >
-                <ArticleIcon fontSize="small" />
+              <Tooltip title="View item details and history">
+                <ArticleIcon
+                  onClick={(e) => {
+                    handleDetailClick();
+                  }}
+                  fontSize="small"
+                />
               </Tooltip>
               <Tooltip
                 title={

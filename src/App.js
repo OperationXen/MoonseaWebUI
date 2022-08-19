@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import CharacterDetailWindow from "./components/characters/CharacterDetailWindow";
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
+import MagicItemDetails from "./components/items/details/MagicItemDetails";
 import ItemVaultWindow from "./components/items/ItemVaultWindow";
 import FeedbackBar from "./components/general/FeedbackBar";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -41,6 +42,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </React.Fragment>
         )}
+        <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
         <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
         <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
       </Routes>
