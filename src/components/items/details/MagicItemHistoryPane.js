@@ -12,6 +12,8 @@ export default function MagicItemHistoryPane(props) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
+    if (!uuid) return;
+
     getMagicItemHistory(uuid)
       .then((r) => {
         let allEvents = [r.data.origin];

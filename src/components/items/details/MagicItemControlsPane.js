@@ -6,15 +6,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SaveIcon from "@mui/icons-material/Save";
 
 import useSnackbar from "../../../datastore/snackbar";
 import DeleteConfirm from "../widgets/DeleteConfirm";
 
 export default function MagicItemControlPane(props) {
   const { uuid, equipped, name } = props.item;
+  const { editMode, setEditMode } = props;
   const snackbar = useSnackbar((s) => s.displayMessage);
 
-  const [editMode, setEditMode] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
   const handleCopy = () => {
@@ -50,11 +51,14 @@ export default function MagicItemControlPane(props) {
         </IconButton>
       </Tooltip>
 
-      <Tooltip title="Edit item">
+      <Tooltip title={editMode ? "Save changes" : "Edit item"}>
         <IconButton onClick={handleEdit}>
-          <EditIcon fontSize="small" />
+          {(editMode && <SaveIcon fontSize="small" />) || (
+            <EditIcon fontSize="small" />
+          )}
         </IconButton>
       </Tooltip>
+
       <Tooltip
         title={
           equipped ? "Cannot trade equipped items" : "Offer item for trade"
