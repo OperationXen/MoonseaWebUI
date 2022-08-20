@@ -6,6 +6,7 @@ import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
 import { getRarityText } from "../../../utils/itemutils";
 import { updateMagicItem } from "../../../api/items";
+import useMagicItemStore from "../../../datastore/magicitem";
 import useSnackbar from "../../../datastore/snackbar";
 
 const rowStyle = { height: "52px" };
@@ -13,6 +14,7 @@ const cellStyle = { padding: "0 1em" };
 
 export default function MagicItemInformationPane(props) {
   const { item, editMode } = props;
+  const requestItemHistoryRefresh = useMagicItemStore((s) => s.requestRefresh);
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState("Loading...");
@@ -59,12 +61,20 @@ export default function MagicItemInformationPane(props) {
 
     updateMagicItem(item.uuid, getUpdateObject())
       .then((response) => {
+        requestItemHistoryRefresh();
         snackbar("Item updated", "success");
       })
       .catch((error) => {
         snackbar(error.response.message ?? "Error updating item", "error");
       });
-  }, [editMode, item.uuid, snackbar, itemChanged, getUpdateObject]);
+  }, [
+    editMode,
+    item.uuid,
+    snackbar,
+    itemChanged,
+    getUpdateObject,
+    requestItemHistoryRefresh,
+  ]);
 
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;

@@ -4,9 +4,11 @@ import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 
 import { getMagicItemHistory } from "../../../api/items";
+import useMagicItemStore from "../../../datastore/magicitem";
 
 export default function MagicItemHistoryPane(props) {
   const { uuid } = props;
+  const refresh = useMagicItemStore((s) => s.refresh);
 
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
@@ -18,10 +20,11 @@ export default function MagicItemHistoryPane(props) {
       .then((r) => {
         let allEvents = [r.data.origin];
         allEvents = allEvents.concat(r.data.trades);
+        allEvents = allEvents.concat(r.data.edits);
         setEvents(allEvents);
       })
       .finally(() => setLoading(false));
-  }, [uuid]);
+  }, [uuid, refresh]);
 
   // format the date information
   const rowDate = (params) => {
@@ -35,6 +38,7 @@ export default function MagicItemHistoryPane(props) {
 
     if (data.event_type === "trade") return "Item traded";
     else if (data.event_type === "manual") return "Manually created";
+    else if (data.event_type === "edit") return data.name;
     else if (data.event_type === "game") return "Found on adventure";
     else if (data.event_type === "dmreward") return "DM Reward";
     return "Divine intervention";
@@ -44,6 +48,8 @@ export default function MagicItemHistoryPane(props) {
 
     if (data.event_type === "manual") {
       return `For character: ${data.character_name}`;
+    } else if (data.event_type === "edit") {
+      return `${data.details}`;
     } else if (data.event_type === "trade") {
       return `${data.exchanged_item ?? "Unknown item"} / ${data.sender_name}`;
     } else if (data.event_type === "game") {
