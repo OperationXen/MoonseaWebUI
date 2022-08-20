@@ -4,7 +4,7 @@ import { Paper, Table, Typography, InputBase } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
-import { getRarityText } from "../../../utils/itemUtils";
+import { getRarityText } from "../../../utils/itemutils";
 import { updateMagicItem } from "../../../api/items";
 import useSnackbar from "../../../datastore/snackbar";
 

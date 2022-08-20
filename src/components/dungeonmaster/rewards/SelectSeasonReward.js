@@ -6,7 +6,7 @@ import { Divider, Button } from "@mui/material";
 
 import useSnackBar from "../../../datastore/snackbar";
 import usePlayerStore from "../../../datastore/player";
-import { getRarityColour } from "../../../utils/itemUtils";
+import { getRarityColour } from "../../../utils/itemutils";
 import { createDMReward } from "../../../api/events";
 import RewardSelectWidget from "./RewardSelectWidget";
 

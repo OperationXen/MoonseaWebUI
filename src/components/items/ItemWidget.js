@@ -10,7 +10,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { updateMagicItem } from "../../api/items";
 import useSnackbar from "../../datastore/snackbar";
 import useCharacterStore from "../../datastore/character";
-import { getRarityColour } from "../../utils/itemUtils";
+import { getRarityColour } from "../../utils/itemutils";
 
 export default function ItemWidget(props) {
   const { uuid, name, attunement, rarity, equipped } = props.data;

@@ -1,7 +1,7 @@
 import { Tooltip, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { getRarityColour } from "../../../utils/itemUtils";
+import { getRarityColour } from "../../../utils/itemutils";
 
 export default function ItemChipWidget(props) {
   const { name, rarity, uuid } = props.item;
