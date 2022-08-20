@@ -46,7 +46,7 @@ export default function MagicItemDetails(props) {
         >
           <MagicItemInformationPane item={data} />
           <MagicItemImagePane item={data} />
-          <MagicItemControlPane uuid={uuid} />
+          <MagicItemControlPane item={data} />
         </Stack>
         <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
           <MagicItemHistoryPane uuid={uuid} />
