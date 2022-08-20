@@ -2,12 +2,14 @@ import React, { useEffect, useState, useCallback } from "react";
 
 import { Paper, Table, Typography, InputBase } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import { Checkbox } from "@mui/material";
+import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
+import { getRarityText } from "../../../utils/itemUtils";
 import { updateMagicItem } from "../../../api/items";
 import useSnackbar from "../../../datastore/snackbar";
 
 const rowStyle = { height: "52px" };
+const cellStyle = { padding: "0 1em" };
 
 export default function MagicItemInformationPane(props) {
   const { item, editMode } = props;
@@ -72,11 +74,11 @@ export default function MagicItemInformationPane(props) {
       <Table>
         <TableBody>
           <TableRow sx={rowStyle}>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>Name</Typography>
             </TableCell>
 
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <InputBase
                 disabled={!editMode}
                 value={name}
@@ -86,19 +88,31 @@ export default function MagicItemInformationPane(props) {
           </TableRow>
 
           <TableRow sx={rowStyle}>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>Rarity</Typography>
             </TableCell>
-            <TableCell component="th" scope="row">
-              <Typography>{rarity}</Typography>
+            <TableCell sx={cellStyle}>
+              {(editMode && (
+                <FormControl size="small" sx={{ minWidth: "12em" }}>
+                  <Select
+                    value={rarity}
+                    onChange={(e) => setRarity(e.target.value)}
+                  >
+                    <MenuItem value="uncommon">Uncommon</MenuItem>
+                    <MenuItem value="rare">Rare</MenuItem>
+                    <MenuItem value="veryrare">Very Rare</MenuItem>
+                    <MenuItem value="legendary">Legendary</MenuItem>
+                  </Select>
+                </FormControl>
+              )) || <Typography>{getRarityText(rarity)}</Typography>}
             </TableCell>
           </TableRow>
 
           <TableRow sx={rowStyle}>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>Attunement</Typography>
             </TableCell>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               {(editMode && (
                 <Checkbox
                   checked={attunement}
@@ -110,10 +124,10 @@ export default function MagicItemInformationPane(props) {
           </TableRow>
 
           <TableRow sx={rowStyle}>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>Description</Typography>
             </TableCell>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <InputBase
                 disabled={!editMode}
                 value={description}
@@ -125,10 +139,10 @@ export default function MagicItemInformationPane(props) {
           </TableRow>
 
           <TableRow sx={rowStyle}>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>Flavour</Typography>
             </TableCell>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <InputBase
                 disabled={!editMode}
                 value={flavour}
@@ -140,10 +154,10 @@ export default function MagicItemInformationPane(props) {
           </TableRow>
 
           <TableRow sx={rowStyle}>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>Owner</Typography>
             </TableCell>
-            <TableCell component="th" scope="row">
+            <TableCell sx={cellStyle}>
               <Typography>{item.owner}</Typography>
             </TableCell>
           </TableRow>
