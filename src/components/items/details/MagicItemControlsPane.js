@@ -12,7 +12,7 @@ import useSnackbar from "../../../datastore/snackbar";
 import DeleteConfirm from "../widgets/DeleteConfirm";
 
 export default function MagicItemControlPane(props) {
-  const { uuid, equipped, name } = props.item;
+  const { uuid, equipped, name, editable } = props.item;
   const { editMode, setEditMode } = props;
   const snackbar = useSnackbar((s) => s.displayMessage);
 
@@ -50,35 +50,40 @@ export default function MagicItemControlPane(props) {
           <ContentCopyIcon fontSize="small" />
         </IconButton>
       </Tooltip>
+      {editable && (
+        <React.Fragment>
+          <Tooltip title={editMode ? "Save changes" : "Edit item"}>
+            <IconButton onClick={handleEdit}>
+              {(editMode && <SaveIcon fontSize="small" />) || (
+                <EditIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Tooltip>
 
-      <Tooltip title={editMode ? "Save changes" : "Edit item"}>
-        <IconButton onClick={handleEdit}>
-          {(editMode && <SaveIcon fontSize="small" />) || (
-            <EditIcon fontSize="small" />
-          )}
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip
-        title={
-          equipped ? "Cannot trade equipped items" : "Offer item for trade"
-        }
-      >
-        <IconButton onClick={handleTrade}>
-          <ShoppingCartIcon
-            fontSize="small"
-            sx={{ opacity: equipped ? 0.2 : 1 }}
-          />
-        </IconButton>
-      </Tooltip>
-      <Tooltip
-        title={equipped ? "Cannot delete equipped items" : "Delete item"}
-      >
-        <IconButton onClick={handleDelete}>
-          <DeleteIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 1 }} />
-        </IconButton>
-      </Tooltip>
-
+          <Tooltip
+            title={
+              equipped ? "Cannot trade equipped items" : "Offer item for trade"
+            }
+          >
+            <IconButton onClick={handleTrade}>
+              <ShoppingCartIcon
+                fontSize="small"
+                sx={{ opacity: equipped ? 0.2 : 1 }}
+              />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title={equipped ? "Cannot delete equipped items" : "Delete item"}
+          >
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon
+                fontSize="small"
+                sx={{ opacity: equipped ? 0.2 : 1 }}
+              />
+            </IconButton>
+          </Tooltip>
+        </React.Fragment>
+      )}
       <DeleteConfirm
         name={name}
         uuid={uuid}

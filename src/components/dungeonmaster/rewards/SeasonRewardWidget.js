@@ -1,6 +1,6 @@
 import { Box, Card, Typography, Tooltip } from "@mui/material";
 
-import { getRarityColour } from "../../../utils/itemUtils";
+import { getRarityColour } from "../../../utils/itemutils";
 
 export default function SeasonRewardWidget(props) {
   const { name, rarity, reward, level, downtime, gold, cost, locked } = props;

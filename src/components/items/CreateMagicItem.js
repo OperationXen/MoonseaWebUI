@@ -7,7 +7,7 @@ import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
 import { createMagicItem } from "../../api/items";
-import { getRarityColour } from "../../utils/itemUtils";
+import { getRarityColour } from "../../utils/itemutils";
 
 export default function CreateMagicItem(props) {
   const { open, onClose, characterUUID, onCreate } = props;
