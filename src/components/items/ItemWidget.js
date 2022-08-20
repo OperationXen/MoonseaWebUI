@@ -6,10 +6,8 @@ import { Card, Typography, Grid, Tooltip } from "@mui/material";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 
-import { updateMagicItem, deleteMagicItem } from "../../api/items";
+import { updateMagicItem } from "../../api/items";
 import useSnackbar from "../../datastore/snackbar";
 import useCharacterStore from "../../datastore/character";
 import { getRarityColour } from "../../utils/itemUtils";
@@ -34,18 +32,6 @@ export default function ItemWidget(props) {
     e.stopPropagation();
   };
   const handleTradeClick = (e) => {
-    e.stopPropagation();
-  };
-  const handleEditClick = (e) => {
-    e.stopPropagation();
-  };
-  const handleDeleteClick = (e) => {
-    deleteMagicItem(uuid)
-      .then(() => {
-        displayMessage(`Deleted ${name}`, "info");
-        refreshData();
-      })
-      .catch((error) => displayMessage("Unable to delete", "error"));
     e.stopPropagation();
   };
 
@@ -130,12 +116,6 @@ export default function ItemWidget(props) {
                   fontSize="small"
                   sx={{ opacity: equipped ? 0.2 : 0.8 }}
                 />
-              </Tooltip>
-              <Tooltip title="Edit this item" onClick={handleEditClick}>
-                <EditIcon fontSize="small" />
-              </Tooltip>
-              <Tooltip title="Delete item" onClick={handleDeleteClick}>
-                <DeleteIcon fontSize="small" />
               </Tooltip>
             </React.Fragment>
           )}

@@ -14,8 +14,11 @@ export default function MagicItemDetails(props) {
   const { uuid } = useParams();
 
   const [data, setData] = useState([]);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
+    if (!uuid) return;
+
     getMagicItemDetails(uuid).then((response) => {
       setData(response.data);
     });
@@ -44,9 +47,17 @@ export default function MagicItemDetails(props) {
             borderRadius: "8px",
           }}
         >
-          <MagicItemInformationPane item={data} />
+          <MagicItemInformationPane
+            item={data}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
           <MagicItemImagePane item={data} />
-          <MagicItemControlPane uuid={uuid} />
+          <MagicItemControlPane
+            item={data}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
         </Stack>
         <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
           <MagicItemHistoryPane uuid={uuid} />
