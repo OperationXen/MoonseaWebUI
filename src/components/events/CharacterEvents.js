@@ -31,6 +31,7 @@ export default function CharacterEvents(props) {
     if (!editable) return null;
     return (
       <IconButton
+        disabled={params.row.event_type === "dm_reward"}
         onClick={() =>
           removeCharacterGame(params.row.uuid, characterUUID).then(() => {
             displayMessage("Event deleted", "info");
