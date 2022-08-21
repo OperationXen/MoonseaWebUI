@@ -63,7 +63,7 @@ export default function DMEvents(props) {
         onChange();
         refreshDMEvents();
       });
-    } else if (type === "reward") {
+    } else if (type === "dm_reward") {
       deleteDMReward(uuid).then(() => {
         displayMessage("Removed service reward", "info");
         onChange();
@@ -104,7 +104,7 @@ export default function DMEvents(props) {
     if (data.event_type === "game") {
       return `${data.name} (${data.module})`;
     }
-    if (data.event_type === "reward") {
+    if (data.event_type === "dm_reward") {
       return `${data.name} given to ${data.character_items_assigned}`;
     }
   };
