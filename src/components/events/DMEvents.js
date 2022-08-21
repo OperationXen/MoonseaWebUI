@@ -105,7 +105,7 @@ export default function DMEvents(props) {
       return `${data.name} (${data.module})`;
     }
     if (data.event_type === "reward") {
-      return `${data.name}`;
+      return `${data.name} given to ${data.character_items_assigned}`;
     }
   };
 

@@ -26,7 +26,7 @@ export default function SelectSeasonReward(props) {
       gold: data.gold,
       downtime: data.downtime,
       levels: data.levels,
-      item: rewardItem,
+      item: data.rewards[rewardItem],
       charLevels: levelChar,
       charItems: rewardChar,
     };
