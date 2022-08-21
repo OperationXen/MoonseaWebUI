@@ -40,7 +40,7 @@ export default function MagicItemHistoryPane(props) {
     else if (data.event_type === "manual") return "Manually created";
     else if (data.event_type === "edit") return data.name;
     else if (data.event_type === "game") return "Found on adventure";
-    else if (data.event_type === "dmreward") return "DM Reward";
+    else if (data.event_type === "dm_reward") return "DM Reward";
     return "Divine intervention";
   };
   const formatDetails = (params) => {
