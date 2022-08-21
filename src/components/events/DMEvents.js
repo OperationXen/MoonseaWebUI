@@ -89,7 +89,7 @@ export default function DMEvents(props) {
 
   const rowType = (params) => {
     if (params.row.event_type === "game") return "DMed game";
-    if (params.row.event_type === "reward") return "Service reward";
+    if (params.row.event_type === "dm_reward") return "Service reward";
   };
   const rowDate = (params) => {
     let datetime = new Date(params.row.datetime);
@@ -97,7 +97,7 @@ export default function DMEvents(props) {
   };
   const rowHours = (params) => {
     if (params.row.event_type === "game") return params.row.hours;
-    if (params.row.event_type === "reward") return -params.row.hours;
+    if (params.row.event_type === "dm_reward") return -params.row.hours;
   };
   const rowDetails = (params) => {
     let data = params.row;
