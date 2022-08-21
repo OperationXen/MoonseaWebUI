@@ -43,8 +43,12 @@ export default function CharacterEvents(props) {
     );
   };
   const rowEventType = (params) => {
-    if (params.row.event_type === "game") {
+    let event_type = params.row.event_type;
+
+    if (event_type === "game") {
       return "Game";
+    } else if (event_type === "dm_reward") {
+      return "DM Reward";
     }
   };
   const rowDate = (params) => {
@@ -53,8 +57,18 @@ export default function CharacterEvents(props) {
 
   const rowDetails = (params) => {
     let data = params.row;
+
     if (data.event_type === "game") {
       return `${data.name} (${data.module})`;
+    } else if (data.event_type === "dm_reward") {
+      let str = `${data.name}`;
+      if (data.gold) {
+        str += ` / ${data.gold} gold`;
+      }
+      if (data.downtime) {
+        str += ` / ${data.downtime} downtime days`;
+      }
+      return str;
     }
   };
 
@@ -70,7 +84,7 @@ export default function CharacterEvents(props) {
     {
       field: "datetime",
       headerName: "Date",
-      flex: 0.15,
+      flex: 0.2,
       headerAlign: "left",
       align: "left",
       valueGetter: rowDate,
@@ -78,7 +92,7 @@ export default function CharacterEvents(props) {
     {
       field: "details",
       headerName: "Details",
-      flex: 0.6,
+      flex: 0.5,
       headerAlign: "left",
       align: "left",
       valueGetter: rowDetails,
@@ -86,7 +100,7 @@ export default function CharacterEvents(props) {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.1,
+      flex: 0.2,
       align: "right",
       headerAlign: "center",
       type: "actions",
