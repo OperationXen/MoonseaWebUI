@@ -1,11 +1,11 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { TextField } from "@mui/material";
 
 export default function RewardSelectWidget(props) {
   const { value, setValue, rewards } = props;
-  const [textVal, setTextVal] = useState("");
+  const { text, setText } = props;
 
   // reset value on component load
   useLayoutEffect(() => {
@@ -17,8 +17,8 @@ export default function RewardSelectWidget(props) {
       <TextField
         label="Reward"
         sx={{ width: "20em" }}
-        value={textVal}
-        onChange={(e) => setTextVal(e.target.value)}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         placeholder={rewards}
       ></TextField>
     );
