@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { Box, Typography, Button, FormGroup, Tooltip } from "@mui/material";
 import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
+import { MenuItem, Select, FormControl } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
@@ -36,6 +37,8 @@ export default function CreateCharacterGame(props) {
   const [level, setLevel] = useState(true);
   const [gold, setGold] = useState(250);
   const [downtime, setDowntime] = useState(10);
+  const [itemText, setItemText] = useState("");
+  const [rarity, setRarity] = useState("uncommon");
 
   const [highlight, setHighlight] = useState(false);
 
@@ -49,6 +52,8 @@ export default function CreateCharacterGame(props) {
       gold: gold,
       downtime: downtime,
       levels: level ? 1 : 0,
+      item: itemText,
+      rarity: rarity,
     })
       .then((response) => {
         displayMessage("Game added to log", "success");
@@ -156,9 +161,20 @@ export default function CreateCharacterGame(props) {
         />
       </Box>
       <Box sx={row}>
-        <Tooltip title="No implemented yet" placement="left">
-          <TextField fullWidth label="Item Reward" disabled />
-        </Tooltip>
+        <TextField
+          sx={{ flexGrow: 1 }}
+          label="Item Reward"
+          value={itemText}
+          onChange={(e) => setItemText(e.target.value)}
+        />
+        <FormControl sx={{ minWidth: "12em" }}>
+          <Select value={rarity} onChange={(e) => setRarity(e.target.value)}>
+            <MenuItem value="uncommon">Uncommon</MenuItem>
+            <MenuItem value="rare">Rare</MenuItem>
+            <MenuItem value="veryrare">Very Rare</MenuItem>
+            <MenuItem value="legendary">Legendary</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
       <Box sx={row}>
         <Tooltip title="No implemented yet" placement="left">
