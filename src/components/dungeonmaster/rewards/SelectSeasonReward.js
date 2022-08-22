@@ -18,6 +18,7 @@ export default function SelectSeasonReward(props) {
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
   const [rewardItem, setRewardItem] = useState(0);
+  const [rewardText, setRewardText] = useState("");
 
   const handleSubmit = () => {
     let temp = {
@@ -26,10 +27,15 @@ export default function SelectSeasonReward(props) {
       gold: data.gold,
       downtime: data.downtime,
       levels: data.levels,
-      item: data.rewards[rewardItem],
+      rarity: data.rarity,
       charLevels: levelChar,
       charItems: rewardChar,
     };
+    if (typeof data.rewards === "string") {
+      temp["item"] = rewardText;
+    } else {
+      temp["item"] = data.rewards[rewardItem];
+    }
 
     createDMReward(temp).then(() => {
       displayMessage(`Purchased DM reward for ${data.cost} hours`, "success");
@@ -140,6 +146,8 @@ export default function SelectSeasonReward(props) {
         <RewardSelectWidget
           value={rewardItem}
           setValue={setRewardItem}
+          text={rewardText}
+          setText={setRewardText}
           rewards={data.rewards}
         />
       </Box>
