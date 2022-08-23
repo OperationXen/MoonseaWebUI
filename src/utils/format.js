@@ -23,3 +23,11 @@ export function getCharClassShort(classes) {
   });
   return classStrings.join(" / ");
 }
+
+export function getSourceText(source) {
+  if (source === "game") return "Found on adventure";
+  else if (source === "dm_reward") return "DM Reward";
+  else if (source === "trade") return "Trade";
+  else if (source === "manual") return "Manually added";
+  else return "Divine intervention";
+}

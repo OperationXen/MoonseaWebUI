@@ -20,3 +20,7 @@ export function getMagicItemDetails(UUID) {
 export function getMagicItemHistory(UUID) {
   return api.get(`/api/magicitem_events/${UUID}/`);
 }
+
+export function getUserMagicItems() {
+  return api.get(`/api/magicitem/`);
+}
