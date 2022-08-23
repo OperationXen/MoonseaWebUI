@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import CharacterDetailWindow from "./components/characters/CharacterDetailWindow";
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
 import MagicItemDetails from "./components/items/details/MagicItemDetails";
-import ItemVaultWindow from "./components/items/ItemVaultWindow";
+import ItemVaultWindow from "./components/itemvault/ItemVaultWindow";
 import FeedbackBar from "./components/general/FeedbackBar";
 import Dashboard from "./components/dashboard/Dashboard";
 import Titlebar from "./components/general/Titlebar";

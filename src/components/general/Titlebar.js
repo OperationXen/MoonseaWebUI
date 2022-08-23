@@ -98,9 +98,7 @@ export default function Titlebar() {
             </Button>
             <Button
               disabled={
-                true ||
-                !authenticated ||
-                location.pathname.includes("/itemvault")
+                !authenticated || location.pathname.includes("/itemvault")
               }
               color="inherit"
               onClick={() => navigate("/itemvault")}
