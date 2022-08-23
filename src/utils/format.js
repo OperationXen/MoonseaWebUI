@@ -1,7 +1,9 @@
 export function getDateString(datetime) {
-  let isoString = datetime.toISOString();
+  if (datetime) {
+    let isoString = datetime.toISOString();
 
-  return isoString.slice(0, 10);
+    return isoString.slice(0, 10);
+  } else return "";
 }
 
 // Comparison function for class sort by level
