@@ -22,5 +22,5 @@ export function getMagicItemHistory(UUID) {
 }
 
 export function getUserMagicItems() {
-  return api.get(`/api/user_magicitems/`);
+  return api.get(`/api/magicitem/`);
 }

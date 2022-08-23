@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 
-import { DataGrid } from "@mui/x-data-grid";
-import { Box, Container, Dialog } from "@mui/material";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { Box, Container, Dialog, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 import useSnackbar from "../../datastore/snackbar";
 import { getUserMagicItems } from "../../api/items";
+import { getDateString, getSourceText } from "../../utils/format";
+import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
+import ItemLinkWidget from "./widgets/ItemLinkWidget";
+import RarityWidget from "./widgets/RarityWidget";
 
 export default function ItemVaultWindow(props) {
   const snackbar = useSnackbar((s) => s.displayMessage);
@@ -22,14 +27,71 @@ export default function ItemVaultWindow(props) {
       .catch((error) => {
         snackbar("Unable to fetch your items", "error");
       });
-  }, []);
+  }, [snackbar]);
+
+  const rowDate = (params) => {
+    let datetime = new Date(params.row.datetime_obtained);
+    return getDateString(datetime);
+  };
+  const getRowRarityWidget = (params) => {
+    return <RarityWidget rarity={params.row.rarity} />;
+  };
+  const getRowCharacterLinkWidget = (params) => {
+    return (
+      <CharacterLinkWidget
+        name={params.row.owner}
+        uuid={params.row.owner_uuid}
+      />
+    );
+  };
+  const getRowItemLinkWidget = (params) => {
+    return <ItemLinkWidget name={params.row.name} uuid={params.row.uuid} />;
+  };
+  const getRowActions = (params) => {
+    return [
+      <Tooltip title="Send to trading post" placement="right">
+        <GridActionsCellItem icon={<DoubleArrowIcon />} onClick={() => {}} />
+      </Tooltip>,
+    ];
+  };
 
   const columns = [
-    { field: "col1", headerName: "Item", flex: 0.25 },
-    { field: "col2", headerName: "Date obtained", flex: 0.1 },
-    { field: "col3", headerName: "Owner", flex: 0.15 },
-    { field: "col4", headerName: "Source", flex: 0.2 },
-    { field: "col5", headerName: "Details", flex: 0.2 },
+    {
+      field: "datetime_obtained",
+      headerName: "Date obtained",
+      flex: 0.1,
+      valueGetter: rowDate,
+    },
+    {
+      field: "rarity",
+      headerName: "Rarity",
+      align: "center",
+      renderCell: getRowRarityWidget,
+    },
+    {
+      field: "name",
+      headerName: "Item",
+      flex: 0.25,
+      renderCell: getRowItemLinkWidget,
+    },
+    {
+      field: "owner",
+      headerName: "Owner",
+      flex: 0.15,
+      renderCell: getRowCharacterLinkWidget,
+    },
+    {
+      field: "source_event_type",
+      headerName: "Source",
+      flex: 0.2,
+      valueGetter: (p) => getSourceText(p.row.source_event_type),
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      getActions: getRowActions,
+    },
   ];
 
   return (
@@ -50,6 +112,7 @@ export default function ItemVaultWindow(props) {
       >
         <Typography variant="h4">Item Vault</Typography>
         <TextField
+          disabled
           label="Search my items"
           variant="standard"
           sx={{ width: "25em" }}
@@ -64,6 +127,7 @@ export default function ItemVaultWindow(props) {
       </Box>
       <Box sx={{ flexGrow: 1 }}>
         <DataGrid
+          getRowId={(r) => r.uuid}
           columns={columns}
           rows={items}
           rowHeight={36}
