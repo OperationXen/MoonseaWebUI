@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import CharacterDetailWindow from "./components/characters/CharacterDetailWindow";
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
 import MagicItemDetails from "./components/items/details/MagicItemDetails";
+import TradingPostWindow from "./components/trading/TradingPostWindow";
 import ItemVaultWindow from "./components/itemvault/ItemVaultWindow";
 import FeedbackBar from "./components/general/FeedbackBar";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -38,7 +39,8 @@ export default function App() {
         )) || (
           <React.Fragment>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/itemvault" element={<ItemVaultWindow />} />
+            <Route path="/itemvault/" element={<ItemVaultWindow />} />
+            <Route path="/tradingpost/" element={<TradingPostWindow />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </React.Fragment>
         )}

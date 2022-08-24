@@ -87,21 +87,19 @@ export default function Titlebar() {
 
             <Button
               disabled={
-                true ||
-                !authenticated ||
-                location.pathname.includes("/tradingpost")
+                !authenticated || location.pathname.includes("/tradingpost/")
               }
               color="inherit"
-              onClick={() => navigate("/tradingpost")}
+              onClick={() => navigate("/tradingpost/")}
             >
               Trading Post
             </Button>
             <Button
               disabled={
-                !authenticated || location.pathname.includes("/itemvault")
+                !authenticated || location.pathname.includes("/itemvault/")
               }
               color="inherit"
-              onClick={() => navigate("/itemvault")}
+              onClick={() => navigate("/itemvault/")}
             >
               Item Vault
             </Button>
