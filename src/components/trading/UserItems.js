@@ -39,7 +39,7 @@ export default function UserItems(props) {
     <Grid container sx={{ margin: "0.4em" }} spacing={2}>
       {items.map((item) => {
         return (
-          <Grid>
+          <Grid md={6} lg={4} xs={12}>
             <TradeItem {...item} />
           </Grid>
         );

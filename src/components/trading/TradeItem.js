@@ -12,7 +12,7 @@ export default function TradeItem(props) {
   const numOffers = offers?.length ?? 0;
 
   return (
-    <Card sx={{ width: "22em" }}>
+    <Card sx={{ width: "100%" }}>
       <CardHeader
         avatar={<RarityWidget rarity={rarity} />}
         action={
