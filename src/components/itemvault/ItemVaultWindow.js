@@ -16,8 +16,10 @@ import RarityWidget from "./widgets/RarityWidget";
 
 export default function ItemVaultWindow(props) {
   const snackbar = useSnackbar((s) => s.displayMessage);
+
   const [createOpen, setCreateOpen] = useState(false);
   const [items, setItems] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     getUserMagicItems()
@@ -28,6 +30,12 @@ export default function ItemVaultWindow(props) {
         snackbar("Unable to fetch your items", "error");
       });
   }, [snackbar]);
+
+  const getFilteredItems = () => {
+    return items.filter((x) =>
+      x.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
 
   const rowDate = (params) => {
     let datetime = new Date(params.row.datetime_obtained);
@@ -112,10 +120,11 @@ export default function ItemVaultWindow(props) {
       >
         <Typography variant="h4">Item Vault</Typography>
         <TextField
-          disabled
           label="Search my items"
           variant="standard"
           sx={{ width: "25em" }}
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -129,7 +138,7 @@ export default function ItemVaultWindow(props) {
         <DataGrid
           getRowId={(r) => r.uuid}
           columns={columns}
-          rows={items}
+          rows={getFilteredItems()}
           rowHeight={36}
           sx={{
             border: "1px solid black",
