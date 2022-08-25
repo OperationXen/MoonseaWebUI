@@ -9,7 +9,7 @@ import TradeItemOther from "./TradeItemOther";
 
 export default function TradingPostSearch(props) {
   const [filter, setFilter] = useState("");
-  const [items, setItems] = useState([
+  const [items] = useState([
     {
       name: "Sunblade",
       rarity: "rare",

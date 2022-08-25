@@ -3,17 +3,13 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
 
-import AutorenewIcon from "@mui/icons-material/Autorenew";
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import MultipleStopIcon from "@mui/icons-material/MultipleStop";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 import TradeOfferDialog from "./TradeOfferDialog";
 import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradeItem(props) {
-  const { uuid, name, rarity, owner, owner_uuid, details, numOffers } = props;
+  const { name, rarity, owner, details, numOffers } = props;
 
   const [highlight, setHighlight] = useState(false);
   const [createOfferOpen, setCreateOfferOpen] = useState(false);
