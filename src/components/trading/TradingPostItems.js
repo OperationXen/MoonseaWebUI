@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import Grid from "@mui/material/Unstable_Grid2";
 
-import TradeItem from "./TradeItem";
+import TradeItemOwned from "./TradeItemOwned";
 
-export default function UserItems(props) {
+export default function TradingPostItems(props) {
   const [items, setItems] = useState([
     {
       name: "Wand of Chickens",
@@ -40,7 +40,7 @@ export default function UserItems(props) {
       {items.map((item) => {
         return (
           <Grid md={6} lg={4} xs={12}>
-            <TradeItem {...item} />
+            <TradeItemOwned {...item} />
           </Grid>
         );
       })}

@@ -8,7 +8,9 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
-import UserItems from "./UserItems";
+import TradingPostItems from "./TradingPostItems";
+import TradingPostOffers from "./TradingPostOffers";
+import TradingPostSearch from "./TradingPostSearch";
 
 export default function TradingPostWindow(props) {
   const [tab, setTab] = useState("magicitems");
@@ -43,22 +45,35 @@ export default function TradingPostWindow(props) {
             <Tab icon={<LocalOfferIcon />} label="Offers" value={"offers"} />
             <Tab
               icon={<LocalGroceryStoreIcon />}
-              label="Browse"
-              value={"browse"}
+              label="Search"
+              value={"search"}
             />
           </Tabs>
         </Box>
         <Box
-          sx={{ flexGrow: 1, border: "1px solid black", borderRadius: "8px" }}
+          sx={{
+            flexGrow: 1,
+            border: "1px solid black",
+            borderRadius: "8px",
+          }}
         >
-          <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
-            <UserItems />
+          <TabPanel
+            value="magicitems"
+            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
+          >
+            <TradingPostItems />
           </TabPanel>
-          <TabPanel value="offers" sx={{ flexGrow: 1, padding: 0 }}>
-            Offers
+          <TabPanel
+            value="offers"
+            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
+          >
+            <TradingPostOffers />
           </TabPanel>
-          <TabPanel value="browse" sx={{ flexGrow: 1, padding: 0 }}>
-            Browse
+          <TabPanel
+            value="search"
+            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
+          >
+            <TradingPostSearch />
           </TabPanel>
         </Box>
       </TabContext>
