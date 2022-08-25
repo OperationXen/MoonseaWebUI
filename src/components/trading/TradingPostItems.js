@@ -5,7 +5,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TradeItemOwned from "./TradeItemOwned";
 
 export default function TradingPostItems(props) {
-  const [items, setItems] = useState([
+  const [items] = useState([
     {
       name: "Wand of Chickens",
       rarity: "legendary",
