@@ -12,7 +12,7 @@ import { getUserMagicItems } from "../../api/items";
 import { getDateString, getSourceText } from "../../utils/format";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
-import RarityWidget from "./widgets/RarityWidget";
+import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function ItemVaultWindow(props) {
   const snackbar = useSnackbar((s) => s.displayMessage);
