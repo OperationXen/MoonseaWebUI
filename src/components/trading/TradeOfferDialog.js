@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import { Dialog, Divider, Typography, Stack } from "@mui/material";
+import { Dialog, Divider, Typography, Box, Stack } from "@mui/material";
 import { Select, MenuItem } from "@mui/material";
 
-import { getRarityText } from "../../utils/itemutils";
+import { getRarityText, getRarityColour } from "../../utils/itemutils";
 
 export default function TradeOfferDialog(props) {
   const { open, setOpen, name, rarity } = props;
@@ -28,16 +28,29 @@ export default function TradeOfferDialog(props) {
           alignItems: "center",
           borderRadius: "8px",
           border: "2px solid black",
-          boxShadow: `0 0 8px inset black`,
+          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(
+            rarity
+          )}`,
           width: "42em",
         },
       }}
     >
-      <Typography variant="h3">Propose New Trade</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          width: "100%",
+        }}
+      >
+        <Typography variant="h3">Propose New Trade</Typography>
+      </Box>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Their Item</Divider>
       <Stack>
-        <Typography>Name: {name}</Typography>
-        <Typography>Rarity: {getRarityText(rarity)}</Typography>
+        <Typography>Name: {name} / </Typography>
+        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>
+          {getRarityText(rarity)}
+        </Typography>
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Your Item</Divider>
 

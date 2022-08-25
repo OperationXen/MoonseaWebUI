@@ -5,7 +5,7 @@ import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
 
 import LabelIcon from "@mui/icons-material/Label";
 
-import RarityWidget from "../itemvault/widgets/RarityWidget";
+import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradeItemOwned(props) {
   const { uuid, name, rarity, owner, owner_uuid, details, offers } = props;

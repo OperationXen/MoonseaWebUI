@@ -10,7 +10,7 @@ import MultipleStopIcon from "@mui/icons-material/MultipleStop";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 import TradeOfferDialog from "./TradeOfferDialog";
-import RarityWidget from "../itemvault/widgets/RarityWidget";
+import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradeItem(props) {
   const { uuid, name, rarity, owner, owner_uuid, details, numOffers } = props;
