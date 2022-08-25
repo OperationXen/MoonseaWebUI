@@ -8,7 +8,7 @@ import LabelIcon from "@mui/icons-material/Label";
 import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradeItemOwned(props) {
-  const { uuid, name, rarity, owner, owner_uuid, details, offers } = props;
+  const { name, rarity, owner, details, offers } = props;
 
   const numOffers = offers?.length ?? 0;
   const [highlight, setHighlight] = useState(false);
