@@ -5,7 +5,7 @@ import { Container, Box, Paper, Link } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
-import { validatePassword } from "../../utils/user";
+import { validatePassword, checkDiscordID } from "../../utils/user";
 import { registerAccount } from "../../api/user";
 
 export default function RegistrationWindow() {
@@ -81,8 +81,9 @@ export default function RegistrationWindow() {
             value={discordID}
             label="Discord ID (optional)"
             autoComplete="discord"
-            error={issues.discord_id}
-            onChange={(e) => setDiscordID(e.target.value)}
+            error={discordID && !checkDiscordID(discordID)}
+            placeholder="Username#1234"
+            onChange={(e) => setDiscordID(e.target.value.trim())}
           />
         </Box>
         <Box sx={{ margin: "0.4em", width: "100%" }}>
@@ -137,7 +138,12 @@ export default function RegistrationWindow() {
         <Button
           sx={{ width: "50%", margin: "0.4em" }}
           variant="contained"
-          disabled={!username || !password1 || !password2}
+          disabled={
+            !username ||
+            !password1 ||
+            !password2 ||
+            (discordID && !checkDiscordID(discordID))
+          }
           onClick={handleSubmit}
         >
           Create Account

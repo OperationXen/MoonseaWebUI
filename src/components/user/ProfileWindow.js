@@ -6,6 +6,7 @@ import { Button, TextField, Stack } from "@mui/material";
 import userStore from "../../datastore/user";
 import useSnackBar from "../../datastore/snackbar";
 import { updateDiscordID, updatePassword } from "../../api/user";
+import { checkDiscordID } from "../../utils/user";
 
 export default function ProfileWindow(props) {
   const [username, discord] = userStore((s) => [s.username, s.discordID]);
@@ -41,11 +42,6 @@ export default function ProfileWindow(props) {
       .catch((error) => {
         displayMessage(error.response.data.message[0], "error");
       });
-  };
-
-  const checkDiscordID = () => {
-    let retval = !!discordID.match(/[a-zA-Z]+#[0-9]{4}/);
-    return retval;
   };
 
   const discordIDChanged = () => {
@@ -92,14 +88,14 @@ export default function ProfileWindow(props) {
           sx={{ flexGrow: 3 }}
           label="Discord ID"
           value={discordID}
-          onChange={(e) => setDiscordID(e.target.value)}
-          error={discordIDChanged() && !checkDiscordID()}
+          onChange={(e) => setDiscordID(e.target.value.trim())}
+          error={discordIDChanged() && !checkDiscordID(discordID)}
           placeholder="Username#1234"
         ></TextField>
         <Button
           sx={{ flexGrow: 1, marginLeft: "0.4em", alignSelf: "stretch" }}
           variant="outlined"
-          disabled={!discordIDChanged() || !checkDiscordID()}
+          disabled={!discordIDChanged() || !checkDiscordID(discordID)}
           onClick={changeDiscordID}
         >
           Update
