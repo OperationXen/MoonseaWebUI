@@ -10,8 +10,9 @@ import ItemWidget from "./ItemWidget";
 
 export default function WindowMagicItems(props) {
   const { magicItems } = props;
-  const [characterUUID, refreshData] = useCharacterStore((s) => [
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
     s.uuid,
+    s.editable,
     s.requestRefresh,
   ]);
   const [createOpen, setCreateOpen] = useState(false);
@@ -52,6 +53,7 @@ export default function WindowMagicItems(props) {
         }}
       >
         <Button
+          disabled={!editable}
           startIcon={<AddIcon />}
           onClick={() => {
             setCreateOpen(true);
