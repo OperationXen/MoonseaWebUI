@@ -18,6 +18,8 @@ export default function WindowConsumableItems() {
         sx={{
           display: "flex",
           flexDirection: "row wrap",
+          overflow: "auto",
+          height: "15em",
         }}
       >
         <EmptyWindowWidget message="No consumables" />

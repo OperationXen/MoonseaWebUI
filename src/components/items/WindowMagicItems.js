@@ -22,8 +22,6 @@ export default function WindowMagicItems(props) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        position: "relative",
-        height: "100%",
         width: "100%",
       }}
     >
@@ -33,6 +31,8 @@ export default function WindowMagicItems(props) {
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "space-evenly",
+          overflow: "auto",
+          height: "15em",
         }}
       >
         {(magicItems &&
