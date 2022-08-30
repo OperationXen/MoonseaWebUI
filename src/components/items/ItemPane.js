@@ -16,10 +16,8 @@ export default function ItemPane(props) {
       elevation={8}
       sx={{
         display: "flex",
-        flexGrow: 1,
+
         flexDirection: "column",
-        maxHeight: "28em",
-        minHeight: "16em",
       }}
     >
       <TabContext value={itemTab}>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { Box, Grid } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Box } from "@mui/material";
 
 import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
@@ -41,9 +42,7 @@ export default function CharacterDetailWindow(props) {
     <Grid
       container
       sx={{
-        minWidth: "45em",
         padding: "0.4em",
-        minHeight: "50em",
       }}
     >
       <Grid
