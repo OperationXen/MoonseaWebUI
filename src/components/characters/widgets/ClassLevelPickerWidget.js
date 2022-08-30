@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
-import { IconButton, Typography, Grid, Divider } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { IconButton, Typography, Divider } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -50,13 +51,13 @@ export default function ClassLevelPickerWidget(props) {
   };
 
   return (
-    <Grid container sx={{ margin: "0.4em 0" }}>
-      <Grid item xs={4}>
-        <FormControl>
+    <Grid container sx={{ margin: "0.4em 0", width: "100%" }} spacing="0.2em">
+      <Grid item sm={4} xs={12}>
+        <FormControl sx={{ width: "100%" }}>
           <InputLabel>Character Class</InputLabel>
           <Select
             label="Character Class"
-            sx={{ minWidth: "12em" }}
+            sx={{ width: "100%" }}
             value={data.name}
             onChange={handleClassChange}
             error={highlight && !data.name}
@@ -75,12 +76,12 @@ export default function ClassLevelPickerWidget(props) {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={6}>
-        <FormControl>
+      <Grid item sm={6} xs={8}>
+        <FormControl sx={{ width: "100%" }}>
           <InputLabel>Subclass</InputLabel>
           <Select
             label="Subclass"
-            sx={{ minWidth: "18em" }}
+            sx={{ width: "100%" }}
             disabled={!data.name}
             value={data.subclass}
             onChange={(e) => setSubclass(e.target.value)}
@@ -99,7 +100,8 @@ export default function ClassLevelPickerWidget(props) {
       </Grid>
       <Grid
         item
-        xs={2}
+        sm={2}
+        xs={4}
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <IconButton onClick={handleDecrement}>
