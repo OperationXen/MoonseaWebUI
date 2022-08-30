@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Box, TextField } from "@mui/material";
 
+import { DM_TEXT_PLACEHOLDER } from "../../config/strings";
 import useCharacterStore from "../../datastore/character";
 import { updateCharacter } from "../../api/character";
 import useSnackbar from "../../datastore/snackbar";
@@ -59,7 +60,7 @@ export default function CharacterBiographyPane() {
       <TextField
         disabled={!editable}
         sx={{ flexGrow: 0.48 }}
-        placeholder="DM helper text"
+        placeholder={DM_TEXT_PLACEHOLDER}
         value={dmText}
         onChange={(e) => {
           setDMTextChanged(true);
