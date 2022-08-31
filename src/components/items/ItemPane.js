@@ -16,7 +16,6 @@ export default function ItemPane(props) {
       elevation={8}
       sx={{
         display: "flex",
-
         flexDirection: "column",
       }}
     >

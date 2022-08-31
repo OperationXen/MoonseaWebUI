@@ -6,6 +6,6 @@ export function validatePassword(pass) {
 export function checkDiscordID(discordID) {
   if (!discordID) return false;
 
-  let retval = !!discordID.match(/^[a-zA-Z]+#[0-9]{4}$/);
+  let retval = !!discordID.match(/^[\w ]+\w#[0-9]{4}$/);
   return retval;
 }
