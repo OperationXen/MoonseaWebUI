@@ -5,7 +5,7 @@ import { Box, Container, Dialog, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
-import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 import useSnackbar from "../../datastore/snackbar";
 import { getUserMagicItems } from "../../api/items";
@@ -13,6 +13,7 @@ import { getDateString, getSourceText } from "../../utils/format";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
 import RarityWidget from "../items/widgets/RarityWidget";
+import CreateAdvertDialog from "../trading/CreateAdvertDialog";
 
 export default function ItemVaultWindow(props) {
   const snackbar = useSnackbar((s) => s.displayMessage);
@@ -20,6 +21,8 @@ export default function ItemVaultWindow(props) {
   const [createOpen, setCreateOpen] = useState(false);
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("");
+  const [showAdvertCreate, setShowAdvertCreate] = useState(false);
+  const [item, setItem] = useState(null);
 
   useEffect(() => {
     getUserMagicItems()
@@ -35,6 +38,10 @@ export default function ItemVaultWindow(props) {
     return items.filter((x) =>
       x.name.toLowerCase().includes(filter.toLowerCase())
     );
+  };
+  const handleTrade = (item) => {
+    setItem(item);
+    setShowAdvertCreate(true);
   };
 
   const rowDate = (params) => {
@@ -58,7 +65,10 @@ export default function ItemVaultWindow(props) {
   const getRowActions = (params) => {
     return [
       <Tooltip title="Send to trading post" placement="right">
-        <GridActionsCellItem icon={<DoubleArrowIcon />} onClick={() => {}} />
+        <GridActionsCellItem
+          icon={<LocalGroceryStoreIcon />}
+          onClick={() => handleTrade(params.row)}
+        />
       </Tooltip>,
     ];
   };
@@ -150,6 +160,11 @@ export default function ItemVaultWindow(props) {
         onClose={() => {
           setCreateOpen(false);
         }}
+      />
+      <CreateAdvertDialog
+        open={showAdvertCreate}
+        onClose={() => setShowAdvertCreate(false)}
+        {...item}
       />
     </Container>
   );

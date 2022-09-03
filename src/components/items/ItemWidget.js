@@ -7,6 +7,7 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
 
+import CreateAdvertDialog from "../trading/CreateAdvertDialog";
 import { updateMagicItem } from "../../api/items";
 import useSnackbar from "../../datastore/snackbar";
 import useCharacterStore from "../../datastore/character";
@@ -19,6 +20,7 @@ export default function ItemWidget(props) {
   const navigate = useNavigate();
 
   const [showControls, setShowControls] = useState(false);
+  const [showAdvertCreate, setShowAdvertCreate] = useState(false);
   const colour = getRarityColour(rarity);
 
   const handleClick = () => {
@@ -33,6 +35,7 @@ export default function ItemWidget(props) {
   };
   const handleTradeClick = (e) => {
     e.stopPropagation();
+    setShowAdvertCreate(true);
   };
 
   return (
@@ -108,7 +111,7 @@ export default function ItemWidget(props) {
                 title={
                   equipped
                     ? "Cannot trade equipped items"
-                    : "(Not implemented yet) Offer item for trade"
+                    : "Offer item for trade"
                 }
                 onClick={handleTradeClick}
               >
@@ -134,6 +137,13 @@ export default function ItemWidget(props) {
           </Typography>
         )}
       </Grid>
+      <CreateAdvertDialog
+        open={showAdvertCreate}
+        onClose={() => setShowAdvertCreate(false)}
+        uuid={uuid}
+        name={name}
+        rarity={rarity}
+      />
     </Card>
   );
 }
