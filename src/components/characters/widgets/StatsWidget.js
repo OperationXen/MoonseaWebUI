@@ -12,9 +12,12 @@ export default function StatsWidget(props) {
 
   const handleChange = (e) => {
     let raw = e.target.value;
-    if (locked) return;
+    if (locked || isNaN(raw)) return;
 
-    if (raw && !isNaN(raw)) setValue(parseInt(raw));
+    if (raw) {
+      let val = parseInt(raw);
+      setValue(val);
+    } else setValue(0);
   };
 
   const handleIncrement = () => {
