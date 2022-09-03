@@ -1,13 +1,11 @@
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { AppBar, Box, Toolbar, Typography, Divider } from "@mui/material";
-import { Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { useMediaQuery, useTheme } from "@mui/material";
 
-import MenuIcon from "@mui/icons-material/Menu";
-
 import ProfileWidget from "../user/ProfileWidget";
+import MenuButton from "./MenuButton";
 import AuthButton from "../user/AuthButton";
 import userStore from "../../datastore/user";
 
@@ -18,51 +16,12 @@ export default function Titlebar() {
   const smallMode = useMediaQuery(theme.breakpoints.down("md"));
 
   const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ width: "100%" }}>
         <Toolbar variant="dense" sx={{ display: "flex" }}>
-          <IconButton
-            disabled={!authenticated}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={(e) => {
-              setMenuOpen(true);
-              setAnchorEl(e.currentTarget);
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={menuOpen}
-            onClose={() => setMenuOpen(false)}
-          >
-            <MenuItem
-              onClick={() => {
-                navigate("/");
-                setMenuOpen(false);
-              }}
-            >
-              Dashboard
-            </MenuItem>
-            <Divider />
-            <MenuItem
-              disabled={!dmID || location.pathname.includes("/dungeonmaster")}
-              onClick={() => {
-                navigate(`/dungeonmaster/${dmID}`);
-                setMenuOpen(false);
-              }}
-            >
-              DM Records
-            </MenuItem>
-          </Menu>
+          <MenuButton />
           <Typography
             variant="h6"
             sx={{ flexGrow: 1, cursor: "pointer" }}
