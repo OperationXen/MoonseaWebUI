@@ -9,14 +9,16 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SaveIcon from "@mui/icons-material/Save";
 
 import useSnackbar from "../../../datastore/snackbar";
+import CreateAdvertDialog from "../../trading/CreateAdvertDialog";
 import DeleteConfirm from "../widgets/DeleteConfirm";
 
 export default function MagicItemControlPane(props) {
-  const { uuid, equipped, name, editable } = props.item;
+  const { uuid, equipped, name, rarity, editable } = props.item;
   const { editMode, setEditMode } = props;
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [showDelete, setShowDelete] = useState(false);
+  const [showAdvertCreate, setShowAdvertCreate] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -31,6 +33,7 @@ export default function MagicItemControlPane(props) {
   };
   const handleTrade = () => {
     if (equipped) return;
+    setShowAdvertCreate(true);
   };
 
   return (
@@ -89,6 +92,13 @@ export default function MagicItemControlPane(props) {
         uuid={uuid}
         open={showDelete}
         onClose={() => setShowDelete(false)}
+      />
+      <CreateAdvertDialog
+        open={showAdvertCreate}
+        onClose={() => setShowAdvertCreate(false)}
+        uuid={uuid}
+        name={name}
+        rarity={rarity}
       />
     </Box>
   );
