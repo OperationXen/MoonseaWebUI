@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import { Button, Tooltip } from "@mui/material";
+import { Button } from "@mui/material";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 import ProfileWidget from "../user/ProfileWidget";
@@ -43,18 +43,15 @@ export default function Titlebar() {
             >
               Dashboard
             </Button>
-
-            <Tooltip title="In development" placement="bottom">
-              <Button
-                disabled={
-                  !authenticated || location.pathname.includes("/tradingpost/")
-                }
-                color="inherit"
-                onClick={() => navigate("/tradingpost/")}
-              >
-                Trading Post
-              </Button>
-            </Tooltip>
+            <Button
+              disabled={
+                !authenticated || location.pathname.includes("/tradingpost/")
+              }
+              color="inherit"
+              onClick={() => navigate("/tradingpost/")}
+            >
+              Trading Post
+            </Button>
             <Button
               disabled={
                 !authenticated || location.pathname.includes("/itemvault/")
