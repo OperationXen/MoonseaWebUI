@@ -14,6 +14,7 @@ import { updateCharacter } from "../../api/character";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import CharacterImagePane from "./CharacterImagePane";
 import useSnackbar from "../../datastore/snackbar";
+import VisionWidget from "./widgets/VisionWIdget";
 import StatsWidget from "./widgets/StatsWidget";
 
 const dataBoxStyle = {
@@ -106,22 +107,35 @@ export default function CharacterDetailsPane() {
               </Link>
             </Tooltip>
           </Grid>
-          <Grid item xs={4}>
-            <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title={charData.race === "Kobold" ? "Yip yip" : "Race"}>
                 <Typography
                   variant="h5"
-                  sx={{ color: "#424242", cursor: "pointer" }}
+                  sx={{
+                    color: "#424242",
+                    cursor: "pointer",
+                    marginRight: "0.2em",
+                  }}
                 >
                   {charData.race}
                 </Typography>
               </Tooltip>
-              <Tooltip title="Character level">
-                <Typography variant="h5" sx={{ cursor: "pointer" }}>
-                  {charData.level}
-                </Typography>
-              </Tooltip>
+              <VisionWidget {...charData} />
             </Box>
+            <Tooltip title="Character level">
+              <Typography variant="h5" sx={{ cursor: "pointer" }}>
+                {charData.level}
+              </Typography>
+            </Tooltip>
           </Grid>
         </Grid>
         <Box
