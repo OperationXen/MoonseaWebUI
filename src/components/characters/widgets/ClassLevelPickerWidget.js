@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import Grid from "@mui/material/Unstable_Grid2";
-import { IconButton, Typography, Divider } from "@mui/material";
+import { IconButton, Typography, Divider, Box } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -102,15 +102,33 @@ export default function ClassLevelPickerWidget(props) {
         item
         sm={2}
         xs={4}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          padding: "0",
+        }}
       >
-        <IconButton onClick={handleDecrement}>
-          {(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}
-        </IconButton>
-        <Typography>{data.value}</Typography>
-        <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
-          <AddIcon />
-        </IconButton>
+        <Typography variant="caption" sx={{ opacity: "0.8" }}>
+          Level
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "-0.6em",
+          }}
+        >
+          <IconButton onClick={handleDecrement}>
+            {(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}
+          </IconButton>
+          <Typography>{data.value}</Typography>
+          <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
+            <AddIcon />
+          </IconButton>
+        </Box>
       </Grid>
     </Grid>
   );

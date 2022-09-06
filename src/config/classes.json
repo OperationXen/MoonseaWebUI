@@ -1,6 +1,6 @@
 [
   {
-    "name": "Artificier",
+    "name": "Artificer",
     "subclasses": ["Alchemist", "Armourer", "Artillerist", "Battlesmith"]
   },
   {
