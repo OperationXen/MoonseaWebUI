@@ -3,7 +3,8 @@ import { Chip, Typography } from "@mui/material";
 import { GiCrossedAxes, GiFlangedMace, GiSickle } from "react-icons/gi";
 import { GiCrossedSwords, GiSupersonicArrow } from "react-icons/gi";
 import { GiBanjo, GiHolyHandGrenade, GiThrownDaggers } from "react-icons/gi";
-import { GiMagicSwirl, GiPentacle, GiBookCover } from "react-icons/gi";
+import { GiMagicSwirl, GiPentacle } from "react-icons/gi";
+import { GiGearHammer, GiBookCover } from "react-icons/gi";
 import { FaYinYang } from "react-icons/fa";
 
 const getLevelText = (item) => {
@@ -16,6 +17,7 @@ const getLevelText = (item) => {
 
 const getClassColour = (name) => {
   let c = name.toLowerCase();
+  if (c === "artificer") return "#887242";
   if (c === "barbarian") return "#d0725c";
   if (c === "bard") return "#b58cb6";
   if (c === "cleric") return "#abadae";
@@ -32,6 +34,7 @@ const getClassColour = (name) => {
 
 const getClassIcon = (name) => {
   let c = name.toLowerCase();
+  if (c === "artificer") return <GiGearHammer color="black" />;
   if (c === "barbarian") return <GiCrossedAxes color="black" />;
   if (c === "bard") return <GiBanjo color="black" />;
   if (c === "cleric") return <GiFlangedMace color="black" />;

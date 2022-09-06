@@ -26,8 +26,6 @@ export default function CharacterLevelEditDialog(props) {
       setHighlight(true);
       return;
     }
-
-    console.log(classes);
     update(classes);
     onClose();
   };
