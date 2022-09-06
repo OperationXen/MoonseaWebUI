@@ -12,11 +12,11 @@ import useSnackbar from "../../datastore/snackbar";
 
 export default function CharacterImagePane() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [openFileSelector, { filesContent, clear }] = useFilePicker({
+  const [openFileSelector, { filesContent, clear, errors }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
-    maxFileSize: 0.5,
+    maxFileSize: 0.8,
   });
   const charData = useCharacterStore();
   const [showControls, setShowControls] = useState(false);
@@ -36,6 +36,11 @@ export default function CharacterImagePane() {
     if (showImage === "artwork") setShowImage("token");
     else setShowImage("artwork");
   };
+
+  useEffect(() => {
+    if (errors.length)
+      displayMessage("Invalid image, maximum file size is 512kb", "warning");
+  }, [errors, displayMessage]);
 
   //when file information set
   useEffect(() => {
