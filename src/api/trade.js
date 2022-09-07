@@ -17,3 +17,12 @@ export function getUserAdverts(rarity = null) {
 export function searchAdverts(search) {
   return api.get("/api/magicitem/advert", { params: { search: search } });
 }
+
+export function createTradeOffer(advertUUID, itemUUID, description) {
+  let data = {
+    advert_uuid: advertUUID,
+    item_uuid: itemUUID,
+    description: description,
+  };
+  return api.post("/api/magicitem/offer/", data);
+}
