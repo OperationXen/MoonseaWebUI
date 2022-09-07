@@ -8,6 +8,21 @@ export function deleteTradeAdvert(advertUUID) {
   return api.delete(`/api/magicitem/advert/${advertUUID}/`);
 }
 
-export function getUserAdverts() {
-  return api.get("/api/magicitem/advert?own=true");
+export function getUserAdverts(rarity = null) {
+  return api.get("/api/magicitem/advert", {
+    params: { own: true, rarity: rarity },
+  });
+}
+
+export function searchAdverts(search) {
+  return api.get("/api/magicitem/advert", { params: { search: search } });
+}
+
+export function createTradeOffer(advertUUID, itemUUID, description) {
+  let data = {
+    advert_uuid: advertUUID,
+    item_uuid: itemUUID,
+    description: description,
+  };
+  return api.post("/api/magicitem/offer/", data);
 }
