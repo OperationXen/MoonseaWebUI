@@ -10,17 +10,24 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 import { getTradeOffers } from "../../api/trade";
 import { getDateString } from "../../utils/format";
+import useTradeStore from "../../datastore/trade";
+import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
 import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradingPostOffers(props) {
-  const [pendingOffers, setPendingOffers] = useState([]);
   const navigate = useNavigate();
+  const refresh = useTradeStore((s) => s.refresh);
+
+  const [pendingOffers, setPendingOffers] = useState([]);
+  const [showAccept, setShowAccept] = useState(false);
+  const [showReject, setShowReject] = useState(false);
+  const [offer, setOffer] = useState(null);
 
   useEffect(() => {
     getTradeOffers().then((response) => {
       setPendingOffers(response.data);
     });
-  }, []);
+  }, [refresh]);
 
   const getRowRarityWidget = (r) => {
     return <RarityWidget rarity={r.row.item.rarity} />;
@@ -60,17 +67,37 @@ export default function TradingPostOffers(props) {
     return null;
   };
 
-  const getRowActions = (params) => {
-    return [
-      <Tooltip title="Accept offer" placement="left">
-        <GridActionsCellItem
-          icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
-        />
-      </Tooltip>,
-      <Tooltip title="Reject offer" placement="right">
-        <GridActionsCellItem icon={<CancelIcon sx={{ color: "darkred" }} />} />
-      </Tooltip>,
-    ];
+  const acceptOffer = (p) => {};
+  const rejectOffer = (p) => {
+    setOffer(p.row);
+    setShowReject(true);
+  };
+
+  const getRowActions = (p) => {
+    if (p.row.direction === "in") {
+      return [
+        <Tooltip title="Accept offer" placement="left">
+          <GridActionsCellItem
+            onClick={() => setShowAccept(true)}
+            icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
+          />
+        </Tooltip>,
+        <Tooltip title="Reject offer" placement="right">
+          <GridActionsCellItem
+            onClick={() => rejectOffer(p)}
+            icon={<CancelIcon sx={{ color: "darkred" }} />}
+          />
+        </Tooltip>,
+      ];
+    } else if (p.row.direction === "out") {
+      return [
+        <Tooltip title="Rescind offer" placement="right">
+          <GridActionsCellItem
+            icon={<CancelIcon sx={{ color: "darkred" }} />}
+          />
+        </Tooltip>,
+      ];
+    }
   };
 
   const columns = [
@@ -116,20 +143,29 @@ export default function TradingPostOffers(props) {
   ];
 
   return (
-    <Grid container sx={{ margin: "0.4em", height: "100%" }} spacing={2}>
-      <DataGrid
-        rows={pendingOffers}
-        getRowId={(r) => r.uuid}
-        columns={columns}
-        sx={{ height: "calc(100% - 3em)" }}
-        components={{
-          NoRowsOverlay: () => (
-            <GridOverlay>
-              <Typography sx={{ opacity: "0.6" }}>No pending offers</Typography>
-            </GridOverlay>
-          ),
-        }}
+    <React.Fragment>
+      <Grid container sx={{ margin: "0.4em", height: "100%" }} spacing={2}>
+        <DataGrid
+          rows={pendingOffers}
+          getRowId={(r) => r.uuid}
+          columns={columns}
+          sx={{ height: "calc(100% - 3em)" }}
+          components={{
+            NoRowsOverlay: () => (
+              <GridOverlay>
+                <Typography sx={{ opacity: "0.6" }}>
+                  No pending offers
+                </Typography>
+              </GridOverlay>
+            ),
+          }}
+        />
+      </Grid>
+      <OfferRejectConfirm
+        open={showReject}
+        onClose={() => setShowReject(false)}
+        {...offer}
       />
-    </Grid>
+    </React.Fragment>
   );
 }

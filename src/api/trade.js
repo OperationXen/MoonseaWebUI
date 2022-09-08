@@ -31,3 +31,10 @@ export function createTradeOffer(advertUUID, itemUUID, description) {
 export function getTradeOffers(direction = null) {
   return api.get("/api/magicitem/offer/", { params: { direction: direction } });
 }
+
+export function acceptTradeOffer(offerUUID) {
+  return api.post(`/api/magicitem/offer/accept/${offerUUID}/`);
+}
+export function rejectTradeOffer(offerUUID) {
+  return api.post(`/api/magicitem/offer/reject/${offerUUID}/`);
+}
