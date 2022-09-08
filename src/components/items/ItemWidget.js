@@ -37,6 +37,10 @@ export default function ItemWidget(props) {
     e.stopPropagation();
     setShowAdvertCreate(true);
   };
+  const handleTradeDone = () => {
+    setShowAdvertCreate(false);
+    refreshData();
+  };
 
   return (
     <Card
@@ -139,7 +143,7 @@ export default function ItemWidget(props) {
       </Grid>
       <CreateAdvertDialog
         open={showAdvertCreate}
-        onClose={() => setShowAdvertCreate(false)}
+        onClose={() => handleTradeDone()}
         uuid={uuid}
         name={name}
         rarity={rarity}

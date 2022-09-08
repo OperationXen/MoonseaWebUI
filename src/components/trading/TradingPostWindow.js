@@ -32,7 +32,7 @@ export default function TradingPostWindow(props) {
           justifyContent="space-between"
           margin="0.5em 0"
         >
-          <Typography variant="h4">Trading Post (Work in progress)</Typography>
+          <Typography variant="h4">Trading Post</Typography>
 
           <Tabs
             value={tab}

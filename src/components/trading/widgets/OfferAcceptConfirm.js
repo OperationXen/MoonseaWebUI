@@ -1,21 +1,18 @@
 import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
 
-import { deleteTradeAdvert } from "../../../api/trade";
+import { acceptTradeOffer } from "../../../api/trade";
 import useSnackbar from "../../../datastore/snackbar";
 import useTradeStore from "../../../datastore/trade";
 
-export default function DeleteConfirm(props) {
+export default function OfferRejectConfirm(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestAdvertRefresh = useTradeStore((s) => s.requestRefresh);
+  const requestOfferRefresh = useTradeStore((s) => s.requestRefresh);
 
-  const handleDelete = () => {
-    deleteTradeAdvert(props.uuid)
-      .then(() => {
-        displayMessage(
-          `Advert deleted, ${props.name} has been returned to ${props.owner_name}'s inventory`,
-          "info"
-        );
-        requestAdvertRefresh();
+  const handleAccept = () => {
+    acceptTradeOffer(props.uuid)
+      .then((response) => {
+        displayMessage("Offer accepted!", "success");
+        requestOfferRefresh();
         props.onClose();
       })
       .catch((error) => {
@@ -41,11 +38,13 @@ export default function DeleteConfirm(props) {
         },
       }}
     >
-      <Typography variant="h4">Confirm item return</Typography>
+      <Typography variant="h4">Confirm acceptance</Typography>
       <Divider width="95%" />
-      <Typography variant="body" sx={{ padding: "0.6em" }}>
-        Are you sure you want to remove {props.name} from the trading post? This
-        item will be returned to {props.owner_name}'s inventory.
+      <Typography variant="body" sx={{ padding: "0.2em" }}>
+        Are you sure you want to accept
+      </Typography>
+      <Typography sx={{ padding: "0.4em 0 0.8em" }}>
+        {props.item?.name} for your {props.advert?.item?.name}?
       </Typography>
       <Box
         sx={{
@@ -59,12 +58,12 @@ export default function DeleteConfirm(props) {
           variant="contained"
           sx={{
             width: "35%",
-            background: "",
-            ":hover": { background: "darkblue" },
+            background: "darkblue",
+            ":hover": { background: "blue" },
           }}
-          onClick={handleDelete}
+          onClick={() => handleAccept()}
         >
-          Return to owner
+          Accept offer
         </Button>
         <Button
           color="inherit"

@@ -38,7 +38,8 @@ export default function WindowMagicItems(props) {
         {(magicItems &&
           magicItems.length &&
           magicItems.map((item) => {
-            return <ItemWidget data={item} key={item.id} />;
+            if (!item.market) return <ItemWidget data={item} key={item.id} />;
+            else return null;
           })) || <EmptyWindowWidget message="No magic items" />}
       </Box>
       <Box

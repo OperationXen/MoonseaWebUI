@@ -12,6 +12,7 @@ import { getTradeOffers } from "../../api/trade";
 import { getDateString } from "../../utils/format";
 import useTradeStore from "../../datastore/trade";
 import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
+import OfferAcceptConfirm from "./widgets/OfferAcceptConfirm";
 import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradingPostOffers(props) {
@@ -67,7 +68,10 @@ export default function TradingPostOffers(props) {
     return null;
   };
 
-  const acceptOffer = (p) => {};
+  const acceptOffer = (p) => {
+    setOffer(p.row);
+    setShowAccept(true);
+  };
   const rejectOffer = (p) => {
     setOffer(p.row);
     setShowReject(true);
@@ -78,7 +82,7 @@ export default function TradingPostOffers(props) {
       return [
         <Tooltip title="Accept offer" placement="left">
           <GridActionsCellItem
-            onClick={() => setShowAccept(true)}
+            onClick={() => acceptOffer(p)}
             icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
           />
         </Tooltip>,
@@ -164,6 +168,11 @@ export default function TradingPostOffers(props) {
       <OfferRejectConfirm
         open={showReject}
         onClose={() => setShowReject(false)}
+        {...offer}
+      />
+      <OfferAcceptConfirm
+        open={showAccept}
+        onClose={() => setShowAccept(false)}
         {...offer}
       />
     </React.Fragment>

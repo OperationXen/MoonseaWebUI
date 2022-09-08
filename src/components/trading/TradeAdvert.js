@@ -13,7 +13,7 @@ import DeleteConfirm from "./widgets/DeleteConfirm";
 import TradeOfferDialog from "./TradeOfferDialog";
 
 export default function TradeAdvert(props) {
-  const { description, owner, offers, uuid, item } = props;
+  const { description, offers, uuid, item } = props;
   const { market } = props ?? false;
 
   const navigate = useNavigate();
@@ -109,7 +109,7 @@ export default function TradeAdvert(props) {
       <DeleteConfirm
         open={showDelete}
         onClose={() => setShowDelete(false)}
-        owner={owner}
+        owner_name={item.owner_name}
         name={item.name}
         uuid={uuid}
       />
