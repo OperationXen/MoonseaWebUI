@@ -120,11 +120,11 @@ export default function DungeonMasterWindow() {
               <Typography variant="h4">DM Service Rewards</Typography>
               <div
                 style={{
-                  margin: "1em 0",
-                  height: "250px",
-                  width: "250px",
-                  border: "14px solid black",
-                  borderRadius: "250px",
+                  margin: "0 0 0.4em",
+                  height: "180px",
+                  width: "180px",
+                  border: "8px solid black",
+                  borderRadius: "200px",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
