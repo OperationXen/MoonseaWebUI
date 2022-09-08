@@ -1,16 +1,24 @@
-import React, { useState } from "react";
-import { Box } from "@mui/material";
+import React, { useState, useEffect } from "react";
+
+import { Box, Select, MenuItem, FormControl } from "@mui/material";
 
 import SelectSeasonReward from "./SelectSeasonReward";
 import SeasonRewardWidget from "./SeasonRewardWidget";
-import rewardData from "../season11b.json";
+import rewardData11a from "../season11a.json";
+import rewardData11b from "../season11b.json";
 
 export default function SeasonRewards(props) {
-  const rewards = props.rewards || rewardData;
   const { allowUpdates, dmUUID, hours, onChange } = props;
 
+  const [rewards, setRewards] = useState(rewardData11b);
   const [selectedReward, setSelectedReward] = useState({});
   const [selectRewardOpen, setSelectRewardOpen] = useState(false);
+  const [season, setSeason] = useState("11b");
+
+  useEffect(() => {
+    if (season === "11a") setRewards(rewardData11a);
+    if (season === "11b") setRewards(rewardData11b);
+  }, [season]);
 
   const handleSelect = (reward) => {
     if (allowUpdates && reward.cost <= hours) {
@@ -21,6 +29,12 @@ export default function SeasonRewards(props) {
 
   return (
     <React.Fragment>
+      <FormControl sx={{ m: 1, width: "16em", margin: "4px 0 0" }} size="small">
+        <Select value={season} onChange={(e) => setSeason(e.target.value)}>
+          <MenuItem value={"11a"}>Season 11A</MenuItem>
+          <MenuItem value={"11b"}>Season 11B</MenuItem>
+        </Select>
+      </FormControl>
       <Box
         width={"100%"}
         justifyContent={"space-around"}
