@@ -51,7 +51,9 @@ export default function MagicItemHistoryPane(props) {
     } else if (data.event_type === "edit") {
       return `${data.details}`;
     } else if (data.event_type === "trade") {
-      return `${data.exchanged_item ?? "Unknown item"} / ${data.sender_name}`;
+      return `${data.exchanged_item ?? "Unknown item"} from ${
+        data.recipient_name
+      }`;
     } else if (data.event_type === "game") {
       return `${data.name} (${data.dm_name})`;
     } else if (data.event_type === "dm_reward") {

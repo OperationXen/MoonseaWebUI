@@ -18,6 +18,7 @@ export function searchAdverts(search) {
   return api.get("/api/magicitem/advert", { params: { search: search } });
 }
 
+/*********************  Trade Offers   *********************/
 export function createTradeOffer(advertUUID, itemUUID, description) {
   let data = {
     advert_uuid: advertUUID,
@@ -25,4 +26,15 @@ export function createTradeOffer(advertUUID, itemUUID, description) {
     description: description,
   };
   return api.post("/api/magicitem/offer/", data);
+}
+
+export function getTradeOffers(direction = null) {
+  return api.get("/api/magicitem/offer/", { params: { direction: direction } });
+}
+
+export function acceptTradeOffer(offerUUID) {
+  return api.post(`/api/magicitem/offer/accept/${offerUUID}/`);
+}
+export function rejectTradeOffer(offerUUID) {
+  return api.post(`/api/magicitem/offer/reject/${offerUUID}/`);
 }

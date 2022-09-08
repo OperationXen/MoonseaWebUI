@@ -18,7 +18,7 @@ export function getMagicItemDetails(UUID) {
 }
 
 export function getMagicItemHistory(UUID) {
-  return api.get(`/api/magicitem_events/${UUID}/`);
+  return api.get(`/api/magicitem/events/${UUID}/`);
 }
 
 export function getUserMagicItems() {

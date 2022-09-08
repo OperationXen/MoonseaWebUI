@@ -1,21 +1,18 @@
 import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
 
-import { deleteTradeAdvert } from "../../../api/trade";
+import { rejectTradeOffer } from "../../../api/trade";
 import useSnackbar from "../../../datastore/snackbar";
 import useTradeStore from "../../../datastore/trade";
 
-export default function DeleteConfirm(props) {
+export default function OfferRejectConfirm(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestAdvertRefresh = useTradeStore((s) => s.requestRefresh);
+  const requestOfferRefresh = useTradeStore((s) => s.requestRefresh);
 
-  const handleDelete = () => {
-    deleteTradeAdvert(props.uuid)
-      .then(() => {
-        displayMessage(
-          `Advert deleted, ${props.name} has been returned to ${props.owner_name}'s inventory`,
-          "info"
-        );
-        requestAdvertRefresh();
+  const handleReject = () => {
+    rejectTradeOffer(props.uuid)
+      .then((response) => {
+        displayMessage("Offer rejected", "info");
+        requestOfferRefresh();
         props.onClose();
       })
       .catch((error) => {
@@ -31,8 +28,8 @@ export default function DeleteConfirm(props) {
       PaperProps={{
         sx: {
           borderRadius: "8px",
-          border: "1px solid darkblue",
-          boxShadow: `0 0 8px inset darkblue`,
+          border: "1px solid darkred",
+          boxShadow: `0 0 8px inset darkred`,
           display: "flex",
           width: "32em",
           flexDirection: "column",
@@ -41,11 +38,13 @@ export default function DeleteConfirm(props) {
         },
       }}
     >
-      <Typography variant="h4">Confirm item return</Typography>
+      <Typography variant="h4">Confirm offer rejection</Typography>
       <Divider width="95%" />
-      <Typography variant="body" sx={{ padding: "0.6em" }}>
-        Are you sure you want to remove {props.name} from the trading post? This
-        item will be returned to {props.owner_name}'s inventory.
+      <Typography variant="body" sx={{ padding: "0.2em" }}>
+        Are you sure you want to reject
+      </Typography>
+      <Typography sx={{ padding: "0.4em 0 0.8em" }}>
+        {props.item?.name}
       </Typography>
       <Box
         sx={{
@@ -59,12 +58,12 @@ export default function DeleteConfirm(props) {
           variant="contained"
           sx={{
             width: "35%",
-            background: "",
-            ":hover": { background: "darkblue" },
+            background: "darkred",
+            ":hover": { background: "firebrick" },
           }}
-          onClick={handleDelete}
+          onClick={() => handleReject()}
         >
-          Return to owner
+          Reject offer
         </Button>
         <Button
           color="inherit"
