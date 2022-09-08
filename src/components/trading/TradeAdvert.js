@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Card, CardContent, CardHeader, Box } from "@mui/material";
 import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
@@ -12,9 +13,10 @@ import DeleteConfirm from "./widgets/DeleteConfirm";
 import TradeOfferDialog from "./TradeOfferDialog";
 
 export default function TradeAdvert(props) {
-  const { description, owner, offers, uuid } = props;
+  const { description, owner, offers, uuid, item } = props;
   const { market } = props ?? false;
-  const { name, rarity } = props.item;
+
+  const navigate = useNavigate();
 
   const numOffers = offers?.length ?? 0;
   const [highlight, setHighlight] = useState(false);
@@ -50,10 +52,28 @@ export default function TradeAdvert(props) {
       onMouseOut={() => setHighlight(false)}
     >
       <CardHeader
-        avatar={<RarityWidget rarity={rarity} />}
+        avatar={<RarityWidget rarity={item.rarity} />}
         action={getActionIcon()}
-        title={name}
-        subheader={owner}
+        title={
+          <Typography
+            variant="subtitle1"
+            sx={{ cursor: "pointer" }}
+            onClick={() => navigate(`/magicitem/${item.uuid}`)}
+          >
+            {item.name}
+          </Typography>
+        }
+        subheader={
+          <Typography
+            variant="subtitle2"
+            sx={{ opacity: 0.8, cursor: "pointer" }}
+            onClick={() => {
+              navigate(`/character/${item.owner_uuid}`);
+            }}
+          >
+            {item.owner_name}
+          </Typography>
+        }
       />
       <CardContent sx={{ height: "3em" }}>
         <Typography
@@ -90,15 +110,15 @@ export default function TradeAdvert(props) {
         open={showDelete}
         onClose={() => setShowDelete(false)}
         owner={owner}
-        name={name}
+        name={item.name}
         uuid={uuid}
       />
       <TradeOfferDialog
         open={showOffer}
         onClose={() => setShowOffer(false)}
-        name={name}
+        name={item.name}
         uuid={uuid}
-        rarity={rarity}
+        rarity={item.rarity}
       />
     </Card>
   );

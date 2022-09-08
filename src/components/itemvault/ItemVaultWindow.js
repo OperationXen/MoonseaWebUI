@@ -54,7 +54,7 @@ export default function ItemVaultWindow(props) {
   const getRowCharacterLinkWidget = (params) => {
     return (
       <CharacterLinkWidget
-        name={params.row.owner}
+        name={params.row.owner_name}
         uuid={params.row.owner_uuid}
       />
     );
@@ -93,7 +93,7 @@ export default function ItemVaultWindow(props) {
       renderCell: getRowItemLinkWidget,
     },
     {
-      field: "owner",
+      field: "owner_name",
       headerName: "Owner",
       flex: 0.15,
       renderCell: getRowCharacterLinkWidget,
