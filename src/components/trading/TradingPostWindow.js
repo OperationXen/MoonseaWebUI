@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { Container, Box, Typography } from "@mui/material";
 import { Tabs, Tab } from "@mui/material";
@@ -8,12 +9,19 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
-import TradingPostItems from "./TradingPostItems";
 import TradingPostOffers from "./TradingPostOffers";
 import TradingPostSearch from "./TradingPostSearch";
+import TradingPostItems from "./TradingPostItems";
+import userStore from "../../datastore/user";
 
 export default function TradingPostWindow(props) {
-  const [tab, setTab] = useState("magicitems");
+  const { section } = useParams();
+  const navigate = useNavigate();
+  const authenticated = userStore((s) => s.authenticated);
+
+  useEffect(() => {
+    if (!section) navigate("/tradingpost/market/");
+  }, [navigate, section]);
 
   return (
     <Container
@@ -25,7 +33,7 @@ export default function TradingPostWindow(props) {
         flexDirection: "column",
       }}
     >
-      <TabContext value={tab}>
+      <TabContext value={section}>
         <Box
           display="flex"
           alignItems="center"
@@ -35,18 +43,29 @@ export default function TradingPostWindow(props) {
           <Typography variant="h4">Trading Post</Typography>
 
           <Tabs
-            value={tab}
-            onChange={(e, n) => setTab(n)}
             sx={{
               padding: "0 0.2em",
             }}
           >
-            <Tab icon={<HikingIcon />} label="My Items" value={"magicitems"} />
-            <Tab icon={<LocalOfferIcon />} label="Offers" value={"offers"} />
+            <Tab
+              disabled={!authenticated}
+              icon={<HikingIcon />}
+              label="My Items"
+              component={Link}
+              to={"/tradingpost/items/"}
+            />
+            <Tab
+              disabled={!authenticated}
+              icon={<LocalOfferIcon />}
+              label="Offers"
+              component={Link}
+              to={"/tradingpost/offers/"}
+            />
             <Tab
               icon={<LocalGroceryStoreIcon />}
-              label="Search"
-              value={"search"}
+              label="Market"
+              component={Link}
+              to={"/tradingpost/market/"}
             />
           </Tabs>
         </Box>
@@ -58,7 +77,7 @@ export default function TradingPostWindow(props) {
           }}
         >
           <TabPanel
-            value="magicitems"
+            value="items"
             sx={{ flexGrow: 1, padding: 0, height: "100%" }}
           >
             <TradingPostItems />
@@ -70,7 +89,7 @@ export default function TradingPostWindow(props) {
             <TradingPostOffers />
           </TabPanel>
           <TabPanel
-            value="search"
+            value="market"
             sx={{ flexGrow: 1, padding: 0, height: "100%" }}
           >
             <TradingPostSearch />
