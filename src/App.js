@@ -40,10 +40,11 @@ export default function App() {
           <React.Fragment>
             <Route path="/" element={<Dashboard />} />
             <Route path="/itemvault/" element={<ItemVaultWindow />} />
-            <Route path="/tradingpost/" element={<TradingPostWindow />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </React.Fragment>
         )}
+        <Route path="/tradingpost/" element={<TradingPostWindow />} />
+        <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
         <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
         <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
         <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
