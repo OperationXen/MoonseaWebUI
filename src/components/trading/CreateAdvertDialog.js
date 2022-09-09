@@ -54,7 +54,7 @@ export default function CreateAdvertDialog(props) {
       >
         <Typography variant="h3">Trade Item</Typography>
       </Box>
-      <Typography variant="caption">
+      <Typography variant="caption" sx={{ textAlign: "center" }}>
         This will create an advert for the item and move it to the trading post.
         Whilst the item is in the trading post it will be unavailable for use by
         this character, but other users can propose their items for exchange
@@ -62,8 +62,10 @@ export default function CreateAdvertDialog(props) {
         of the same rarity.
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Item Details</Divider>
-      <Stack>
-        <Typography>Name: {name} / </Typography>
+      <Stack sx={{ alignItems: "center", gap: "0.4em" }}>
+        <Typography variant="h5" sx={{ textDecoration: "underline" }}>
+          {name}
+        </Typography>
         <Typography sx={{ color: `${getRarityColour(rarity)}` }}>
           {getRarityText(rarity)}
         </Typography>

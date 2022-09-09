@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-import { Container, Box, Typography } from "@mui/material";
-import { Tabs, Tab } from "@mui/material";
+import { Container, Box, Typography, TextField } from "@mui/material";
+import { Tabs, Tab, InputAdornment } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 
+import SearchIcon from "@mui/icons-material/Search";
 import HikingIcon from "@mui/icons-material/Hiking";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
@@ -18,6 +19,8 @@ export default function TradingPostWindow(props) {
   const { section } = useParams();
   const navigate = useNavigate();
   const authenticated = userStore((s) => s.authenticated);
+
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     if (!section) navigate("/tradingpost/market/");
@@ -41,7 +44,22 @@ export default function TradingPostWindow(props) {
           margin="0.5em 0"
         >
           <Typography variant="h4">Trading Post</Typography>
-
+          <Box sx={{ display: section === "market" ? "flex" : "none" }}>
+            <TextField
+              label="Search the trading post"
+              variant="standard"
+              sx={{ width: "25em" }}
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
           <Tabs
             sx={{
               padding: "0 0.2em",
@@ -92,7 +110,7 @@ export default function TradingPostWindow(props) {
             value="market"
             sx={{ flexGrow: 1, padding: 0, height: "100%" }}
           >
-            <TradingPostSearch />
+            <TradingPostSearch filter={filter} />
           </TabPanel>
         </Box>
       </TabContext>

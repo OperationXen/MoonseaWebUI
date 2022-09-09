@@ -21,15 +21,18 @@ export default function TradingPostOffers(props) {
   const refresh = useTradeStore((s) => s.refresh);
 
   const [pendingOffers, setPendingOffers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [showCancel, setShowCancel] = useState(false);
   const [offer, setOffer] = useState(null);
 
   useEffect(() => {
-    getTradeOffers().then((response) => {
-      setPendingOffers(response.data);
-    });
+    getTradeOffers()
+      .then((response) => {
+        setPendingOffers(response.data);
+      })
+      .finally(() => setLoading(false));
   }, [refresh]);
 
   const getRowRarityWidget = (r) => {
@@ -160,6 +163,7 @@ export default function TradingPostOffers(props) {
           rows={pendingOffers}
           getRowId={(r) => r.uuid}
           columns={columns}
+          loading={loading}
           sx={{ height: "calc(100% - 3em)" }}
           components={{
             NoRowsOverlay: () => (
