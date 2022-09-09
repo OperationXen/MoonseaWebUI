@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Box, Container, Dialog, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 import useSnackbar from "../../datastore/snackbar";
@@ -17,6 +19,7 @@ import CreateAdvertDialog from "../trading/CreateAdvertDialog";
 
 export default function ItemVaultWindow(props) {
   const snackbar = useSnackbar((s) => s.displayMessage);
+  const navigate = useNavigate();
 
   const [createOpen, setCreateOpen] = useState(false);
   const [items, setItems] = useState([]);
@@ -63,14 +66,25 @@ export default function ItemVaultWindow(props) {
     return <ItemLinkWidget name={params.row.name} uuid={params.row.uuid} />;
   };
   const getRowActions = (params) => {
-    return [
-      <Tooltip title="Send to trading post" placement="right">
-        <GridActionsCellItem
-          icon={<LocalGroceryStoreIcon />}
-          onClick={() => handleTrade(params.row)}
-        />
-      </Tooltip>,
-    ];
+    if (params.row.market) {
+      return [
+        <Tooltip title="View in trading post" placement="right">
+          <GridActionsCellItem
+            icon={<ExitToAppIcon />}
+            onClick={() => navigate("/tradingpost/items/")}
+          />
+        </Tooltip>,
+      ];
+    } else {
+      return [
+        <Tooltip title="Send to trading post" placement="right">
+          <GridActionsCellItem
+            icon={<LocalGroceryStoreIcon />}
+            onClick={() => handleTrade(params.row)}
+          />
+        </Tooltip>,
+      ];
+    }
   };
 
   const columns = [
@@ -103,6 +117,13 @@ export default function ItemVaultWindow(props) {
       headerName: "Source",
       flex: 0.2,
       valueGetter: (p) => getSourceText(p.row.source_event_type),
+    },
+    {
+      field: "market",
+      headerName: "Status",
+      align: "center",
+      flex: 0.1,
+      valueGetter: (p) => (p.row.market ? "In trade post" : ""),
     },
     {
       field: "actions",
