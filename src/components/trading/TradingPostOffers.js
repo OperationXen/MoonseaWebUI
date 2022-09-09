@@ -11,8 +11,9 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { getTradeOffers } from "../../api/trade";
 import { getDateString } from "../../utils/format";
 import useTradeStore from "../../datastore/trade";
-import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
 import OfferAcceptConfirm from "./widgets/OfferAcceptConfirm";
+import OfferCancelConfirm from "./widgets/OfferCancelConfirm";
+import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
 import RarityWidget from "../items/widgets/RarityWidget";
 
 export default function TradingPostOffers(props) {
@@ -22,6 +23,7 @@ export default function TradingPostOffers(props) {
   const [pendingOffers, setPendingOffers] = useState([]);
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
+  const [showCancel, setShowCancel] = useState(false);
   const [offer, setOffer] = useState(null);
 
   useEffect(() => {
@@ -76,6 +78,10 @@ export default function TradingPostOffers(props) {
     setOffer(p.row);
     setShowReject(true);
   };
+  const cancelOffer = (p) => {
+    setOffer(p.row);
+    setShowCancel(true);
+  };
 
   const getRowActions = (p) => {
     if (p.row.direction === "in") {
@@ -97,6 +103,7 @@ export default function TradingPostOffers(props) {
       return [
         <Tooltip title="Rescind offer" placement="right">
           <GridActionsCellItem
+            onClick={() => cancelOffer(p)}
             icon={<CancelIcon sx={{ color: "darkred" }} />}
           />
         </Tooltip>,
@@ -173,6 +180,11 @@ export default function TradingPostOffers(props) {
       <OfferAcceptConfirm
         open={showAccept}
         onClose={() => setShowAccept(false)}
+        {...offer}
+      />
+      <OfferCancelConfirm
+        open={showCancel}
+        onClose={() => setShowCancel(false)}
         {...offer}
       />
     </React.Fragment>

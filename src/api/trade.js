@@ -32,6 +32,12 @@ export function getTradeOffers(direction = null) {
   return api.get("/api/magicitem/offer/", { params: { direction: direction } });
 }
 
+export function deleteTradeOffer(offerUUID) {
+  return api.delete(`/api/magicitem/offer/${offerUUID}`);
+}
+
+/*********************  Trade Actions   *********************/
+
 export function acceptTradeOffer(offerUUID) {
   return api.post(`/api/magicitem/offer/accept/${offerUUID}/`);
 }
