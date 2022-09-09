@@ -12,7 +12,6 @@ export default function TradingPostSearch(props) {
   const [loading, setLoading] = useState(true);
 
   const handleSearch = useCallback(() => {
-    setLoading(true);
     searchAdverts(filter)
       .then((response) => setAdverts(response.data))
       .finally(() => setLoading(false));
