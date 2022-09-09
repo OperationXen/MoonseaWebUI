@@ -23,6 +23,7 @@ export default function ItemVaultWindow(props) {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
   const [showAdvertCreate, setShowAdvertCreate] = useState(false);
   const [item, setItem] = useState(null);
@@ -34,7 +35,8 @@ export default function ItemVaultWindow(props) {
       })
       .catch((error) => {
         snackbar("Unable to fetch your items", "error");
-      });
+      })
+      .finally(() => setLoading(false));
   }, [snackbar]);
 
   const getFilteredItems = () => {
@@ -123,7 +125,8 @@ export default function ItemVaultWindow(props) {
       headerName: "Status",
       align: "center",
       flex: 0.1,
-      valueGetter: (p) => (p.row.market ? "In trade post" : ""),
+      valueGetter: (p) =>
+        p.row.market ? "In trade post" : p.row.equipped ? "Equipped" : "Unused",
     },
     {
       field: "actions",
@@ -171,6 +174,7 @@ export default function ItemVaultWindow(props) {
           columns={columns}
           rows={getFilteredItems()}
           rowHeight={36}
+          loading={loading}
           sx={{
             border: "1px solid black",
           }}
