@@ -4,18 +4,22 @@ import Grid from "@mui/material/Unstable_Grid2";
 
 import { searchAdverts } from "../../api/trade";
 import TradeAdvert from "./TradeAdvert";
+import useSnackbar from "../../datastore/snackbar";
 import LoadingOverlay from "../general/LoadingOverlay";
 
 export default function TradingPostSearch(props) {
   const { filter } = props;
+  const snackbar = useSnackbar((s) => s.displayMessage);
+
   const [adverts, setAdverts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const handleSearch = useCallback(() => {
     searchAdverts(filter)
       .then((response) => setAdverts(response.data))
+      .catch((error) => snackbar(error.response.data.message, "error"))
       .finally(() => setLoading(false));
-  }, [filter]);
+  }, [filter, snackbar]);
 
   useEffect(() => {
     handleSearch();
