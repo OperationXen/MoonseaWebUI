@@ -11,6 +11,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { getTradeOffers } from "../../api/trade";
 import { getDateString } from "../../utils/format";
 import useTradeStore from "../../datastore/trade";
+import useSnackbar from "../../datastore/snackbar";
 import OfferAcceptConfirm from "./widgets/OfferAcceptConfirm";
 import OfferCancelConfirm from "./widgets/OfferCancelConfirm";
 import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
@@ -19,6 +20,7 @@ import RarityWidget from "../items/widgets/RarityWidget";
 export default function TradingPostOffers(props) {
   const navigate = useNavigate();
   const refresh = useTradeStore((s) => s.refresh);
+  const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [pendingOffers, setPendingOffers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,8 +34,9 @@ export default function TradingPostOffers(props) {
       .then((response) => {
         setPendingOffers(response.data);
       })
+      .catch((error) => snackbar(error.response.data.message, "error"))
       .finally(() => setLoading(false));
-  }, [refresh]);
+  }, [refresh, snackbar]);
 
   const getRowRarityWidget = (r) => {
     return <RarityWidget rarity={r.row.item.rarity} />;

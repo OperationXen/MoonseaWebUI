@@ -34,7 +34,7 @@ export default function ProfileWidget() {
       }}
       onClick={handleMenuOpen}
     >
-      {username[0].toUpperCase() || "?"}
+      {username[0]?.toUpperCase() || "?"}
       <Menu
         id="profile-menu"
         anchorEl={anchorEl}
