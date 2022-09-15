@@ -1,21 +1,24 @@
 import api from "./base";
 
+// Weird endpoint name is due to adblockers blocking "advert"
 export function createTradeAdvert(itemUUID, description) {
   let data = { item_uuid: itemUUID, description: description };
-  return api.post("/api/magicitem/advert/", data);
+  return api.post("/api/magicitem/faesuggestion/", data);
 }
 export function deleteTradeAdvert(advertUUID) {
-  return api.delete(`/api/magicitem/advert/${advertUUID}/`);
+  return api.delete(`/api/magicitem/faesuggestion/${advertUUID}/`);
 }
 
 export function getUserAdverts(rarity = null) {
-  return api.get("/api/magicitem/advert", {
+  return api.get("/api/magicitem/faesuggestion", {
     params: { own: true, rarity: rarity },
   });
 }
 
 export function searchAdverts(search) {
-  return api.get("/api/magicitem/advert", { params: { search: search } });
+  return api.get("/api/magicitem/faesuggestion", {
+    params: { search: search },
+  });
 }
 
 /*********************  Trade Offers   *********************/
@@ -25,22 +28,24 @@ export function createTradeOffer(advertUUID, itemUUID, description) {
     item_uuid: itemUUID,
     description: description,
   };
-  return api.post("/api/magicitem/offer/", data);
+  return api.post("/api/magicitem/faeproposal/", data);
 }
 
 export function getTradeOffers(direction = null) {
-  return api.get("/api/magicitem/offer/", { params: { direction: direction } });
+  return api.get("/api/magicitem/faeproposal/", {
+    params: { direction: direction },
+  });
 }
 
 export function deleteTradeOffer(offerUUID) {
-  return api.delete(`/api/magicitem/offer/${offerUUID}`);
+  return api.delete(`/api/magicitem/faeproposal/${offerUUID}`);
 }
 
 /*********************  Trade Actions   *********************/
 
 export function acceptTradeOffer(offerUUID) {
-  return api.post(`/api/magicitem/offer/accept/${offerUUID}/`);
+  return api.post(`/api/magicitem/faeproposal/accept/${offerUUID}/`);
 }
 export function rejectTradeOffer(offerUUID) {
-  return api.post(`/api/magicitem/offer/reject/${offerUUID}/`);
+  return api.post(`/api/magicitem/faeproposal/reject/${offerUUID}/`);
 }
