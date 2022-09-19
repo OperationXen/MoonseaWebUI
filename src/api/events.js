@@ -74,3 +74,14 @@ export function removeCharacterGame(gameUUID, characterUUID) {
     data: { character_uuid: characterUUID },
   });
 }
+
+// catching up events
+export function createEventCatchingUp(characterUUID, details) {
+  let data = { character_uuid: characterUUID, details: details };
+
+  return api.post("/api/catchingup/", data);
+}
+
+export function deleteEventCatchingUp(uuid) {
+  return api.delete(`/api/catchingup/${uuid}/`);
+}

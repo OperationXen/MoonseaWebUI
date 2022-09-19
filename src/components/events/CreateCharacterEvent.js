@@ -4,9 +4,10 @@ import { Dialog, Box, Divider, TextField, FormControl } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
+import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
 
 export default function CreateCharacterEvent(props) {
-  const { characterUUID, open, onClose } = props;
+  const { characterUUID, downtime, open, onClose } = props;
 
   const [event, setEvent] = useState("game");
 
@@ -50,7 +51,7 @@ export default function CreateCharacterEvent(props) {
               Trade mundane equipment
             </MenuItem>
             <Divider>Downtime activities</Divider>
-            <MenuItem value="dt-catchup" disabled>
+            <MenuItem value="dt-catchup" disabled={downtime < 10}>
               Catching up (gain a level)
             </MenuItem>
             <MenuItem value="trade-item" disabled>
@@ -76,6 +77,9 @@ export default function CreateCharacterEvent(props) {
           characterUUID={characterUUID}
           onClose={handleClose}
         />
+      )}
+      {event === "dt-catchup" && (
+        <CreateDTCatchup characterUUID={characterUUID} onClose={handleClose} />
       )}
       {event === "trade-npc" && (
         <Box
