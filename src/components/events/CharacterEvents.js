@@ -6,15 +6,14 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import {
-  getEventsForCharacter,
-  removeCharacterGame,
-} from "../../api/events.js";
+import { getEventsForCharacter } from "../../api/events";
+import { deleteEventCatchingUp } from "../../api/events";
+import { removeCharacterGame } from "../../api/events";
 import useSnackbar from "../../datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 
 export default function CharacterEvents(props) {
-  const { characterUUID, characterName, editable } = props;
+  const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -29,15 +28,23 @@ export default function CharacterEvents(props) {
 
   const rowActions = (params) => {
     if (!editable) return null;
+
     return (
       <IconButton
         disabled={params.row.event_type === "dm_reward"}
-        onClick={() =>
-          removeCharacterGame(params.row.uuid, characterUUID).then(() => {
-            displayMessage("Event deleted", "info");
-            setRefresh(!refresh);
-          })
-        }
+        onClick={() => {
+          if (params.row.event_type === "dt_catchingup") {
+            deleteEventCatchingUp(params.row.uuid).then(() => {
+              displayMessage("Event deleted", "info");
+              setRefresh(!refresh);
+            });
+          } else {
+            removeCharacterGame(params.row.uuid, characterUUID).then(() => {
+              displayMessage("Event deleted", "info");
+              setRefresh(!refresh);
+            });
+          }
+        }}
       >
         <DeleteIcon />
       </IconButton>
@@ -50,6 +57,8 @@ export default function CharacterEvents(props) {
       return "Game";
     } else if (event_type === "dm_reward") {
       return "DM Reward";
+    } else if (event_type === "dt_catchingup") {
+      return "Catching up";
     }
   };
   const rowDate = (params) => {
@@ -70,6 +79,8 @@ export default function CharacterEvents(props) {
         str += ` / ${data.downtime} downtime days`;
       }
       return str;
+    } else if (data.event_type === "dt_catchingup") {
+      return `${data.details ? data.details : "Gained a level"}`;
     }
   };
 
@@ -156,6 +167,7 @@ export default function CharacterEvents(props) {
       />
       <CreateCharacterEvent
         characterUUID={characterUUID}
+        downtime={downtime}
         open={createOpen}
         onClose={() => {
           setRefresh(!refresh);

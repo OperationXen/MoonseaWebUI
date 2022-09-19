@@ -94,6 +94,7 @@ export default function CharacterDetailWindow(props) {
         <CharacterEvents
           characterUUID={uuid}
           characterName={charData.name}
+          downtime={charData.downtime}
           editable={charData.editable}
         />
       </Grid>
