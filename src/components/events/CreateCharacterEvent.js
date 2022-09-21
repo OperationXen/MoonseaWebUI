@@ -4,6 +4,7 @@ import { Dialog, Box, Divider, TextField, FormControl } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
+import CreateMundaneTrade from "./character_event_panes/CreateMundaneTrade";
 import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
 
 export default function CreateCharacterEvent(props) {
@@ -47,17 +48,15 @@ export default function CreateCharacterEvent(props) {
           >
             <Divider>Quick select</Divider>
             <MenuItem value="game">Played a game</MenuItem>
-            <MenuItem value="trade-npc" disabled>
-              Trade mundane equipment
-            </MenuItem>
+            <MenuItem value="mtrade">Visited merchant</MenuItem>
             <Divider>Downtime activities</Divider>
             <MenuItem value="dt-catchup" disabled={downtime < 10}>
               Catching up (gain a level)
             </MenuItem>
-            <MenuItem value="trade-item" disabled>
+            <MenuItem value="dt-trade" disabled>
               Trade magical items
             </MenuItem>
-            <MenuItem value="spellbook" disabled>
+            <MenuItem value="dt-spellbook" disabled>
               Copy spells to spellbook
             </MenuItem>
             <MenuItem value="dt-scribe" disabled>
@@ -75,6 +74,12 @@ export default function CreateCharacterEvent(props) {
       {event === "game" && (
         <CreateCharacterGame
           characterUUID={characterUUID}
+          onClose={handleClose}
+        />
+      )}
+      {event === "mtrade" && (
+        <CreateMundaneTrade
+          characterUUiD={characterUUID}
           onClose={handleClose}
         />
       )}
