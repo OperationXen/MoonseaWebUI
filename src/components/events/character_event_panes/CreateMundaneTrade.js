@@ -10,7 +10,7 @@ import { GiTwoCoins } from "react-icons/gi";
 
 import useSnackbar from "../../../datastore/snackbar";
 import useCharacterStore from "../../../datastore/character";
-import { createPlayerGame } from "../../../api/events";
+import { createEventMundaneTrade } from "../../../api/events";
 
 export default function CreateMundaneTrade(props) {
   const { onClose } = props;
@@ -25,13 +25,15 @@ export default function CreateMundaneTrade(props) {
   const [purchased, setPurchased] = useState("");
 
   const handleSubmit = () => {
-    createPlayerGame(characterUUID, {})
+    let goldChange = gold * profit ? 1 : -1;
+
+    createEventMundaneTrade(characterUUID, goldChange, sold, purchased)
       .then((response) => {
-        displayMessage("Game added to log", "success");
+        displayMessage("Merchant trade added to log", "success");
         requestCharacterRefresh();
         onClose && onClose();
       })
-      .catch(() => displayMessage("Error creating game", "error"));
+      .catch(() => displayMessage("Error creating event", "error"));
   };
 
   return (

@@ -6,7 +6,10 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { getEventsForCharacter } from "../../api/events";
+import {
+  deleteEventMundaneTrade,
+  getEventsForCharacter,
+} from "../../api/events";
 import { deleteEventCatchingUp } from "../../api/events";
 import { removeCharacterGame } from "../../api/events";
 import useSnackbar from "../../datastore/snackbar.js";
@@ -38,6 +41,11 @@ export default function CharacterEvents(props) {
               displayMessage("Event deleted", "info");
               setRefresh(!refresh);
             });
+          } else if (params.row.event_type === "dt_mtrade") {
+            deleteEventMundaneTrade(params.row.uuid).then(() => {
+              displayMessage("Event deleted", "info");
+              setRefresh(!refresh);
+            });
           } else {
             removeCharacterGame(params.row.uuid, characterUUID).then(() => {
               displayMessage("Event deleted", "info");
@@ -59,6 +67,8 @@ export default function CharacterEvents(props) {
       return "DM Reward";
     } else if (event_type === "dt_catchingup") {
       return "Catching up";
+    } else if (event_type === "dt_mtrade") {
+      return "Trade with merchant";
     }
   };
   const rowDate = (params) => {
@@ -81,6 +91,10 @@ export default function CharacterEvents(props) {
       return str;
     } else if (data.event_type === "dt_catchingup") {
       return `${data.details ? data.details : "Gained a level"}`;
+    } else if (data.event_type === "dt_mtrade") {
+      return `${data.gold_change}gp ${
+        data.gold_change > 0 ? "received" : "spent"
+      }`;
     }
   };
 
