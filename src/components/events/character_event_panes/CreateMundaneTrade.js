@@ -25,7 +25,7 @@ export default function CreateMundaneTrade(props) {
   const [purchased, setPurchased] = useState("");
 
   const handleSubmit = () => {
-    let goldChange = gold * profit ? 1 : -1;
+    let goldChange = gold * (profit ? 1 : -1);
 
     createEventMundaneTrade(characterUUID, goldChange, sold, purchased)
       .then((response) => {

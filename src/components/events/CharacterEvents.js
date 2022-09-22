@@ -68,7 +68,7 @@ export default function CharacterEvents(props) {
     } else if (event_type === "dt_catchingup") {
       return "Catching up";
     } else if (event_type === "dt_mtrade") {
-      return "Trade with merchant";
+      return "Merchant";
     }
   };
   const rowDate = (params) => {
@@ -92,7 +92,7 @@ export default function CharacterEvents(props) {
     } else if (data.event_type === "dt_catchingup") {
       return `${data.details ? data.details : "Gained a level"}`;
     } else if (data.event_type === "dt_mtrade") {
-      return `${data.gold_change}gp ${
+      return `${Math.abs(data.gold_change)}gp ${
         data.gold_change > 0 ? "received" : "spent"
       }`;
     }
