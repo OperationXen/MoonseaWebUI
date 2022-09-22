@@ -85,3 +85,18 @@ export function createEventCatchingUp(characterUUID, details) {
 export function deleteEventCatchingUp(uuid) {
   return api.delete(`/api/catchingup/${uuid}/`);
 }
+
+// mundane trade events
+export function createEventMundaneTrade(characterUUID, gold, sold, purchased) {
+  let data = {
+    character_uuid: characterUUID,
+    gold_change: gold,
+    sold: sold,
+    purchased: purchased,
+  };
+  return api.post("/api/mundanetrade/", data);
+}
+
+export function deleteEventMundaneTrade(uuid) {
+  return api.delete(`/api/mundanetrade/${uuid}/`);
+}
