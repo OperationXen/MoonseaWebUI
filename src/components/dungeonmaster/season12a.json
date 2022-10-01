@@ -1,0 +1,106 @@
+[
+  {
+    "name": "+1 Pistol",
+    "downtime": 10,
+    "rewards": ["+1 Pistol"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Spellwrought Tattoo",
+    "downtime": 10,
+    "rewards": ["Spellwrought Tattoo (3rd level)"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Wildspace Orrery",
+    "downtime": 10,
+    "rewards": ["Wildspace Orrery"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Tier 1 Adventure Reward",
+    "gold": 250,
+    "rewards": "Any tier 1 adventure item",
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Armour of Radiant Resistance",
+    "downtime": 20,
+    "rewards": ["Armour of Radiant Resistance (Half Plate)"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Mantle of Spell Resistance",
+    "downtime": 20,
+    "rewards": ["Mantle of Spell Resistance"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Mace of Smiting",
+    "downtime": 20,
+    "rewards": ["Mace of Smiting"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Tier 2 Adventure Reward",
+    "gold": 2500,
+    "rewards": "Any tier 2 adventure item",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Robe of Stars",
+    "downtime": 30,
+    "rewards": ["Robe of Stars"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Tome of Understanding",
+    "downtime": 30,
+    "rewards": ["Tome of Understanding"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Fish Suit",
+    "downtime": 30,
+    "rewards": ["Fish Suit"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Tier 3/4 Adventure Reward",
+    "gold": 10000,
+    "rewards": "Any tier 3 or 4 adventure item",
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Repeatable Reward",
+    "gold": 50000,
+    "rewards": "+2 Weapon",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 40
+  }
+]

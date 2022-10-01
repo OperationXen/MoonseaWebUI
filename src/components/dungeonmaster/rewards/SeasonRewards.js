@@ -6,6 +6,7 @@ import SelectSeasonReward from "./SelectSeasonReward";
 import SeasonRewardWidget from "./SeasonRewardWidget";
 import rewardData11a from "../season11a.json";
 import rewardData11b from "../season11b.json";
+import rewardData12a from "../season12a.json";
 
 export default function SeasonRewards(props) {
   const { allowUpdates, dmUUID, hours, onChange } = props;
@@ -13,11 +14,12 @@ export default function SeasonRewards(props) {
   const [rewards, setRewards] = useState(rewardData11b);
   const [selectedReward, setSelectedReward] = useState({});
   const [selectRewardOpen, setSelectRewardOpen] = useState(false);
-  const [season, setSeason] = useState("11b");
+  const [season, setSeason] = useState("12a");
 
   useEffect(() => {
     if (season === "11a") setRewards(rewardData11a);
     if (season === "11b") setRewards(rewardData11b);
+    if (season === "12a") setRewards(rewardData12a);
   }, [season]);
 
   const handleSelect = (reward) => {
@@ -33,6 +35,7 @@ export default function SeasonRewards(props) {
         <Select value={season} onChange={(e) => setSeason(e.target.value)}>
           <MenuItem value={"11a"}>Season 11A</MenuItem>
           <MenuItem value={"11b"}>Season 11B</MenuItem>
+          <MenuItem value={"12a"}>Season 12A</MenuItem>
         </Select>
       </FormControl>
       <Box
