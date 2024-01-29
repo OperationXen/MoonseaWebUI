@@ -1,0 +1,135 @@
+[
+  {
+    "name": "Pyrite Pleiosaurus",
+    "downtime": 10,
+    "rewards": ["Pyrite Pleiosaurus"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Weapon of Warning",
+    "downtime": 10,
+    "rewards": ["Weapon of Warning"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Cap of Water Breathing",
+    "downtime": 10,
+    "rewards": ["Cap of Water Breathing"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Uncommon Adventure Reward",
+    "gold": 250,
+    "rewards": "Any common or uncommon item from a published adventure",
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Dagger of Blindsight",
+    "downtime": 20,
+    "rewards": ["Dagger of Blindsight"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Staff of the Rooted Hills",
+    "downtime": 20,
+    "rewards": ["Staff of the Rooted Hills"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Wayfarers Boots",
+    "downtime": 20,
+    "rewards": ["Wayfarers Boots"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rare Adventure Reward",
+    "gold": 2500,
+    "rewards": "Any rare item from a published adventure",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Armour of Safeguarding (Heavy)",
+    "downtime": 30,
+    "rewards": [
+      "Armour of Safeguarding - Ring Mail",
+      "Armour of Safeguarding - Chain Mail",
+      "Armour of Safeguarding - Splint",
+      "Armour of Safeguarding - Plate"
+    ],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Manual of Bodily Health",
+    "downtime": 30,
+    "rewards": ["Manual of Bodily Health"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Ring of Amity",
+    "downtime": 30,
+    "rewards": ["Ring of Amity"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Very Rare Adventure Reward",
+    "gold": 10000,
+    "rewards": "Any very rare item from a published adventure",
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Repeatable Reward",
+    "gold": 50000,
+    "rewards": "+2 Weapon",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Longbow of Healing Hearth",
+    "downtime": 40,
+    "rewards": ["Longbow of Healing Hearth"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  },
+  {
+    "name": "Harp of Gilded Plenty",
+    "downtime": 40,
+    "rewards": ["Harp of Gilded Plenty"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  },
+  {
+    "name": "Legendary Adventure Reward",
+    "downtime": 40,
+    "rewards": "Any legendary item from a published adventure",
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  }
+]

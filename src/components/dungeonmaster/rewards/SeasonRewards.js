@@ -7,6 +7,8 @@ import SeasonRewardWidget from "./SeasonRewardWidget";
 import rewardData11a from "../season11a.json";
 import rewardData11b from "../season11b.json";
 import rewardData12a from "../season12a.json";
+import rewardData12b from "../season12b.json";
+import rewardData12c from "../season12c.json";
 
 export default function SeasonRewards(props) {
   const { allowUpdates, dmUUID, hours, onChange } = props;
@@ -14,12 +16,14 @@ export default function SeasonRewards(props) {
   const [rewards, setRewards] = useState(rewardData11b);
   const [selectedReward, setSelectedReward] = useState({});
   const [selectRewardOpen, setSelectRewardOpen] = useState(false);
-  const [season, setSeason] = useState("12a");
+  const [season, setSeason] = useState("12c");
 
   useEffect(() => {
     if (season === "11a") setRewards(rewardData11a);
     if (season === "11b") setRewards(rewardData11b);
     if (season === "12a") setRewards(rewardData12a);
+    if (season === "12b") setRewards(rewardData12b);
+    if (season === "12c") setRewards(rewardData12c);
   }, [season]);
 
   const handleSelect = (reward) => {
@@ -36,13 +40,11 @@ export default function SeasonRewards(props) {
           <MenuItem value={"11a"}>Season 11A</MenuItem>
           <MenuItem value={"11b"}>Season 11B</MenuItem>
           <MenuItem value={"12a"}>Season 12A</MenuItem>
+          <MenuItem value={"12b"}>Season 12B</MenuItem>
+          <MenuItem value={"12c"}>Season 12C</MenuItem>
         </Select>
       </FormControl>
-      <Box
-        width={"100%"}
-        justifyContent={"space-around"}
-        sx={{ flexFlow: "column", overflowY: "scroll" }}
-      >
+      <Box width={"100%"} justifyContent={"space-around"} sx={{ flexFlow: "column", overflowY: "scroll" }}>
         {rewards.map((reward, index) => {
           return (
             <SeasonRewardWidget
