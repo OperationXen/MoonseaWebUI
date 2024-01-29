@@ -1,0 +1,130 @@
+[
+  {
+    "name": "Gloves of Thievery",
+    "downtime": 10,
+    "rewards": ["Gloves of Thievery"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Lightbringer",
+    "downtime": 10,
+    "rewards": ["Lightbringer"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Spellwrought Tattoo (2nd Level)",
+    "downtime": 10,
+    "rewards": ["Spellwrought Tattoo (2nd Level)"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Uncommon Adventure Reward",
+    "gold": 250,
+    "rewards": "Any common or uncommon item from a published adventure",
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Armour of Necrotic Resistance (Studded Leather)",
+    "downtime": 20,
+    "rewards": ["Armour of Resistance (Studded Leather) - Necrotic"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Dagger of Venom",
+    "downtime": 20,
+    "rewards": ["Dagger of Venom"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Kagonesti Forest Shroud",
+    "downtime": 20,
+    "rewards": ["Kagonesti Forest Shroud"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rare Adventure Reward",
+    "gold": 2500,
+    "rewards": "Any rare item from a published adventure",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rod of Absorption",
+    "downtime": 30,
+    "rewards": ["Rod of Absorption"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Manual of Gainful Exercise",
+    "downtime": 30,
+    "rewards": ["Manual of Gainful Exercise"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Ring of Telekinesis",
+    "downtime": 30,
+    "rewards": ["Ring of Telekinesis"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Very Rare Adventure Reward",
+    "gold": 10000,
+    "rewards": "Any very rare item from a published adventure",
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Repeatable Reward",
+    "gold": 50000,
+    "rewards": "+2 Weapon",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Tablet of Reawakening",
+    "downtime": 40,
+    "rewards": ["Tablet of Reawakening"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  },
+  {
+    "name": "Red Wizard Blade",
+    "downtime": 40,
+    "rewards": ["Red Wizard Blade"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  },
+  {
+    "name": "Legendary Adventure Reward",
+    "downtime": 40,
+    "rewards": "Any legendary item from a published adventure",
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  }
+]
