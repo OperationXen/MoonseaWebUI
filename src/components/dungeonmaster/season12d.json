@@ -1,0 +1,130 @@
+[
+  {
+    "name": "Wraps of Unarmed Prowess",
+    "downtime": 10,
+    "rewards": ["Wraps of Unarmed Prowess"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Boots of False Tracks",
+    "downtime": 10,
+    "rewards": ["Boots of False Tracks"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Brooch of Shielding",
+    "downtime": 10,
+    "rewards": ["Brooch of Shielding"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Uncommon Adventure Reward",
+    "gold": 250,
+    "rewards": "Any common or uncommon item from a published adventure",
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Rogues Mantle",
+    "downtime": 20,
+    "rewards": ["Rogues Mantle"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Cloak of the Bat",
+    "downtime": 20,
+    "rewards": ["Cloak of the Bat"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Ring of Feather Falling",
+    "downtime": 20,
+    "rewards": ["Ring of Feather Falling"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rare Adventure Reward",
+    "gold": 2500,
+    "rewards": "Any rare item from a published adventure",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Sages Signet",
+    "downtime": 30,
+    "rewards": ["Sages Signet"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Baleful Talon",
+    "downtime": 30,
+    "rewards": ["Baleful Talon"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Robe of Stars",
+    "downtime": 30,
+    "rewards": ["Robe of Stars"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Very Rare Adventure Reward",
+    "gold": 10000,
+    "rewards": "Any very rare item from a published adventure",
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Repeatable Reward",
+    "gold": 50000,
+    "rewards": ["+2 Weapon", "5 Rare Potions"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Euryales Aegis",
+    "downtime": 40,
+    "rewards": ["Euryales Aegis"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  },
+  {
+    "name": "Sword of the Planes",
+    "downtime": 40,
+    "rewards": ["Sword of the Planes"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  },
+  {
+    "name": "Legendary Adventure Reward",
+    "downtime": 40,
+    "rewards": "Any legendary item from a published adventure",
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 80
+  }
+]
