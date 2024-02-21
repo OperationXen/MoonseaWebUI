@@ -28,10 +28,7 @@ export default function RegistrationWindow() {
   const handleSubmit = () => {
     registerAccount(username, email, discordID, password1)
       .then(() => {
-        displayMessage(
-          "Your account has been created, please check your email for a verification email",
-          "success"
-        );
+        displayMessage("Your account has been created, please check your email for a verification email", "success");
         navigate("/login");
       })
       .catch((error) => {
@@ -79,10 +76,10 @@ export default function RegistrationWindow() {
           <TextField
             sx={{ flexGrow: 0.35 }}
             value={discordID}
-            label="Discord ID (optional)"
+            label="Discord Username (optional)"
             autoComplete="discord"
             error={discordID && !checkDiscordID(discordID)}
-            placeholder="Username#1234"
+            placeholder="Username"
             onChange={(e) => setDiscordID(e.target.value.trim())}
           />
         </Box>
@@ -127,32 +124,19 @@ export default function RegistrationWindow() {
             type="password"
             autoComplete="password-confirm"
             error={issues.password}
-            helperText={
-              password2 && password1 !== password2
-                ? "Passwords must match"
-                : " "
-            }
+            helperText={password2 && password1 !== password2 ? "Passwords must match" : " "}
             onChange={(e) => setPassword2(e.target.value)}
           />
         </Box>
         <Button
           sx={{ width: "50%", margin: "0.4em" }}
           variant="contained"
-          disabled={
-            !username ||
-            !password1 ||
-            !password2 ||
-            (discordID && !checkDiscordID(discordID))
-          }
+          disabled={!username || !password1 || !password2 || (discordID && !checkDiscordID(discordID))}
           onClick={handleSubmit}
         >
           Create Account
         </Button>
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => navigate("/login")}
-        >
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/login")}>
           Sign in with existing account
         </Link>
       </Paper>
