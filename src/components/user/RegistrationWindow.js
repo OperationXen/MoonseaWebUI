@@ -32,7 +32,7 @@ export default function RegistrationWindow() {
         navigate("/login");
       })
       .catch((error) => {
-        setIssues(error.response.data);
+        if ("errors" in error.response.data) setIssues(error.response.data["errors"]);
         displayMessage("Unable to register this account", "error");
       });
   };
@@ -71,6 +71,7 @@ export default function RegistrationWindow() {
             label="Username"
             autoComplete="username"
             error={issues.username}
+            helperText={issues.username ? issues.username : null}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
@@ -89,7 +90,7 @@ export default function RegistrationWindow() {
             value={email}
             label="eMail"
             autoComplete="email"
-            error={issues.username}
+            error={issues.email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </Box>
