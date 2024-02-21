@@ -44,7 +44,7 @@ export default function SeasonRewards(props) {
           <MenuItem value={"12a"}>Season 12A</MenuItem>
           <MenuItem value={"12b"}>Season 12B</MenuItem>
           <MenuItem value={"12c"}>Season 12C</MenuItem>
-          <MenuItem value={"12d"}>Season 12D</MenuItem>
+          <MenuItem value={"12d"}>Season S50A</MenuItem>
         </Select>
       </FormControl>
       <Box width={"100%"} justifyContent={"space-around"} sx={{ flexFlow: "column", overflowY: "scroll" }}>
