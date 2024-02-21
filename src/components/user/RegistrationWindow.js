@@ -32,7 +32,7 @@ export default function RegistrationWindow() {
         navigate("/login");
       })
       .catch((error) => {
-        setIssues(error.response.data["errors"]);
+        if ("errors" in error.response.data) setIssues(error.response.data["errors"]);
         displayMessage("Unable to register this account", "error");
       });
   };
