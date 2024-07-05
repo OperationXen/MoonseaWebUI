@@ -20,10 +20,7 @@ export default function CharacterDetailWindow(props) {
   const navigate = useNavigate();
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
-  const [setCharData, refreshPending] = useCharacterStore((s) => [
-    s.setAll,
-    s.refresh,
-  ]);
+  const [setCharData, refreshPending] = useCharacterStore((s) => [s.setAll, s.refresh]);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -46,7 +43,6 @@ export default function CharacterDetailWindow(props) {
       }}
     >
       <Grid
-        item
         xs={12}
         lg={6.97}
         sx={{
@@ -61,36 +57,23 @@ export default function CharacterDetailWindow(props) {
       >
         <Box sx={{ display: "flex" }}>
           <CharacterDetailsPane />
-          <CharacterControls
-            onEditClicked={() => setShowEdit(true)}
-            onDeleteClicked={() => setShowDelete(true)}
-          />
+          <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
           <CharacterDetailsEditDialog
             open={showEdit}
             onClose={() => {
               setShowEdit(false);
             }}
           />
-          <DeleteConfirm
-            name={charData.name}
-            uuid={uuid}
-            open={showDelete}
-            onClose={() => setShowDelete(false)}
-          />
+          <DeleteConfirm name={charData.name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane />
         </Box>
         <ItemPane itemData={charData.items} />
       </Grid>
-      <Grid item xs={0.06} />
+      <Grid xs={0.06} />
 
-      <Grid
-        item
-        xs={12}
-        lg={4.97}
-        sx={{ minHeight: "50em", marginBottom: "0.4em" }}
-      >
+      <Grid xs={12} lg={4.97} sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
           characterUUID={uuid}
           characterName={charData.name}
