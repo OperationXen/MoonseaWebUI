@@ -4,6 +4,7 @@ import { Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { deleteEventMundaneTrade, getEventsForCharacter } from "../../api/events";
@@ -11,12 +12,15 @@ import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "../../api/eve
 import { removeCharacterGame } from "../../api/events";
 import useSnackbar from "../../datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
+import { EventViewModal } from "./details/EventViewModal.js";
+import { getDateString, getEventName } from "../../utils/format.js";
 
 export default function CharacterEvents(props) {
   const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
+  const [eventDetails, setEventDetails] = useState(null); // event visible in modal window
   const [events, setEvents] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
@@ -30,53 +34,47 @@ export default function CharacterEvents(props) {
     if (!editable) return null;
 
     return (
-      <IconButton
-        disabled={params.row.event_type === "dm_reward"}
-        onClick={() => {
-          if (params.row.event_type === "dt_catchingup") {
-            deleteEventCatchingUp(params.row.uuid).then(() => {
-              displayMessage("Event deleted", "info");
-              setRefresh(!refresh);
-            });
-          } else if (params.row.event_type === "dt_mtrade") {
-            deleteEventMundaneTrade(params.row.uuid).then(() => {
-              displayMessage("Event deleted", "info");
-              setRefresh(!refresh);
-            });
-          } else if (params.row.event_type === "dt_sbookupd") {
-            deleteEventSpellbookUpdate(params.row.uuid).then(() => {
-              displayMessage("Event deleted", "info");
-              setRefresh(!refresh);
-            });
-          } else {
-            removeCharacterGame(params.row.uuid, characterUUID).then(() => {
-              displayMessage("Event deleted", "info");
-              setRefresh(!refresh);
-            });
-          }
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
+      <React.Fragment>
+        <IconButton disabled>
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          disabled={params.row.event_type === "dm_reward"}
+          onClick={() => {
+            if (params.row.event_type === "dt_catchingup") {
+              deleteEventCatchingUp(params.row.uuid).then(() => {
+                displayMessage("Event deleted", "info");
+                setRefresh(!refresh);
+              });
+            } else if (params.row.event_type === "dt_mtrade") {
+              deleteEventMundaneTrade(params.row.uuid).then(() => {
+                displayMessage("Event deleted", "info");
+                setRefresh(!refresh);
+              });
+            } else if (params.row.event_type === "dt_sbookupd") {
+              deleteEventSpellbookUpdate(params.row.uuid).then(() => {
+                displayMessage("Event deleted", "info");
+                setRefresh(!refresh);
+              });
+            } else {
+              removeCharacterGame(params.row.uuid, characterUUID).then(() => {
+                displayMessage("Event deleted", "info");
+                setRefresh(!refresh);
+              });
+            }
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </React.Fragment>
     );
   };
   const rowEventType = (params) => {
     let event_type = params.row.event_type;
-
-    if (event_type === "game") {
-      return "Game";
-    } else if (event_type === "dm_reward") {
-      return "DM Reward";
-    } else if (event_type === "dt_catchingup") {
-      return "Catching up";
-    } else if (event_type === "dt_mtrade") {
-      return "Merchant";
-    } else if (event_type === "dt_sbookupd") {
-      return "Spell Update";
-    }
+    return getEventName(event_type);
   };
   const rowDate = (params) => {
-    return params.row.datetime.slice(0, 10).replaceAll("-", " / ");
+    return getDateString(params.row.datetime);
   };
 
   const rowDetails = (params) => {
@@ -98,8 +96,13 @@ export default function CharacterEvents(props) {
     } else if (data.event_type === "dt_mtrade") {
       return `${Math.abs(data.gold_change)}gp ${data.gold_change > 0 ? "received" : "spent"}`;
     } else if (data.event_type === "dt_sbookupd") {
-      return `Copied spells to spellbook`;
+      if (data.source) return `Copied spells to spellbook from ${data.source}`;
+      return "Updated Spellbook";
     }
+  };
+
+  const handleDoubleClick = (data) => {
+    setEventDetails(data.row);
   };
 
   const columns = [
@@ -147,6 +150,7 @@ export default function CharacterEvents(props) {
         rows={events}
         rowHeight={36}
         rowsPerPageOptions={[15, 25, 50, 100]}
+        onRowDoubleClick={handleDoubleClick}
         sx={{
           border: "1px solid black",
           borderRadius: "8px",
@@ -191,6 +195,7 @@ export default function CharacterEvents(props) {
         }}
         name={characterName}
       />
+      <EventViewModal data={eventDetails} setData={setEventDetails} />
     </React.Fragment>
   );
 }

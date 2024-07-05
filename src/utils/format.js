@@ -1,11 +1,16 @@
 export function getDateString(datetime) {
-  try {
-    let isoString = datetime.toISOString();
+  var dateString = datetime ?? "";
 
-    return isoString.slice(0, 10);
-  } catch (e) {
-    return "";
+  if (datetime instanceof Date) {
+    try {
+      dateString = datetime.toISOString();
+    } catch (e) {
+      return "";
+    }
   }
+  dateString = dateString.slice(0, 10);
+  dateString = dateString.replaceAll("-", " / ");
+  return dateString;
 }
 
 // Comparison function for class sort by level
@@ -34,4 +39,22 @@ export function getSourceText(source) {
   else if (source === "trade") return "Trade";
   else if (source === "manual") return "Manually added";
   else return "Divine intervention";
+}
+
+// Get human readable event type information
+export function getEventName(eventType) {
+  switch (eventType) {
+    case "game":
+      return "Game played";
+    case "dm_reward":
+      return "DM reward";
+    case "dt_sbookupd":
+      return "Spellbook update";
+    case "dt_mtrade":
+      return "Merchant visit";
+    case "dt_catchingup":
+      return "Catching up";
+    default:
+      return "Unknown event";
+  }
 }
