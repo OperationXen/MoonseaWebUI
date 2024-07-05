@@ -4,7 +4,8 @@ import { Dialog, Box, Divider, TextField, FormControl } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
-import CreateMundaneTrade from "./character_event_panes/CreateMundaneTrade";
+import CreateDTSpellbookUpdate from "./character_event_panes/CreateDTSpellbookUpdate";
+import CreateDTMundaneTrade from "./character_event_panes/CreateDTMundaneTrade";
 import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
 
 export default function CreateCharacterEvent(props) {
@@ -40,25 +41,19 @@ export default function CreateCharacterEvent(props) {
       <Box margin="0.6em 0">
         <FormControl fullWidth>
           <InputLabel id="type-label">Event Type</InputLabel>
-          <Select
-            fullWidth
-            label="Event Type"
-            value={event}
-            onChange={(e) => setEvent(e.target.value)}
-          >
+          <Select fullWidth label="Event Type" value={event} onChange={(e) => setEvent(e.target.value)}>
             <Divider>Quick select</Divider>
             <MenuItem value="game">Played a game</MenuItem>
-            <MenuItem value="mtrade">Visited merchant</MenuItem>
+            <MenuItem value="dt-mundtrade">Visited merchant</MenuItem>
             <Divider>Downtime activities</Divider>
             <MenuItem value="dt-catchup" disabled={downtime < 10}>
               Catching up (gain a level)
             </MenuItem>
+            <MenuItem value="dt-spellbook">Copy spells to spellbook</MenuItem>
             <MenuItem value="dt-trade" disabled>
               Trade magical items
             </MenuItem>
-            <MenuItem value="dt-spellbook" disabled>
-              Copy spells to spellbook
-            </MenuItem>
+
             <MenuItem value="dt-scribe" disabled>
               Scribe scrolls
             </MenuItem>
@@ -71,21 +66,10 @@ export default function CreateCharacterEvent(props) {
           </Select>
         </FormControl>
       </Box>
-      {event === "game" && (
-        <CreateCharacterGame
-          characterUUID={characterUUID}
-          onClose={handleClose}
-        />
-      )}
-      {event === "mtrade" && (
-        <CreateMundaneTrade
-          characterUUiD={characterUUID}
-          onClose={handleClose}
-        />
-      )}
-      {event === "dt-catchup" && (
-        <CreateDTCatchup characterUUID={characterUUID} onClose={handleClose} />
-      )}
+      {event === "game" && <CreateCharacterGame characterUUID={characterUUID} onClose={handleClose} />}
+      {event === "dt-mundtrade" && <CreateDTMundaneTrade characterUUiD={characterUUID} onClose={handleClose} />}
+      {event === "dt-catchup" && <CreateDTCatchup characterUUID={characterUUID} onClose={handleClose} />}
+      {event === "dt-spellbook" && <CreateDTSpellbookUpdate characterUUID={characterUUID} onClose={handleClose} />}
       {event === "trade-npc" && (
         <Box
           border="1px solid black"
@@ -102,11 +86,7 @@ export default function CreateCharacterEvent(props) {
           <Typography>Trade with NPC</Typography>
           <TextField fullWidth multiline label="Items purchased" />
           <TextField fullWidth multiline label="Items sold" />
-          <TextField
-            number
-            label="Gold"
-            helperText="Negative for gold spent, positive for profit"
-          />
+          <TextField number label="Gold" helperText="Negative for gold spent, positive for profit" />
           <TextField label="Game date" />
         </Box>
       )}
