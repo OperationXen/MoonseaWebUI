@@ -26,13 +26,15 @@ export function CreateDTSpellbookUpdate(props) {
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
-    createEventSpellbookUpdate(characterUUID, gold, downtime, dmName, text)
+    createEventSpellbookUpdate(characterUUID, gold, downtime, dmName, sourceChar, text)
       .then((response) => {
         displayMessage("Spellbook update added to log", "success");
         requestCharacterRefresh();
         onClose && onClose();
       })
-      .catch(() => displayMessage("Error creating event", "error"));
+      .catch((error) => {
+        displayMessage(error.response.data.message ?? "Error creating event", "error");
+      });
   };
 
   return (

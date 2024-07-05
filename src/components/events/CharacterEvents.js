@@ -6,11 +6,8 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import {
-  deleteEventMundaneTrade,
-  getEventsForCharacter,
-} from "../../api/events";
-import { deleteEventCatchingUp } from "../../api/events";
+import { deleteEventMundaneTrade, getEventsForCharacter } from "../../api/events";
+import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "../../api/events";
 import { removeCharacterGame } from "../../api/events";
 import useSnackbar from "../../datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
@@ -46,6 +43,11 @@ export default function CharacterEvents(props) {
               displayMessage("Event deleted", "info");
               setRefresh(!refresh);
             });
+          } else if (params.row.event_type === "dt_sbookupd") {
+            deleteEventSpellbookUpdate(params.row.uuid).then(() => {
+              displayMessage("Event deleted", "info");
+              setRefresh(!refresh);
+            });
           } else {
             removeCharacterGame(params.row.uuid, characterUUID).then(() => {
               displayMessage("Event deleted", "info");
@@ -69,6 +71,8 @@ export default function CharacterEvents(props) {
       return "Catching up";
     } else if (event_type === "dt_mtrade") {
       return "Merchant";
+    } else if (event_type === "dt_sbookupd") {
+      return "Spell Update";
     }
   };
   const rowDate = (params) => {
@@ -92,9 +96,9 @@ export default function CharacterEvents(props) {
     } else if (data.event_type === "dt_catchingup") {
       return `${data.details ? data.details : "Gained a level"}`;
     } else if (data.event_type === "dt_mtrade") {
-      return `${Math.abs(data.gold_change)}gp ${
-        data.gold_change > 0 ? "received" : "spent"
-      }`;
+      return `${Math.abs(data.gold_change)}gp ${data.gold_change > 0 ? "received" : "spent"}`;
+    } else if (data.event_type === "dt_sbookupd") {
+      return `Copied spells to spellbook`;
     }
   };
 
@@ -172,9 +176,7 @@ export default function CharacterEvents(props) {
                   Add event
                 </Button>
               </div>
-              <GridPagination
-                style={{ justifySelf: "center", alignSelf: "center" }}
-              />
+              <GridPagination style={{ justifySelf: "center", alignSelf: "center" }} />
             </div>
           ),
         }}
