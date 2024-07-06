@@ -6,6 +6,7 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { deleteEventMundaneTrade, getEventsForCharacter } from "../../api/events";
 import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "../../api/events";
@@ -30,11 +31,22 @@ export default function CharacterEvents(props) {
     });
   }, [characterUUID, refresh]);
 
+  const handleOpenEventDetails = (data) => {
+    setEventDetails(data.row);
+  };
+
   const rowActions = (params) => {
     if (!editable) return null;
 
     return (
       <React.Fragment>
+        <IconButton
+          onClick={() => {
+            handleOpenEventDetails(params);
+          }}
+        >
+          <VisibilityIcon />
+        </IconButton>
         <IconButton disabled>
           <EditIcon />
         </IconButton>
@@ -101,10 +113,6 @@ export default function CharacterEvents(props) {
     }
   };
 
-  const handleDoubleClick = (data) => {
-    setEventDetails(data.row);
-  };
-
   const columns = [
     {
       field: "event_type",
@@ -150,7 +158,7 @@ export default function CharacterEvents(props) {
         rows={events}
         rowHeight={36}
         rowsPerPageOptions={[15, 25, 50, 100]}
-        onRowDoubleClick={handleDoubleClick}
+        onRowDoubleClick={handleOpenEventDetails}
         sx={{
           border: "1px solid black",
           borderRadius: "8px",
