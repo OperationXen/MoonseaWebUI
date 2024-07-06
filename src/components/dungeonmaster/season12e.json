@@ -1,0 +1,147 @@
+[
+  {
+    "name": "Boomerang Shield",
+    "downtime": 10,
+    "rewards": ["Boomerang Shield"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Wand of Scowls",
+    "downtime": 10,
+    "rewards": ["Wand of Scowls"],
+    "rarity": "common",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Armor of Fungal Spores",
+    "downtime": 10,
+    "rewards": ["Armor of Fungal Spores"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Uncommon Adventure Reward",
+    "gold": 250,
+    "rewards": "Any common or uncommon item from a published adventure",
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Giant Slayer",
+    "downtime": 20,
+    "rewards": [
+      "Giant Slayer (Handaxe)",
+      "Giant Slayer (Battleaxe)",
+      "Giant Slayer (Greataxe)",
+      "Giant Slayer (Greatsword)",
+      "Giant Slayer (Longsword)",
+      "Giant Slayer (Rapier)",
+      "Giant Slayer (Scimitar)",
+      "Giant Slayer (Shortsword)"
+    ],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Boots of Levitation",
+    "downtime": 20,
+    "rewards": ["Boots of Levitation"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Spider Staff",
+    "downtime": 20,
+    "rewards": ["Spider Staff"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rare Adventure Reward",
+    "gold": 2500,
+    "rewards": "Any rare item from a published adventure",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Ring of Shooting Stars",
+    "downtime": 30,
+    "rewards": ["Ring of Shooting Stars"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Scimitar of Speed",
+    "downtime": 30,
+    "rewards": ["Scimitar of Speed"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Manual of Gainful Exercise",
+    "downtime": 30,
+    "rewards": ["Manual of Gainful Exercise"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Very Rare Adventure Reward",
+    "gold": 10000,
+    "rewards": "Any very rare item from a published adventure",
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Cloak of Invisibility",
+    "downtime": 40,
+    "rewards": ["Cloak of Invisibility"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Ring of Spell Turning",
+    "downtime": 40,
+    "rewards": ["Ring of Spell Turning"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Legendary Adventure Reward",
+    "downtime": 40,
+    "rewards": "Any legendary item from a published adventure",
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Repeatable Reward",
+    "gold": 50000,
+    "rewards": ["+2 Weapon", "+1 Armor", "5 Rare Potions"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Gain rewards as a player",
+    "gold": 0,
+    "rewards": ["Same as players"],
+    "rarity": "",
+    "level": 1,
+    "cost": 0
+  }
+]

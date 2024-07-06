@@ -9,7 +9,7 @@ export function EventDetailsSpellbookUpdate(props) {
       <Typography variant="body1">Source of spells: {data.source}</Typography>
       <Typography variant="body1">Gold cost: {data.gold}</Typography>
       <Typography variant="body1">Downtime cost: {data.downtime}</Typography>
-      <Typography variant="body1">Spells: {data.spell}</Typography>
+      <Typography variant="body1">Spells: {data.spells}</Typography>
     </Box>
   );
 }
