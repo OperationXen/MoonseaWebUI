@@ -30,8 +30,8 @@ export default function ItemWidget(props) {
     refreshData();
   };
   const handleDetailClick = (e) => {
+    e?.stopPropagation();
     navigate(`/magicitem/${uuid}`);
-    e.stopPropagation();
   };
   const handleTradeClick = (e) => {
     e.stopPropagation();
@@ -73,10 +73,7 @@ export default function ItemWidget(props) {
             </Tooltip>
           )}
         </Grid>
-        <Tooltip
-          title={equipped ? "Click to unequip item" : "Click to equip"}
-          placement="bottom"
-        >
+        <Tooltip title={equipped ? "Click to unequip item" : "Click to equip"} placement="bottom">
           <Grid
             item
             xs={7}
@@ -104,25 +101,13 @@ export default function ItemWidget(props) {
           {showControls && (
             <React.Fragment>
               <Tooltip title="View item details and history">
-                <ArticleIcon
-                  onClick={(e) => {
-                    handleDetailClick();
-                  }}
-                  fontSize="small"
-                />
+                <ArticleIcon onClick={handleDetailClick} fontSize="small" />
               </Tooltip>
               <Tooltip
-                title={
-                  equipped
-                    ? "Cannot trade equipped items"
-                    : "Offer item for trade"
-                }
+                title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}
                 onClick={handleTradeClick}
               >
-                <LocalGroceryStoreIcon
-                  fontSize="small"
-                  sx={{ opacity: equipped ? 0.2 : 0.8 }}
-                />
+                <LocalGroceryStoreIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 0.8 }} />
               </Tooltip>
             </React.Fragment>
           )}
