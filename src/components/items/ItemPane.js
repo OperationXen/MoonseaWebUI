@@ -43,7 +43,7 @@ export default function ItemPane(props) {
           <WindowConsumableItems />
         </TabPanel>
         <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowCommonItems />
+          <WindowCommonItems magicItems={itemData} />
         </TabPanel>
       </TabContext>
     </Paper>
