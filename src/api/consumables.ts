@@ -1,15 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "./base";
 
+import type {Consumable} from "../types/items"
+
 const QUERY_KEY = "msc-consumables";
 
-type Consumable = {
-  uuid?: string,
-  name: string,
-  type: string,
-  description?: string,
-  charges?: number,
-}
 
 export const createConsumable = (characterUUID: string, itemData: Consumable) => {
   let data = { character_uuid: characterUUID, ...itemData };

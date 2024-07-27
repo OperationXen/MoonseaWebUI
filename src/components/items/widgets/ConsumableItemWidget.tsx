@@ -1,27 +1,29 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Card, Typography, Grid, Tooltip } from "@mui/material";
 
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
 
-import CreateAdvertDialog from "../../trading/CreateAdvertDialog";
 import { updateMagicItem } from "../../../api/items";
 import useSnackbar from "../../../datastore/snackbar";
 import useCharacterStore from "../../../datastore/character";
 import { getRarityColour } from "../../../utils/itemutils";
 
-export default function ConsumableWidget(props) {
-  const { uuid, name, attunement, rarity, equipped } = props.data;
+import type { Consumable } from "../../../types/items";
+
+type PropsType = {
+  item: Consumable;
+};
+
+export default function ConsumableItemWidget(props: PropsType) {
+  const { item } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const refreshData = useCharacterStore((s) => s.requestRefresh);
-  const navigate = useNavigate();
 
   const [showControls, setShowControls] = useState(false);
-  const [showAdvertCreate, setShowAdvertCreate] = useState(false);
-  const colour = getRarityColour(rarity);
+  const colour = getRarityColour(item.rarity);
 
   const handleClick = () => {
     updateMagicItem(uuid, { equipped: !equipped }).then(() => {

@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import useCharacterStore from "../../datastore/character";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
-import ItemWidget from "./widgets/ItemWidget";
+import ConsumableItemWidget from "./widgets/ConsumableItemWidget";
 import ConsumableDialog from "./ConsumableDialog";
 
 export default function WindowConsumableItems(props) {
@@ -33,7 +33,7 @@ export default function WindowConsumableItems(props) {
         }}
       >
         {(consumableItems &&
-          consumableItems.map((item, index) => <ItemWidget data={item} key={`${index}-${item.id}`} />)) || (
+          consumableItems.map((item, index) => <ConsumableItemWidget data={item} key={`${index}-${item.id}`} />)) || (
           <EmptyWindowWidget message="No consumables" />
         )}
       </Box>
