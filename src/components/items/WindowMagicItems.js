@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import useCharacterStore from "../../datastore/character";
 import CreateMagicItem from "./CreateMagicItem";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
-import ItemWidget from "./ItemWidget";
+import ItemWidget from "./widgets/ItemWidget";
 
 export default function WindowMagicItems(props) {
   const { magicItems } = props;
