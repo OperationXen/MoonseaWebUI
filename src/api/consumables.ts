@@ -24,7 +24,7 @@ export function updateConsumable(data: Consumable) {
 }
 
 export function deleteConsumable(data: Consumable) {
-  return api.delete(`/api/consumable/${data.uuid}/`);
+  return api.delete(`/api/consumabl2e/${data.uuid}/`);
 }
 
 export function useConsumables() {

@@ -4,7 +4,7 @@ import { Card, Typography, Tooltip, IconButton } from "@mui/material";
 
 import { Delete } from "@mui/icons-material";
 
-import { deleteConsumable, updateConsumable } from "../../../api/consumables";
+import { updateConsumable, deleteConsumable } from "../../../api/consumables";
 import useSnackbar from "../../../datastore/snackbar";
 import useCharacterStore from "../../../datastore/character";
 import { getRarityColour } from "../../../utils/itemutils";
@@ -25,7 +25,8 @@ export default function ConsumableItemWidget(props: PropsType) {
   const colour = getRarityColour(item.rarity);
 
   const handleClick = () => {
-    updateConsumable({ ...item, equipped: !item.equipped }).then(() => {
+    item.equipped = !item.equipped;
+    updateConsumable(item).then(() => {
       displayMessage(item.equipped ? "Item unequipped" : "Item equipped", "info");
       refreshData();
     });
@@ -60,7 +61,7 @@ export default function ConsumableItemWidget(props: PropsType) {
       onMouseOut={() => setShowControls(false)}
     >
       <Typography fontWeight="550" sx={{ cursor: "pointer" }}>
-        {item.name} {item.equipped ? "(Equiped)" : ""}
+        {item.name} {item.equipped ? "(Equipped)" : ""}
       </Typography>
       {showControls && (
         <Tooltip title="Remove consumable">

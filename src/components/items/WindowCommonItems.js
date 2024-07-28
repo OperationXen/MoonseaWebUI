@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import ItemWidget from "./ItemWidget";
+import ItemWidget from "./widgets/ItemWidget";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 
 export default function WindowCommonItems(props) {
