@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Card, Typography, Grid, Tooltip } from "@mui/material";
 
-import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
 
-import { updateMagicItem } from "../../../api/items";
+import { updateConsumable } from "../../../api/consumables";
 import useSnackbar from "../../../datastore/snackbar";
 import useCharacterStore from "../../../datastore/character";
 import { getRarityColour } from "../../../utils/itemutils";
@@ -19,29 +19,22 @@ type PropsType = {
 export default function ConsumableItemWidget(props: PropsType) {
   const { item } = props;
 
+  const navigate = useNavigate();
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const refreshData = useCharacterStore((s) => s.requestRefresh);
+  const [characterUUID, refreshData] = useCharacterStore((s) => [s.uuid, s.requestRefresh]);
 
   const [showControls, setShowControls] = useState(false);
   const colour = getRarityColour(item.rarity);
 
   const handleClick = () => {
-    updateMagicItem(uuid, { equipped: !equipped }).then(() => {
-      displayMessage(equipped ? "Item unequipped" : "Item equipped", "info");
+    updateConsumable(characterUUID, { ...item, equipped: !item.equipped }).then(() => {
+      displayMessage(item.equipped ? "Item unequipped" : "Item equipped", "info");
     });
     refreshData();
   };
-  const handleDetailClick = (e) => {
+  const handleDetailClick = (e: React.MouseEvent) => {
     e?.stopPropagation();
-    navigate(`/magicitem/${uuid}`);
-  };
-  const handleTradeClick = (e) => {
-    e.stopPropagation();
-    setShowAdvertCreate(true);
-  };
-  const handleTradeDone = () => {
-    setShowAdvertCreate(false);
-    refreshData();
+    navigate(`/consumable/${item.uuid}`);
   };
 
   return (
@@ -50,7 +43,7 @@ export default function ConsumableItemWidget(props: PropsType) {
         height: "3em",
         margin: "0.2em",
         border: `2px solid ${colour}`,
-        background: `${colour}${equipped ? 70 : 20}`,
+        background: `${colour}${item.equipped ? 70 : 20}`,
         display: "flex",
         alignItems: "center",
         boxShadow: "2px 1px 4px #424242",
@@ -60,22 +53,7 @@ export default function ConsumableItemWidget(props: PropsType) {
       onMouseOut={() => setShowControls(false)}
     >
       <Grid container sx={{ position: "relative" }}>
-        <Grid
-          item
-          xs={1}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {attunement && (
-            <Tooltip title="Item requires attunement">
-              <BrightnessAutoIcon fontSize="small" sx={{ opacity: 0.8 }} />
-            </Tooltip>
-          )}
-        </Grid>
-        <Tooltip title={equipped ? "Click to unequip item" : "Click to equip"} placement="bottom">
+        <Tooltip title={item.equipped ? "Click to unequip item" : "Click to equip"} placement="bottom">
           <Grid
             item
             xs={7}
@@ -87,7 +65,7 @@ export default function ConsumableItemWidget(props: PropsType) {
             onClick={handleClick}
           >
             <Typography fontWeight="550" sx={{ cursor: "pointer" }}>
-              {name}
+              {item.name}
             </Typography>
           </Grid>
         </Tooltip>
@@ -101,20 +79,12 @@ export default function ConsumableItemWidget(props: PropsType) {
           }}
         >
           {showControls && (
-            <React.Fragment>
-              <Tooltip title="View item details and history">
-                <ArticleIcon onClick={handleDetailClick} fontSize="small" />
-              </Tooltip>
-              <Tooltip
-                title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}
-                onClick={handleTradeClick}
-              >
-                <LocalGroceryStoreIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 0.8 }} />
-              </Tooltip>
-            </React.Fragment>
+            <Tooltip title="View item details and history">
+              <ArticleIcon onClick={handleDetailClick} fontSize="small" />
+            </Tooltip>
           )}
         </Grid>
-        {equipped && (
+        {item.equipped && (
           <Typography
             variant="caption"
             sx={{
@@ -128,13 +98,6 @@ export default function ConsumableItemWidget(props: PropsType) {
           </Typography>
         )}
       </Grid>
-      <CreateAdvertDialog
-        open={showAdvertCreate}
-        onClose={() => handleTradeDone()}
-        uuid={uuid}
-        name={name}
-        rarity={rarity}
-      />
     </Card>
   );
 }

@@ -7,4 +7,5 @@ export type Consumable = {
   rarity: Rarity,
   description?: string,
 	charges?: number,
+  equipped: boolean,
 }

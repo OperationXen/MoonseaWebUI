@@ -33,7 +33,7 @@ export default function WindowConsumableItems(props) {
         }}
       >
         {(consumableItems &&
-          consumableItems.map((item, index) => <ConsumableItemWidget data={item} key={`${index}-${item.id}`} />)) || (
+          consumableItems.map((item, index) => <ConsumableItemWidget item={item} key={`${index}-${item.id}`} />)) || (
           <EmptyWindowWidget message="No consumables" />
         )}
       </Box>
