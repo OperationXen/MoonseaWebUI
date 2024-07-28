@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import CharacterDetailWindow from "./components/characters/CharacterDetailWindow";
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
@@ -18,39 +19,40 @@ import LoginWindow from "./components/user/LoginWindow";
 
 import userStore from "./datastore/user";
 
+const queryClient = new QueryClient();
+
 export default function App() {
   const authenticated = userStore((s) => s.authenticated);
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Titlebar />
-      <Routes>
-        {(!authenticated && (
-          <React.Fragment>
-            <Route path="/login" element={<LoginWindow />} />
-            <Route path="/register" element={<RegistrationWindow />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route
-              path="/passwordreset/:userID/:token"
-              element={<PasswordReset />}
-            />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </React.Fragment>
-        )) || (
-          <React.Fragment>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/itemvault/" element={<ItemVaultWindow />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </React.Fragment>
-        )}
-        <Route path="/tradingpost/" element={<TradingPostWindow />} />
-        <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
-        <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
-        <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
-        <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
-      </Routes>
-      <FeedbackBar />
-      <DataManager />
+      <QueryClientProvider client={queryClient}>
+        <Titlebar />
+        <Routes>
+          {(!authenticated && (
+            <React.Fragment>
+              <Route path="/login" element={<LoginWindow />} />
+              <Route path="/register" element={<RegistrationWindow />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/passwordreset/:userID/:token" element={<PasswordReset />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </React.Fragment>
+          )) || (
+            <React.Fragment>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/itemvault/" element={<ItemVaultWindow />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </React.Fragment>
+          )}
+          <Route path="/tradingpost/" element={<TradingPostWindow />} />
+          <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
+          <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
+          <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
+          <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
+        </Routes>
+        <FeedbackBar />
+        <DataManager />
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }

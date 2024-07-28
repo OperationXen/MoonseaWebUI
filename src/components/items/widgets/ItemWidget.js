@@ -7,11 +7,11 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
 
-import CreateAdvertDialog from "../trading/CreateAdvertDialog";
-import { updateMagicItem } from "../../api/items";
-import useSnackbar from "../../datastore/snackbar";
-import useCharacterStore from "../../datastore/character";
-import { getRarityColour } from "../../utils/itemutils";
+import CreateAdvertDialog from "../../trading/CreateAdvertDialog";
+import { updateMagicItem } from "../../../api/items";
+import useSnackbar from "../../../datastore/snackbar";
+import useCharacterStore from "../../../datastore/character";
+import { getRarityColour } from "../../../utils/itemutils";
 
 export default function ItemWidget(props) {
   const { uuid, name, attunement, rarity, equipped } = props.data;

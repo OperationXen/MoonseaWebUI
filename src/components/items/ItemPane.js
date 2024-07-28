@@ -8,7 +8,7 @@ import WindowCommonItems from "./WindowCommonItems";
 import WindowConsumableItems from "./WindowConsumableItems";
 
 export default function ItemPane(props) {
-  const { itemData } = props;
+  const { data } = props;
   const [itemTab, setItemTab] = useState("magicitems");
 
   return (
@@ -37,10 +37,10 @@ export default function ItemPane(props) {
         </Tabs>
 
         <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowMagicItems magicItems={itemData} />
+          <WindowMagicItems magicItems={data.items} />
         </TabPanel>
         <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowConsumableItems />
+          <WindowConsumableItems consumableItems={data.consumables} />
         </TabPanel>
         <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
           <WindowCommonItems magicItems={itemData} />
