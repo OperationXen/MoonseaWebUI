@@ -19,12 +19,12 @@ export const getConsumableDetails = (uuid: string) => {
   return api.get(`/api/consumable/${uuid}`);
 };
 
-export function updateConsumable(UUID: string, data: Consumable) {
-  return api.patch(`/api/consumable/${UUID}/`, data);
+export function updateConsumable(data: Consumable) {
+  return api.patch(`/api/consumable/${data.uuid}/`, data);
 }
 
-export function deleteConsumable(UUID: string) {
-  return api.delete(`/api/consumable/${UUID}/`);
+export function deleteConsumable(data: Consumable) {
+  return api.delete(`/api/consumable/${data.uuid}/`);
 }
 
 export function useConsumables() {

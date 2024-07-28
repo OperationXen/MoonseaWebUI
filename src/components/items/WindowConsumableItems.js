@@ -30,9 +30,12 @@ export default function WindowConsumableItems(props) {
           flexDirection: "row wrap",
           overflow: "auto",
           height: "15em",
+          gap: "4px",
+          padding: "2px",
         }}
       >
         {(consumableItems &&
+          consumableItems.length &&
           consumableItems.map((item, index) => <ConsumableItemWidget item={item} key={`${index}-${item.id}`} />)) || (
           <EmptyWindowWidget message="No consumables" />
         )}
