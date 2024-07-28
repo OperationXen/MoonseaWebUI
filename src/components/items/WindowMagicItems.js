@@ -6,12 +6,20 @@ import AddIcon from "@mui/icons-material/Add";
 import useCharacterStore from "../../datastore/character";
 import CreateMagicItem from "./CreateMagicItem";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
-import ItemWidget from "./ItemWidget";
+import ItemWidget from "./widgets/ItemWidget";
 
 export default function WindowMagicItems(props) {
   const { magicItems } = props;
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
+    s.uuid,
+    s.editable,
+    s.requestRefresh,
+  ]);
   const [createOpen, setCreateOpen] = useState(false);
+
+  const displayItems = magicItems?.filter(
+    (i) => i.rarity !== "common" && !i.market
+  );
 
   return (
     <Box
@@ -31,11 +39,9 @@ export default function WindowMagicItems(props) {
           height: "15em",
         }}
       >
-        {(magicItems &&
-          magicItems.length &&
-          magicItems.map((item, index) => {
-            if (!item.market) return <ItemWidget data={item} key={`${index}-${item.id}`} />;
-            else return null;
+        {(displayItems?.length &&
+          displayItems.map((item, index) => {
+            return <ItemWidget data={item} key={`${index}-${item.id}`} />;
           })) || <EmptyWindowWidget message="No magic items" />}
       </Box>
       <Box

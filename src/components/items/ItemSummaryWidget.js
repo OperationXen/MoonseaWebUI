@@ -10,7 +10,7 @@ export default function ItemSummaryWidget(props) {
   const [equipped, setEquipped] = useState([]);
 
   useEffect(() => {
-    let temp = items.filter((item) => item.equipped);
+    let temp = items.filter((item) => item.equipped && item.rarity !== "common");
     setEquipped(temp);
   }, [items, setEquipped]);
 

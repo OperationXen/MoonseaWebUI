@@ -69,7 +69,7 @@ export default function CharacterDetailWindow(props) {
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane />
         </Box>
-        <ItemPane itemData={charData.items} />
+        <ItemPane data={charData} />
       </Grid>
       <Grid xs={0.06} />
 

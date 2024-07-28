@@ -1,9 +1,14 @@
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
+import ItemWidget from "./widgets/ItemWidget";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 
-export default function WindowCommonItems() {
+export default function WindowCommonItems(props) {
+  const { magicItems } = props;
+
+  const displayItems = magicItems?.filter((i) => i.rarity === "common");
+
   return (
     <Box
       sx={{
@@ -22,7 +27,10 @@ export default function WindowCommonItems() {
           height: "15em",
         }}
       >
-        <EmptyWindowWidget message="No common items" />
+        {(displayItems?.length &&
+          displayItems.map((item, index) => {
+            return <ItemWidget data={item} key={`${index}-${item.id}`} />;
+          })) || <EmptyWindowWidget message="No common items" />}
       </Box>
       <Box
         sx={{

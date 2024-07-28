@@ -1,9 +1,19 @@
+import { useState } from "react";
+
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
+import useCharacterStore from "../../datastore/character";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
+import ConsumableItemWidget from "./widgets/ConsumableItemWidget";
+import ConsumableDialog from "./ConsumableDialog";
 
-export default function WindowConsumableItems() {
+export default function WindowConsumableItems(props) {
+  const { consumableItems } = props;
+
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
+  const [createOpen, setCreateOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -20,9 +30,15 @@ export default function WindowConsumableItems() {
           flexDirection: "row wrap",
           overflow: "auto",
           height: "15em",
+          gap: "4px",
+          padding: "2px",
         }}
       >
-        <EmptyWindowWidget message="No consumables" />
+        {(consumableItems &&
+          consumableItems.length &&
+          consumableItems.map((item, index) => <ConsumableItemWidget item={item} key={`${index}-${item.id}`} />)) || (
+          <EmptyWindowWidget message="No consumables" />
+        )}
       </Box>
       <Box
         sx={{
@@ -35,10 +51,16 @@ export default function WindowConsumableItems() {
           paddingRight: "0.4em",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="outlined" disabled>
+        <Button startIcon={<AddIcon />} variant="outlined" onClick={() => setCreateOpen(true)} disabled={!editable}>
           Add Consumable
         </Button>
       </Box>
+      <ConsumableDialog
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        characterUUID={characterUUID}
+        onCreate={() => refreshData()}
+      />
     </Box>
   );
 }
