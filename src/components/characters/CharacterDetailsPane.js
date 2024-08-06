@@ -68,14 +68,12 @@ export default function CharacterDetailsPane() {
         downtime: downtime,
       };
 
-      updateCharacter(uuid, data).then(() =>
-        displayMessage("Character updated", "success")
-      );
+      updateCharacter(uuid, data).then(() => displayMessage("Character updated", "success"));
       setUpdated(false);
     }
   };
 
-  if (!charData || charData === {}) return null;
+  if (!charData) return null;
   return (
     <div
       style={{
@@ -95,14 +93,7 @@ export default function CharacterDetailsPane() {
         <Grid container height="2.2em">
           <Grid item xs={8}>
             <Tooltip title="Open character sheet in a new window">
-              <Link
-                href={charData.sheet}
-                target="_blank"
-                rel="noopener"
-                variant="h5"
-                underline="hover"
-                color="inherit"
-              >
+              <Link href={charData.sheet} target="_blank" rel="noopener" variant="h5" underline="hover" color="inherit">
                 {charData.name}
               </Link>
             </Tooltip>
