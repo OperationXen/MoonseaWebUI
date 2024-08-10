@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { DataGrid, GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
-import { GridColDef, GridValueGetterParams as GVGetterParams } from "@mui/x-data-grid";
-import { Box, Container, Dialog, Tooltip } from "@mui/material";
+import { GridColDef, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
+import { GridValueGetterParams as GVGetterParams } from "@mui/x-data-grid";
+import { Box, Container, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,6 +24,7 @@ import CreateAdvertDialog from "../../components/trading/CreateAdvertDialog";
 import type { MagicItem } from "types/items";
 
 export function ItemVault() {
+  const router = useRouter();
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -51,25 +54,29 @@ export function ItemVault() {
     return getDateString(datetime);
   };
 
-  // const handleTrade = (item: MagicItem) => {
-  //   setItem(item);
-  //   setShowAdvertCreate(true);
-  // };
-  // const getRowActions = (params: any) => {
-  //   if (params.row.market) {
-  //     return [
-  //       <Tooltip title="View in trading post" placement="right">
-  //         <GridActionsCellItem icon={<ExitToAppIcon />} onClick={() => navigate("/tradingpost/items/")} />
-  //       </Tooltip>,
-  //     ];
-  //   } else {
-  //     return [
-  //       <Tooltip title="Send to trading post" placement="right">
-  //         <GridActionsCellItem icon={<LocalGroceryStoreIcon />} onClick={() => handleTrade(params.row)} />
-  //       </Tooltip>,
-  //     ];
-  //   }
-  // };
+  const handleTrade = (item: MagicItem) => {
+    setItem(item);
+    setShowAdvertCreate(true);
+  };
+  const getRowActions = (params: any) => {
+    if (params.row.market) {
+      return [
+        <Tooltip title="View in trading post" placement="right">
+          <IconButton onClick={() => router.push("/tradingpost/items/")}>
+            <ExitToAppIcon />
+          </IconButton>
+        </Tooltip>,
+      ];
+    } else {
+      return [
+        <Tooltip title="Send to trading post" placement="right">
+          <IconButton onClick={() => handleTrade(params.row)}>
+            <LocalGroceryStoreIcon />
+          </IconButton>
+        </Tooltip>,
+      ];
+    }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -111,12 +118,12 @@ export function ItemVault() {
         p.row.market ? "In trade post" : p.row.equipped ? "Equipped" : "Unused";
       },
     },
-    // {
-    //   field: "actions",
-    //   headerName: "Actions",
-    //   type: "actions",
-    //   //getActions: getRowActions,
-    // },
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      renderCell: getRowActions,
+    },
   ];
 
   return (
