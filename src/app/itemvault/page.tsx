@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { GridColDef, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { GridColDef, DataGrid } from "@mui/x-data-grid";
 import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
 import { GridValueGetterParams as GVGetterParams } from "@mui/x-data-grid";
 import { Box, Container, Dialog, IconButton, Tooltip } from "@mui/material";
@@ -23,7 +23,7 @@ import CreateAdvertDialog from "../../components/trading/CreateAdvertDialog";
 
 import type { MagicItem } from "types/items";
 
-export function ItemVault() {
+function ItemVault() {
   const router = useRouter();
   const snackbar = useSnackbar((s) => s.displayMessage);
 
