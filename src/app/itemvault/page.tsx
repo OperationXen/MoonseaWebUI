@@ -23,7 +23,7 @@ import CreateAdvertDialog from "../../components/trading/CreateAdvertDialog";
 
 import type { MagicItem } from "types/items";
 
-function ItemVault() {
+export default function ItemVault() {
   const router = useRouter();
   const snackbar = useSnackbar((s) => s.displayMessage);
 
@@ -175,5 +175,3 @@ function ItemVault() {
     </Container>
   );
 }
-
-export default ItemVault;
