@@ -1,7 +1,7 @@
 import api from "./base";
 
 export function fetchAllCharacters() {
-  return api.get("/api/data/character/");
+  return api.get("/api/data/character");
 }
 
 export function getCharacterDetails(ID) {
@@ -9,7 +9,7 @@ export function getCharacterDetails(ID) {
 }
 
 export function createCharacter(data) {
-  return api.post("/api/data/character/", data);
+  return api.post("/api/data/character", data);
 }
 
 export function updateCharacter(ID, data) {

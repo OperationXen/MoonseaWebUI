@@ -2,7 +2,7 @@ import api from "./base";
 
 export function createMagicItem(characterUUID, itemData) {
   let data = { character_uuid: characterUUID, ...itemData };
-  return api.post("/api/data/magicitem/", data);
+  return api.post("/api/data/magicitem", data);
 }
 
 export function updateMagicItem(UUID, data) {
@@ -22,5 +22,5 @@ export function getMagicItemHistory(UUID) {
 }
 
 export function getUserMagicItems() {
-  return api.get(`/api/data/magicitem/`);
+  return api.get(`/api/data/magicitem`);
 }
