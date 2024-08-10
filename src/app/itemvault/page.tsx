@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
 
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { Box, Container, Dialog, Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { GridColDef, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
+import { GridValueGetterParams as GVGetterParams } from "@mui/x-data-grid";
+import { Box, Container, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,82 +18,67 @@ import { getUserMagicItems } from "../../api/items";
 import { getDateString, getSourceText } from "../../utils/format";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
-import RarityWidget from "../items/widgets/RarityWidget";
-import CreateAdvertDialog from "../trading/CreateAdvertDialog";
+import RarityWidget from "../../components/items/widgets/RarityWidget";
+import CreateAdvertDialog from "../../components/trading/CreateAdvertDialog";
 
-export default function ItemVaultWindow(props) {
+import type { MagicItem } from "types/items";
+
+export function ItemVault() {
+  const router = useRouter();
   const snackbar = useSnackbar((s) => s.displayMessage);
-  const navigate = useNavigate();
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<MagicItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
   const [showAdvertCreate, setShowAdvertCreate] = useState(false);
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState<MagicItem | null>(null);
 
   useEffect(() => {
     getUserMagicItems()
       .then((response) => {
         setItems(response.data);
       })
-      .catch((error) => {
+      .catch(() => {
         snackbar("Unable to fetch your items", "error");
       })
       .finally(() => setLoading(false));
   }, [snackbar]);
 
   const getFilteredItems = () => {
-    return items.filter((x) =>
-      x.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
-  const handleTrade = (item) => {
-    setItem(item);
-    setShowAdvertCreate(true);
+    return items.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
   };
 
-  const rowDate = (params) => {
+  const rowDate = (params: GVGetterParams) => {
     let datetime = new Date(params.row.datetime_obtained);
     return getDateString(datetime);
   };
-  const getRowRarityWidget = (params) => {
-    return <RarityWidget rarity={params.row.rarity} />;
+
+  const handleTrade = (item: MagicItem) => {
+    setItem(item);
+    setShowAdvertCreate(true);
   };
-  const getRowCharacterLinkWidget = (params) => {
-    return (
-      <CharacterLinkWidget
-        name={params.row.owner_name}
-        uuid={params.row.owner_uuid}
-      />
-    );
-  };
-  const getRowItemLinkWidget = (params) => {
-    return <ItemLinkWidget name={params.row.name} uuid={params.row.uuid} />;
-  };
-  const getRowActions = (params) => {
+  const getRowActions = (params: any) => {
     if (params.row.market) {
       return [
         <Tooltip title="View in trading post" placement="right">
-          <GridActionsCellItem
-            icon={<ExitToAppIcon />}
-            onClick={() => navigate("/tradingpost/items/")}
-          />
+          <IconButton onClick={() => router.push("/tradingpost/items/")}>
+            <ExitToAppIcon />
+          </IconButton>
         </Tooltip>,
       ];
     } else {
       return [
         <Tooltip title="Send to trading post" placement="right">
-          <GridActionsCellItem
-            icon={<LocalGroceryStoreIcon />}
-            onClick={() => handleTrade(params.row)}
-          />
+          <IconButton onClick={() => handleTrade(params.row)}>
+            <LocalGroceryStoreIcon />
+          </IconButton>
         </Tooltip>,
       ];
     }
   };
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: "datetime_obtained",
       headerName: "Date obtained",
@@ -100,39 +89,40 @@ export default function ItemVaultWindow(props) {
       field: "rarity",
       headerName: "Rarity",
       align: "center",
-      renderCell: getRowRarityWidget,
+      renderCell: (p: GRCellParams) => <RarityWidget rarity={p.row.rarity} />,
     },
     {
       field: "name",
       headerName: "Item",
       flex: 0.25,
-      renderCell: getRowItemLinkWidget,
+      renderCell: (p: GRCellParams) => <ItemLinkWidget name={p.row.name} uuid={p.row.uuid} />,
     },
     {
       field: "owner_name",
       headerName: "Owner",
       flex: 0.15,
-      renderCell: getRowCharacterLinkWidget,
+      renderCell: (p: GRCellParams) => <CharacterLinkWidget name={p.row.owner_name} uuid={p.row.owner_uuid} />,
     },
     {
       field: "source_event_type",
       headerName: "Source",
       flex: 0.2,
-      valueGetter: (p) => getSourceText(p.row.source_event_type),
+      valueGetter: (p: GVGetterParams) => getSourceText(p.row.source_event_type),
     },
     {
       field: "market",
       headerName: "Status",
       align: "center",
       flex: 0.1,
-      valueGetter: (p) =>
-        p.row.market ? "In trade post" : p.row.equipped ? "Equipped" : "Unused",
+      valueGetter: (p: GVGetterParams) => {
+        p.row.market ? "In trade post" : p.row.equipped ? "Equipped" : "Unused";
+      },
     },
     {
       field: "actions",
       headerName: "Actions",
       type: "actions",
-      getActions: getRowActions,
+      renderCell: getRowActions,
     },
   ];
 
@@ -141,17 +131,12 @@ export default function ItemVaultWindow(props) {
       sx={{
         display: "flex",
         padding: "0.5em",
-        height: "calc(100% - 2.5em)",
+        height: "calc(100vh - 2.5em)",
         justifyContent: "space-around",
         flexDirection: "column",
       }}
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        margin="0.5em 0"
-      >
+      <Box display="flex" alignItems="center" justifyContent="space-between" margin="0.5em 0">
         <Typography variant="h4">Item Vault</Typography>
         <TextField
           label="Search my items"
@@ -168,29 +153,27 @@ export default function ItemVaultWindow(props) {
           }}
         />
       </Box>
-      <Box sx={{ flexGrow: 1 }}>
-        <DataGrid
-          getRowId={(r) => r.uuid}
-          columns={columns}
-          rows={getFilteredItems()}
-          rowHeight={36}
-          loading={loading}
-          sx={{
-            border: "1px solid black",
-          }}
-        />
-      </Box>
+
+      <DataGrid
+        getRowId={(r) => r.uuid}
+        columns={columns}
+        rows={getFilteredItems()}
+        rowHeight={36}
+        loading={loading}
+        sx={{
+          border: "1px solid black",
+        }}
+      />
+
       <Dialog
         open={createOpen}
         onClose={() => {
           setCreateOpen(false);
         }}
       />
-      <CreateAdvertDialog
-        open={showAdvertCreate}
-        onClose={() => setShowAdvertCreate(false)}
-        {...item}
-      />
+      <CreateAdvertDialog open={showAdvertCreate} onClose={() => setShowAdvertCreate(false)} {...item} />
     </Container>
   );
 }
+
+export default ItemVault;

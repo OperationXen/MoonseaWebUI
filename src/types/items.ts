@@ -9,3 +9,17 @@ export type Consumable = {
 	charges?: number,
   equipped: boolean,
 }
+
+export type MagicItem = {
+  uuid: string,
+  owner_uuid?: string,
+  owner_name?: string, 
+  name: string,
+  rarity: Rarity,
+  source_event_type?:string,
+  attunement: boolean,
+  equipped: boolean,
+  market: boolean,
+  description?: string,
+  flavour?: string,  
+}
