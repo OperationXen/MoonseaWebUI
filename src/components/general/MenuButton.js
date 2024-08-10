@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useRouter, usePathname } from "next/navigation";
 
 import { IconButton, Menu, MenuItem, Divider } from "@mui/material";
 
@@ -7,8 +7,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import userStore from "../../datastore/user";
 
 export default function MenuButton(props) {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,14 +30,10 @@ export default function MenuButton(props) {
       >
         <MenuIcon />
       </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-      >
+      <Menu anchorEl={anchorEl} open={menuOpen} onClose={() => setMenuOpen(false)}>
         <MenuItem
           onClick={() => {
-            navigate("/");
+            router.push("/");
             setMenuOpen(false);
           }}
         >
@@ -45,27 +41,27 @@ export default function MenuButton(props) {
         </MenuItem>
         <Divider />
         <MenuItem
-          disabled={location.pathname.includes("/itemvault")}
+          disabled={pathname.includes("/itemvault")}
           onClick={() => {
-            navigate(`/itemvault/`);
+            router.push(`/itemvault/`);
             setMenuOpen(false);
           }}
         >
           Item Vault
         </MenuItem>
         <MenuItem
-          disabled={location.pathname.includes("/tradingpost")}
+          disabled={pathname.includes("/tradingpost")}
           onClick={() => {
-            navigate(`/tradingpost/`);
+            router.push(`/tradingpost/`);
             setMenuOpen(false);
           }}
         >
           Trading Post
         </MenuItem>
         <MenuItem
-          disabled={!dmID || location.pathname.includes("/dungeonmaster")}
+          disabled={!dmID || pathname.includes("/dungeonmaster/")}
           onClick={() => {
-            navigate(`/dungeonmaster/${dmID}`);
+            router.push(`/dungeonmaster/${dmID}`);
             setMenuOpen(false);
           }}
         >
