@@ -8,11 +8,11 @@ const QUERY_KEY = "msc-consumables";
 
 export const createConsumable = (characterUUID: string, itemData: Consumable) => {
   let data = { character_uuid: characterUUID, ...itemData };
-  return api.post("/api/data/consumable/", data);
+  return api.post("/api/data/consumable", data);
 };
 
 export const getConsumables = () => {
-  return api.get("/api/data/consumable/");
+  return api.get("/api/data/consumable");
 };
 
 export const getConsumableDetails = (uuid: string) => {
