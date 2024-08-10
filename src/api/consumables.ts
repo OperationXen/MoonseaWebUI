@@ -8,23 +8,23 @@ const QUERY_KEY = "msc-consumables";
 
 export const createConsumable = (characterUUID: string, itemData: Consumable) => {
   let data = { character_uuid: characterUUID, ...itemData };
-  return api.post("/api/consumable/", data);
+  return api.post("/api/data/consumable/", data);
 };
 
 export const getConsumables = () => {
-  return api.get("/api/consumable/");
+  return api.get("/api/data/consumable/");
 };
 
 export const getConsumableDetails = (uuid: string) => {
-  return api.get(`/api/consumable/${uuid}`);
+  return api.get(`/api/data/consumable/${uuid}`);
 };
 
 export function updateConsumable(data: Consumable) {
-  return api.patch(`/api/consumable/${data.uuid}/`, data);
+  return api.patch(`/api/data/consumable/${data.uuid}/`, data);
 }
 
 export function deleteConsumable(data: Consumable) {
-  return api.delete(`/api/consumabl2e/${data.uuid}/`);
+  return api.delete(`/api/data/consumable/${data.uuid}/`);
 }
 
 export function useConsumables() {
