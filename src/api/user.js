@@ -14,7 +14,7 @@ function clearUserData() {
 
 // Checks the users' session and populates data store
 export function getUserDetails() {
-  let url = "/auth/user_details";
+  let url = "api/auth/user_details";
 
   return api.get(url).catch((error) => {
     if (error.response.status === 403) clearUserData();
@@ -23,14 +23,14 @@ export function getUserDetails() {
 }
 
 export function updateDiscordID(discordID) {
-  let url = "/auth/user_details";
+  let url = "api/auth/user_details";
   let data = { discord_id: discordID };
 
   return api.patch(url, data);
 }
 
 export function updatePassword(oldPass, newPass1, newPass2) {
-  let url = "/auth/change_password";
+  let url = "api/auth/change_password";
   let data = { oldPass: oldPass, newPass1: newPass1, newPass2: newPass2 };
 
   return api.post(url, data);
@@ -38,7 +38,7 @@ export function updatePassword(oldPass, newPass1, newPass2) {
 
 // Logs the user in and updates the user information store
 export async function doLogin(username, password) {
-  let url = "/auth/login";
+  let url = "api/auth/login";
   let data = { username: username, password: password };
 
   return api.post(url, data).then((response) => {
@@ -57,7 +57,7 @@ export async function doLogin(username, password) {
 
 // Create new account
 export async function registerAccount(username, email, discord, password) {
-  let url = "/auth/register";
+  let url = "api/auth/register";
   let data = {
     username: username,
     email: email,
@@ -70,7 +70,7 @@ export async function registerAccount(username, email, discord, password) {
 
 // Log user out and clear user information
 export async function doLogout() {
-  let url = "/auth/logout";
+  let url = "api/auth/logout";
 
   return api.post(url).then(() => {
     clearUserData();
@@ -78,13 +78,13 @@ export async function doLogout() {
 }
 
 export async function requestPasswordReset(email) {
-  let url = "/auth/forgot_password";
+  let url = "api/auth/forgot_password";
 
   return api.post(url, { email: email });
 }
 
 export async function doPasswordReset(userID, token, password) {
-  let url = "/auth/password_reset";
+  let url = "api/auth/password_reset";
 
   return api.post(url, { user_id: userID, token: token, password: password });
 }
