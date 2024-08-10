@@ -3,7 +3,7 @@ import api from "./base";
 // Weird endpoint name is due to adblockers blocking "advert"
 export function createTradeAdvert(itemUUID, description) {
   let data = { item_uuid: itemUUID, description: description };
-  return api.post("/api/data/magicitem/faesuggestion/", data);
+  return api.post("/api/data/magicitem/faesuggestion", data);
 }
 export function deleteTradeAdvert(advertUUID) {
   return api.delete(`/api/data/magicitem/faesuggestion/${advertUUID}/`);
@@ -28,11 +28,11 @@ export function createTradeOffer(advertUUID, itemUUID, description) {
     item_uuid: itemUUID,
     description: description,
   };
-  return api.post("/api/data/magicitem/faeproposal/", data);
+  return api.post("/api/data/magicitem/faeproposal", data);
 }
 
 export function getTradeOffers(direction = null) {
-  return api.get("/api/data/magicitem/faeproposal/", {
+  return api.get("/api/data/magicitem/faeproposal", {
     params: { direction: direction },
   });
 }

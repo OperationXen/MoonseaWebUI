@@ -7,7 +7,7 @@ export function getEventsForCharacter(ID) {
 
 // function expects an object - possibly should convert to typescript to prevent the inevitable
 export function createDMReward(data) {
-  return api.post("/api/data/dm_reward/", data);
+  return api.post("/api/data/dm_reward", data);
 }
 
 export function deleteDMReward(uuid) {
@@ -28,7 +28,7 @@ export function deleteDMGame(uuid) {
 
 // create new game
 export function createDMGame(datetime, module, name, gold, downtime, levels, hours, breakdown, location, notes) {
-  let url = "/api/data/dm_game/";
+  let url = "/api/data/dm_game";
   let data = {
     datetime: datetime,
     module: module,
@@ -55,7 +55,7 @@ export function updateDMGame(uuid, data) {
 export function createPlayerGame(ID, gameData) {
   let data = { character_uuid: ID, ...gameData };
 
-  return api.post(`/api/data/game/`, data);
+  return api.post(`/api/data/game`, data);
 }
 
 export function removeCharacterGame(gameUUID, characterUUID) {
@@ -68,7 +68,7 @@ export function removeCharacterGame(gameUUID, characterUUID) {
 export function createEventCatchingUp(characterUUID, details) {
   let data = { character_uuid: characterUUID, details: details };
 
-  return api.post("/api/data/catchingup/", data);
+  return api.post("/api/data/catchingup", data);
 }
 
 export function deleteEventCatchingUp(uuid) {
@@ -83,7 +83,7 @@ export function createEventMundaneTrade(characterUUID, gold, sold, purchased) {
     sold: sold,
     purchased: purchased,
   };
-  return api.post("/api/data/mundanetrade/", data);
+  return api.post("/api/data/mundanetrade", data);
 }
 
 export function deleteEventMundaneTrade(uuid) {
@@ -100,7 +100,7 @@ export function createEventSpellbookUpdate(characterUUID, gold, downtime, dm, so
     source: sourceChar,
     spells: spellsText,
   };
-  return api.post("/api/data/spellbook/", data);
+  return api.post("/api/data/spellbook", data);
 }
 
 export function deleteEventSpellbookUpdate(uuid) {
