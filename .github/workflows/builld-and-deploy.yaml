@@ -36,7 +36,7 @@ jobs:
       - name: Deploy new container
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ env.SERVER }}
+          host: ${{ vars.SERVER }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
