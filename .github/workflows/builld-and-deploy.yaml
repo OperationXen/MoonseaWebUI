@@ -20,4 +20,23 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: ${{ vars.DOCKERHUB_USERNAME }}/moonseacodex-ui:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/moonseacodex-ui:live
+
+  Deploy-To-Server:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: Build-Docker-Container
+
+    steps:
+      - name: Deploy new container
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.SERVER }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull ${{ vars.DOCKERHUB_USERNAME }}/moonseacodex-ui:live
+            docker stop webui || true
+            docker rm  webui || true
+            docker run -d --name webui --network=moonseacodex-net -p 127.0.0.1:3000:3000 \
+              --restart=always ${{ vars.DOCKERHUB_USERNAME }}/moonseacodex-ui:live
