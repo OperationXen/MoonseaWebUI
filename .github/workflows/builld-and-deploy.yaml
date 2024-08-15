@@ -1,5 +1,10 @@
 name: Moonsea Codex UI
 
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   Build-Docker-Container:
     runs-on: ubuntu-latest
