@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
@@ -7,17 +9,19 @@ import { Box } from "@mui/material";
 import useCharacterStore from "@/datastore/character";
 import useSnackbar from "@/datastore/snackbar";
 import { getCharacterDetails } from "../../../api/character";
+import CharacterDeleteConfirmation from "@/components/characters/widgets/CharacterDeleteConfirmation";
 import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
 import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
 import CharacterEvents from "components/events/CharacterEvents";
 import CharacterControls from "components/characters/CharacterControls";
-import DeleteConfirm from "components/characters/widgets/DeleteConfirm";
 import ItemPane from "components/items/ItemPane";
 
 export default function CharacterPage() {
-  const { uuid } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const uuid = searchParams.get("uuid");
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
   const [setCharData, refreshPending] = useCharacterStore((s) => [s.setAll, s.refresh]);
@@ -29,11 +33,11 @@ export default function CharacterPage() {
       .then((response) => {
         setCharData(response.data);
       })
-      .catch((error) => {
+      .catch((_error) => {
         displayMessage("Character not known", "error");
-        navigate("/");
+        router.push("/");
       });
-  }, [uuid, navigate, displayMessage, setCharData, refreshPending]);
+  }, [uuid, router, displayMessage, setCharData, refreshPending]);
 
   return (
     <Grid
@@ -64,7 +68,12 @@ export default function CharacterPage() {
               setShowEdit(false);
             }}
           />
-          <DeleteConfirm name={charData.name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
+          <CharacterDeleteConfirmation
+            name={charData.name}
+            uuid={uuid}
+            open={showDelete}
+            onClose={() => setShowDelete(false)}
+          />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane />
