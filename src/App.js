@@ -49,7 +49,7 @@ export default function App() {
             <Route path="/tradingpost/" element={<TradingPostWindow />} />
             <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
             <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
-            <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
+
             <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
           </Routes>
         </CssBaseline>
