@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
@@ -17,10 +17,9 @@ import CharacterEvents from "components/events/CharacterEvents";
 import CharacterControls from "components/characters/CharacterControls";
 import ItemPane from "components/items/ItemPane";
 
-export default function CharacterPage() {
+export default function CharacterPage({ params }: { params: { characterUUID: string } }) {
+  const { characterUUID } = params;
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const uuid = searchParams.get("uuid");
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const charData = useCharacterStore();
@@ -29,7 +28,7 @@ export default function CharacterPage() {
   const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
-    getCharacterDetails(uuid)
+    getCharacterDetails(characterUUID)
       .then((response) => {
         setCharData(response.data);
       })
@@ -37,7 +36,7 @@ export default function CharacterPage() {
         displayMessage("Character not known", "error");
         router.push("/");
       });
-  }, [uuid, router, displayMessage, setCharData, refreshPending]);
+  }, [characterUUID, router, displayMessage, setCharData, refreshPending]);
 
   return (
     <Grid
@@ -70,7 +69,7 @@ export default function CharacterPage() {
           />
           <CharacterDeleteConfirmation
             name={charData.name}
-            uuid={uuid}
+            uuid={characterUUID}
             open={showDelete}
             onClose={() => setShowDelete(false)}
           />
@@ -84,7 +83,7 @@ export default function CharacterPage() {
 
       <Grid xs={12} lg={4.97} sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
-          characterUUID={uuid}
+          characterUUID={characterUUID}
           characterName={charData.name}
           downtime={charData.downtime}
           editable={charData.editable}
