@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { Box, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import usePlayerStore from "@/datastore/player";
+import { getCharacters } from "api/character";
+
 import CreateCharacterWindow from "components/characters/CreateCharacterWindow";
 import CharacterSummaryCard from "components/characters/CharacterSummaryCard";
 import EmptyDashboardWidget from "components/dashboard/EmptyDashboardWidget";
 import LoadingOverlay from "components/general/LoadingOverlay";
 
 export default function Dashboard() {
-  const [characters, refreshCharacterData, loading] = usePlayerStore((s) => [
-    s.characters,
-    s.requestRefresh,
-    s.loading,
-  ]);
   const [createOpen, setCreateOpen] = useState(false);
 
-  useLayoutEffect(() => {
-    refreshCharacterData();
-  }, [refreshCharacterData]);
+  const { data: characters, isPending } = useQuery({
+    queryKey: ["characters"],
+    queryFn: () => getCharacters(),
+  });
+
+  if (isPending) return <LoadingOverlay show={true} />;
 
   return (
     <React.Fragment>
@@ -37,25 +37,15 @@ export default function Dashboard() {
           paddingBottom: "1.4em",
         }}
       >
-        {characters.map((character: any) => (
+        {characters?.length === 0 && <EmptyDashboardWidget onClick={() => setCreateOpen(true)} />}
+        {characters?.map((character: any) => (
           <CharacterSummaryCard key={character.uuid} character={character} />
         ))}
       </Box>
-      {characters.length === 0 && (
-        <EmptyDashboardWidget onClick={() => setCreateOpen(true)} />
-      )}
-      <LoadingOverlay show={loading} />
-      <Fab
-        color="primary"
-        onClick={() => setCreateOpen(true)}
-        sx={{ position: "fixed", right: "2em", bottom: "2em" }}
-      >
+      <Fab color="primary" onClick={() => setCreateOpen(true)} sx={{ position: "fixed", right: "2em", bottom: "2em" }}>
         <AddIcon />
       </Fab>
-      <CreateCharacterWindow
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
-      />
+      <CreateCharacterWindow open={createOpen} onClose={() => setCreateOpen(false)} />
     </React.Fragment>
   );
 }
