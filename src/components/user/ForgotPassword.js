@@ -30,7 +30,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <Container sx={{ display: "flex", height: "70%" }}>
+    <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>
       <Paper
         elevation={12}
         sx={{
@@ -46,12 +46,8 @@ export default function ForgotPassword() {
       >
         <Typography variant="h4">Account Recovery</Typography>
         <Divider sx={{ width: "100%", marginBottom: "0.4em" }} />
-        <Typography variant="caption">
-          Enter the email account you registered with
-        </Typography>
-        <Typography variant="caption">
-          If found you will receive a password reset email
-        </Typography>
+        <Typography variant="caption">Enter the email account you registered with</Typography>
+        <Typography variant="caption">If found you will receive a password reset email</Typography>
         <TextField
           fullWidth
           value={email}
@@ -68,18 +64,10 @@ export default function ForgotPassword() {
           Request reset
         </Button>
         <Divider sx={{ width: "100%", marginBottom: "0.4em" }} />
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => navigate("/register")}
-        >
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/register")}>
           Register a new account
         </Link>
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => navigate("/login")}
-        >
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/login")}>
           Login with existing account
         </Link>
       </Paper>
