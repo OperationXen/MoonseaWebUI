@@ -1,42 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
 
+import { getCharacter } from "api/character";
 import useCharacterStore from "@/datastore/character";
 import useSnackbar from "@/datastore/snackbar";
-import { getCharacterDetails } from "../../../api/character";
 import CharacterDeleteConfirmation from "@/components/characters/widgets/CharacterDeleteConfirmation";
 import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
 import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
-import CharacterEvents from "components/events/CharacterEvents";
 import CharacterControls from "components/characters/CharacterControls";
+import LoadingOverlay from "@/components/general/LoadingOverlay";
+import CharacterEvents from "components/events/CharacterEvents";
 import ItemPane from "components/items/ItemPane";
 
 export default function CharacterPage({ params }: { params: { characterUUID: string } }) {
   const { characterUUID } = params;
-  const router = useRouter();
+  const { data: characterData, isPending } = useQuery({
+    queryKey: [`character-${characterUUID}`],
+    queryFn: () => getCharacter(characterUUID),
+  });
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const charData = useCharacterStore();
+
   const [setCharData, refreshPending] = useCharacterStore((s) => [s.setAll, s.refresh]);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
-  useEffect(() => {
-    getCharacterDetails(characterUUID)
-      .then((response) => {
-        setCharData(response.data);
-      })
-      .catch((_error) => {
-        displayMessage("Character not known", "error");
-        router.push("/");
-      });
-  }, [characterUUID, router, displayMessage, setCharData, refreshPending]);
+  if (isPending) return <LoadingOverlay open={true} />;
 
   return (
     <Grid
@@ -68,7 +63,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
             }}
           />
           <CharacterDeleteConfirmation
-            name={charData.name}
+            name={characterData?.name || ""}
             uuid={characterUUID}
             open={showDelete}
             onClose={() => setShowDelete(false)}
@@ -77,16 +72,16 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane />
         </Box>
-        <ItemPane data={charData} />
+        <ItemPane data={characterData} />
       </Grid>
       <Grid xs={0.06} />
 
       <Grid xs={12} lg={4.97} sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
           characterUUID={characterUUID}
-          characterName={charData.name}
-          downtime={charData.downtime}
-          editable={charData.editable}
+          characterName={characterData?.name || ""}
+          downtime={characterData?.downtime || 0}
+          editable={characterData?.editable || false}
         />
       </Grid>
     </Grid>

@@ -3,7 +3,11 @@ import api from "./base";
 import type {Character} from "types/character";
 
 export function getCharacters() {
-  return api.get("/api/data/character").then((response) => response.data.results as Character[]);
+  return api.get("/api/data/character").then((r) => r.data.results as Character[]);
+}
+
+export function getCharacter(ID: string){
+  return api.get(`/api/data/character/${ID}`).then((r) => r.data.result as Character)
 }
 
 export function fetchAllCharacters() {
