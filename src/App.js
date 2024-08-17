@@ -37,20 +37,24 @@ export default function App() {
                 <Route path="/login" element={<LoginWindow />} />
                 <Route path="/register" element={<RegistrationWindow />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="/passwordreset/:userID/:token" element={<PasswordReset />} />
+                <Route
+                  path="/passwordreset/:userID/:token"
+                  element={<PasswordReset />}
+                />
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </React.Fragment>
-            )) || (
-              <React.Fragment>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </React.Fragment>
-            )}
+            )) || <React.Fragment></React.Fragment>}
             <Route path="/tradingpost/" element={<TradingPostWindow />} />
-            <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
+            <Route
+              path="/tradingpost/:section"
+              element={<TradingPostWindow />}
+            />
             <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
 
-            <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
+            <Route
+              path="/dungeonmaster/:uuid"
+              element={<DungeonMasterWindow />}
+            />
           </Routes>
         </CssBaseline>
         <FeedbackBar />
