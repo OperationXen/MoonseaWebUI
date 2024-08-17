@@ -7,11 +7,11 @@ import { Box } from "@mui/material";
 import useCharacterStore from "@/datastore/character";
 import useSnackbar from "@/datastore/snackbar";
 import { getCharacterDetails } from "../../../api/character";
-import CharacterDetailsEditDialog from "../CharacterDetailsEditDialog";
-import CharacterBiographyPane from "../CharacterBiographyPane";
-import CharacterDetailsPane from "../CharacterDetailsPane";
+import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
+import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
+import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
 import CharacterEvents from "components/events/CharacterEvents";
-import CharacterControls from "../CharacterControls";
+import CharacterControls from "components/characters/CharacterControls";
 import DeleteConfirm from "components/characters/widgets/DeleteConfirm";
 import ItemPane from "components/items/ItemPane";
 
