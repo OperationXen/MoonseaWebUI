@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
 
-import { getCharacter } from "api/character";
-import useCharacterStore from "@/datastore/character";
+import { characterQuery, characterMutation } from "./character-queries";
 import useSnackbar from "@/datastore/snackbar";
 import CharacterDeleteConfirmation from "@/components/characters/widgets/CharacterDeleteConfirmation";
 import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
@@ -20,14 +18,9 @@ import ItemPane from "components/items/ItemPane";
 
 export default function CharacterPage({ params }: { params: { characterUUID: string } }) {
   const { characterUUID } = params;
-  const { data: characterData, isPending } = useQuery({
-    queryKey: [`character-${characterUUID}`],
-    queryFn: () => getCharacter(characterUUID),
-  });
 
-  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { data: characterData, isPending } = characterQuery(characterUUID);
 
-  const [setCharData, refreshPending] = useCharacterStore((s) => [s.setAll, s.refresh]);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -54,7 +47,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         }}
       >
         <Box sx={{ display: "flex" }}>
-          <CharacterDetailsPane />
+          <CharacterDetailsPane data={characterData} />
           <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
           <CharacterDetailsEditDialog
             open={showEdit}

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import { Tooltip, Box, Typography, Link, Grid } from "@mui/material";
@@ -9,8 +11,7 @@ import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
-import useCharacterStore from "../../datastore/character";
-import { updateCharacter } from "../../api/character";
+import type { Character } from "@/types/character";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import CharacterImagePane from "./CharacterImagePane";
 import useSnackbar from "../../datastore/snackbar";
@@ -24,59 +25,15 @@ const dataBoxStyle = {
   padding: "0.4em",
 };
 
-export default function CharacterDetailsPane() {
+export default function CharacterDetailsPane(data: Character) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const charData = useCharacterStore();
 
-  const { uuid, editable, gold, downtime, setGold, setDowntime } = charData;
-  const { ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
-  const [updated, setUpdated] = useState(false);
+  const handleUpdate = (newData: Partial<Character>) => {};
 
-  const handleUpdateAC = (x) => {
-    setUpdated(true);
-    setAC(x);
-  };
-  const handleUpdateHP = (x) => {
-    setUpdated(true);
-    setHP(x);
-  };
-  const handleUpdatePP = (x) => {
-    setUpdated(true);
-    setPP(x);
-  };
-  const handleUpdateDC = (x) => {
-    setUpdated(true);
-    setDC(x);
-  };
-  const handleUpdateGold = (x) => {
-    setUpdated(true);
-    setGold(x);
-  };
-  const handleUpdateDowntime = (x) => {
-    setUpdated(true);
-    setDowntime(x);
-  };
-
-  const handleChanges = () => {
-    if (editable && updated) {
-      let data = {
-        ac: ac,
-        hp: hp,
-        pp: pp,
-        dc: dc,
-        gold: gold,
-        downtime: downtime,
-      };
-
-      updateCharacter(uuid, data).then(() => displayMessage("Character updated", "success"));
-      setUpdated(false);
-    }
-  };
-
-  if (!charData) return null;
+  if (!data) return null;
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         flexGrow: 100,
         maxHeight: "35em",
         display: "flex",
@@ -93,8 +50,8 @@ export default function CharacterDetailsPane() {
         <Grid container height="2.2em">
           <Grid item xs={8}>
             <Tooltip title="Open character sheet in a new window">
-              <Link href={charData.sheet} target="_blank" rel="noopener" variant="h5" underline="hover" color="inherit">
-                {charData.name}
+              <Link href={data.sheet} target="_blank" rel="noopener" variant="h5" underline="hover" color="inherit">
+                {data.name}
               </Link>
             </Tooltip>
           </Grid>
@@ -108,7 +65,7 @@ export default function CharacterDetailsPane() {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Tooltip title={charData.race === "Kobold" ? "Yip yip" : "Race"}>
+              <Tooltip title={data.race === "Kobold" ? "Yip yip" : "Character race"}>
                 <Typography
                   variant="h5"
                   sx={{
@@ -117,14 +74,14 @@ export default function CharacterDetailsPane() {
                     marginRight: "0.2em",
                   }}
                 >
-                  {charData.race}
+                  {data.race}
                 </Typography>
               </Tooltip>
-              <VisionWidget {...charData} />
+              <VisionWidget uuid={data.uuid} editable={data.editable} vision={data.vision} doUpdate={handleUpdate} />
             </Box>
             <Tooltip title="Character level">
               <Typography variant="h5" sx={{ cursor: "pointer" }}>
-                {charData.level}
+                {data.level}
               </Typography>
             </Tooltip>
           </Grid>
@@ -139,16 +96,16 @@ export default function CharacterDetailsPane() {
         >
           <Box sx={{ ...dataBoxStyle }}>
             <StatsWidget
-              locked={!editable}
+              locked={!data.editable}
               name="AC"
               icon={<ShieldIcon fontSize="small" />}
-              value={ac}
+              value={data.ac}
               setValue={handleUpdateAC}
               sx={{ width: "25%" }}
               onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!data.editable}
               name="HP"
               icon={<HealthIcon fontSize="small" />}
               value={hp}
@@ -157,7 +114,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!data.editable}
               name="PP"
               icon={<PerceptionIcon fontSize="small" />}
               value={pp}
@@ -166,7 +123,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!data.editable}
               name="DC"
               icon={<SaveDCIcon fontSize="small" />}
               value={dc}
@@ -177,7 +134,7 @@ export default function CharacterDetailsPane() {
           </Box>
           <Box sx={dataBoxStyle}>
             <StatsWidget
-              locked={!editable}
+              locked={!data.editable}
               name="Gold"
               icon={<GiTwoCoins />}
               value={gold}
@@ -186,7 +143,7 @@ export default function CharacterDetailsPane() {
               onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!data.editable}
               name="Downtime"
               icon={<DowntimeIcon fontSize="small" />}
               value={downtime}
@@ -198,6 +155,6 @@ export default function CharacterDetailsPane() {
           <CharacterLevelsPane data={charData} />
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }

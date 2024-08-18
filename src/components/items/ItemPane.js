@@ -37,13 +37,13 @@ export default function ItemPane(props) {
         </Tabs>
 
         <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowMagicItems magicItems={data.items} />
+          <WindowMagicItems magicItems={data?.items} />
         </TabPanel>
         <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowConsumableItems consumableItems={data.consumables} />
+          <WindowConsumableItems consumableItems={data?.consumables} />
         </TabPanel>
         <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowCommonItems magicItems={data.items} />
+          <WindowCommonItems magicItems={data?.items} />
         </TabPanel>
       </TabContext>
     </Paper>
