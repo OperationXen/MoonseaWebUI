@@ -8,18 +8,23 @@ import useSnackbar from "../../datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./widgets/ClassChipWidget";
 
-export default function CharacterLevelsPane() {
+import type { Character } from "@/types/character";
+
+type PropsType = {
+  character: Character;
+};
+
+export default function CharacterLevelsPane(props: PropsType) {
+  const { character } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [uuid, editable] = useCharacterStore((s) => [s.uuid, s.editable]);
-  const [classes, setClasses] = useCharacterStore((s) => [
-    s.classes,
-    s.setClasses,
-  ]);
-  const setLevel = useCharacterStore((s) => s.setLevel);
+
   const [levelOpen, setLevelOpen] = useState(false);
 
+  const setLevel = useCharacterStore((s) => s.setLevel);
+
   const handleUpdate = (newVal) => {
-    setClasses(newVal);
     updateCharacter(uuid, { classes: newVal })
       .then((response) => {
         setLevel(response.data.level);
@@ -36,7 +41,7 @@ export default function CharacterLevelsPane() {
     let retVal = [];
 
     if (classes) {
-      retVal = classes.map((item, index) => {
+      retVal = character.classes.map((item, index) => {
         if (item.name)
           return (
             <ClassChipWidget

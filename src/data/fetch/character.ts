@@ -13,11 +13,11 @@ export async function getCharacters() {
   }
   
   export async function getCharacter(ID: string){
-    return api.get(`/api/data/character/${ID}`).then((r) => r.data.result as Character)
+    return api.get(`/api/data/character/${ID}`).then((r) => {return r.data as Character})
   }
   
-  export async function updateCharacter2(data: Character) {
-    return api.patch(`/api/data/characeter/${data.uuid}/`, data).then((r) => r.data.result as Character)
+  export async function updateCharacter(data: Character) {
+    return api.patch(`/api/data/character/${data.uuid}/`, data).then((r) => r.data as Character)
   }
 
 
@@ -32,8 +32,9 @@ export function characterQuery(characterUUID: string){
 
 export function characterMutation() {
 	const queryClient = useQueryClient();
-  const mutation = useMutation({
-		mutationFn: (char: Character) => updateCharacter2(char),
+  	
+	return useMutation({
+		mutationFn: (char: Character) => updateCharacter(char),
 		onMutate: async (newChar: Character) => {
 			// Cancel any outgoing refetches to avoid overwriting optimistic update
 			await queryClient.cancelQueries({ queryKey: ['character', newChar.uuid] });
@@ -60,5 +61,4 @@ export function characterMutation() {
 			}
 		},
 	})
-	return mutation;
 }

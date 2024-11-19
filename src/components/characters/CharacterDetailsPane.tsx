@@ -26,16 +26,16 @@ const dataBoxStyle = {
 };
 
 type PropsType = {
-  data: Character;
+  character: Character;
   updateCharacter: (x: Partial<Character>) => void;
 };
 
 export default function CharacterDetailsPane(props: PropsType) {
-  const { data, updateCharacter } = props;
+  const { character, updateCharacter } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
-  if (!data) return null;
+  if (!character) return null;
   return (
     <Box
       sx={{
@@ -55,8 +55,15 @@ export default function CharacterDetailsPane(props: PropsType) {
         <Grid container height="2.2em">
           <Grid item xs={8}>
             <Tooltip title="Open character sheet in a new window">
-              <Link href={data.sheet} target="_blank" rel="noopener" variant="h5" underline="hover" color="inherit">
-                {data.name}
+              <Link
+                href={character.sheet}
+                target="_blank"
+                rel="noopener"
+                variant="h5"
+                underline="hover"
+                color="inherit"
+              >
+                {character.name}
               </Link>
             </Tooltip>
           </Grid>
@@ -70,7 +77,7 @@ export default function CharacterDetailsPane(props: PropsType) {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Tooltip title={data.race === "Kobold" ? "Yip yip" : "Character race"}>
+              <Tooltip title={character.race === "Kobold" ? "Yip yip" : "Character race"}>
                 <Typography
                   variant="h5"
                   sx={{
@@ -79,14 +86,19 @@ export default function CharacterDetailsPane(props: PropsType) {
                     marginRight: "0.2em",
                   }}
                 >
-                  {data.race}
+                  {character.race}
                 </Typography>
               </Tooltip>
-              <VisionWidget uuid={data.uuid} editable={data.editable} vision={data.vision} doUpdate={handleUpdate} />
+              <VisionWidget
+                uuid={character.uuid}
+                editable={character.editable}
+                vision={character.vision}
+                doUpdate={(newVal) => updateCharacter({ vision: newVal })}
+              />
             </Box>
             <Tooltip title="Character level">
               <Typography variant="h5" sx={{ cursor: "pointer" }}>
-                {data.level}
+                {character.level}
               </Typography>
             </Tooltip>
           </Grid>
@@ -101,57 +113,57 @@ export default function CharacterDetailsPane(props: PropsType) {
         >
           <Box sx={{ ...dataBoxStyle }}>
             <StatsWidget
-              locked={!data.editable}
+              locked={!character.editable}
               name="AC"
               icon={<ShieldIcon fontSize="small" />}
-              value={data.ac}
+              value={character.ac}
               setValue={(val: number) => updateCharacter({ ac: val })}
               sx={{ width: "25%" }}
             />
             <StatsWidget
-              locked={!data.editable}
+              locked={!character.editable}
               name="HP"
               icon={<HealthIcon fontSize="small" />}
-              value={data.hp}
+              value={character.hp}
               setValue={(val: number) => updateCharacter({ hp: val })}
               sx={{ width: "25%" }}
             />
             <StatsWidget
-              locked={!data.editable}
+              locked={!character.editable}
               name="PP"
               icon={<PerceptionIcon fontSize="small" />}
-              value={data.pp}
+              value={character.pp}
               setValue={(val: number) => updateCharacter({ pp: val })}
               sx={{ width: "25%" }}
             />
             <StatsWidget
-              locked={!data.editable}
+              locked={!character.editable}
               name="DC"
               icon={<SaveDCIcon fontSize="small" />}
-              value={data.dc}
+              value={character.dc}
               setValue={(val: number) => updateCharacter({ dc: val })}
               sx={{ width: "25%" }}
             />
           </Box>
           <Box sx={dataBoxStyle}>
             <StatsWidget
-              locked={!data.editable}
+              locked={!character.editable}
               name="Gold"
               icon={<GiTwoCoins />}
-              value={data.gold}
+              value={character.gold}
               setValue={(val: number) => updateCharacter({ gold: val })}
               sx={{ width: "25%" }}
             />
             <StatsWidget
-              locked={!data.editable}
+              locked={!character.editable}
               name="Downtime"
               icon={<DowntimeIcon fontSize="small" />}
-              value={data.downtime}
+              value={character.downtime}
               setValue={(val: number) => updateCharacter({ downtime: val })}
               sx={{ width: "25%" }}
             />
           </Box>
-          <CharacterLevelsPane data={data} />
+          {/* <CharacterLevelsPane data={data} /> */}
         </Box>
       </Box>
     </Box>

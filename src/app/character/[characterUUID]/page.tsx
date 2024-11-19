@@ -5,7 +5,8 @@ import { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
 
-import { characterQuery, characterMutation } from "./character-queries";
+import { characterQuery, characterMutation } from "@/data/fetch/character";
+
 import useSnackbar from "@/datastore/snackbar";
 import CharacterDeleteConfirmation from "@/components/characters/widgets/CharacterDeleteConfirmation";
 import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
@@ -20,11 +21,17 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
   const { characterUUID } = params;
 
   const { data: characterData, isPending } = characterQuery(characterUUID);
+  const { mutate: mutateCharacter } = characterMutation();
 
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   if (isPending) return <LoadingOverlay open={true} />;
+  if (!characterData) return null;
+
+  const handleCharacterUpdate = (character: Partial<Character>) => {
+    mutateCharacter(character);
+  };
 
   return (
     <Grid
@@ -47,7 +54,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         }}
       >
         <Box sx={{ display: "flex" }}>
-          <CharacterDetailsPane data={characterData} />
+          <CharacterDetailsPane character={characterData} updateCharacter={() => {}} />
           <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
           <CharacterDetailsEditDialog
             open={showEdit}
