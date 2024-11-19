@@ -3,6 +3,16 @@
 const nextConfig = {
   output: "standalone", // Outputs a Single-Page Application (SPA).
 
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/characters",
+        permanent: false,
+      },
+    ];
+  },
+
   async rewrites() {
     return [
       {

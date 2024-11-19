@@ -25,10 +25,15 @@ const dataBoxStyle = {
   padding: "0.4em",
 };
 
-export default function CharacterDetailsPane(data: Character) {
-  const displayMessage = useSnackbar((s) => s.displayMessage);
+type PropsType = {
+  data: Character;
+  updateCharacter: (x: Partial<Character>) => void;
+};
 
-  const handleUpdate = (newData: Partial<Character>) => {};
+export default function CharacterDetailsPane(props: PropsType) {
+  const { data, updateCharacter } = props;
+
+  const displayMessage = useSnackbar((s) => s.displayMessage);
 
   if (!data) return null;
   return (
@@ -100,36 +105,32 @@ export default function CharacterDetailsPane(data: Character) {
               name="AC"
               icon={<ShieldIcon fontSize="small" />}
               value={data.ac}
-              setValue={handleUpdateAC}
+              setValue={(val: number) => updateCharacter({ ac: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
               locked={!data.editable}
               name="HP"
               icon={<HealthIcon fontSize="small" />}
-              value={hp}
-              setValue={handleUpdateHP}
+              value={data.hp}
+              setValue={(val: number) => updateCharacter({ hp: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
               locked={!data.editable}
               name="PP"
               icon={<PerceptionIcon fontSize="small" />}
-              value={pp}
-              setValue={handleUpdatePP}
+              value={data.pp}
+              setValue={(val: number) => updateCharacter({ pp: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
               locked={!data.editable}
               name="DC"
               icon={<SaveDCIcon fontSize="small" />}
-              value={dc}
-              setValue={handleUpdateDC}
+              value={data.dc}
+              setValue={(val: number) => updateCharacter({ dc: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
           </Box>
           <Box sx={dataBoxStyle}>
@@ -137,22 +138,20 @@ export default function CharacterDetailsPane(data: Character) {
               locked={!data.editable}
               name="Gold"
               icon={<GiTwoCoins />}
-              value={gold}
-              setValue={handleUpdateGold}
+              value={data.gold}
+              setValue={(val: number) => updateCharacter({ gold: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
               locked={!data.editable}
               name="Downtime"
               icon={<DowntimeIcon fontSize="small" />}
-              value={downtime}
-              setValue={handleUpdateDowntime}
+              value={data.downtime}
+              setValue={(val: number) => updateCharacter({ downtime: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
           </Box>
-          <CharacterLevelsPane data={charData} />
+          <CharacterLevelsPane data={data} />
         </Box>
       </Box>
     </Box>
