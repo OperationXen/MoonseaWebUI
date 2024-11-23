@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { Tooltip, Box, Typography, Link, Grid } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
@@ -12,9 +10,8 @@ import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
 import type { Character } from "@/types/character";
-import CharacterLevelsPane from "./CharacterLevelsPane";
+import CharacterControls from "@/components/characters/CharacterControls";
 import CharacterImagePane from "./CharacterImagePane";
-import useSnackbar from "../../datastore/snackbar";
 import VisionWidget from "./widgets/VisionWidget";
 import StatsWidget from "./widgets/StatsWidget";
 
@@ -28,10 +25,12 @@ const dataBoxStyle = {
 type PropsType = {
   character: Character;
   updateCharacter: (x: Partial<Character>) => Promise<any>;
+  setShowEdit: (x: boolean) => void;
+  setShowDelete: (x: boolean) => void;
 };
 
 export default function CharacterDetailsPane(props: PropsType) {
-  const { character, updateCharacter } = props;
+  const { character, updateCharacter, setShowEdit, setShowDelete } = props;
 
   if (!character) return null;
   return (
@@ -45,13 +44,13 @@ export default function CharacterDetailsPane(props: PropsType) {
       <CharacterImagePane />
       <Box
         sx={{
-          padding: "0.4em",
+          padding: "0.2em",
           flexGrow: 100,
           flexShrink: 1,
         }}
       >
         <Grid container height="2.2em">
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Tooltip title="Open character sheet in a new window">
               <Link
                 href={character.sheet}
@@ -94,6 +93,9 @@ export default function CharacterDetailsPane(props: PropsType) {
                 {character.level}
               </Typography>
             </Tooltip>
+          </Grid>
+          <Grid item xs={1} textAlign={"right"}>
+            <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
           </Grid>
         </Grid>
         <Box

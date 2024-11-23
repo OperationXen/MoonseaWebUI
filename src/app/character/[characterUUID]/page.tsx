@@ -13,7 +13,6 @@ import CharacterDeleteConfirmation from "@/components/characters/widgets/Charact
 import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
 import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
-import CharacterControls from "components/characters/CharacterControls";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import CharacterEvents from "components/events/CharacterEvents";
 import ItemPane from "components/items/ItemPane";
@@ -56,8 +55,13 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         }}
       >
         <Box sx={{ display: "flex" }}>
-          <CharacterDetailsPane character={characterData} updateCharacter={handleCharacterUpdate} />
-          <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
+          <CharacterDetailsPane
+            character={characterData}
+            updateCharacter={handleCharacterUpdate}
+            setShowEdit={setShowEdit}
+            setShowDelete={setShowDelete}
+          />
+
           <CharacterDetailsEditDialog
             open={showEdit}
             onClose={() => {
