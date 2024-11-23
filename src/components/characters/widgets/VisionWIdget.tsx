@@ -5,15 +5,16 @@ import { Stack, Button, Popover } from "@mui/material";
 
 import { GiSunkenEye } from "react-icons/gi";
 
+import type { Character } from "@/types/character";
+
 type PropsType = {
   editable: boolean;
   vision: string;
-  uuid: string;
-  doUpdate: (x: any) => void;
+  doUpdate: (x: Partial<Character>) => Promise<any>;
 };
 
 export default function VisionWidget(props: PropsType) {
-  const { uuid, vision, editable, doUpdate } = props;
+  const { vision, editable, doUpdate } = props;
 
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [visionText, setVisionText] = useState(vision);
@@ -25,7 +26,7 @@ export default function VisionWidget(props: PropsType) {
   const handleClose = () => {
     // update the backend if the vision text has changed on close
     if (visionText !== vision) {
-      doUpdate({ uuid: uuid, vision: visionText });
+      doUpdate({ vision: visionText });
     }
     setAnchorEl(null);
   };
@@ -62,6 +63,9 @@ export default function VisionWidget(props: PropsType) {
             label="Vision"
             value={visionText}
             onChange={(e) => setVisionText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleClose();
+            }}
           />
           <Button sx={{ width: "80%" }} variant="contained" onClick={handleClose}>
             Update

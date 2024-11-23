@@ -15,7 +15,7 @@ import type { Character } from "@/types/character";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import CharacterImagePane from "./CharacterImagePane";
 import useSnackbar from "../../datastore/snackbar";
-import VisionWidget from "./widgets/VisionWIdget";
+import VisionWidget from "./widgets/VisionWidget";
 import StatsWidget from "./widgets/StatsWidget";
 
 const dataBoxStyle = {
@@ -27,13 +27,11 @@ const dataBoxStyle = {
 
 type PropsType = {
   character: Character;
-  updateCharacter: (x: Partial<Character>) => void;
+  updateCharacter: (x: Partial<Character>) => Promise<any>;
 };
 
 export default function CharacterDetailsPane(props: PropsType) {
   const { character, updateCharacter } = props;
-
-  const displayMessage = useSnackbar((s) => s.displayMessage);
 
   if (!character) return null;
   return (
@@ -89,12 +87,7 @@ export default function CharacterDetailsPane(props: PropsType) {
                   {character.race}
                 </Typography>
               </Tooltip>
-              <VisionWidget
-                uuid={character.uuid}
-                editable={character.editable}
-                vision={character.vision}
-                doUpdate={(newVal) => updateCharacter({ vision: newVal })}
-              />
+              <VisionWidget editable={character.editable} vision={character.vision} doUpdate={updateCharacter} />
             </Box>
             <Tooltip title="Character level">
               <Typography variant="h5" sx={{ cursor: "pointer" }}>
