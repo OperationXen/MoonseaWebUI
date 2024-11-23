@@ -5,9 +5,10 @@ import { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
 
+import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
-
 import useSnackbar from "@/datastore/snackbar";
+
 import CharacterDeleteConfirmation from "@/components/characters/widgets/CharacterDeleteConfirmation";
 import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
 import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
@@ -21,7 +22,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
   const { characterUUID } = params;
 
   const { data: characterData, isPending } = characterQuery(characterUUID);
-  const { mutate: mutateCharacter } = characterMutation();
+  const mutateCharacter = characterMutation();
 
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -29,8 +30,10 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
   if (isPending) return <LoadingOverlay open={true} />;
   if (!characterData) return null;
 
-  const handleCharacterUpdate = (character: Partial<Character>) => {
-    mutateCharacter(character);
+  const handleCharacterUpdate = (changes: Partial<Character>) => {
+    debugger;
+    const newData = { ...characterData, ...changes };
+    mutateCharacter.mutateAsync(newData);
   };
 
   return (
@@ -54,7 +57,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         }}
       >
         <Box sx={{ display: "flex" }}>
-          <CharacterDetailsPane character={characterData} updateCharacter={() => {}} />
+          <CharacterDetailsPane character={characterData} updateCharacter={handleCharacterUpdate} />
           <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
           <CharacterDetailsEditDialog
             open={showEdit}
