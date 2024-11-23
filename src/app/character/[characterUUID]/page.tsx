@@ -31,9 +31,8 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
   if (!characterData) return null;
 
   const handleCharacterUpdate = (changes: Partial<Character>) => {
-    debugger;
     const newData = { ...characterData, ...changes };
-    mutateCharacter.mutateAsync(newData);
+    return mutateCharacter.mutateAsync(newData);
   };
 
   return (
@@ -73,7 +72,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
           />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
-          <CharacterBiographyPane />
+          <CharacterBiographyPane character={characterData} onUpdate={handleCharacterUpdate} />
         </Box>
         <ItemPane data={characterData} />
       </Grid>
