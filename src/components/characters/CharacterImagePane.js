@@ -38,8 +38,7 @@ export default function CharacterImagePane() {
   };
 
   useEffect(() => {
-    if (errors.length)
-      displayMessage("Invalid image, maximum file size is 512kb", "warning");
+    if (errors.length) displayMessage("Invalid image, maximum file size is 512kb", "warning");
   }, [errors, displayMessage]);
 
   //when file information set
@@ -58,15 +57,7 @@ export default function CharacterImagePane() {
           clear();
         });
     }
-  }, [
-    filesContent,
-    charData,
-    displayMessage,
-    showImage,
-    clear,
-    setArtwork,
-    setToken,
-  ]);
+  }, [filesContent, charData, displayMessage, showImage, clear, setArtwork, setToken]);
 
   return (
     <div

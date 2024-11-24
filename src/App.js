@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { CssBaseline } from "@mui/material";
 
-import CharacterDetailWindow from "./components/characters/CharacterDetailWindow";
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
 import MagicItemDetails from "./components/items/details/MagicItemDetails";
 import TradingPostWindow from "./components/trading/TradingPostWindow";
@@ -37,24 +36,15 @@ export default function App() {
                 <Route path="/login" element={<LoginWindow />} />
                 <Route path="/register" element={<RegistrationWindow />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route
-                  path="/passwordreset/:userID/:token"
-                  element={<PasswordReset />}
-                />
+                <Route path="/passwordreset/:userID/:token" element={<PasswordReset />} />
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </React.Fragment>
             )) || <React.Fragment></React.Fragment>}
             <Route path="/tradingpost/" element={<TradingPostWindow />} />
-            <Route
-              path="/tradingpost/:section"
-              element={<TradingPostWindow />}
-            />
+            <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
             <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
 
-            <Route
-              path="/dungeonmaster/:uuid"
-              element={<DungeonMasterWindow />}
-            />
+            <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
           </Routes>
         </CssBaseline>
         <FeedbackBar />

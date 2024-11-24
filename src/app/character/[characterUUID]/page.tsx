@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
-
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box } from "@mui/material";
 
 import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
-import useSnackbar from "@/datastore/snackbar";
 
 import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
@@ -52,7 +49,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         <Box sx={{ display: "flex" }}>
           <CharacterDetailsPane character={characterData} updateCharacter={handleCharacterUpdate} />
         </Box>
-        <Box sx={{ display: "flex", width: "100%" }}>
+        <Box sx={{ display: "flex", width: "100%", paddingTop: "4px" }}>
           <CharacterBiographyPane character={characterData} onUpdate={handleCharacterUpdate} />
         </Box>
         <ItemPane data={characterData} />
