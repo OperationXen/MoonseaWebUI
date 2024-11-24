@@ -5,6 +5,8 @@ import { Box, Button, Divider } from "@mui/material";
 import useSnackbar from "../../datastore/snackbar";
 import { Character } from "@/types/character";
 
+import { characterMutation } from "@/data/fetch/character";
+
 type PropsType = {
   character: Character;
   open: boolean;
@@ -13,6 +15,7 @@ type PropsType = {
 
 export default function CharacterControlsEditDialog(props: PropsType) {
   const { character, open, onClose } = props;
+  const mutate = characterMutation();
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
@@ -21,24 +24,20 @@ export default function CharacterControlsEditDialog(props: PropsType) {
   const [race, setRace] = useState(character.race);
   const [sheet, setSheet] = useState(character.sheet);
 
-  const handleClose = () => {
-    if (!name || !race) {
-      displayMessage("Your character must have a name and a race", "info");
-      return;
-    }
-    // if (changed)
-    //   updateCharacter(uuid, { name: name, race: race, sheet: sheet })
-    //     .then(() => {
-    //       displayMessage("Updated character details", "success");
-    //     })
-    //     .catch(() => displayMessage("Unable to update character details", "error"));
+  const handleSave = () => {
+    mutate
+      .mutateAsync({ ...character, name: name, race: race, sheet: sheet })
+      .then(() => {
+        displayMessage("Updated character details", "success");
+      })
+      .catch(() => displayMessage(""));
     onClose();
   };
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -86,7 +85,12 @@ export default function CharacterControlsEditDialog(props: PropsType) {
         }}
       />
       <Box sx={{ width: "60%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
-        <Button variant="contained" disabled={!race || !name} onClick={handleClose} fullWidth>
+        <Button
+          variant="contained"
+          disabled={!race || !name || (race === character.race && name === character.name && sheet === character.sheet)}
+          onClick={handleSave}
+          fullWidth
+        >
           Save changes
         </Button>
       </Box>

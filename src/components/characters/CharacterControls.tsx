@@ -37,13 +37,25 @@ export default function CharacterControls(props: PropsType) {
         TransitionComponent={Fade}
       >
         <MenuItem sx={{ padding: "0.4em" }}>
-          <EditIcon fontSize="small" onClick={() => setEditOpen(true)} />
+          <EditIcon
+            fontSize="small"
+            onClick={() => {
+              setEditOpen(true);
+              setAnchorEl(null);
+            }}
+          />
         </MenuItem>
-        <MenuItem sx={{ padding: "0.4em" }}>
+        <MenuItem sx={{ padding: "0.4em" }} disabled>
           <ShareIcon fontSize="small" />
         </MenuItem>
         <MenuItem sx={{ padding: "0.4em" }}>
-          <DeleteIcon fontSize="small" onClick={() => setDeleteOpen(true)} />
+          <DeleteIcon
+            fontSize="small"
+            onClick={() => {
+              setDeleteOpen(true);
+              setAnchorEl(null);
+            }}
+          />
         </MenuItem>
       </Menu>
       <CharacterControlsEditDialog character={character} open={editOpen} onClose={() => setEditOpen(false)} />
