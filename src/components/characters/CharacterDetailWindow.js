@@ -7,12 +7,11 @@ import { Box } from "@mui/material";
 import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
 import { getCharacterDetails } from "../../api/character";
-import CharacterDetailsEditDialog from "./CharacterDetailsEditDialog";
+import CharacterControlsEditDialog from "./CharacterControlsEditDialog";
 import CharacterBiographyPane from "./CharacterBiographyPane";
 import CharacterDetailsPane from "./CharacterDetailsPane";
 import CharacterEvents from "../events/CharacterEvents";
 import CharacterControls from "./CharacterControls";
-import DeleteConfirm from "./widgets/DeleteConfirm";
 import ItemPane from "../items/ItemPane";
 
 export default function CharacterDetailWindow(props) {
@@ -57,14 +56,6 @@ export default function CharacterDetailWindow(props) {
       >
         <Box sx={{ display: "flex" }}>
           <CharacterDetailsPane />
-          <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
-          <CharacterDetailsEditDialog
-            open={showEdit}
-            onClose={() => {
-              setShowEdit(false);
-            }}
-          />
-          <DeleteConfirm name={charData.name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane />

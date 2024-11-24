@@ -25,12 +25,10 @@ const dataBoxStyle = {
 type PropsType = {
   character: Character;
   updateCharacter: (x: Partial<Character>) => Promise<any>;
-  setShowEdit: (x: boolean) => void;
-  setShowDelete: (x: boolean) => void;
 };
 
 export default function CharacterDetailsPane(props: PropsType) {
-  const { character, updateCharacter, setShowEdit, setShowDelete } = props;
+  const { character, updateCharacter } = props;
 
   if (!character) return null;
   return (
@@ -95,7 +93,7 @@ export default function CharacterDetailsPane(props: PropsType) {
             </Tooltip>
           </Grid>
           <Grid item xs={1} textAlign={"right"}>
-            <CharacterControls onEditClicked={() => setShowEdit(true)} onDeleteClicked={() => setShowDelete(true)} />
+            <CharacterControls character={character} />
           </Grid>
         </Grid>
         <Box

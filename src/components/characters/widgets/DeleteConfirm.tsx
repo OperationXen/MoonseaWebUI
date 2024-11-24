@@ -1,27 +1,36 @@
+import { useRouter } from "next/navigation";
+
 import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 import { deleteCharacter } from "../../../api/character";
 import useSnackbar from "../../../datastore/snackbar";
-import usePlayerStore from "../../../datastore/player";
 
-export default function DeleteConfirm(props) {
+import type { Character } from "@/types/character";
+
+type PropsType = {
+  character: Character;
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function DeleteConfirm(props: PropsType) {
+  const { character, open, onClose } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestRefresh = usePlayerStore((s) => s.requestRefresh);
-  const navigate = useNavigate();
+
+  const router = useRouter();
 
   const handleDelete = () => {
-    deleteCharacter(props.uuid).then(() => {
-      requestRefresh();
-      displayMessage(`Character ${props.name} deleted`, "info");
-      navigate("/");
+    deleteCharacter(character.uuid).then(() => {
+      displayMessage(`Character ${character.name} deleted`, "info");
+      router.push("/characters");
     });
   };
 
   return (
     <Dialog
-      open={props.open}
-      onClose={props.onClose}
+      open={open}
+      onClose={onClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -36,9 +45,9 @@ export default function DeleteConfirm(props) {
       }}
     >
       <Typography variant="h4">Confirm Delete</Typography>
-      <Divider width="95%" />
-      <Typography variant="body" sx={{ padding: "0.6em" }}>
-        Are you sure you want to delete {props.name}?
+      <Divider sx={{ width: "95%" }} />
+      <Typography variant="body1" sx={{ padding: "0.6em" }}>
+        Are you sure you want to delete {character.name}?
       </Typography>
       <Typography variant="caption" sx={{ padding: "0.6em", margin: "auto" }}>
         This action cannot be undone
@@ -62,12 +71,7 @@ export default function DeleteConfirm(props) {
         >
           Delete
         </Button>
-        <Button
-          color="inherit"
-          variant="contained"
-          sx={{ width: "35%" }}
-          onClick={props.onClose}
-        >
+        <Button color="inherit" variant="contained" sx={{ width: "35%" }} onClick={onClose}>
           Cancel
         </Button>
       </Box>

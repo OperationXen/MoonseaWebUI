@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Fade, IconButton, Button, Menu, MenuItem } from "@mui/material";
+import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,14 +9,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { Character } from "@/types/character";
 
+import CharacterControlsEditDialog from "./CharacterControlsEditDialog";
+import DeleteConfirm from "./widgets/DeleteConfirm";
+
 type PropsType = {
-  onEditClicked: () => void;
-  onDeleteClicked: () => void;
+  character: Character;
 };
 
 export default function CharacterControls(props: PropsType) {
-  const { onEditClicked, onDeleteClicked } = props;
+  const { character } = props;
 
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   return (
@@ -33,15 +37,17 @@ export default function CharacterControls(props: PropsType) {
         TransitionComponent={Fade}
       >
         <MenuItem sx={{ padding: "0.4em" }}>
-          <EditIcon fontSize="small" onClick={onEditClicked} />
+          <EditIcon fontSize="small" onClick={() => setEditOpen(true)} />
         </MenuItem>
         <MenuItem sx={{ padding: "0.4em" }}>
           <ShareIcon fontSize="small" />
         </MenuItem>
         <MenuItem sx={{ padding: "0.4em" }}>
-          <DeleteIcon fontSize="small" onClick={onDeleteClicked} />
+          <DeleteIcon fontSize="small" onClick={() => setDeleteOpen(true)} />
         </MenuItem>
       </Menu>
+      <CharacterControlsEditDialog character={character} open={editOpen} onClose={() => setEditOpen(false)} />
+      <DeleteConfirm character={character} open={deleteOpen} onClose={() => setDeleteOpen(false)} />
     </React.Fragment>
   );
 }

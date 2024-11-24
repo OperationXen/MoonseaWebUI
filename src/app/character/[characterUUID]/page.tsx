@@ -9,8 +9,6 @@ import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
 import useSnackbar from "@/datastore/snackbar";
 
-import CharacterDeleteConfirmation from "@/components/characters/widgets/CharacterDeleteConfirmation";
-import CharacterDetailsEditDialog from "components/characters/CharacterDetailsEditDialog";
 import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
@@ -22,9 +20,6 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
 
   const { data: characterData, isPending } = characterQuery(characterUUID);
   const mutateCharacter = characterMutation();
-
-  const [showDelete, setShowDelete] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
 
   if (isPending) return <LoadingOverlay open={true} />;
   if (!characterData) return null;
@@ -55,25 +50,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         }}
       >
         <Box sx={{ display: "flex" }}>
-          <CharacterDetailsPane
-            character={characterData}
-            updateCharacter={handleCharacterUpdate}
-            setShowEdit={setShowEdit}
-            setShowDelete={setShowDelete}
-          />
-
-          <CharacterDetailsEditDialog
-            open={showEdit}
-            onClose={() => {
-              setShowEdit(false);
-            }}
-          />
-          <CharacterDeleteConfirmation
-            name={characterData?.name || ""}
-            uuid={characterUUID}
-            open={showDelete}
-            onClose={() => setShowDelete(false)}
-          />
+          <CharacterDetailsPane character={characterData} updateCharacter={handleCharacterUpdate} />
         </Box>
         <Box sx={{ display: "flex", width: "100%" }}>
           <CharacterBiographyPane character={characterData} onUpdate={handleCharacterUpdate} />
