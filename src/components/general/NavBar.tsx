@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { Button } from "@mui/material";
@@ -14,22 +14,22 @@ import userStore from "../../datastore/user";
 
 export function NavBar() {
   const theme = useTheme();
+  const router = useRouter();
   const pathname = usePathname();
 
   const smallMode = useMediaQuery(theme.breakpoints.down("md"));
 
   const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ width: "100%" }}>
-        <Toolbar variant="dense" sx={{ display: "flex" }}>
+        <Toolbar variant="dense" sx={{ display: "flex", paddingX: "8px" }} disableGutters={true}>
           <MenuButton />
-          <Link href="/" passHref>
-            <Typography variant="h6" sx={{ flexGrow: 1, cursor: "pointer" }}>
-              Moonsea Codex
-            </Typography>
-          </Link>
+
+          <Typography variant="h6" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => router.push("/")}>
+            Moonsea Codex
+          </Typography>
+
           <Box
             sx={{
               width: "32em",
@@ -37,28 +37,52 @@ export function NavBar() {
               justifyContent: "center",
             }}
           >
-            <Link href="/" passHref>
-              <Button color="inherit" disabled={!authenticated || pathname === "/"}>
-                Dashboard
+            <Link href="/characters" passHref>
+              <Button
+                disabled={!authenticated}
+                sx={{
+                  color: theme.palette.common.white,
+                  opacity: pathname === "/characters" ? 1 : 0.2,
+                }}
+              >
+                Characters
               </Button>
             </Link>
             <Link href="/tradingpost/" passHref>
-              <Button disabled={!authenticated || pathname.includes("/tradingpost")} color="inherit">
+              <Button
+                disabled={!authenticated}
+                sx={{
+                  color: theme.palette.common.white,
+                  opacity: pathname === "/tradingpost" ? 1 : 0.2,
+                }}
+              >
                 Trading Post
               </Button>
             </Link>
             <Link href="/itemvault" passHref>
-              <Button disabled={!authenticated || pathname.includes("/itemvault")} color="inherit">
+              <Button
+                disabled={!authenticated}
+                sx={{
+                  color: theme.palette.common.white,
+                  opacity: pathname === "/itemvault" ? 1 : 0.2,
+                }}
+              >
                 Item Vault
               </Button>
             </Link>
             <Link href={`/dungeonmaster/${dmID}`} passHref>
-              <Button disabled={!dmID || pathname.includes("/dungeonmaster")} color="inherit">
+              <Button
+                disabled={!dmID || !authenticated}
+                sx={{
+                  color: theme.palette.common.white,
+                  opacity: pathname === `/dungeonmaster/${dmID}` ? 1 : 0.2,
+                }}
+              >
                 DM Records
               </Button>
             </Link>
           </Box>
-          <Box sx={{ width: "6em", display: "flex", justifyContent: "center" }}>
+          <Box sx={{ width: "6em", display: "flex", justifyContent: "flex-end" }}>
             {(authenticated && <ProfileWidget />) || <AuthButton />}
           </Box>
         </Toolbar>
