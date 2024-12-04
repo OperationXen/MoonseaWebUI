@@ -8,9 +8,7 @@ import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow"
 import MagicItemDetails from "./components/items/details/MagicItemDetails";
 import TradingPostWindow from "./components/trading/TradingPostWindow";
 import ItemVaultWindow from "./app/itemvault/page";
-import FeedbackBar from "./components/general/FeedbackBar";
 import Dashboard from "./components/dashboard/Dashboard";
-import Titlebar from "./components/general/Titlebar";
 import DataManager from "./datamanager/DataManager";
 
 import RegistrationWindow from "./components/user/RegistrationWindow";
@@ -29,7 +27,6 @@ export default function App() {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <QueryClientProvider client={queryClient}>
         <CssBaseline>
-          <Titlebar />
           <Routes>
             {(!authenticated && (
               <React.Fragment>
@@ -47,7 +44,6 @@ export default function App() {
             <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
           </Routes>
         </CssBaseline>
-        <FeedbackBar />
         <DataManager />
       </QueryClientProvider>
     </BrowserRouter>

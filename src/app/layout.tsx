@@ -4,6 +4,8 @@ import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import NavBar from "@/components/general/NavBar";
 import Snackbar from "@/components/general/Snackbar";
 
+import "global.css";
+
 export const metadata: Metadata = {
   title: "Moonsea Codex",
   description: "An adventurers league character journal from Triden games",
