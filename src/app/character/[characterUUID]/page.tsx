@@ -10,6 +10,7 @@ import CharacterBiographyPane from "components/characters/CharacterBiographyPane
 import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import CharacterEvents from "components/events/CharacterEvents";
+import CharacterArt from "@/components/characters/CharacterArt";
 import ItemPane from "components/items/ItemPane";
 
 export default function CharacterPage({ params }: { params: { characterUUID: string } }) {
@@ -47,6 +48,7 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         }}
       >
         <Box sx={{ display: "flex" }}>
+          <CharacterArt character={characterData} updateCharacter={handleCharacterUpdate} />
           <CharacterDetailsPane character={characterData} updateCharacter={handleCharacterUpdate} />
         </Box>
         <Box sx={{ display: "flex", width: "100%", paddingTop: "4px" }}>

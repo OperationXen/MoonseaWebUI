@@ -11,7 +11,6 @@ import { GiTwoCoins } from "react-icons/gi";
 
 import type { Character } from "@/types/character";
 import CharacterControls from "@/components/characters/CharacterControls";
-import CharacterImagePane from "./CharacterImagePane";
 import VisionWidget from "./widgets/VisionWidget";
 import StatsWidget from "./widgets/StatsWidget";
 
@@ -39,7 +38,6 @@ export default function CharacterDetailsPane(props: PropsType) {
         display: "flex",
       }}
     >
-      <CharacterImagePane />
       <Box
         sx={{
           padding: "0.2em",
