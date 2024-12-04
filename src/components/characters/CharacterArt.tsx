@@ -38,6 +38,11 @@ export function CharacterArt(props: PropsType) {
     return "";
   };
 
+  const copyImageLinkToClipboard = () => {
+    navigator.clipboard.writeText(`${window.location.host}${show === "artwork" ? character.artwork : character.token}`);
+    displayMessage("Link to image copied to clipboard", "info");
+  };
+
   //when file information set
   useEffect(() => {
     if (filesContent.length) {
@@ -108,7 +113,7 @@ export function CharacterArt(props: PropsType) {
       </Zoom>
       <Zoom in={active && getImageLink() !== ""}>
         <Tooltip title="Copy link to this image">
-          <Fab size="small" sx={{ position: "absolute", left: "4px", top: "4px" }}>
+          <Fab size="small" sx={{ position: "absolute", left: "4px", top: "4px" }} onClick={copyImageLinkToClipboard}>
             <ContentCopyIcon />
           </Fab>
         </Tooltip>
