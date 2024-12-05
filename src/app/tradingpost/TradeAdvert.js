@@ -8,8 +8,8 @@ import LabelIcon from "@mui/icons-material/Label";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-import RarityWidget from "../items/widgets/RarityWidget";
-import DeleteConfirm from "./widgets/DeleteConfirm";
+import RarityWidget from "@/components/items/widgets/RarityWidget";
+import DeleteConfirm from "@/components/items/widgets/DeleteConfirm";
 import TradeOfferDialog from "./TradeOfferDialog";
 
 export default function TradeAdvert(props) {
@@ -46,11 +46,7 @@ export default function TradeAdvert(props) {
   };
 
   return (
-    <Card
-      sx={{ width: "100%" }}
-      onMouseOver={() => setHighlight(true)}
-      onMouseOut={() => setHighlight(false)}
-    >
+    <Card sx={{ width: "100%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
       <CardHeader
         avatar={<RarityWidget rarity={item.rarity} />}
         action={getActionIcon()}
@@ -76,10 +72,7 @@ export default function TradeAdvert(props) {
         }
       />
       <CardContent sx={{ height: "3em" }}>
-        <Typography
-          variant="caption"
-          sx={{ opacity: highlight ? "0.9" : "0.7" }}
-        >
+        <Typography variant="caption" sx={{ opacity: highlight ? "0.9" : "0.7" }}>
           {description}
         </Typography>
       </CardContent>
@@ -92,10 +85,7 @@ export default function TradeAdvert(props) {
       >
         {!market && (
           <Tooltip title="Delete this advert and return item to its owner's inventory">
-            <IconButton
-              sx={{ margin: "0.4em" }}
-              onClick={() => setShowDelete(true)}
-            >
+            <IconButton sx={{ margin: "0.4em" }} onClick={() => setShowDelete(true)}>
               <DeleteIcon
                 sx={{
                   opacity: highlight ? "0.9" : "0.3",

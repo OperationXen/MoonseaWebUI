@@ -18,10 +18,7 @@ export default function LoginWindow() {
       .then(() => navigate("/"))
       .catch((error) => {
         if (error.response.status === 401) {
-          displayMessage(
-            "Wrong username or password - have you activated your account?",
-            "error"
-          );
+          displayMessage("Wrong username or password - have you activated your account?", "error");
         } else displayMessage("Server error", "error");
       });
   };
@@ -31,7 +28,7 @@ export default function LoginWindow() {
   };
 
   return (
-    <Container sx={{ display: "flex", height: "70%" }}>
+    <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>
       <Paper
         elevation={12}
         sx={{
@@ -74,18 +71,10 @@ export default function LoginWindow() {
           Login
         </Button>
 
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => navigate("/register")}
-        >
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/register")}>
           Register an account
         </Link>
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => navigate("/forgotpassword")}
-        >
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/forgotpassword")}>
           I forgot my password
         </Link>
       </Paper>

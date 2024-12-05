@@ -42,7 +42,7 @@ export default function RegistrationWindow() {
   };
 
   return (
-    <Container sx={{ display: "flex", height: "70%" }}>
+    <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>
       <Paper
         elevation={12}
         sx={{

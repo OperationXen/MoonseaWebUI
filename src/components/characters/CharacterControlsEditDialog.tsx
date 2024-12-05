@@ -2,41 +2,42 @@ import { useState } from "react";
 import { Dialog, Typography, TextField } from "@mui/material";
 import { Box, Button, Divider } from "@mui/material";
 
-import { updateCharacter } from "../../api/character";
-import useCharacterStore from "../../datastore/character";
 import useSnackbar from "../../datastore/snackbar";
+import { Character } from "@/types/character";
 
-export default function CharacterDetailsEditDialog(props) {
-  const { open, onClose } = props;
+import { characterMutation } from "@/data/fetch/character";
+
+type PropsType = {
+  character: Character;
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function CharacterControlsEditDialog(props: PropsType) {
+  const { character, open, onClose } = props;
+  const mutate = characterMutation();
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const uuid = useCharacterStore((s) => s.uuid);
+
   const [highlight, setHighlight] = useState(false);
+  const [name, setName] = useState(character.name);
+  const [race, setRace] = useState(character.race);
+  const [sheet, setSheet] = useState(character.sheet);
 
-  const [name, setName] = useCharacterStore((s) => [s.name, s.setName]);
-  const [race, setRace] = useCharacterStore((s) => [s.race, s.setRace]);
-  const [sheet, setSheet] = useCharacterStore((s) => [s.sheet, s.setSheet]);
-  const [changed, setChanged] = useState(false);
-
-  const handleClose = () => {
-    if (!name || !race) {
-      displayMessage("Your character must have a name and a race", "info");
-      return;
-    }
-    if (changed)
-      updateCharacter(uuid, { name: name, race: race, sheet: sheet })
-        .then(() => {
-          displayMessage("Updated character details", "success");
-        })
-        .catch(() =>
-          displayMessage("Unable to update character details", "error")
-        );
+  const handleSave = () => {
+    mutate
+      .mutateAsync({ ...character, name: name, race: race, sheet: sheet })
+      .then(() => {
+        displayMessage("Updated character details", "success");
+      })
+      .catch(() => displayMessage(""));
     onClose();
   };
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -60,7 +61,6 @@ export default function CharacterDetailsEditDialog(props) {
         label="Character name"
         value={name}
         onChange={(e) => {
-          setChanged(true);
           setName(e.target.value);
         }}
         error={highlight && !name}
@@ -70,7 +70,6 @@ export default function CharacterDetailsEditDialog(props) {
         label="Race"
         value={race}
         onChange={(e) => {
-          setChanged(true);
           setRace(e.target.value);
         }}
         placeholder="Kobold"
@@ -82,19 +81,14 @@ export default function CharacterDetailsEditDialog(props) {
         label="Link to character sheet"
         value={sheet}
         onChange={(e) => {
-          setChanged(true);
           setSheet(e.target.value);
         }}
       />
-      <Box
-        sx={{ width: "60%" }}
-        onMouseOver={() => setHighlight(true)}
-        onMouseOut={() => setHighlight(false)}
-      >
+      <Box sx={{ width: "60%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
         <Button
           variant="contained"
-          disabled={!changed || !race || !name}
-          onClick={handleClose}
+          disabled={!race || !name || (race === character.race && name === character.name && sheet === character.sheet)}
+          onClick={handleSave}
           fullWidth
         >
           Save changes

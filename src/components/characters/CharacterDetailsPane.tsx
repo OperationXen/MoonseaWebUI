@@ -1,4 +1,4 @@
-import { useState } from "react";
+"use client";
 
 import { Tooltip, Box, Typography, Link, Grid } from "@mui/material";
 
@@ -9,12 +9,9 @@ import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
-import useCharacterStore from "../../datastore/character";
-import { updateCharacter } from "../../api/character";
-import CharacterLevelsPane from "./CharacterLevelsPane";
-import CharacterImagePane from "./CharacterImagePane";
-import useSnackbar from "../../datastore/snackbar";
-import VisionWidget from "./widgets/VisionWIdget";
+import type { Character } from "@/types/character";
+import CharacterControls from "@/components/characters/CharacterControls";
+import VisionWidget from "./widgets/VisionWidget";
 import StatsWidget from "./widgets/StatsWidget";
 
 const dataBoxStyle = {
@@ -24,77 +21,42 @@ const dataBoxStyle = {
   padding: "0.4em",
 };
 
-export default function CharacterDetailsPane() {
-  const displayMessage = useSnackbar((s) => s.displayMessage);
-  const charData = useCharacterStore();
+type PropsType = {
+  character: Character;
+  updateCharacter: (x: Partial<Character>) => Promise<any>;
+};
 
-  const { uuid, editable, gold, downtime, setGold, setDowntime } = charData;
-  const { ac, hp, pp, dc, setAC, setHP, setPP, setDC } = charData;
-  const [updated, setUpdated] = useState(false);
+export default function CharacterDetailsPane(props: PropsType) {
+  const { character, updateCharacter } = props;
 
-  const handleUpdateAC = (x) => {
-    setUpdated(true);
-    setAC(x);
-  };
-  const handleUpdateHP = (x) => {
-    setUpdated(true);
-    setHP(x);
-  };
-  const handleUpdatePP = (x) => {
-    setUpdated(true);
-    setPP(x);
-  };
-  const handleUpdateDC = (x) => {
-    setUpdated(true);
-    setDC(x);
-  };
-  const handleUpdateGold = (x) => {
-    setUpdated(true);
-    setGold(x);
-  };
-  const handleUpdateDowntime = (x) => {
-    setUpdated(true);
-    setDowntime(x);
-  };
-
-  const handleChanges = () => {
-    if (editable && updated) {
-      let data = {
-        ac: ac,
-        hp: hp,
-        pp: pp,
-        dc: dc,
-        gold: gold,
-        downtime: downtime,
-      };
-
-      updateCharacter(uuid, data).then(() => displayMessage("Character updated", "success"));
-      setUpdated(false);
-    }
-  };
-
-  if (!charData) return null;
+  if (!character) return null;
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         flexGrow: 100,
         maxHeight: "35em",
         display: "flex",
       }}
     >
-      <CharacterImagePane />
       <Box
         sx={{
-          padding: "0.4em",
+          padding: "0.2em",
           flexGrow: 100,
           flexShrink: 1,
         }}
       >
         <Grid container height="2.2em">
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Tooltip title="Open character sheet in a new window">
-              <Link href={charData.sheet} target="_blank" rel="noopener" variant="h5" underline="hover" color="inherit">
-                {charData.name}
+              <Link
+                href={character.sheet}
+                target="_blank"
+                rel="noopener"
+                variant="h5"
+                underline="hover"
+                color="inherit"
+              >
+                {character.name}
               </Link>
             </Tooltip>
           </Grid>
@@ -108,7 +70,7 @@ export default function CharacterDetailsPane() {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Tooltip title={charData.race === "Kobold" ? "Yip yip" : "Race"}>
+              <Tooltip title={character.race === "Kobold" ? "Yip yip" : "Character race"}>
                 <Typography
                   variant="h5"
                   sx={{
@@ -117,16 +79,19 @@ export default function CharacterDetailsPane() {
                     marginRight: "0.2em",
                   }}
                 >
-                  {charData.race}
+                  {character.race}
                 </Typography>
               </Tooltip>
-              <VisionWidget {...charData} />
+              <VisionWidget editable={character.editable} vision={character.vision} doUpdate={updateCharacter} />
             </Box>
             <Tooltip title="Character level">
               <Typography variant="h5" sx={{ cursor: "pointer" }}>
-                {charData.level}
+                {character.level}
               </Typography>
             </Tooltip>
+          </Grid>
+          <Grid item xs={1} textAlign={"right"}>
+            <CharacterControls character={character} />
           </Grid>
         </Grid>
         <Box
@@ -139,65 +104,59 @@ export default function CharacterDetailsPane() {
         >
           <Box sx={{ ...dataBoxStyle }}>
             <StatsWidget
-              locked={!editable}
+              locked={!character.editable}
               name="AC"
               icon={<ShieldIcon fontSize="small" />}
-              value={ac}
-              setValue={handleUpdateAC}
+              value={character.ac}
+              setValue={(val: number) => updateCharacter({ ac: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!character.editable}
               name="HP"
               icon={<HealthIcon fontSize="small" />}
-              value={hp}
-              setValue={handleUpdateHP}
+              value={character.hp}
+              setValue={(val: number) => updateCharacter({ hp: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!character.editable}
               name="PP"
               icon={<PerceptionIcon fontSize="small" />}
-              value={pp}
-              setValue={handleUpdatePP}
+              value={character.pp}
+              setValue={(val: number) => updateCharacter({ pp: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!character.editable}
               name="DC"
               icon={<SaveDCIcon fontSize="small" />}
-              value={dc}
-              setValue={handleUpdateDC}
+              value={character.dc}
+              setValue={(val: number) => updateCharacter({ dc: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
           </Box>
           <Box sx={dataBoxStyle}>
             <StatsWidget
-              locked={!editable}
+              locked={!character.editable}
               name="Gold"
               icon={<GiTwoCoins />}
-              value={gold}
-              setValue={handleUpdateGold}
+              value={character.gold}
+              setValue={(val: number) => updateCharacter({ gold: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
             <StatsWidget
-              locked={!editable}
+              locked={!character.editable}
               name="Downtime"
               icon={<DowntimeIcon fontSize="small" />}
-              value={downtime}
-              setValue={handleUpdateDowntime}
+              value={character.downtime}
+              setValue={(val: number) => updateCharacter({ downtime: val })}
               sx={{ width: "25%" }}
-              onMouseOut={handleChanges}
             />
           </Box>
-          <CharacterLevelsPane data={charData} />
+          {/* <CharacterLevelsPane data={data} /> */}
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }

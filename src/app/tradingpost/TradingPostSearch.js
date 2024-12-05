@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import Grid from "@mui/material/Unstable_Grid2";
 
-import { searchAdverts } from "../../api/trade";
+import { searchAdverts } from "@/api/trade";
 import TradeAdvert from "./TradeAdvert";
-import useSnackbar from "../../datastore/snackbar";
-import LoadingOverlay from "../general/LoadingOverlay";
+import useSnackbar from "@/datastore/snackbar";
+import LoadingOverlay from "@/components/general/LoadingOverlay";
 
 export default function TradingPostSearch(props) {
   const { filter } = props;

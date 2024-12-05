@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import Link from "next/link";
 
 import { Card, Box, CardMedia } from "@mui/material";
 import { Typography, ButtonGroup, Button } from "@mui/material";
@@ -9,17 +9,15 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import defaultToken from "../../media/images/placegoblin-token.png";
 
-import useSnackbar from "../../datastore/snackbar";
+import useSnackbar from "@/datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "../items/ItemSummaryWidget";
 import { getCharClassShort } from "../../utils/format";
 
 export default function CharacterSummaryCard(props) {
   const { character } = props;
-  const navigate = useNavigate();
   const snackbar = useSnackbar((s) => s.displayMessage);
 
-  const detailsLink = "/character/" + character.uuid; // link to full character sheet
   const classesText = getCharClassShort(character.classes);
 
   const copyCharacterLink = () => {
@@ -28,9 +26,7 @@ export default function CharacterSummaryCard(props) {
     );
     snackbar("Copied character link to clipboard");
   };
-  const openDetails = () => {
-    navigate(detailsLink);
-  };
+
   const getTokenURL = () => {
     if (character.token) return character.token;
     return defaultToken;
@@ -110,7 +106,9 @@ export default function CharacterSummaryCard(props) {
 
         <ButtonGroup>
           <Tooltip title="Go to character details">
-            <Button onClick={openDetails}>View Details</Button>
+            <Link href={`/character/${character.uuid}`} passHref>
+              <Button>View Details</Button>
+            </Link>
           </Tooltip>
           <Tooltip title="Copy link to character">
             <Button onClick={copyCharacterLink}>
@@ -122,7 +120,7 @@ export default function CharacterSummaryCard(props) {
         {(character.sheet && (
           <Tooltip title="View character sheet on D&D Beyond">
             <Avatar
-              src={`${process.env.PUBLIC_URL}/icons/beyond2.png`}
+              src={"/public/icons/beyond2.png"}
               sx={{ width: 40, height: 40, opacity: 0.9, cursor: "pointer" }}
               onClick={() => window.open(character.sheet)}
             />
@@ -130,7 +128,7 @@ export default function CharacterSummaryCard(props) {
         )) || (
           <Tooltip title="No character sheet set">
             <Avatar
-              src={`${process.env.PUBLIC_URL}/icons/beyond2.png`}
+              src={"/public/icons/beyond2.png"}
               sx={{ width: 40, height: 40, opacity: 0.3 }}
             />
           </Tooltip>

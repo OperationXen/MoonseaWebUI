@@ -4,7 +4,8 @@
       "lib": [
         "dom",
         "dom.iterable",
-        "esnext"
+        "esnext",
+        "es2015"
       ], // List of library files to be included in the compilation
       "allowJs": true, // Allow JavaScript files to be compiled
       "skipLibCheck": true, // Skip type checking of all declaration files
@@ -30,8 +31,11 @@
         }
       ],
       "strictNullChecks": true,
-      "baseUrl": "src/",
+      "baseUrl": "./src",
       "paths": {
+        "@/*": ["*"],
+        "@/api/*": ["api/*"],
+        "@/components/*" : ["components/*"],
         "@/types/*": ["types/*"]
       }
 
@@ -41,7 +45,7 @@
       "**/*.ts",
       "**/*.tsx",
       ".next/types/**/*.ts",
-      "./dist/types/**/*.ts"
+      "./dist/types/**/*.ts", "src/datastore/character.js",
     ],
     "exclude": ["node_modules", "build"] // *** The files to not type check ***
   }

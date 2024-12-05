@@ -4,14 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { CssBaseline } from "@mui/material";
 
-import CharacterDetailWindow from "./components/characters/CharacterDetailWindow";
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
 import MagicItemDetails from "./components/items/details/MagicItemDetails";
-import TradingPostWindow from "./components/trading/TradingPostWindow";
-import ItemVaultWindow from "./app/itemvault/page";
-import FeedbackBar from "./components/general/FeedbackBar";
+
 import Dashboard from "./components/dashboard/Dashboard";
-import Titlebar from "./components/general/Titlebar";
 import DataManager from "./datamanager/DataManager";
 
 import RegistrationWindow from "./components/user/RegistrationWindow";
@@ -30,7 +26,6 @@ export default function App() {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <QueryClientProvider client={queryClient}>
         <CssBaseline>
-          <Titlebar />
           <Routes>
             {(!authenticated && (
               <React.Fragment>
@@ -40,20 +35,13 @@ export default function App() {
                 <Route path="/passwordreset/:userID/:token" element={<PasswordReset />} />
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </React.Fragment>
-            )) || (
-              <React.Fragment>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </React.Fragment>
-            )}
-            <Route path="/tradingpost/" element={<TradingPostWindow />} />
-            <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
+            )) || <React.Fragment></React.Fragment>}
+
             <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
-            <Route path="/character/:uuid" element={<CharacterDetailWindow />} />
+
             <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
           </Routes>
         </CssBaseline>
-        <FeedbackBar />
         <DataManager />
       </QueryClientProvider>
     </BrowserRouter>

@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import TradeAdvert from "./TradeAdvert";
-import { getUserAdverts } from "../../api/trade";
-import useTradeStore from "../../datastore/trade";
-import useSnackbar from "../../datastore/snackbar";
-import LoadingOverlay from "../general/LoadingOverlay";
+import { getUserAdverts } from "@/api/trade";
+import useTradeStore from "@/datastore/trade";
+import useSnackbar from "@/datastore/snackbar";
+import LoadingOverlay from "@/components/general/LoadingOverlay";
 import EmptyAdvertsWidget from "./widgets/EmptyAdvertsWidget";
 
 export default function TradingPostItems(props) {

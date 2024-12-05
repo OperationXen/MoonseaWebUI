@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 import { Typography, Tooltip } from "@mui/material";
 import { DataGrid, GridOverlay, GridActionsCellItem } from "@mui/x-data-grid";
@@ -8,17 +8,17 @@ import Grid from "@mui/material/Unstable_Grid2";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import { getTradeOffers } from "../../api/trade";
-import { getDateString } from "../../utils/format";
-import useTradeStore from "../../datastore/trade";
-import useSnackbar from "../../datastore/snackbar";
+import { getTradeOffers } from "@/api/trade";
+import { getDateString } from "@/utils/format";
+import useTradeStore from "@/datastore/trade";
+import useSnackbar from "@/datastore/snackbar";
 import OfferAcceptConfirm from "./widgets/OfferAcceptConfirm";
 import OfferCancelConfirm from "./widgets/OfferCancelConfirm";
 import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
-import RarityWidget from "../items/widgets/RarityWidget";
+import RarityWidget from "@/components/items/widgets/RarityWidget";
 
 export default function TradingPostOffers(props) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const refresh = useTradeStore((s) => s.refresh);
   const snackbar = useSnackbar((s) => s.displayMessage);
 
@@ -55,11 +55,7 @@ export default function TradingPostOffers(props) {
 
   const getItem = (x) => {
     return (
-      <Typography
-        variant="body2"
-        sx={{ cursor: "pointer" }}
-        onClick={() => navigate(`/magicitem/${x.uuid}`)}
-      >
+      <Typography variant="body2" sx={{ cursor: "pointer" }} onClick={() => router.push(`/magicitem/${x.uuid}`)}>
         {`${x.name} (${x.owner_name})`}
       </Typography>
     );
@@ -93,25 +89,16 @@ export default function TradingPostOffers(props) {
     if (p.row.direction === "in") {
       return [
         <Tooltip title="Accept offer" placement="left">
-          <GridActionsCellItem
-            onClick={() => acceptOffer(p)}
-            icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
-          />
+          <GridActionsCellItem onClick={() => acceptOffer(p)} icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />} />
         </Tooltip>,
         <Tooltip title="Reject offer" placement="right">
-          <GridActionsCellItem
-            onClick={() => rejectOffer(p)}
-            icon={<CancelIcon sx={{ color: "darkred" }} />}
-          />
+          <GridActionsCellItem onClick={() => rejectOffer(p)} icon={<CancelIcon sx={{ color: "darkred" }} />} />
         </Tooltip>,
       ];
     } else if (p.row.direction === "out") {
       return [
         <Tooltip title="Rescind offer" placement="right">
-          <GridActionsCellItem
-            onClick={() => cancelOffer(p)}
-            icon={<CancelIcon sx={{ color: "darkred" }} />}
-          />
+          <GridActionsCellItem onClick={() => cancelOffer(p)} icon={<CancelIcon sx={{ color: "darkred" }} />} />
         </Tooltip>,
       ];
     }
@@ -171,29 +158,15 @@ export default function TradingPostOffers(props) {
           components={{
             NoRowsOverlay: () => (
               <GridOverlay>
-                <Typography sx={{ opacity: "0.6" }}>
-                  No pending offers
-                </Typography>
+                <Typography sx={{ opacity: "0.6" }}>No pending offers</Typography>
               </GridOverlay>
             ),
           }}
         />
       </Grid>
-      <OfferRejectConfirm
-        open={showReject}
-        onClose={() => setShowReject(false)}
-        {...offer}
-      />
-      <OfferAcceptConfirm
-        open={showAccept}
-        onClose={() => setShowAccept(false)}
-        {...offer}
-      />
-      <OfferCancelConfirm
-        open={showCancel}
-        onClose={() => setShowCancel(false)}
-        {...offer}
-      />
+      <OfferRejectConfirm open={showReject} onClose={() => setShowReject(false)} {...offer} />
+      <OfferAcceptConfirm open={showAccept} onClose={() => setShowAccept(false)} {...offer} />
+      <OfferCancelConfirm open={showCancel} onClose={() => setShowCancel(false)} {...offer} />
     </React.Fragment>
   );
 }

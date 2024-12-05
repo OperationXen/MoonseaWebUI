@@ -1,6 +1,10 @@
 import { Modal, Paper, Typography } from "@mui/material";
 
-export default function LoadingOverlay(props) {
+type PropsType = {
+  show: boolean;
+};
+
+export function LoadingOverlay(props: PropsType) {
   const { show } = props;
 
   return (
@@ -19,3 +23,5 @@ export default function LoadingOverlay(props) {
     </Modal>
   );
 }
+
+export default LoadingOverlay;

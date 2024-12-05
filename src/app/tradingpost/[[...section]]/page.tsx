@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { Container, Box, Typography, TextField } from "@mui/material";
 import { Tabs, Tab, InputAdornment } from "@mui/material";
@@ -10,21 +13,21 @@ import HikingIcon from "@mui/icons-material/Hiking";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
-import TradingPostOffers from "./TradingPostOffers";
-import TradingPostSearch from "./TradingPostSearch";
-import TradingPostItems from "./TradingPostItems";
-import userStore from "../../datastore/user";
+import TradingPostOffers from "../TradingPostOffers";
+import TradingPostSearch from "../TradingPostSearch";
+import TradingPostItems from "../TradingPostItems";
+import userStore from "../../../datastore/user";
 
-export default function TradingPostWindow(props) {
+export default function TradingPostWindow() {
   const { section } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const authenticated = userStore((s) => s.authenticated);
 
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    if (!section) navigate("/tradingpost/market/");
-  }, [navigate, section]);
+    if (!section) router.push("/tradingpost/market/");
+  }, [router, section]);
 
   return (
     <Container
@@ -36,13 +39,8 @@ export default function TradingPostWindow(props) {
         flexDirection: "column",
       }}
     >
-      <TabContext value={section}>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          margin="0.5em 0"
-        >
+      <TabContext value={(section as string) ?? "market"}>
+        <Box display="flex" alignItems="center" justifyContent="space-between" margin="0.5em 0">
           <Typography variant="h4">Trading Post</Typography>
           <Box sx={{ display: section === "market" ? "flex" : "none" }}>
             <TextField
@@ -70,21 +68,16 @@ export default function TradingPostWindow(props) {
               icon={<HikingIcon />}
               label="My Items"
               component={Link}
-              to={"/tradingpost/items/"}
+              href={"/tradingpost/items/"}
             />
             <Tab
               disabled={!authenticated}
               icon={<LocalOfferIcon />}
               label="Offers"
               component={Link}
-              to={"/tradingpost/offers/"}
+              href={"/tradingpost/offers/"}
             />
-            <Tab
-              icon={<LocalGroceryStoreIcon />}
-              label="Market"
-              component={Link}
-              to={"/tradingpost/market/"}
-            />
+            <Tab icon={<LocalGroceryStoreIcon />} label="Market" component={Link} href={"/tradingpost/market/"} />
           </Tabs>
         </Box>
         <Box
@@ -94,22 +87,13 @@ export default function TradingPostWindow(props) {
             borderRadius: "8px",
           }}
         >
-          <TabPanel
-            value="items"
-            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
-          >
+          <TabPanel value="items" sx={{ flexGrow: 1, padding: 0, height: "100%" }}>
             <TradingPostItems />
           </TabPanel>
-          <TabPanel
-            value="offers"
-            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
-          >
+          <TabPanel value="offers" sx={{ flexGrow: 1, padding: 0, height: "100%" }}>
             <TradingPostOffers />
           </TabPanel>
-          <TabPanel
-            value="market"
-            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
-          >
+          <TabPanel value="market" sx={{ flexGrow: 1, padding: 0, height: "100%" }}>
             <TradingPostSearch filter={filter} />
           </TabPanel>
         </Box>
