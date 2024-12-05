@@ -1,21 +1,23 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Container, Box, Paper, Link } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
-import { doLogin } from "../../api/user";
+import useSnackbar from "../../../datastore/snackbar";
+import { doLogin } from "../../../api/user";
 
 export default function LoginWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const navigate = useNavigate();
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
     doLogin(username, password)
-      .then(() => navigate("/"))
+      .then(() => router.push("/characters"))
       .catch((error) => {
         if (error.response.status === 401) {
           displayMessage("Wrong username or password - have you activated your account?", "error");
@@ -23,7 +25,8 @@ export default function LoginWindow() {
       });
   };
 
-  const keyPressHandler = (e) => {
+  const keyPressHandler = (e: React.KeyboardEvent) => {
+    debugger; // get type of e
     if (e.key === "Enter" && username && password) handleSubmit();
   };
 
@@ -71,10 +74,10 @@ export default function LoginWindow() {
           Login
         </Button>
 
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/register")}>
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/register")}>
           Register an account
         </Link>
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/forgotpassword")}>
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/passwordreset")}>
           I forgot my password
         </Link>
       </Paper>

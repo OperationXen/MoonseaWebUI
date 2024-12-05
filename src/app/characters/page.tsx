@@ -10,7 +10,7 @@ import { getCharacters } from "api/character";
 
 import CreateCharacterWindow from "components/characters/CreateCharacterWindow";
 import CharacterSummaryCard from "components/characters/CharacterSummaryCard";
-import EmptyDashboardWidget from "components/dashboard/EmptyDashboardWidget";
+import NoCharactersOverlay from "@/components/characters/NoCharactersOverlay";
 import LoadingOverlay from "components/general/LoadingOverlay";
 
 export default function Dashboard() {
@@ -37,7 +37,7 @@ export default function Dashboard() {
           paddingBottom: "1.4em",
         }}
       >
-        {characters?.length === 0 && <EmptyDashboardWidget onClick={() => setCreateOpen(true)} />}
+        {characters?.length === 0 && <NoCharactersOverlay onClick={() => setCreateOpen(true)} />}
         {characters?.map((character: any) => (
           <CharacterSummaryCard key={character.uuid} character={character} />
         ))}

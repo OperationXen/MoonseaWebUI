@@ -1,16 +1,18 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "next/navigation";
 
 import { Box, Container, Stack } from "@mui/material";
 import { Typography, Divider } from "@mui/material";
 
-import { getMagicItemDetails } from "../../../api/items";
-import MagicItemInformationPane from "./MagicItemInformationPane";
-import MagicItemControlPane from "./MagicItemControlsPane";
-import MagicItemHistoryPane from "./MagicItemHistoryPane";
-import MagicItemImagePane from "./MagicItemImagePane";
+import { getMagicItemDetails } from "@/api/items";
+import MagicItemInformationPane from "@/components/items/details/MagicItemInformationPane";
+import MagicItemControlPane from "@/components/items/details/MagicItemControlsPane";
+import MagicItemHistoryPane from "@/components/items/details/MagicItemHistoryPane";
+import MagicItemImagePane from "@/components/items/details/MagicItemImagePane";
 
-export default function MagicItemDetails(props) {
+export default function MagicItemDetails() {
   const { uuid } = useParams();
 
   const [data, setData] = useState([]);
@@ -47,17 +49,9 @@ export default function MagicItemDetails(props) {
             borderRadius: "8px",
           }}
         >
-          <MagicItemInformationPane
-            item={data}
-            editMode={editMode}
-            setEditMode={setEditMode}
-          />
+          <MagicItemInformationPane item={data} editMode={editMode} setEditMode={setEditMode} />
           <MagicItemImagePane item={data} />
-          <MagicItemControlPane
-            item={data}
-            editMode={editMode}
-            setEditMode={setEditMode}
-          />
+          <MagicItemControlPane item={data} editMode={editMode} setEditMode={setEditMode} />
         </Stack>
         <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
           <MagicItemHistoryPane uuid={uuid} />

@@ -1,6 +1,10 @@
 import { Container, Typography, Box, Button } from "@mui/material";
 
-export default function EmptyDashboardWidget(props) {
+type PropsType = {
+  onClick: () => void;
+};
+
+export function NoCharactersOverlay(props: PropsType) {
   const { onClick } = props;
 
   return (
@@ -31,3 +35,5 @@ export default function EmptyDashboardWidget(props) {
     </Container>
   );
 }
+
+export default NoCharactersOverlay;
