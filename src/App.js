@@ -10,10 +10,10 @@ import MagicItemDetails from "./components/items/details/MagicItemDetails";
 import Dashboard from "./components/dashboard/Dashboard";
 import DataManager from "./datamanager/DataManager";
 
-import RegistrationWindow from "./components/user/RegistrationWindow";
-import ForgotPassword from "./components/user/ForgotPassword";
-import PasswordReset from "./components/user/PasswordReset";
-import LoginWindow from "./components/user/LoginWindow";
+import RegistrationWindow from "./app/auth/register/page.tsx";
+import ForgotPassword from "./app/auth/passwordreset/page.js";
+import PasswordReset from "./app/auth/passwordreset/[userID]/[token]/page.js";
+import LoginWindow from "./app/auth/login/page";
 
 import userStore from "./datastore/user";
 

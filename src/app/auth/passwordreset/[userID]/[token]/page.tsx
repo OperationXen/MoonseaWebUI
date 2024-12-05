@@ -1,17 +1,19 @@
-import { useState } from "react";
-import { useNavigate, useParams, Navigate } from "react-router-dom";
+"use client";
+
+import React, { useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 
 import { Container, Paper, Typography, Divider } from "@mui/material";
 import { Box, Stack, Button, TextField } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
+import useSnackbar from "@/datastore/snackbar";
 
-import { doPasswordReset } from "../../api/user";
-import { validatePassword } from "../../utils/user";
+import { doPasswordReset } from "@/api/user";
+import { validatePassword } from "@/utils/user";
 
 export default function PasswordReset() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { userID, token } = useParams();
 
   const [highlight, setHighlight] = useState(false);
@@ -22,20 +24,19 @@ export default function PasswordReset() {
     doPasswordReset(userID, token, password1)
       .then(() => {
         displayMessage("Password updated", "success");
-        navigate("/");
+        router.push("/characters");
       })
-      .catch((error) => {
+      .catch((_error) => {
         displayMessage("Unable to reset password", "error");
       });
   };
 
-  const keyPressHandler = (e) => {
-    if (e.key === "Enter" && password1 === password2 && validatePassword())
-      handleSubmit();
+  const keyPressHandler = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && password1 === password2 && validatePassword(password1)) handleSubmit();
   };
 
-  if (!userID.match(/\d+/) || !token.match(/[0-9a-f-]{30,42}/)) {
-    return <Navigate to="/" />;
+  if (!(userID as string).match(/\d+/) || !(token as string).match(/[0-9a-f-]{30,42}/)) {
+    router.push("/auth/login");
   }
 
   return (
@@ -74,11 +75,7 @@ export default function PasswordReset() {
             error={highlight && password1 !== password2}
             placeholder="Reenter the same password"
           />
-          <Box
-            sx={{ width: "60%" }}
-            onMouseOver={() => setHighlight(true)}
-            onMouseOut={() => setHighlight(false)}
-          >
+          <Box sx={{ width: "60%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
             <Button
               fullWidth
               variant="contained"

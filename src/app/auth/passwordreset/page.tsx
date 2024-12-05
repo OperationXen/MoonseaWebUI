@@ -1,16 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Container, Paper, Typography } from "@mui/material";
 import { Button, TextField, Link, Divider } from "@mui/material";
 
-import { requestPasswordReset } from "../../api/user";
-import useSnackbar from "../../datastore/snackbar";
+import { requestPasswordReset } from "../../../api/user";
+import useSnackbar from "../../../datastore/snackbar";
 
 export default function ForgotPassword() {
-  const [email, setEMail] = useState();
+  const [email, setEMail] = useState<string>("");
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const validateEMail = () => {
     if (!email || email.length < 3) return false;
@@ -19,13 +21,13 @@ export default function ForgotPassword() {
   };
 
   const handleSubmit = () => {
-    requestPasswordReset(email).then((response) => {
+    requestPasswordReset(email).then((_response) => {
       displayMessage("Check email for password reset link", "info");
-      navigate("/login");
+      router.push("/auth/login");
     });
   };
 
-  const keyPressHandler = (e) => {
+  const keyPressHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && validateEMail()) handleSubmit();
   };
 
@@ -64,10 +66,10 @@ export default function ForgotPassword() {
           Request reset
         </Button>
         <Divider sx={{ width: "100%", marginBottom: "0.4em" }} />
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/register")}>
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/register")}>
           Register a new account
         </Link>
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => navigate("/login")}>
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/login")}>
           Login with existing account
         </Link>
       </Paper>
