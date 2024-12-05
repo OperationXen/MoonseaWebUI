@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 import { Card, Typography, Grid, Tooltip } from "@mui/material";
 
@@ -7,17 +7,17 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
 
-import CreateAdvertDialog from "../../trading/CreateAdvertDialog";
-import { updateMagicItem } from "../../../api/items";
-import useSnackbar from "../../../datastore/snackbar";
-import useCharacterStore from "../../../datastore/character";
-import { getRarityColour } from "../../../utils/itemutils";
+import CreateAdvertDialog from "@components/trade/CreateAdvertDialog";
+import { updateMagicItem } from "@/api/items";
+import useSnackbar from "@/datastore/snackbar";
+import useCharacterStore from "@/datastore/character";
+import { getRarityColour } from "@/utils/itemutils";
 
 export default function ItemWidget(props) {
   const { uuid, name, attunement, rarity, equipped } = props.data;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const refreshData = useCharacterStore((s) => s.requestRefresh);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [showControls, setShowControls] = useState(false);
   const [showAdvertCreate, setShowAdvertCreate] = useState(false);
@@ -31,7 +31,7 @@ export default function ItemWidget(props) {
   };
   const handleDetailClick = (e) => {
     e?.stopPropagation();
-    navigate(`/magicitem/${uuid}`);
+    router.push(`/magicitem/${uuid}`);
   };
   const handleTradeClick = (e) => {
     e.stopPropagation();
