@@ -30,6 +30,7 @@ export function NavBar() {
             Moonsea Codex
           </Typography>
 
+          {/* TODO: consider tabs */}
           <Box
             sx={{
               width: "32em",
@@ -53,7 +54,7 @@ export function NavBar() {
                 disabled={!authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname === "/tradingpost" ? 1 : 0.2,
+                  opacity: pathname.startsWith("/tradingpost") ? 1 : 0.2,
                 }}
               >
                 Trading Post

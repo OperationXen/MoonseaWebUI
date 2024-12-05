@@ -13,13 +13,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
-import useSnackbar from "../../datastore/snackbar";
-import { getUserMagicItems } from "../../api/items";
-import { getDateString, getSourceText } from "../../utils/format";
+import useSnackbar from "@/datastore/snackbar";
+import { getUserMagicItems } from "@/api/items";
+import { getDateString, getSourceText } from "@/utils/format";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
-import RarityWidget from "../../components/items/widgets/RarityWidget";
-import CreateAdvertDialog from "../../components/trading/CreateAdvertDialog";
+import RarityWidget from "@/components/items/widgets/RarityWidget";
+import CreateAdvertDialog from "../../components/trade/CreateAdvertDialog";
 
 import type { MagicItem } from "types/items";
 
@@ -131,7 +131,7 @@ export default function ItemVault() {
       sx={{
         display: "flex",
         padding: "0.5em",
-        height: "calc(100vh - 2.5em)",
+        height: "calc(100vh - 4em)",
         justifyContent: "space-around",
         flexDirection: "column",
       }}

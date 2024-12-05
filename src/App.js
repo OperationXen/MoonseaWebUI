@@ -6,8 +6,7 @@ import { CssBaseline } from "@mui/material";
 
 import DungeonMasterWindow from "./components/dungeonmaster/DungeonMasterWindow";
 import MagicItemDetails from "./components/items/details/MagicItemDetails";
-import TradingPostWindow from "./components/trading/TradingPostWindow";
-import ItemVaultWindow from "./app/itemvault/page";
+
 import Dashboard from "./components/dashboard/Dashboard";
 import DataManager from "./datamanager/DataManager";
 
@@ -37,8 +36,7 @@ export default function App() {
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </React.Fragment>
             )) || <React.Fragment></React.Fragment>}
-            <Route path="/tradingpost/" element={<TradingPostWindow />} />
-            <Route path="/tradingpost/:section" element={<TradingPostWindow />} />
+
             <Route path="/magicitem/:uuid" element={<MagicItemDetails />} />
 
             <Route path="/dungeonmaster/:uuid" element={<DungeonMasterWindow />} />
