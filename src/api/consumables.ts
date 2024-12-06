@@ -6,7 +6,7 @@ import type {Consumable} from "../types/items"
 const QUERY_KEY = "msc-consumables";
 
 
-export const createConsumable = (characterUUID: string, itemData: Consumable) => {
+export const createConsumable = (characterUUID: string, itemData: Partial<Consumable>) => {
   let data = { character_uuid: characterUUID, ...itemData };
   return api.post("/api/data/consumable", data);
 };

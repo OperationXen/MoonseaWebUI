@@ -1,5 +1,9 @@
-export function getDateString(datetime) {
-  var dateString = datetime ?? "";
+import type { Event } from "@/types/events";
+import type { ItemOrigin } from "@/types/items";
+import type { PlayerClass } from "@/types/character";
+
+export function getDateString(datetime: Date) {
+  let dateString: string = "";
 
   if (datetime instanceof Date) {
     try {
@@ -14,26 +18,26 @@ export function getDateString(datetime) {
 }
 
 // Comparison function for class sort by level
-function levelCompare(a, b) {
-  if (a.value > b.value) return -1;
-  if (b.value > a.value) return 1;
+function levelCompare(a: PlayerClass, b: PlayerClass) {
+  if (a.level > b.level) return -1;
+  if (b.level > a.level) return 1;
   return 0;
 }
 
-export function getCharClassShort(classes) {
-  let classStrings = [];
+export function getCharClassShort(classes: PlayerClass[]) {
+  let classStrings: string[] = [];
   if (!classes) return "";
   // sort so highest class first
   classes.sort(levelCompare);
   // construct an array of strings, and then join them with formatting characters
   classes.map((item) => {
-    if (item.name) classStrings.push(`${item.name} (${item.value})`);
+    if (item.name) classStrings.push(`${item.name} (${item.level})`);
     return null;
   });
   return classStrings.join(" / ");
 }
 
-export function getSourceText(source) {
+export function getSourceText(source: ItemOrigin): string {
   if (source === "game") return "Found on adventure";
   else if (source === "dm_reward") return "DM Reward";
   else if (source === "trade") return "Trade";
@@ -42,8 +46,8 @@ export function getSourceText(source) {
 }
 
 // Get human readable event type information
-export function getEventName(eventType) {
-  switch (eventType) {
+export function getEventName(event: Event): string {
+  switch (event) {
     case "game":
       return "Game played";
     case "dm_reward":

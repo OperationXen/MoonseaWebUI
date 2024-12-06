@@ -1,21 +1,31 @@
 import { useState } from "react";
 
 import { Dialog, Typography, Divider, Box } from "@mui/material";
-import { Select, MenuItem, InputLabel } from "@mui/material";
+import { Select, SelectChangeEvent, MenuItem, InputLabel } from "@mui/material";
 import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
-import { createConsumable } from "../../api/consumables";
-import { getRarityColour } from "../../utils/items";
+import useSnackbar from "@/datastore/snackbar";
+import { createConsumable } from "@/api/consumables";
+import { getRarityColour } from "@/utils/items";
 
-export function ConsumableDialog(props) {
+import type { UUID } from "@/types/uuid";
+import type { Consumable, Rarity, ConsumableType } from "@/types/items";
+
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+  characterUUID: UUID;
+  onCreate: () => void;
+};
+
+export function ConsumableDialog(props: PropsType) {
   const { open, onClose, characterUUID, onCreate } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState("");
-  const [rarity, setRarity] = useState("uncommon");
-  const [itemType, setItemType] = useState("potion");
+  const [rarity, setRarity] = useState<Rarity>("uncommon");
+  const [itemType, setItemType] = useState<ConsumableType>("potion");
   const [charges, setCharges] = useState(0);
   const [desc, setDesc] = useState("");
 
@@ -27,11 +37,11 @@ export function ConsumableDialog(props) {
     onClose();
   };
   const handleSubmit = () => {
-    let data = {
+    let data: Partial<Consumable> = {
       name: name,
       description: desc,
       rarity: rarity,
-      type: itemType,
+      type: itemType as ConsumableType,
       charges: charges,
     };
     createConsumable(characterUUID, data)
@@ -88,7 +98,11 @@ export function ConsumableDialog(props) {
         ></TextField>
         <FormControl sx={{ width: "10em" }}>
           <InputLabel id="type-label">Item Type</InputLabel>
-          <Select label="Item Type" value={itemType} onChange={(e) => setItemType(e.target.value)}>
+          <Select
+            label="Item Type"
+            value={itemType}
+            onChange={(e: SelectChangeEvent) => setItemType(e.target.value as ConsumableType)}
+          >
             <MenuItem value="potion">Potion</MenuItem>
             <MenuItem value="scroll">Scroll</MenuItem>
             <MenuItem value="ammo">Ammunition</MenuItem>
@@ -109,7 +123,11 @@ export function ConsumableDialog(props) {
       <Box sx={{ display: "flex", width: "100%", gap: "8px", justifyContent: "space-between" }}>
         <FormControl sx={{ flexGrow: 0.5 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
-          <Select label="Rarity" value={rarity} onChange={(e) => setRarity(e.target.value)}>
+          <Select
+            label="Rarity"
+            value={rarity}
+            onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}
+          >
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
             <MenuItem value="rare">Rare</MenuItem>

@@ -1,3 +1,10 @@
+export type PlayerClass = {
+	level: number;
+	name: string;
+	subclass: string;
+}
+
+
 export type Character = {
     uuid: string,
 		name: string,
