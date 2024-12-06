@@ -1,7 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
-export default function EmptyWindowWidget(props) {
-  const message = props.message || "Nothing here yet";
+type PropsType = {
+  message: string;
+};
+
+export default function EmptyWindowWidget(props: PropsType) {
+  const { message } = props;
 
   return (
     <Box

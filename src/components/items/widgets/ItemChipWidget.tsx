@@ -3,8 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 import { getRarityColour } from "../../../utils/itemutils";
 
-export default function ItemChipWidget(props) {
-  const { name, rarity, uuid } = props.item;
+import type { Rarity } from "@/types/items";
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  name: string;
+  rarity: Rarity;
+  uuid: UUID;
+};
+
+export default function ItemChipWidget(props: PropsType) {
+  const { name, rarity, uuid } = props;
   const navigate = useNavigate();
 
   return (

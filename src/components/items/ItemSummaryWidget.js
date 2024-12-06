@@ -44,7 +44,7 @@ export default function ItemSummaryWidget(props) {
       }}
     >
       {equipped.map((item) => {
-        return <ItemChipWidget item={item} key={item.uuid} />;
+        return <ItemChipWidget uuid={item.uuid} name={item.name} rarity={item.rarity} key={item.uuid} />;
       })}
     </Box>
   );
