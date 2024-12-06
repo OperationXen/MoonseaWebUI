@@ -2,9 +2,15 @@ import React from "react";
 
 import { Avatar } from "@mui/material";
 
-import { getRarityColour, getRarityText } from "../../../utils/itemutils";
+import { getRarityColour, getRarityText } from "../../../utils/items";
 
-export default function RarityWidget(props) {
+import type { Rarity } from "@/types/items";
+
+type PropsType = {
+  rarity: Rarity;
+};
+
+export default function RarityWidget(props: PropsType) {
   const { rarity } = props;
 
   return (

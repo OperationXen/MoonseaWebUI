@@ -7,7 +7,7 @@ import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
 import { createMagicItem } from "../../api/items";
-import { getRarityColour } from "../../utils/itemutils";
+import { getRarityColour } from "../../utils/items";
 
 export default function CreateMagicItem(props) {
   const { open, onClose, characterUUID, onCreate } = props;
@@ -55,9 +55,7 @@ export default function CreateMagicItem(props) {
           width: "40em",
           border: `2px solid ${getRarityColour(rarity)}`,
           borderRadius: "16px",
-          boxShadow: `2px 2px 60px black, 1px 1px 8px inset ${getRarityColour(
-            rarity
-          )}`,
+          boxShadow: `2px 2px 60px black, 1px 1px 8px inset ${getRarityColour(rarity)}`,
           padding: "1.2em",
           display: "flex",
           gap: "0.6em",
@@ -80,11 +78,7 @@ export default function CreateMagicItem(props) {
       >
         <FormControl sx={{ flexGrow: 0.5 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
-          <Select
-            label="Rarity"
-            value={rarity}
-            onChange={(e) => setRarity(e.target.value)}
-          >
+          <Select label="Rarity" value={rarity} onChange={(e) => setRarity(e.target.value)}>
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
             <MenuItem value="rare">Rare</MenuItem>
@@ -93,12 +87,7 @@ export default function CreateMagicItem(props) {
           </Select>
         </FormControl>
         <FormControlLabel
-          control={
-            <Checkbox
-              checked={attunement}
-              onChange={() => setAttunement(!attunement)}
-            />
-          }
+          control={<Checkbox checked={attunement} onChange={() => setAttunement(!attunement)} />}
           label="Attunement required"
         />
       </Box>
@@ -127,11 +116,7 @@ export default function CreateMagicItem(props) {
         value={flavour}
         onChange={(e) => setFlavour(e.target.value)}
       ></TextField>
-      <Box
-        display="flex"
-        onMouseOver={() => setHighlight(true)}
-        onMouseOut={() => setHighlight(false)}
-      >
+      <Box display="flex" onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
         <Button
           onClick={handleSubmit}
           variant="contained"

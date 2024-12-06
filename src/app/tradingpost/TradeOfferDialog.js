@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Dialog, Divider, Typography, Box, Stack } from "@mui/material";
 import { Select, MenuItem, Button, TextField } from "@mui/material";
 
-import { getRarityText, getRarityColour } from "../../utils/itemutils";
+import { getRarityText, getRarityColour } from "../../utils/items";
 import { getUserAdverts, createTradeOffer } from "../../api/trade";
 import useSnackbar from "../../datastore/snackbar";
 
@@ -60,9 +60,7 @@ export default function TradeOfferDialog(props) {
           alignItems: "center",
           borderRadius: "8px",
           border: "2px solid black",
-          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(
-            rarity
-          )}`,
+          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(rarity)}`,
           width: "42em",
         },
       }}
@@ -82,9 +80,7 @@ export default function TradeOfferDialog(props) {
         <Typography variant="h5" sx={{ textDecoration: "underline" }}>
           {name}
         </Typography>
-        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>
-          {getRarityText(rarity)}
-        </Typography>
+        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>{getRarityText(rarity)}</Typography>
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Your Item</Divider>
       <Stack sx={{ width: "100%", gap: "0.8em", alignItems: "center" }}>
@@ -118,12 +114,7 @@ export default function TradeOfferDialog(props) {
           maxRows={3}
           fullWidth
         />
-        <Button
-          variant="contained"
-          sx={{ width: "60%" }}
-          disabled={itemSelected === "default"}
-          onClick={handleOffer}
-        >
+        <Button variant="contained" sx={{ width: "60%" }} disabled={itemSelected === "default"} onClick={handleOffer}>
           Make offer
         </Button>
       </Stack>

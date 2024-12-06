@@ -4,7 +4,7 @@ import { Box, Stack, Divider, Dialog } from "@mui/material";
 import { Typography, Button, TextField } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
-import { getRarityColour, getRarityText } from "../../utils/itemutils";
+import { getRarityColour, getRarityText } from "../../utils/items";
 import { createTradeAdvert } from "../../api/trade";
 
 export default function CreateAdvertDialog(props) {
@@ -37,9 +37,7 @@ export default function CreateAdvertDialog(props) {
           alignItems: "center",
           borderRadius: "8px",
           border: "2px solid black",
-          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(
-            rarity
-          )}`,
+          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(rarity)}`,
           width: "42em",
         },
       }}
@@ -55,20 +53,16 @@ export default function CreateAdvertDialog(props) {
         <Typography variant="h3">Trade Item</Typography>
       </Box>
       <Typography variant="caption" sx={{ textAlign: "center" }}>
-        This will create an advert for the item and move it to the trading post.
-        Whilst the item is in the trading post it will be unavailable for use by
-        this character, but other users can propose their items for exchange
-        using AL rules. Item trades consume 5 downtime days and must be 1 for 1
-        of the same rarity.
+        This will create an advert for the item and move it to the trading post. Whilst the item is in the trading post
+        it will be unavailable for use by this character, but other users can propose their items for exchange using AL
+        rules. Item trades consume 5 downtime days and must be 1 for 1 of the same rarity.
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Item Details</Divider>
       <Stack sx={{ alignItems: "center", gap: "0.4em" }}>
         <Typography variant="h5" sx={{ textDecoration: "underline" }}>
           {name}
         </Typography>
-        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>
-          {getRarityText(rarity)}
-        </Typography>
+        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>{getRarityText(rarity)}</Typography>
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Trade Advert</Divider>
       <Stack sx={{ width: "100%" }} spacing={"0.4em"}>

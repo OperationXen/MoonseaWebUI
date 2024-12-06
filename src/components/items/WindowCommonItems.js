@@ -29,7 +29,7 @@ export default function WindowCommonItems(props) {
       >
         {(displayItems?.length &&
           displayItems.map((item, index) => {
-            return <ItemWidget data={item} key={`${index}-${item.id}`} />;
+            return <ItemWidget {...item} key={`${index}-${item.id}`} />;
           })) || <EmptyWindowWidget message="No common items" />}
       </Box>
       <Box

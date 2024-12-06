@@ -7,14 +7,26 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import BrightnessAutoIcon from "@mui/icons-material/BrightnessAuto";
 import ArticleIcon from "@mui/icons-material/Article";
 
-import CreateAdvertDialog from "@components/trade/CreateAdvertDialog";
+import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import { updateMagicItem } from "@/api/items";
 import useSnackbar from "@/datastore/snackbar";
 import useCharacterStore from "@/datastore/character";
-import { getRarityColour } from "@/utils/itemutils";
+import { getRarityColour } from "@/utils/items";
 
-export default function ItemWidget(props) {
-  const { uuid, name, attunement, rarity, equipped } = props.data;
+import type { UUID } from "@/types/uuid";
+import type { Rarity } from "@/types/items";
+
+type PropsType = {
+  uuid: UUID;
+  name: string;
+  attunement: boolean;
+  rarity: Rarity;
+  equipped: boolean;
+};
+
+export default function ItemWidget(props: PropsType) {
+  const { uuid, name, attunement, rarity, equipped } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const refreshData = useCharacterStore((s) => s.requestRefresh);
   const router = useRouter();
@@ -29,11 +41,11 @@ export default function ItemWidget(props) {
     });
     refreshData();
   };
-  const handleDetailClick = (e) => {
+  const handleDetailClick = (e: React.MouseEvent) => {
     e?.stopPropagation();
     router.push(`/magicitem/${uuid}`);
   };
-  const handleTradeClick = (e) => {
+  const handleTradeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowAdvertCreate(true);
   };

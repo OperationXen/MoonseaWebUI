@@ -1,7 +1,7 @@
 import { Tooltip, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { getRarityColour } from "../../../utils/itemutils";
+import { getRarityColour } from "../../../utils/items";
 
 import type { Rarity } from "@/types/items";
 import type { UUID } from "@/types/uuid";

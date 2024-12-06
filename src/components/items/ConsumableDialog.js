@@ -7,7 +7,7 @@ import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "../../datastore/snackbar";
 import { createConsumable } from "../../api/consumables";
-import { getRarityColour } from "../../utils/itemutils";
+import { getRarityColour } from "../../utils/items";
 
 export function ConsumableDialog(props) {
   const { open, onClose, characterUUID, onCreate } = props;
