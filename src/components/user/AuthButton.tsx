@@ -3,8 +3,8 @@ import { usePathname } from "next/navigation";
 
 import { Button } from "@mui/material";
 
-import userStore from "../../datastore/user";
-import { doLogout } from "../../api/user";
+import userStore from "@/datastore/user";
+import { doLogout } from "@/api/user";
 
 export default function AuthButton() {
   const pathname = usePathname();

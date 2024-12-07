@@ -1,7 +1,6 @@
 "use client";
 
-import Grid from "@mui/material/Unstable_Grid2";
-import { Box } from "@mui/material";
+import { Box, Grid2 as Grid } from "@mui/material";
 
 import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
@@ -13,8 +12,14 @@ import CharacterEvents from "components/events/CharacterEvents";
 import CharacterArt from "@/components/characters/CharacterArt";
 import ItemPane from "components/items/ItemPane";
 
-export default function CharacterPage({ params }: { params: { characterUUID: string } }) {
-  const { characterUUID } = params;
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  params: { characterUUID: UUID };
+};
+
+export default function CharacterPage(props: PropsType) {
+  const { characterUUID } = props.params;
 
   const { data: characterData, isPending } = characterQuery(characterUUID);
   const mutateCharacter = characterMutation();
@@ -35,8 +40,6 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
       }}
     >
       <Grid
-        xs={12}
-        lg={6.97}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -56,9 +59,8 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
         </Box>
         <ItemPane data={characterData} />
       </Grid>
-      <Grid xs={0.06} />
 
-      <Grid xs={12} lg={4.97} sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
+      <Grid sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
           characterUUID={characterUUID}
           characterName={characterData?.name || ""}

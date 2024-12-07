@@ -1,4 +1,4 @@
-import type { Event } from "@/types/events";
+import type { EventType } from "@/types/events";
 import type { ItemOrigin } from "@/types/items";
 import type { PlayerClass } from "@/types/character";
 
@@ -37,7 +37,9 @@ export function getCharClassShort(classes: PlayerClass[]) {
   return classStrings.join(" / ");
 }
 
-export function getSourceText(source: ItemOrigin): string {
+export function getSourceText(source: ItemOrigin|undefined): string {
+  if (source === undefined) return "Unknown";
+
   if (source === "game") return "Found on adventure";
   else if (source === "dm_reward") return "DM Reward";
   else if (source === "trade") return "Trade";
@@ -46,7 +48,7 @@ export function getSourceText(source: ItemOrigin): string {
 }
 
 // Get human readable event type information
-export function getEventName(event: Event): string {
+export function getEventName(event: EventType): string {
   switch (event) {
     case "game":
       return "Game played";

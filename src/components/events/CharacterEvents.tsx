@@ -1,27 +1,38 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, IconButton } from "@mui/material";
-import { DataGrid, GridPagination } from "@mui/x-data-grid";
-
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import { deleteEventMundaneTrade, getEventsForCharacter } from "../../api/events";
-import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "../../api/events";
-import { removeCharacterGame } from "../../api/events";
-import useSnackbar from "../../datastore/snackbar.js";
-import CreateCharacterEvent from "./CreateCharacterEvent";
-import { EventViewModal } from "./details/EventViewModal.js";
-import { getDateString, getEventName } from "../../utils/format.js";
+import { Button, IconButton } from "@mui/material";
+import { DataGrid, GridPagination } from "@mui/x-data-grid";
+import { GridValueGetter, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
-export default function CharacterEvents(props) {
+import { deleteEventMundaneTrade, getEventsForCharacter } from "@/api/events";
+import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "@/api/events";
+import { removeCharacterGame } from "@/api/events";
+import useSnackbar from "@/datastore/snackbar.js";
+import CreateCharacterEvent from "./CreateCharacterEvent";
+import { EventViewModal } from "./details/EventViewModal";
+import { getDateString, getEventName } from "@/utils/format";
+
+import type { UUID } from "@/types/uuid";
+import type { CharacterEvent } from "@/types/events";
+
+type PropsType = {
+  characterUUID: UUID;
+  characterName: string;
+  downtime: number;
+  editable: boolean;
+};
+
+export default function CharacterEvents(props: PropsType) {
   const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [eventDetails, setEventDetails] = useState(null); // event visible in modal window
+  const [eventDetails, setEventDetails] = useState<CharacterEvent | null>(null); // event visible in modal window
   const [events, setEvents] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
@@ -31,11 +42,12 @@ export default function CharacterEvents(props) {
     });
   }, [characterUUID, refresh]);
 
-  const handleOpenEventDetails = (data) => {
+  const handleOpenEventDetails = (data: any) => {
+    debugger;
     setEventDetails(data.row);
   };
 
-  const rowActions = (params) => {
+  const rowActions = (params: GridRenderCellParams<CharacterEvent>) => {
     if (!editable) return null;
 
     return (
@@ -81,39 +93,36 @@ export default function CharacterEvents(props) {
       </React.Fragment>
     );
   };
-  const rowEventType = (params) => {
-    let event_type = params.row.event_type;
-    return getEventName(event_type);
+  const rowEventType = (value: CharacterEvent) => {
+    return getEventName(value.event_type);
   };
-  const rowDate = (params) => {
-    return getDateString(params.row.datetime);
+  const rowDate = (value: CharacterEvent) => {
+    return getDateString(value.datetime);
   };
 
-  const rowDetails = (params) => {
-    let data = params.row;
-
-    if (data.event_type === "game") {
-      return `${data.name} (${data.module})`;
-    } else if (data.event_type === "dm_reward") {
-      let str = `${data.name}`;
-      if (data.gold) {
-        str += ` / ${data.gold} gold`;
+  const rowDetails = (value: CharacterEvent) => {
+    if (value.event_type === "game") {
+      return `${value.name} (${value.module})`;
+    } else if (value.event_type === "dm_reward") {
+      let str = `${value.name}`;
+      if (value.gold) {
+        str += ` / ${value.gold} gold`;
       }
-      if (data.downtime) {
-        str += ` / ${data.downtime} downtime days`;
+      if (value.downtime) {
+        str += ` / ${value.downtime} downtime days`;
       }
       return str;
-    } else if (data.event_type === "dt_catchingup") {
-      return `${data.details ? data.details : "Gained a level"}`;
-    } else if (data.event_type === "dt_mtrade") {
-      return `${Math.abs(data.gold_change)}gp ${data.gold_change > 0 ? "received" : "spent"}`;
-    } else if (data.event_type === "dt_sbookupd") {
-      if (data.source) return `Copied spells to spellbook from ${data.source}`;
+    } else if (value.event_type === "dt_catchingup") {
+      return `${value.details ? value.details : "Gained a level"}`;
+    } else if (value.event_type === "dt_mtrade") {
+      return `${Math.abs(value.gold_change)}gp ${value.gold_change > 0 ? "received" : "spent"}`;
+    } else if (value.event_type === "dt_sbookupd") {
+      if (value.source) return `Copied spells to spellbook from ${value.source}`;
       return "Updated Spellbook";
     }
   };
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: "event_type",
       headerName: "Event Type",
@@ -157,7 +166,7 @@ export default function CharacterEvents(props) {
         columns={columns}
         rows={events}
         rowHeight={36}
-        rowsPerPageOptions={[15, 25, 50, 100]}
+        pageSizeOptions={[15, 25, 50, 100]}
         onRowDoubleClick={handleOpenEventDetails}
         sx={{
           border: "1px solid black",
@@ -169,8 +178,8 @@ export default function CharacterEvents(props) {
             sortModel: [{ field: "datetime", sort: "desc" }],
           },
         }}
-        components={{
-          Footer: () => (
+        slots={{
+          footer: () => (
             <div
               style={{
                 display: "flex",
@@ -188,7 +197,7 @@ export default function CharacterEvents(props) {
                   Add event
                 </Button>
               </div>
-              <GridPagination style={{ justifySelf: "center", alignSelf: "center" }} />
+              <GridPagination />
             </div>
           ),
         }}
