@@ -4,15 +4,18 @@ import { Box, Dialog, Typography } from "@mui/material";
 import { TextField, Divider, Button } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
-import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
-import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
-import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
+import HealthIcon from "@mui/icons-material/LocalHospital";
+import PerceptionIcon from "@mui/icons-material/Visibility";
+import SaveDCIcon from "@mui/icons-material/AutoFixNormal";
 
-import usePlayerStore from "../../datastore/player";
-import useSnackbar from "../../datastore/snackbar";
-import { createCharacter } from "../../api/character";
+import usePlayerStore from "@/datastore/player";
+import useSnackbar from "@/datastore/snackbar";
+import { createCharacter } from "@/api/character";
 import StatsWidget from "./widgets/StatsWidget";
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
+
+import type { Character } from "@/types/character";
+import type { PlayerClass } from "@/types/character";
 
 const row = {
   width: "100%",
@@ -22,14 +25,26 @@ const row = {
   alignItems: "center",
 };
 
-export default function CreateCharacterWindow(props) {
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function CreateCharacterWindow(props: PropsType) {
   const { open, onClose } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const requestRefresh = usePlayerStore((s) => s.requestRefresh);
 
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
-  const [classes, setClasses] = useState({ name: "", subclass: "", value: 1 });
+  const [classes, setClasses] = useState<PlayerClass[]>([
+    {
+      name: "",
+      subclass: "",
+      level: 1,
+    },
+  ]);
   const [level] = useState(1);
   const [sheet, setSheet] = useState("");
   const [vision, setVision] = useState("");
@@ -40,11 +55,15 @@ export default function CreateCharacterWindow(props) {
   const [bio, setBio] = useState("");
   const [dmText, setDMText] = useState("");
 
+  const handlePlayerClassChange = (newVal: PlayerClass) => {
+    setClasses([newVal]);
+  };
+
   const handleSubmit = () => {
-    let data = {
+    let data: Partial<Character> = {
       name: name,
-      portrait: null,
-      token: null,
+      artwork: "",
+      token: "",
       sheet: sheet,
       public: true,
       season: "11",
@@ -61,7 +80,7 @@ export default function CreateCharacterWindow(props) {
       biography: bio,
       dm_text: dmText,
     };
-    createCharacter(data).then((response) => {
+    createCharacter(data).then((_response) => {
       displayMessage(`Character ${name} created`, "success");
       requestRefresh();
       onClose();
@@ -103,7 +122,10 @@ export default function CreateCharacterWindow(props) {
         />
       </Box>
       <Box sx={{ ...row, margin: "0.6em 0" }}>
-        <ClassLevelPickerWidget data={classes} update={setClasses} />
+        <ClassLevelPickerWidget
+          data={classes[0]}
+          update={handlePlayerClassChange}
+        />
       </Box>
       <Box sx={row}>
         <TextField

@@ -14,11 +14,11 @@ import type { ClassOptions } from "@/types/classes";
 import type { PlayerClass } from "@/types/character";
 
 type PropsType = {
-  update: (x: Partial<PlayerClass>) => void;
-  deletable: boolean;
-  onDelete: () => void;
-  data: any;
-  highlight: boolean;
+  update: (x: PlayerClass) => void;
+  deletable?: boolean;
+  onDelete?: () => void;
+  data: PlayerClass;
+  highlight?: boolean;
 };
 
 export default function ClassLevelPickerWidget(props: PropsType) {
@@ -36,10 +36,10 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   }, []);
 
   const setName = (newVal: string) => {
-    update({ name: newVal, subclass: "", level: data.value });
+    update({ name: newVal, subclass: "", level: data.level });
   };
   const setSubclass = (newVal: string) => {
-    update({ name: data.name, subclass: newVal, level: data.value });
+    update({ name: data.name, subclass: newVal, level: data.level });
   };
   const setLevel = (newLevel: number) => {
     update({ name: data.name, subclass: data.subclass, level: newLevel });
@@ -48,7 +48,7 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   const handleClassChange = (e: SelectChangeEvent) => {
     let newVal = e.target.value;
 
-    if (newVal === "delete") {
+    if (newVal === "delete" && onDelete) {
       onDelete();
     } else {
       setName(newVal);
@@ -56,63 +56,61 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   };
 
   const handleDecrement = () => {
-    if (data.value > 1) setLevel(data.value - 1);
-    else onDelete();
+    if (data.level > 1) setLevel(data.level - 1);
+    else if (onDelete) onDelete();
   };
   const handleIncrement = () => {
-    if (data.value < 20) setLevel(data.value + 1);
+    if (data.level < 20) setLevel(data.level + 1);
   };
 
   return (
-    <Grid2 container sx={{ margin: "0.4em 0", width: "100%" }} spacing="0.2em">
-      <Grid2>
-        <FormControl sx={{ width: "100%" }}>
-          <InputLabel>Character Class</InputLabel>
-          <Select
-            label="Character Class"
-            sx={{ width: "100%" }}
-            value={data.name}
-            onChange={handleClassChange}
-            error={highlight && !data.name}
-          >
-            {classOptions.map((item, index) => {
-              return (
-                <MenuItem value={item.name} key={index}>
-                  {item.name}
-                </MenuItem>
-              );
-            })}
-            <Divider />
-            <MenuItem value="delete" disabled={!deletable}>
-              Delete row
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </Grid2>
-      <Grid2>
-        <FormControl sx={{ width: "100%" }}>
-          <InputLabel>Subclass</InputLabel>
-          <Select
-            label="Subclass"
-            sx={{ width: "100%" }}
-            disabled={!data.name}
-            value={data.subclass}
-            onChange={(e) => setSubclass(e.target.value)}
-          >
-            {getValidSubclasses(data.name).map((item, index) => {
-              return (
-                <MenuItem value={item} key={index}>
-                  {item}
-                </MenuItem>
-              );
-            })}
-            <Divider />
-            <MenuItem value="">No subclass</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid2>
-      <Grid2
+    <Box sx={{ margin: "0.4em 0", width: "100%", display: "flex", gap: "4px" }}>
+      <FormControl sx={{ flexGrow: 2 }}>
+        <InputLabel>Character Class</InputLabel>
+        <Select
+          label="Character Class"
+          sx={{ width: "100%" }}
+          value={data.name}
+          onChange={handleClassChange}
+          error={highlight && !data.name}
+        >
+          {classOptions.map((item, index) => {
+            return (
+              <MenuItem value={item.name} key={index}>
+                {item.name}
+              </MenuItem>
+            );
+          })}
+          <Divider />
+          <MenuItem value="delete" disabled={!deletable}>
+            Delete row
+          </MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl sx={{ flexGrow: 2 }}>
+        <InputLabel>Subclass</InputLabel>
+        <Select
+          label="Subclass"
+          sx={{ width: "100%" }}
+          disabled={!data.name}
+          value={data.subclass}
+          onChange={(e) => setSubclass(e.target.value)}
+        >
+          {getValidSubclasses(data.name).map((item, index) => {
+            return (
+              <MenuItem value={item} key={index}>
+                {item}
+              </MenuItem>
+            );
+          })}
+          <Divider />
+          <MenuItem value="">No subclass</MenuItem>
+        </Select>
+      </FormControl>
+      <Box
         sx={{
+          flexGrow: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -131,13 +129,15 @@ export default function ClassLevelPickerWidget(props: PropsType) {
             marginTop: "-0.6em",
           }}
         >
-          <IconButton onClick={handleDecrement}>{(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}</IconButton>
-          <Typography>{data.value}</Typography>
-          <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
+          <IconButton onClick={handleDecrement}>
+            {(data.level > 1 && <RemoveIcon />) || <DeleteIcon />}
+          </IconButton>
+          <Typography>{data.level}</Typography>
+          <IconButton onClick={handleIncrement} disabled={data.level >= 20}>
             <AddIcon />
           </IconButton>
         </Box>
-      </Grid2>
-    </Grid2>
+      </Box>
+    </Box>
   );
 }
