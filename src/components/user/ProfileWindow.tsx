@@ -3,12 +3,19 @@ import { useState } from "react";
 import { Dialog, Typography, Divider, Box } from "@mui/material";
 import { Button, TextField, Stack } from "@mui/material";
 
-import userStore from "../../datastore/user";
-import useSnackBar from "../../datastore/snackbar";
-import { updateDiscordID, updatePassword } from "../../api/user";
-import { checkDiscordID } from "../../utils/user";
+import userStore from "@/datastore/user";
+import useSnackBar from "@/datastore/snackbar";
+import { updateDiscordID, updatePassword } from "@/api/user";
+import { checkDiscordID } from "@/utils/user";
 
-export default function ProfileWindow(props) {
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function ProfileWindow(props: PropsType) {
+  const { open, onClose } = props;
+
   const [username, discord] = userStore((s) => [s.username, s.discordID]);
   const displayMessage = useSnackBar((s) => s.displayMessage);
   const [discordID, setDiscordID] = useState(discord || "");
@@ -21,22 +28,22 @@ export default function ProfileWindow(props) {
     setOldPass("");
     setNewPass1("");
     setNewPass2("");
-    props.onClose();
+    onClose();
   };
 
   const changeDiscordID = () => {
     updateDiscordID(discordID)
-      .then((response) => {
+      .then((_response) => {
         displayMessage("Discord details updated", "success");
       })
-      .catch((error) => {
+      .catch((_error) => {
         displayMessage("Unable to update details", "error");
       });
   };
 
   const changePassword = () => {
     updatePassword(oldPass, newPass1, newPass2)
-      .then((response) => {
+      .then((_response) => {
         displayMessage("Password updated", "success");
       })
       .catch((error) => {
@@ -58,7 +65,7 @@ export default function ProfileWindow(props) {
 
   return (
     <Dialog
-      open={props.open}
+      open={open}
       onClose={handleClose}
       PaperProps={{
         sx: {
@@ -130,10 +137,7 @@ export default function ProfileWindow(props) {
           placeholder="Confirm your new password"
           error={highlight && (newPass1 !== newPass2 || !newPass2)}
         ></TextField>
-        <Box
-          onMouseOver={() => setHighlight(true)}
-          onMouseOut={() => setHighlight(false)}
-        >
+        <Box onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
           <Button disabled={!verifyPassword()} onClick={changePassword}>
             Change Password
           </Button>
