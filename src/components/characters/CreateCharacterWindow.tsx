@@ -62,8 +62,8 @@ export default function CreateCharacterWindow(props: PropsType) {
   const handleSubmit = () => {
     let data: Partial<Character> = {
       name: name,
-      artwork: "",
-      token: "",
+      artwork: null,
+      token: null,
       sheet: sheet,
       public: true,
       season: "11",

@@ -10,9 +10,9 @@ export type Character = {
   editable: boolean;
   public: boolean;
 
-  // links
-  artwork: string;
-  token: string;
+  // TODO - types for artwork and token should be some kind of file type
+  artwork: any;
+  token: any;
   sheet: string;
 
   season: string;
