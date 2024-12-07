@@ -16,15 +16,15 @@ export default function AuthButton() {
         Logout
       </Button>
     );
-  } else if (pathname === "/login") {
+  } else if (pathname === "/auth/login") {
     return (
-      <Link href="/register" passHref>
+      <Link href="/auth/register" passHref>
         <Button sx={{ color: "white" }}>Register</Button>
       </Link>
     );
   } else
     return (
-      <Link href="/login" passHref>
+      <Link href="/auth/login" passHref>
         <Button sx={{ color: "white" }}>Login</Button>
       </Link>
     );

@@ -1,38 +1,51 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 
-import Grid from "@mui/material/Unstable_Grid2";
-import { IconButton, Typography, Divider, Box } from "@mui/material";
+import { IconButton, Typography, Divider, Box, Grid2 } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import classes from "../../../config/classes.json";
+import _classes from "@/config/classes.json";
 
-export default function ClassLevelPickerWidget(props) {
+import type { ClassOptions } from "@/types/classes";
+import type { PlayerClass } from "@/types/character";
+
+type PropsType = {
+  update: (x: Partial<PlayerClass>) => void;
+  deletable: boolean;
+  onDelete: () => void;
+  data: any;
+  highlight: boolean;
+};
+
+export default function ClassLevelPickerWidget(props: PropsType) {
   const { update, deletable, onDelete, data, highlight } = props;
 
-  const getValidSubclasses = useCallback((className) => {
+  const classOptions = _classes as ClassOptions[];
+
+  const getValidSubclasses = useCallback((className: string) => {
     if (!className) return [];
 
-    let temp = classes.filter((item) => {
+    let temp = classOptions.filter((item) => {
       return item.name === className;
     });
     return temp[0].subclasses;
   }, []);
 
-  const setName = (newVal) => {
-    update({ name: newVal, subclass: "", value: data.value });
+  const setName = (newVal: string) => {
+    update({ name: newVal, subclass: "", level: data.value });
   };
-  const setSubclass = (newVal) => {
-    update({ name: data.name, subclass: newVal, value: data.value });
+  const setSubclass = (newVal: string) => {
+    update({ name: data.name, subclass: newVal, level: data.value });
   };
-  const setValue = (newVal) => {
-    update({ name: data.name, subclass: data.subclass, value: newVal });
+  const setLevel = (newLevel: number) => {
+    update({ name: data.name, subclass: data.subclass, level: newLevel });
   };
 
-  const handleClassChange = (e) => {
+  const handleClassChange = (e: SelectChangeEvent) => {
     let newVal = e.target.value;
 
     if (newVal === "delete") {
@@ -43,16 +56,16 @@ export default function ClassLevelPickerWidget(props) {
   };
 
   const handleDecrement = () => {
-    if (data.value > 1) setValue(data.value - 1);
+    if (data.value > 1) setLevel(data.value - 1);
     else onDelete();
   };
   const handleIncrement = () => {
-    if (data.value < 20) setValue(data.value + 1);
+    if (data.value < 20) setLevel(data.value + 1);
   };
 
   return (
-    <Grid container sx={{ margin: "0.4em 0", width: "100%" }} spacing="0.2em">
-      <Grid item sm={4} xs={12}>
+    <Grid2 container sx={{ margin: "0.4em 0", width: "100%" }} spacing="0.2em">
+      <Grid2>
         <FormControl sx={{ width: "100%" }}>
           <InputLabel>Character Class</InputLabel>
           <Select
@@ -62,7 +75,7 @@ export default function ClassLevelPickerWidget(props) {
             onChange={handleClassChange}
             error={highlight && !data.name}
           >
-            {classes.map((item, index) => {
+            {classOptions.map((item, index) => {
               return (
                 <MenuItem value={item.name} key={index}>
                   {item.name}
@@ -75,8 +88,8 @@ export default function ClassLevelPickerWidget(props) {
             </MenuItem>
           </Select>
         </FormControl>
-      </Grid>
-      <Grid item sm={6} xs={8}>
+      </Grid2>
+      <Grid2>
         <FormControl sx={{ width: "100%" }}>
           <InputLabel>Subclass</InputLabel>
           <Select
@@ -97,11 +110,8 @@ export default function ClassLevelPickerWidget(props) {
             <MenuItem value="">No subclass</MenuItem>
           </Select>
         </FormControl>
-      </Grid>
-      <Grid
-        item
-        sm={2}
-        xs={4}
+      </Grid2>
+      <Grid2
         sx={{
           display: "flex",
           alignItems: "center",
@@ -121,15 +131,13 @@ export default function ClassLevelPickerWidget(props) {
             marginTop: "-0.6em",
           }}
         >
-          <IconButton onClick={handleDecrement}>
-            {(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}
-          </IconButton>
+          <IconButton onClick={handleDecrement}>{(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}</IconButton>
           <Typography>{data.value}</Typography>
           <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
             <AddIcon />
           </IconButton>
         </Box>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 }
