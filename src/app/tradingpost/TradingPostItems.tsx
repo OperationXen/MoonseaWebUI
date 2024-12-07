@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Grid from "@mui/material/Unstable_Grid2";
+import { Grid2 } from "@mui/material";
 
 import TradeAdvert from "./TradeAdvert";
 import { getUserAdverts } from "@/api/trade";
@@ -9,7 +9,9 @@ import useSnackbar from "@/datastore/snackbar";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import EmptyAdvertsWidget from "./widgets/EmptyAdvertsWidget";
 
-export default function TradingPostItems(props) {
+import type { Advert } from "@/types/trade";
+
+export default function TradingPostItems() {
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [adverts, setAdverts] = useTradeStore((s) => [s.adverts, s.setAdverts]);
@@ -26,18 +28,18 @@ export default function TradingPostItems(props) {
   }, [refreshAdverts, setAdverts, snackbar]);
 
   if (loading) {
-    return <LoadingOverlay show={loading} />;
+    return <LoadingOverlay open={loading} />;
   } else if (adverts && adverts.length) {
     return (
-      <Grid container sx={{ margin: "0.4em" }} spacing={2}>
-        {adverts.map((advert) => {
+      <Grid2 container sx={{ margin: "0.4em" }} spacing={2}>
+        {adverts.map((advert: Advert) => {
           return (
-            <Grid md={6} lg={4} xs={12}>
+            <Grid2>
               <TradeAdvert {...advert} />
-            </Grid>
+            </Grid2>
           );
         })}
-      </Grid>
+      </Grid2>
     );
   } else {
     return <EmptyAdvertsWidget />;
