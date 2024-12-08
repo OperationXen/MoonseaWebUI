@@ -1,5 +1,5 @@
 export type PlayerClass = {
-  level: number;
+  value: number;
   name: string;
   subclass: string;
 };

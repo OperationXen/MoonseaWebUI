@@ -19,8 +19,8 @@ export function getDateString(datetime: Date) {
 
 // Comparison function for class sort by level
 function levelCompare(a: PlayerClass, b: PlayerClass) {
-  if (a.level > b.level) return -1;
-  if (b.level > a.level) return 1;
+  if (a.value > b.value) return -1;
+  if (b.value > a.value) return 1;
   return 0;
 }
 
@@ -31,7 +31,7 @@ export function getCharClassShort(classes: PlayerClass[]) {
   classes.sort(levelCompare);
   // construct an array of strings, and then join them with formatting characters
   classes.map((item) => {
-    if (item.name) classStrings.push(`${item.name} (${item.level})`);
+    if (item.name) classStrings.push(`${item.name} (${item.value})`);
     return null;
   });
   return classStrings.join(" / ");

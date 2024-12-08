@@ -36,13 +36,13 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   }, []);
 
   const setName = (newVal: string) => {
-    update({ name: newVal, subclass: "", level: data.level });
+    update({ name: newVal, subclass: "", value: data.value });
   };
   const setSubclass = (newVal: string) => {
-    update({ name: data.name, subclass: newVal, level: data.level });
+    update({ name: data.name, subclass: newVal, value: data.value });
   };
-  const setLevel = (newLevel: number) => {
-    update({ name: data.name, subclass: data.subclass, level: newLevel });
+  const setvalue = (newvalue: number) => {
+    update({ name: data.name, subclass: data.subclass, value: newvalue });
   };
 
   const handleClassChange = (e: SelectChangeEvent) => {
@@ -56,11 +56,11 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   };
 
   const handleDecrement = () => {
-    if (data.level > 1) setLevel(data.level - 1);
+    if (data.value > 1) setvalue(data.value - 1);
     else if (onDelete) onDelete();
   };
   const handleIncrement = () => {
-    if (data.level < 20) setLevel(data.level + 1);
+    if (data.value < 20) setvalue(data.value + 1);
   };
 
   return (
@@ -129,11 +129,9 @@ export default function ClassLevelPickerWidget(props: PropsType) {
             marginTop: "-0.6em",
           }}
         >
-          <IconButton onClick={handleDecrement}>
-            {(data.level > 1 && <RemoveIcon />) || <DeleteIcon />}
-          </IconButton>
-          <Typography>{data.level}</Typography>
-          <IconButton onClick={handleIncrement} disabled={data.level >= 20}>
+          <IconButton onClick={handleDecrement}>{(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}</IconButton>
+          <Typography>{data.value}</Typography>
+          <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
             <AddIcon />
           </IconButton>
         </Box>

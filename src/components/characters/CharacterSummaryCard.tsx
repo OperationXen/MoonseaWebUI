@@ -7,8 +7,6 @@ import { Tooltip, Avatar, Divider } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-import defaultToken from "@/media/images/placegoblin-token.png";
-
 import useSnackbar from "@/datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "../items/ItemSummaryWidget";
@@ -19,6 +17,8 @@ type PropsType = {
   character: Character;
 };
 
+const defaultToken = "/media/images/placegoblin-token.png";
+
 export default function CharacterSummaryCard(props: PropsType) {
   const { character } = props;
 
@@ -26,7 +26,7 @@ export default function CharacterSummaryCard(props: PropsType) {
   const classesText = getCharClassShort(character.classes);
 
   const copyCharacterLink = () => {
-    navigator.clipboard.writeText(window.location.origin + "/moonseacodex" + detailsLink);
+    navigator.clipboard.writeText(window.location.origin + "/moonseacodex");
     snackbar("Copied character link to clipboard");
   };
 
@@ -118,14 +118,14 @@ export default function CharacterSummaryCard(props: PropsType) {
         {(character.sheet && (
           <Tooltip title="View character sheet on D&D Beyond">
             <Avatar
-              src={"/public/icons/beyond2.png"}
+              src={"/media/icons/beyond2.png"}
               sx={{ width: 40, height: 40, opacity: 0.9, cursor: "pointer" }}
               onClick={() => window.open(character.sheet)}
             />
           </Tooltip>
         )) || (
           <Tooltip title="No character sheet set">
-            <Avatar src={"/public/icons/beyond2.png"} sx={{ width: 40, height: 40, opacity: 0.3 }} />
+            <Avatar src={"/media/icons/beyond2.png"} sx={{ width: 40, height: 40, opacity: 0.3 }} />
           </Tooltip>
         )}
       </Box>

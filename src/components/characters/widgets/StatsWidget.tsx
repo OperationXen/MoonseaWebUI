@@ -6,13 +6,24 @@ import { Box, Grid } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-export default function StatsWidget(props) {
+type PropsType = {
+  locked: boolean;
+  value: number;
+  setValue: (x: number) => void;
+  name: string;
+  icon: any;
+  onMouseOut?: () => void;
+  sx: object;
+};
+
+export default function StatsWidget(props: PropsType) {
   const { locked, value, setValue, name, icon, onMouseOut } = props;
+
   const [active, setActive] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let raw = e.target.value;
-    if (locked || isNaN(raw)) return;
+    if (locked || isNaN(parseInt(raw))) return;
 
     if (raw) {
       let val = parseInt(raw);
@@ -21,11 +32,11 @@ export default function StatsWidget(props) {
   };
 
   const handleIncrement = () => {
-    let val = parseInt(value);
+    let val = value;
     setValue(val + 1);
   };
   const handleDecrement = () => {
-    let val = parseInt(value);
+    let val = value;
     if (val > 0) setValue(val - 1);
   };
 

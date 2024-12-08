@@ -46,7 +46,7 @@ export default function CharacterLevelsPane(props: PropsType) {
       retVal = character.classes.map((item, index) => {
         return (
           <ClassChipWidget
-            data={item}
+            playerClass={item}
             key={index}
             onClick={() => {
               if (editable) setLevelOpen(true);

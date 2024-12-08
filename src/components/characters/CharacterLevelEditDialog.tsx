@@ -41,7 +41,7 @@ export default function CharacterLevelEditDialog(props: PropsType) {
   };
 
   const handleAddClass = () => {
-    setClasses(classes.concat([{ name: "", subclass: "", level: 1 }]));
+    setClasses(classes.concat([{ name: "", subclass: "", value: 1 }]));
   };
 
   const handleUpdate = (newVal: PlayerClass, index: number) => {

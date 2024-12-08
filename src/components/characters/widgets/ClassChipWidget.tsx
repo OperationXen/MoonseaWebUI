@@ -7,16 +7,17 @@ import { GiMagicSwirl, GiPentacle } from "react-icons/gi";
 import { GiGearHammer, GiBookCover } from "react-icons/gi";
 import { FaYinYang } from "react-icons/fa";
 
-const getLevelText = (item) => {
-  const { name, subclass, value } = item;
+import type { PlayerClass } from "@/types/character";
 
-  if (subclass)
-    return <Typography>{`${name} (${subclass}) - ${value}`}</Typography>;
+const getLevelText = (playerClass: PlayerClass) => {
+  const { name, subclass, value } = playerClass;
+
+  if (subclass) return <Typography>{`${name} (${subclass}) - ${value}`}</Typography>;
   else return <Typography>{`${name} - ${value}`}</Typography>;
 };
 
-const getClassColour = (name) => {
-  let c = name.toLowerCase();
+const getClassColour = (playerClass: PlayerClass) => {
+  let c = playerClass.name.toLowerCase();
   if (c === "artificer") return "#887242";
   if (c === "barbarian") return "#d0725c";
   if (c === "bard") return "#b58cb6";
@@ -32,8 +33,8 @@ const getClassColour = (name) => {
   if (c === "wizard") return "#4472bf";
 };
 
-const getClassIcon = (name) => {
-  let c = name.toLowerCase();
+const getClassIcon = (playerClass: PlayerClass) => {
+  let c = playerClass.name.toLowerCase();
   if (c === "artificer") return <GiGearHammer color="black" />;
   if (c === "barbarian") return <GiCrossedAxes color="black" />;
   if (c === "bard") return <GiBanjo color="black" />;
@@ -49,20 +50,23 @@ const getClassIcon = (name) => {
   if (c === "wizard") return <GiBookCover color="black" />;
 };
 
-export default function ClassChipWidget(props) {
-  const { name } = props.data;
+type PropsType = {
+  playerClass: PlayerClass;
+  onClick: () => void;
+};
 
-  if (!name) return null;
+export default function ClassChipWidget(props: PropsType) {
+  const { playerClass } = props;
 
   return (
     <Chip
-      label={getLevelText(props.data)}
-      icon={getClassIcon(name)}
+      label={getLevelText(playerClass)}
+      icon={getClassIcon(playerClass)}
       onClick={props.onClick}
       sx={{
         margin: "0 0.4em",
-        border: `1px solid ${getClassColour(name)}`,
-        background: `${getClassColour(name)}60`,
+        border: `1px solid ${getClassColour(playerClass)}`,
+        background: `${getClassColour(playerClass)}60`,
       }}
     />
   );

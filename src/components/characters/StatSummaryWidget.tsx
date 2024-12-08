@@ -5,8 +5,13 @@ import ShieldIcon from "@mui/icons-material/Shield";
 import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
 import { default as PerceptionIcon } from "@mui/icons-material/Visibility";
 import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
+import type { Character } from "@/types/character";
 
-export default function StatSummaryWidget(props) {
+type PropsType = {
+  character: Character;
+};
+
+export default function StatSummaryWidget(props: PropsType) {
   const { character } = props;
 
   return (

@@ -29,6 +29,10 @@ export default function CharacterPage(props: PropsType) {
 
   const handleCharacterUpdate = (changes: Partial<Character>) => {
     const newData = { ...characterData, ...changes };
+    // TODO logically updating artwork or tokens should be a case of changing the URL
+    // A different endpoint should be used for uploading new files
+    newData.artwork = null;
+    newData.token = null;
     return mutateCharacter.mutateAsync(newData);
   };
 
