@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Grid2 as Grid } from "@mui/material";
+import { Container, Box, Grid2 as Grid } from "@mui/material";
 
 import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
@@ -33,13 +33,8 @@ export default function CharacterPage(props: PropsType) {
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        padding: "0.4em",
-      }}
-    >
-      <Grid
+    <Container sx={{ marginTop: "4px" }}>
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -58,16 +53,16 @@ export default function CharacterPage(props: PropsType) {
           <CharacterBiographyPane character={characterData} onUpdate={handleCharacterUpdate} />
         </Box>
         <ItemPane data={characterData} />
-      </Grid>
+      </Box>
 
-      <Grid sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
+      <Box sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
           characterUUID={characterUUID}
           characterName={characterData?.name || ""}
           downtime={characterData?.downtime || 0}
           editable={characterData?.editable || false}
         />
-      </Grid>
-    </Grid>
+      </Box>
+    </Container>
   );
 }

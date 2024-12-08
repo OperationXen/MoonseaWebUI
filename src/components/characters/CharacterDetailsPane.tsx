@@ -9,10 +9,12 @@ import { default as SaveDCIcon } from "@mui/icons-material/AutoFixNormal";
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
-import type { Character } from "@/types/character";
 import CharacterControls from "@/components/characters/CharacterControls";
+import CharacterLevelsPane from "./CharacterLevelsPane";
 import VisionWidget from "./widgets/VisionWidget";
 import StatsWidget from "./widgets/StatsWidget";
+
+import type { Character } from "@/types/character";
 
 const dataBoxStyle = {
   display: "flex",
@@ -154,7 +156,7 @@ export default function CharacterDetailsPane(props: PropsType) {
               sx={{ width: "25%" }}
             />
           </Box>
-          {/* <CharacterLevelsPane data={data} /> */}
+          <CharacterLevelsPane character={character} />
         </Box>
       </Box>
     </Box>

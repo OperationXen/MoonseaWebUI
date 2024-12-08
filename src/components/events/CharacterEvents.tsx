@@ -5,9 +5,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import { Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
-import { GridValueGetter, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { deleteEventMundaneTrade, getEventsForCharacter } from "@/api/events";
 import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "@/api/events";
@@ -159,14 +159,13 @@ export default function CharacterEvents(props: PropsType) {
   ];
 
   return (
-    <React.Fragment>
+    <Box height="500px">
       <DataGrid
         disableColumnMenu
         getRowId={(r) => r.uuid}
         columns={columns}
         rows={events}
         rowHeight={36}
-        pageSizeOptions={[15, 25, 50, 100]}
         onRowDoubleClick={handleOpenEventDetails}
         sx={{
           border: "1px solid black",
@@ -213,6 +212,6 @@ export default function CharacterEvents(props: PropsType) {
         name={characterName}
       />
       <EventViewModal data={eventDetails} setData={setEventDetails} />
-    </React.Fragment>
+    </Box>
   );
 }

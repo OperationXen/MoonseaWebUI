@@ -5,14 +5,24 @@ import { Button, ButtonGroup, Tooltip } from "@mui/material";
 
 import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
 
-export default function CharacterLevelEditDialog(props) {
+import type { PlayerClass } from "@/types/character";
+
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+  initialClasses: PlayerClass[];
+  update: (x: PlayerClass[]) => void;
+};
+
+export default function CharacterLevelEditDialog(props: PropsType) {
   const { open, onClose, initialClasses, update } = props;
+
   const [classes, setClasses] = useState(initialClasses);
   const [blankClasses, setBlankClasses] = useState(0);
   const [highlight, setHighlight] = useState(false);
 
-  const calcBlankClasses = useCallback((data) => {
-    let blank = data.filter((x) => !x.name).length;
+  const calcBlankClasses = useCallback((data: PlayerClass[]) => {
+    let blank = data.filter((x: PlayerClass) => !x.name).length;
     setBlankClasses(blank);
   }, []);
 
@@ -31,17 +41,17 @@ export default function CharacterLevelEditDialog(props) {
   };
 
   const handleAddClass = () => {
-    setClasses(classes.concat([{ name: "", subclass: "", value: 1 }]));
+    setClasses(classes.concat([{ name: "", subclass: "", level: 1 }]));
   };
 
-  const handleUpdate = (newVal, index) => {
+  const handleUpdate = (newVal: PlayerClass, index: number) => {
     let tempArray = [...classes];
     tempArray[index] = newVal;
     calcBlankClasses(tempArray);
     setClasses(tempArray);
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = (index: number) => {
     let tempArray = [...classes];
     tempArray.splice(index, 1);
     calcBlankClasses(tempArray);
@@ -81,19 +91,12 @@ export default function CharacterLevelEditDialog(props) {
           />
         );
       })}
-      <Tooltip
-        title={blankClasses ? "Cannot have blank classes" : ""}
-        placement="bottom"
-      >
+      <Tooltip title={blankClasses ? "Cannot have blank classes" : ""} placement="bottom">
         <ButtonGroup>
-          <Button
-            variant="outlined"
-            onClick={handleAddClass}
-            disabled={!!blankClasses}
-          >
+          <Button variant="outlined" onClick={handleAddClass} disabled={!!blankClasses}>
             Add new class
           </Button>
-          <Button onClick={handleClose} disabled={blankClasses}>
+          <Button onClick={handleClose} disabled={!!blankClasses}>
             Save changes
           </Button>
         </ButtonGroup>
