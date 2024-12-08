@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, Box } from "@mui/material";
 import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
@@ -12,11 +12,21 @@ import RarityWidget from "@/components/items/widgets/RarityWidget";
 import DeleteConfirm from "@/components/items/widgets/DeleteConfirm";
 import TradeOfferDialog from "./TradeOfferDialog";
 
-export default function TradeAdvert(props) {
-  const { description, offers, uuid, item } = props;
-  const { market } = props ?? false;
+import type { UUID } from "@/types/uuid";
+import type { MagicItem } from "@/types/items";
 
-  const navigate = useNavigate();
+type PropsType = {
+  description: string;
+  offers: any;
+  uuid: UUID;
+  item: MagicItem;
+  market?: boolean;
+};
+
+export default function TradeAdvert(props: PropsType) {
+  const { description, offers, uuid, item, market = false } = props;
+
+  const router = useRouter();
 
   const numOffers = offers?.length ?? 0;
   const [highlight, setHighlight] = useState(false);
@@ -54,7 +64,7 @@ export default function TradeAdvert(props) {
           <Typography
             variant="subtitle1"
             sx={{ cursor: "pointer" }}
-            onClick={() => navigate(`/magicitem/${item.uuid}`)}
+            onClick={() => router.push(`/magicitem/${item.uuid}`)}
           >
             {item.name}
           </Typography>
@@ -64,7 +74,7 @@ export default function TradeAdvert(props) {
             variant="subtitle2"
             sx={{ opacity: 0.8, cursor: "pointer" }}
             onClick={() => {
-              navigate(`/character/${item.owner_uuid}`);
+              router.push(`/character/${item.owner_uuid}`);
             }}
           >
             {item.owner_name}
@@ -96,13 +106,7 @@ export default function TradeAdvert(props) {
           </Tooltip>
         )}
       </Box>
-      <DeleteConfirm
-        open={showDelete}
-        onClose={() => setShowDelete(false)}
-        owner_name={item.owner_name}
-        name={item.name}
-        uuid={uuid}
-      />
+      <DeleteConfirm open={showDelete} onClose={() => setShowDelete(false)} name={item.name} uuid={uuid} />
       <TradeOfferDialog
         open={showOffer}
         onClose={() => setShowOffer(false)}

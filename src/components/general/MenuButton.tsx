@@ -6,13 +6,13 @@ import { IconButton, Menu, MenuItem, Divider } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import userStore from "../../datastore/user";
 
-export default function MenuButton(props) {
+export default function MenuButton() {
   const router = useRouter();
   const pathname = usePathname();
 
   const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   return (
     <React.Fragment>

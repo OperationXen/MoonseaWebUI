@@ -1,5 +1,5 @@
 import { Tooltip, Chip } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 import { getRarityColour } from "../../../utils/items";
 
@@ -14,14 +14,14 @@ type PropsType = {
 
 export default function ItemChipWidget(props: PropsType) {
   const { name, rarity, uuid } = props;
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <Tooltip placement={"right"} title={`Equipped item: ${name} (${rarity})`}>
       <Chip
         label={name}
         onClick={() => {
-          navigate(`/magicitem/${uuid}`);
+          router.push(`/magicitem/${uuid}`);
         }}
         sx={{
           background: `${getRarityColour(rarity)}A5`,
