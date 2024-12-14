@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-export function HomePage() {
+export default function HomePage() {
   const router = useRouter();
 
   router.push("/characters");

@@ -26,4 +26,5 @@ export type MagicItem = {
   market: boolean,
   description?: string,
   flavour?: string,  
+  image: string
 }

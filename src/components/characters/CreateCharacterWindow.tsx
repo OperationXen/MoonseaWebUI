@@ -42,7 +42,7 @@ export default function CreateCharacterWindow(props: PropsType) {
     {
       name: "",
       subclass: "",
-      level: 1,
+      value: 1,
     },
   ]);
   const [level] = useState(1);
@@ -122,10 +122,7 @@ export default function CreateCharacterWindow(props: PropsType) {
         />
       </Box>
       <Box sx={{ ...row, margin: "0.6em 0" }}>
-        <ClassLevelPickerWidget
-          data={classes[0]}
-          update={handlePlayerClassChange}
-        />
+        <ClassLevelPickerWidget data={classes[0]} update={handlePlayerClassChange} />
       </Box>
       <Box sx={row}>
         <TextField
@@ -199,12 +196,7 @@ export default function CreateCharacterWindow(props: PropsType) {
           onChange={(e) => setDMText(e.target.value)}
         />
       </Box>
-      <Button
-        variant="contained"
-        sx={{ width: "60%" }}
-        disabled={!name}
-        onClick={handleSubmit}
-      >
+      <Button variant="contained" sx={{ width: "60%" }} disabled={!name} onClick={handleSubmit}>
         Create Character
       </Button>
     </Dialog>

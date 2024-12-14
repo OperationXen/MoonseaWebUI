@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Box, Grid2 as Grid } from "@mui/material";
+import { Container, Box } from "@mui/material";
 
 import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";

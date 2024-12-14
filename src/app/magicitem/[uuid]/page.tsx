@@ -12,10 +12,12 @@ import MagicItemControlPane from "@/components/items/details/MagicItemControlsPa
 import MagicItemHistoryPane from "@/components/items/details/MagicItemHistoryPane";
 import MagicItemImagePane from "@/components/items/details/MagicItemImagePane";
 
+import type { MagicItem } from "@/types/items";
+
 export default function MagicItemDetails() {
   const { uuid } = useParams();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<MagicItem | null>(null);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {

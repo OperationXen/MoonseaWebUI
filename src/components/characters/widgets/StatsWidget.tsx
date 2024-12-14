@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 type PropsType = {
-  locked: boolean;
+  locked?: boolean;
   value: number;
   setValue: (x: number) => void;
   name: string;
@@ -17,7 +17,7 @@ type PropsType = {
 };
 
 export default function StatsWidget(props: PropsType) {
-  const { locked, value, setValue, name, icon, onMouseOut } = props;
+  const { locked = false, value, setValue, name, icon, onMouseOut } = props;
 
   const [active, setActive] = useState(false);
 
