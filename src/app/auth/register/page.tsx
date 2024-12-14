@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Container, Box, Paper, Link } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
-import useSnackbar from "../../../datastore/snackbar";
-import { validatePassword, checkDiscordID } from "../../../utils/user";
-import { registerAccount } from "../../../api/user";
+import useSnackbar from "@/datastore/snackbar";
+import { validatePassword, checkDiscordID } from "@/utils/user";
+import { useUserStatus } from "@/data/fetch/auth";
 
 type Issues = {
   password?: string;
@@ -17,8 +17,10 @@ type Issues = {
 };
 
 export default function RegistrationWindow() {
-  const displayMessage = useSnackbar((s) => s.displayMessage);
   const router = useRouter();
+  const { data: userStatus, registerAccount } = useUserStatus();
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [discordID, setDiscordID] = useState("");
@@ -34,17 +36,13 @@ export default function RegistrationWindow() {
   };
 
   const handleSubmit = () => {
-    registerAccount(username, email, discordID, password1)
+    registerAccount({ username: username, email: email, discord_id: discordID, password: password1 })
       .then(() => {
-        displayMessage(
-          "Your account has been created, please check your email for a verification email",
-          "success",
-        );
+        displayMessage("Your account has been created, please check your email for a verification email", "success");
         router.push("/auth/login");
       })
       .catch((error) => {
-        if ("errors" in error.response.data)
-          setIssues(error.response.data["errors"]);
+        if ("errors" in error.response.data) setIssues(error.response.data["errors"]);
         displayMessage("Unable to register this account", "error");
       });
   };
@@ -52,6 +50,11 @@ export default function RegistrationWindow() {
   const keyPressHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && username && password1) handleSubmit();
   };
+
+  // if the user is authed already don't let them waste time here
+  useEffect(() => {
+    if (userStatus?.authenticated) router.push("/characters");
+  }, [userStatus]);
 
   return (
     <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>
@@ -137,32 +140,19 @@ export default function RegistrationWindow() {
             type="password"
             autoComplete="password-confirm"
             error={issues.password !== undefined}
-            helperText={
-              password2 && password1 !== password2
-                ? "Passwords must match"
-                : " "
-            }
+            helperText={password2 && password1 !== password2 ? "Passwords must match" : " "}
             onChange={(e) => setPassword2(e.target.value)}
           />
         </Box>
         <Button
           sx={{ width: "50%", margin: "0.4em" }}
           variant="contained"
-          disabled={
-            !username ||
-            !password1 ||
-            !password2 ||
-            (discordID !== "" && !checkDiscordID(discordID))
-          }
+          disabled={!username || !password1 || !password2 || (discordID !== "" && !checkDiscordID(discordID))}
           onClick={handleSubmit}
         >
           Create Account
         </Button>
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => router.push("/auth/login")}
-        >
+        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/login")}>
           Sign in with existing account
         </Link>
       </Paper>

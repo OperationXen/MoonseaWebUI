@@ -34,7 +34,7 @@ export default function LoginWindow() {
   // If user is already logged in don't let them waste their time here
   useEffect(() => {
     if (userStatus?.authenticated) router.push("/characters");
-  }, []);
+  }, [userStatus]);
 
   return (
     <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>

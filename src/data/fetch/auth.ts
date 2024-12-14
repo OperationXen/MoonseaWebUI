@@ -3,19 +3,20 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./base";
 
-import type { UserStatus } from "@/types/user";
+import type { UserStatus, NewAccount, Credentials } from "@/types/user";
 
-type Credentials = {
-  username: string;
-  password: string;
-};
+type PasswordResetParams = { user_id: string; token: string; password: string };
 
 // Get the currently logged in user's details
 async function getUserStatus() {
   return api.get("/api/auth/user_details").then((r) => {
     const status: UserStatus = {
       authenticated: true,
-      ...r.data,
+      username: r.data.username,
+      email: r.data.email,
+      discordID: r.data.discord_id,
+      dmUUID: r.data.dm_info[0].uuid,
+      dmHours: r.data.dm_info[0].hours,
     };
     return status;
   });
@@ -31,7 +32,22 @@ async function doLogout() {
   return api.post("api/auth/logout");
 }
 
-// hook, bundles everything up nicely for ease of use
+// Create new account
+async function doRegisterAccount(details: NewAccount) {
+  return api.post("/api/auth/register", details);
+}
+
+async function requestPasswordReset(email: string) {
+  return api.post("/api/auth/forgot_password", { email: email });
+}
+
+async function completePasswordReset(data: PasswordResetParams) {
+  return api.post("/api/auth/password_reset", data);
+}
+
+/****************************************************************************************/
+/*               hook, bundles everything up nicely for ease of use                     */
+/****************************************************************************************/
 export function useUserStatus() {
   const queryClient = useQueryClient();
 
@@ -41,7 +57,21 @@ export function useUserStatus() {
   });
 
   const login = useMutation({
-    mutationFn: (loginData: Credentials) => doLogin(loginData),
+    mutationFn: doLogin,
+    onSuccess: (response) => {
+      queryClient.setQueryData(["user-status"], {
+        authenticated: true,
+        username: response.data.username,
+        email: response.data.email,
+        discordID: response.data.discord_id,
+        dmUUID: response.data.dm_info[0].uuid,
+        dmHours: response.data.dm_info[0].hours,
+      });
+    },
+  });
+
+  const register = useMutation({
+    mutationFn: doRegisterAccount,
     onSuccess: (response) => {
       queryClient.setQueryData(["user-status"], {
         authenticated: true,
@@ -61,9 +91,20 @@ export function useUserStatus() {
     },
   });
 
+  const forgotPassword = useMutation({
+    mutationFn: requestPasswordReset,
+  });
+
+  const resetPassword = useMutation({
+    mutationFn: completePasswordReset,
+  });
+
   return {
     login: login.mutateAsync,
     logout: logout.mutateAsync,
+    registerAccount: register.mutateAsync,
+    requestPasswordReset: forgotPassword.mutateAsync,
+    completePasswordReset: resetPassword.mutateAsync,
     changePassword: null,
     changeDetails: null,
     ...dataFetch,

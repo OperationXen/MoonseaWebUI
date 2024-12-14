@@ -13,28 +13,3 @@ export function updatePassword(oldPass, newPass1, newPass2) {
 
   return api.post(url, data);
 }
-
-// Create new account
-export async function registerAccount(username, email, discord, password) {
-  let url = "api/auth/register";
-  let data = {
-    username: username,
-    email: email,
-    discord_id: discord,
-    password: password,
-  };
-
-  return api.post(url, data);
-}
-
-export async function requestPasswordReset(email) {
-  let url = "api/auth/forgot_password";
-
-  return api.post(url, { email: email });
-}
-
-export async function doPasswordReset(userID, token, password) {
-  let url = "api/auth/password_reset";
-
-  return api.post(url, { user_id: userID, token: token, password: password });
-}
