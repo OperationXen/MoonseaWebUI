@@ -15,7 +15,7 @@ type PropsType = {
   onClose: () => void;
 };
 
-export default function DeleteConfirm(props: PropsType) {
+export function DeleteConfirm(props: PropsType) {
   const { character, open, onClose } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -80,3 +80,5 @@ export default function DeleteConfirm(props: PropsType) {
     </Dialog>
   );
 }
+
+export default DeleteConfirm;

@@ -13,7 +13,7 @@ type PropsType = {
   doUpdate: (x: Partial<Character>) => Promise<any>;
 };
 
-export default function VisionWidget(props: PropsType) {
+export function VisionWidget(props: PropsType) {
   const { vision, editable, doUpdate } = props;
 
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -75,3 +75,5 @@ export default function VisionWidget(props: PropsType) {
     </React.Fragment>
   );
 }
+
+export default VisionWidget;

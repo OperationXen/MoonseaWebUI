@@ -28,7 +28,7 @@ type PropsType = {
   updateCharacter: (x: Partial<Character>) => Promise<any>;
 };
 
-export default function CharacterDetailsPane(props: PropsType) {
+export function CharacterDetailsPane(props: PropsType) {
   const { character, updateCharacter } = props;
 
   if (!character) return null;
@@ -162,3 +162,5 @@ export default function CharacterDetailsPane(props: PropsType) {
     </Box>
   );
 }
+
+export default CharacterDetailsPane;
