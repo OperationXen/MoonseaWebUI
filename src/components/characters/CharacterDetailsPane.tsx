@@ -11,8 +11,9 @@ import { GiTwoCoins } from "react-icons/gi";
 
 import CharacterControls from "@/components/characters/CharacterControls";
 import CharacterLevelsPane from "./CharacterLevelsPane";
-import VisionWidget from "./widgets/VisionWidget";
-import StatsWidget from "./widgets/StatsWidget";
+
+import { VisionWidget } from "./widgets/VisionWidget";
+import { StatsWidget } from "./widgets/StatsWidget";
 
 import type { Character } from "@/types/character";
 
