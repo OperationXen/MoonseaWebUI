@@ -6,7 +6,7 @@ import { Divider, Button } from "@mui/material";
 
 import useSnackBar from "../../../datastore/snackbar";
 import usePlayerStore from "../../../datastore/player";
-import { getRarityColour } from "../../../utils/itemutils";
+import { getRarityColour } from "../../../utils/items";
 import { createDMReward } from "../../../api/events";
 import RewardSelectWidget from "./RewardSelectWidget";
 
@@ -103,9 +103,7 @@ export default function SelectSeasonReward(props) {
                 ))}
               </Select>
             </FormControl>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
+            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
               <Typography variant="body2" sx={{ opacity: "0.8" }}>
                 Optional level up for any character
               </Typography>

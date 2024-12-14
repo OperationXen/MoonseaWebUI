@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 import { GridColDef, DataGrid } from "@mui/x-data-grid";
 import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
-import { GridValueGetterParams as GVGetterParams } from "@mui/x-data-grid";
 import { Box, Container, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
@@ -49,8 +48,8 @@ export default function ItemVault() {
     return items.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
   };
 
-  const rowDate = (params: GVGetterParams) => {
-    let datetime = new Date(params.row.datetime_obtained);
+  const rowDate = (value: MagicItem) => {
+    let datetime = new Date(value.datetime_obtained);
     return getDateString(datetime);
   };
 
@@ -107,15 +106,15 @@ export default function ItemVault() {
       field: "source_event_type",
       headerName: "Source",
       flex: 0.2,
-      valueGetter: (p: GVGetterParams) => getSourceText(p.row.source_event_type),
+      valueGetter: (p: MagicItem) => getSourceText(p.source_event_type),
     },
     {
       field: "market",
       headerName: "Status",
       align: "center",
       flex: 0.1,
-      valueGetter: (p: GVGetterParams) => {
-        p.row.market ? "In trade post" : p.row.equipped ? "Equipped" : "Unused";
+      valueGetter: (p: MagicItem) => {
+        p.market ? "In trade post" : p.equipped ? "Equipped" : "Unused";
       },
     },
     {

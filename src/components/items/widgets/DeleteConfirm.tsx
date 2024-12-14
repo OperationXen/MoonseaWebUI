@@ -1,38 +1,33 @@
 "use client";
 
+import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
-
-import { deleteCharacter } from "../../../api/character";
+import { deleteMagicItem } from "../../../api/items";
 import useSnackbar from "../../../datastore/snackbar";
 
-import type { Character } from "@/types/character";
-
 type PropsType = {
-  character: Character;
+  uuid: string;
+  name: string;
   open: boolean;
   onClose: () => void;
 };
 
 export default function DeleteConfirm(props: PropsType) {
-  const { character, open, onClose } = props;
-
   const displayMessage = useSnackbar((s) => s.displayMessage);
-
   const router = useRouter();
 
   const handleDelete = () => {
-    deleteCharacter(character.uuid).then(() => {
-      displayMessage(`Character ${character.name} deleted`, "info");
+    deleteMagicItem(props.uuid).then(() => {
+      displayMessage(`Item ${props.name} deleted`, "info");
       router.push("/characters");
     });
   };
 
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
+      open={props.open}
+      onClose={props.onClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -49,7 +44,7 @@ export default function DeleteConfirm(props: PropsType) {
       <Typography variant="h4">Confirm Delete</Typography>
       <Divider sx={{ width: "95%" }} />
       <Typography variant="body1" sx={{ padding: "0.6em" }}>
-        Are you sure you want to delete {character.name}?
+        Are you sure you want to delete {props.name}?
       </Typography>
       <Typography variant="caption" sx={{ padding: "0.6em", margin: "auto" }}>
         This action cannot be undone
@@ -73,7 +68,7 @@ export default function DeleteConfirm(props: PropsType) {
         >
           Delete
         </Button>
-        <Button color="inherit" variant="contained" sx={{ width: "35%" }} onClick={onClose}>
+        <Button color="inherit" variant="contained" sx={{ width: "35%" }} onClick={props.onClose}>
           Cancel
         </Button>
       </Box>

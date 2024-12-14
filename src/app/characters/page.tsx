@@ -21,7 +21,7 @@ export default function Dashboard() {
     queryFn: () => getCharacters(),
   });
 
-  if (isPending) return <LoadingOverlay show={true} />;
+  if (isPending) return <LoadingOverlay open={true} />;
 
   return (
     <React.Fragment>

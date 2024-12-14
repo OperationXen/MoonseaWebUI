@@ -1,15 +1,15 @@
 import { Modal, Paper, Typography } from "@mui/material";
 
 type PropsType = {
-  show: boolean;
+  open: boolean;
 };
 
 export function LoadingOverlay(props: PropsType) {
-  const { show } = props;
+  const { open } = props;
 
   return (
     <Modal
-      open={show}
+      open={open}
       sx={{
         display: "flex",
         alignItems: "center",

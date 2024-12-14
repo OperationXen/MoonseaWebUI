@@ -59,7 +59,7 @@ export default function DungeonMasterWindow() {
 
   return (
     <React.Fragment>
-      <LoadingOverlay show={loading} />
+      <LoadingOverlay open={loading} />
       <Grid
         container
         sx={{

@@ -10,16 +10,10 @@ import ItemWidget from "./widgets/ItemWidget";
 
 export default function WindowMagicItems(props) {
   const { magicItems } = props;
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
-    s.uuid,
-    s.editable,
-    s.requestRefresh,
-  ]);
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
   const [createOpen, setCreateOpen] = useState(false);
 
-  const displayItems = magicItems?.filter(
-    (i) => i.rarity !== "common" && !i.market
-  );
+  const displayItems = magicItems?.filter((i) => i.rarity !== "common" && !i.market);
 
   return (
     <Box
@@ -41,7 +35,7 @@ export default function WindowMagicItems(props) {
       >
         {(displayItems?.length &&
           displayItems.map((item, index) => {
-            return <ItemWidget data={item} key={`${index}-${item.id}`} />;
+            return <ItemWidget {...item} key={`${index}-${item.id}`} />;
           })) || <EmptyWindowWidget message="No magic items" />}
       </Box>
       <Box

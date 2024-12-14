@@ -16,7 +16,7 @@ type Issues = {
   email?: string;
 };
 
-export function RegistrationWindow() {
+export default function RegistrationWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -152,5 +152,3 @@ export function RegistrationWindow() {
     </Container>
   );
 }
-
-export default RegistrationWindow;

@@ -8,7 +8,7 @@ import useSnackbar from "../../datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./widgets/ClassChipWidget";
 
-import type { Character } from "@/types/character";
+import type { Character, PlayerClass } from "@/types/character";
 
 type PropsType = {
   character: Character;
@@ -16,21 +16,23 @@ type PropsType = {
 
 export default function CharacterLevelsPane(props: PropsType) {
   const { character } = props;
+  const { classes, uuid, editable } = character;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [uuid, editable] = useCharacterStore((s) => [s.uuid, s.editable]);
+
+  //const [uuid, editable] = useCharacterStore((s) => [s.uuid, s.editable]);
 
   const [levelOpen, setLevelOpen] = useState(false);
 
   const setLevel = useCharacterStore((s) => s.setLevel);
 
-  const handleUpdate = (newVal) => {
+  const handleUpdate = (newVal: PlayerClass[]) => {
     updateCharacter(uuid, { classes: newVal })
       .then((response) => {
         setLevel(response.data.level);
         displayMessage("Updated character classes and levels", "info");
       })
-      .catch(() => "Error updating character classes", "error");
+      .catch(() => displayMessage("Error updating character classes", "error"));
   };
 
   const handleEditClose = () => {
@@ -38,21 +40,19 @@ export default function CharacterLevelsPane(props: PropsType) {
   };
 
   const getClassChips = () => {
-    let retVal = [];
+    let retVal: React.ReactElement[] = [];
 
     if (classes) {
       retVal = character.classes.map((item, index) => {
-        if (item.name)
-          return (
-            <ClassChipWidget
-              data={item}
-              key={index}
-              onClick={() => {
-                if (editable) setLevelOpen(true);
-              }}
-            />
-          );
-        else return null;
+        return (
+          <ClassChipWidget
+            playerClass={item}
+            key={index}
+            onClick={() => {
+              if (editable) setLevelOpen(true);
+            }}
+          />
+        );
       });
     }
     retVal = retVal.filter((x) => x !== null);
@@ -74,7 +74,7 @@ export default function CharacterLevelsPane(props: PropsType) {
         }}
       >
         <Box width="100%" mb={"0.4em"}>
-          <Divider width="95%">
+          <Divider sx={{ width: "95%" }}>
             {editable && (
               <Button
                 variant="outlined"

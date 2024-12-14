@@ -1,7 +1,6 @@
 "use client";
 
-import Grid from "@mui/material/Unstable_Grid2";
-import { Box } from "@mui/material";
+import { Container, Box } from "@mui/material";
 
 import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
@@ -13,8 +12,14 @@ import CharacterEvents from "components/events/CharacterEvents";
 import CharacterArt from "@/components/characters/CharacterArt";
 import ItemPane from "components/items/ItemPane";
 
-export default function CharacterPage({ params }: { params: { characterUUID: string } }) {
-  const { characterUUID } = params;
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  params: { characterUUID: UUID };
+};
+
+export default function CharacterPage(props: PropsType) {
+  const { characterUUID } = props.params;
 
   const { data: characterData, isPending } = characterQuery(characterUUID);
   const mutateCharacter = characterMutation();
@@ -24,19 +29,16 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
 
   const handleCharacterUpdate = (changes: Partial<Character>) => {
     const newData = { ...characterData, ...changes };
+    // TODO logically updating artwork or tokens should be a case of changing the URL
+    // A different endpoint should be used for uploading new files
+    newData.artwork = null;
+    newData.token = null;
     return mutateCharacter.mutateAsync(newData);
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        padding: "0.4em",
-      }}
-    >
-      <Grid
-        xs={12}
-        lg={6.97}
+    <Container sx={{ marginTop: "4px" }}>
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -55,17 +57,16 @@ export default function CharacterPage({ params }: { params: { characterUUID: str
           <CharacterBiographyPane character={characterData} onUpdate={handleCharacterUpdate} />
         </Box>
         <ItemPane data={characterData} />
-      </Grid>
-      <Grid xs={0.06} />
+      </Box>
 
-      <Grid xs={12} lg={4.97} sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
+      <Box sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
           characterUUID={characterUUID}
           characterName={characterData?.name || ""}
           downtime={characterData?.downtime || 0}
           editable={characterData?.editable || false}
         />
-      </Grid>
-    </Grid>
+      </Box>
+    </Container>
   );
 }

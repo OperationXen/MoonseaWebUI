@@ -45,7 +45,7 @@
       "**/*.ts",
       "**/*.tsx",
       ".next/types/**/*.ts",
-      "./dist/types/**/*.ts", "src/datastore/character.js",
+      "./dist/types/**/*.ts", "src/datastore/character.js", "src/components/items/CreateMagicItem.js",
     ],
     "exclude": ["node_modules", "build"] // *** The files to not type check ***
   }

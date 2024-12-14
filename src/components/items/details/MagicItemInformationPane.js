@@ -4,7 +4,7 @@ import { Paper, Table, Typography, InputBase } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
-import { getRarityText } from "../../../utils/itemutils";
+import { getRarityText } from "../../../utils/items";
 import { updateMagicItem } from "../../../api/items";
 import useMagicItemStore from "../../../datastore/magicitem";
 import useSnackbar from "../../../datastore/snackbar";
@@ -67,14 +67,7 @@ export default function MagicItemInformationPane(props) {
       .catch((error) => {
         snackbar(error.response.message ?? "Error updating item", "error");
       });
-  }, [
-    editMode,
-    item.uuid,
-    snackbar,
-    itemChanged,
-    getUpdateObject,
-    requestItemHistoryRefresh,
-  ]);
+  }, [editMode, item.uuid, snackbar, itemChanged, getUpdateObject, requestItemHistoryRefresh]);
 
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;
@@ -89,11 +82,7 @@ export default function MagicItemInformationPane(props) {
             </TableCell>
 
             <TableCell sx={cellStyle}>
-              <InputBase
-                disabled={!editMode}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <InputBase disabled={!editMode} value={name} onChange={(e) => setName(e.target.value)} />
             </TableCell>
           </TableRow>
 
@@ -104,10 +93,7 @@ export default function MagicItemInformationPane(props) {
             <TableCell sx={cellStyle}>
               {(editMode && (
                 <FormControl size="small" sx={{ minWidth: "12em" }}>
-                  <Select
-                    value={rarity}
-                    onChange={(e) => setRarity(e.target.value)}
-                  >
+                  <Select value={rarity} onChange={(e) => setRarity(e.target.value)}>
                     <MenuItem value="uncommon">Uncommon</MenuItem>
                     <MenuItem value="rare">Rare</MenuItem>
                     <MenuItem value="veryrare">Very Rare</MenuItem>

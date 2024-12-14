@@ -7,7 +7,7 @@ import { Delete } from "@mui/icons-material";
 import { updateConsumable, deleteConsumable } from "../../../api/consumables";
 import useSnackbar from "../../../datastore/snackbar";
 import useCharacterStore from "../../../datastore/character";
-import { getRarityColour } from "../../../utils/itemutils";
+import { getRarityColour } from "../../../utils/items";
 
 import type { Consumable } from "../../../types/items";
 

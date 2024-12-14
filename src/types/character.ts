@@ -1,28 +1,36 @@
+export type PlayerClass = {
+  value: number;
+  name: string;
+  subclass: string;
+};
+
 export type Character = {
-    uuid: string,
-		name: string,
-		editable: boolean,
-		items?: any[],
-		consumables?: any[],
+  uuid: string;
+  name: string;
+  editable: boolean;
+  public: boolean;
 
-		artwork: string,
-		token: string,
-		sheet: string
+  // TODO - types for artwork and token should be some kind of file type
+  artwork: any;
+  token: any;
+  sheet: string;
 
-		season: number,
-		race: string,
-		level: number,
-		classes: any[],
+  season: string;
+  race: string;
+  level: number;
+  classes: PlayerClass[];
 
-		gold: Number,
-		downtime: Number,
-		ac: Number,
-		hp: Number,
-		pp: Number,
-		dc: Number,
-		init: Number,
-		vision: string,
-		biography: string,
-		dm_text: string
+  items?: any[];
+  consumables?: any[];
 
-	}
+  gold: number;
+  downtime: number;
+  ac: number;
+  hp: number;
+  pp: number;
+  dc: number;
+  init: number;
+  vision: string;
+  biography: string;
+  dm_text: string;
+};
