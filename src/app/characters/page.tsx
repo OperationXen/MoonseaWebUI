@@ -42,13 +42,24 @@ export default function Dashboard() {
           paddingBottom: "1.4em",
         }}
       >
-        {characters?.length === 0 && <NoCharactersOverlay onClick={() => setCreateOpen(true)} />}
-        {characters?.map((character: any) => <CharacterSummaryCard key={character.uuid} character={character} />)}
+        {characters?.length === 0 && (
+          <NoCharactersOverlay onClick={() => setCreateOpen(true)} />
+        )}
+        {characters?.map((character: any) => (
+          <CharacterSummaryCard key={character.uuid} character={character} />
+        ))}
       </Box>
-      <Fab color="primary" onClick={() => setCreateOpen(true)} sx={{ position: "fixed", right: "2em", bottom: "2em" }}>
+      <Fab
+        color="primary"
+        onClick={() => setCreateOpen(true)}
+        sx={{ position: "fixed", right: "2em", bottom: "2em" }}
+      >
         <AddIcon />
       </Fab>
-      <CreateCharacterWindow open={createOpen} onClose={() => setCreateOpen(false)} />
+      <CreateCharacterWindow
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+      />
     </AuthenticationRequired>
   );
 }

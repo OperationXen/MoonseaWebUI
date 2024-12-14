@@ -73,7 +73,11 @@ export default function DungeonMasterWindow() {
             marginBottom: "0.4em",
           }}
         >
-          <Grid container onMouseOver={() => setShowControls(allowUpdates)} onMouseOut={() => setShowControls(false)}>
+          <Grid
+            container
+            onMouseOver={() => setShowControls(allowUpdates)}
+            onMouseOut={() => setShowControls(false)}
+          >
             <Grid item xs={2} margin={"auto 0 auto 0.4em"}>
               <Tooltip title={allowUpdates ? "Manually adjust hours" : ""}>
                 <ButtonGroup
@@ -85,7 +89,10 @@ export default function DungeonMasterWindow() {
                   <Button onClick={() => updateServiceHours(+1)}>
                     <KeyboardArrowUpIcon />
                   </Button>
-                  <Button disabled={serviceHours <= 0} onClick={() => updateServiceHours(-1)}>
+                  <Button
+                    disabled={serviceHours <= 0}
+                    onClick={() => updateServiceHours(-1)}
+                  >
                     <KeyboardArrowDownIcon />
                   </Button>
                 </ButtonGroup>
@@ -123,7 +130,9 @@ export default function DungeonMasterWindow() {
             </Grid>
             <Grid item xs={2} margin="auto"></Grid>
           </Grid>
-          <Box sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }} />
+          <Box
+            sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }}
+          />
           <SeasonRewards
             allowUpdates={allowUpdates}
             dmUUID={uuid}
@@ -134,7 +143,12 @@ export default function DungeonMasterWindow() {
           />
         </Grid>
 
-        <Grid item xs={12} lg={8} sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}>
+        <Grid
+          item
+          xs={12}
+          lg={8}
+          sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}
+        >
           <DMEvents
             allowUpdates={allowUpdates}
             dmUUID={uuid}

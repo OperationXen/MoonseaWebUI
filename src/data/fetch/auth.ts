@@ -8,66 +8,64 @@ import type { UserStatus } from "@/types/user";
 type Credentials = {
   username: string;
   password: string;
-}
+};
 
 // Get the currently logged in user's details
 async function getUserStatus() {
   return api.get("/api/auth/user_details").then((r) => {
     const status: UserStatus = {
       authenticated: true,
-      ...r.data
-    }
-    return status
+      ...r.data,
+    };
+    return status;
   });
 }
 
-
 // Logs the user in and updates the user information store
 async function doLogin(creds: Credentials) {
-  let url = "api/auth/login";
-
-  return api.post(url, creds).then((response) => {
-    //let dm_info = response.data.dm_info[0];
-
-    // userStore.setState({
-    //   authenticated: true,
-    //   username: response.data.username,
-    //   email: response.data.email,
-    //   discordID: response.data.discord_id,
-    //   dmUUID: dm_info.uuid,
-    //   dmHours: dm_info.hours,
-    // });
-  });
+  return api.post("/api/auth/login", creds);
 }
 
 // Log user out and clear user information
 async function doLogout() {
-  const queryClient = useQueryClient();
-
-  return api.post("api/auth/logout").then(() => {
-    // mark the current user data invalid
-    queryClient.invalidateQueries({queryKey:["user-status"]});  
-  });
+  return api.post("api/auth/logout");
 }
-
-
-
 
 // hook, bundles everything up nicely for ease of use
 export function useUserStatus() {
+  const queryClient = useQueryClient();
+
   const dataFetch = useQuery({
     queryKey: ["user-status"],
     queryFn: () => getUserStatus(),
   });
 
-  const login = useMutation({mutationFn: (loginData: Credentials) => doLogin(loginData)})
-  const logout = useMutation({mutationFn: doLogout})
+  const login = useMutation({
+    mutationFn: (loginData: Credentials) => doLogin(loginData),
+    onSuccess: (response) => {
+      queryClient.setQueryData(["user-status"], {
+        authenticated: true,
+        username: response.data.username,
+        email: response.data.email,
+        discordID: response.data.discord_id,
+        dmUUID: response.data.dm_info[0].uuid,
+        dmHours: response.data.dm_info[0].hours,
+      });
+    },
+  });
+
+  const logout = useMutation({
+    mutationFn: doLogout,
+    onSuccess: () => {
+      queryClient.setQueryData(["user-status"], { authenticated: false });
+    },
+  });
+
   return {
     login: login.mutateAsync,
     logout: logout.mutateAsync,
     changePassword: null,
     changeDetails: null,
-    ...dataFetch
-  }
+    ...dataFetch,
+  };
 }
-

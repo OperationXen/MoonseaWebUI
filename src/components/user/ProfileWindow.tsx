@@ -141,7 +141,10 @@ export default function ProfileWindow(props: PropsType) {
           placeholder="Confirm your new password"
           error={highlight && (newPass1 !== newPass2 || !newPass2)}
         ></TextField>
-        <Box onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+        <Box
+          onMouseOver={() => setHighlight(true)}
+          onMouseOut={() => setHighlight(false)}
+        >
           <Button disabled={!verifyPassword()} onClick={changePassword}>
             Change Password
           </Button>

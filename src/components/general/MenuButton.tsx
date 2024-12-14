@@ -32,7 +32,11 @@ export default function MenuButton() {
       >
         <MenuIcon />
       </IconButton>
-      <Menu anchorEl={anchorEl} open={menuOpen} onClose={() => setMenuOpen(false)}>
+      <Menu
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      >
         <MenuItem
           onClick={() => {
             router.push("/");

@@ -11,7 +11,11 @@ export const metadata: Metadata = {
   description: "An adventurers league character journal from Triden games",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
