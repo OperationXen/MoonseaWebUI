@@ -16,7 +16,7 @@ type PropsType = {
   sx: object;
 };
 
-export default function StatsWidget(props: PropsType) {
+export function StatsWidget(props: PropsType) {
   const { locked = false, value, setValue, name, icon, onMouseOut } = props;
 
   const [active, setActive] = useState(false);
@@ -97,3 +97,5 @@ export default function StatsWidget(props: PropsType) {
     </Box>
   );
 }
+
+export default StatsWidget;

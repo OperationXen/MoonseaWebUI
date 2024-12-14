@@ -5,8 +5,8 @@ import { Container, Box } from "@mui/material";
 import type { Character } from "@/types/character";
 import { characterQuery, characterMutation } from "@/data/fetch/character";
 
-import CharacterBiographyPane from "components/characters/CharacterBiographyPane";
-import CharacterDetailsPane from "components/characters/CharacterDetailsPane";
+import CharacterBiographyPane from "@/components/characters/CharacterBiographyPane";
+import CharacterDetailsPane from "@/components/characters/CharacterDetailsPane";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import CharacterEvents from "components/events/CharacterEvents";
 import CharacterArt from "@/components/characters/CharacterArt";
