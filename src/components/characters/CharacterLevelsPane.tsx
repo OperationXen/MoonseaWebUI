@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import { Box, Button, Typography, Divider } from "@mui/material";
 
-import { updateCharacter } from "../../api/character";
-import useCharacterStore from "../../datastore/character";
-import useSnackbar from "../../datastore/snackbar";
+import { updateCharacter } from "@/api/character";
+import useCharacterStore from "@/datastore/character";
+import useSnackbar from "@/datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
-import ClassChipWidget from "./widgets/ClassChipWidget";
+import ClassChipWidget from "./ClassChipWidget";
 
 import type { Character, PlayerClass } from "@/types/character";
 

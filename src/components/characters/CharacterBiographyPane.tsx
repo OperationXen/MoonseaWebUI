@@ -1,10 +1,12 @@
+"use client";
+
 import { useState } from "react";
 
 import { Box, TextField } from "@mui/material";
 
 import { Character } from "@/types/character";
 
-import { DM_TEXT_PLACEHOLDER } from "../../config/strings";
+import { DM_TEXT_PLACEHOLDER } from "@/config/strings";
 import useSnackbar from "@/datastore/snackbar";
 
 type PropsType = {

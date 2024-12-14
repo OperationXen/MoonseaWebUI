@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 
 import { Typography, Button, Box, Divider, Dialog } from "@mui/material";
 
-import { deleteCharacter } from "../../../api/character";
-import useSnackbar from "../../../datastore/snackbar";
-import usePlayerStore from "../../../datastore/player";
+import { deleteCharacter } from "@/api/character";
+import useSnackbar from "@/datastore/snackbar";
+import usePlayerStore from "@/datastore/player";
 
 type PropsType = {
   open: boolean;

@@ -11,7 +11,7 @@ import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
 import useSnackbar from "../../../datastore/snackbar";
-import StatsWidget from "../../characters/widgets/StatsWidget";
+import StatsWidget from "../../characters/StatsWidget";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
 import useCharacterStore from "../../../datastore/character";
 

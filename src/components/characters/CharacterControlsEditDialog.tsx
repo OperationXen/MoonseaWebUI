@@ -1,8 +1,11 @@
+"use client";
+
 import { useState } from "react";
+
 import { Dialog, Typography, TextField } from "@mui/material";
 import { Box, Button, Divider } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
+import useSnackbar from "@/datastore/snackbar";
 import { Character } from "@/types/character";
 
 import { characterMutation } from "@/data/fetch/character";
