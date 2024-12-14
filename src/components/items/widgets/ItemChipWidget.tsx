@@ -1,3 +1,5 @@
+"use client";
+
 import { Tooltip, Chip } from "@mui/material";
 import { useRouter } from "next/navigation";
 
