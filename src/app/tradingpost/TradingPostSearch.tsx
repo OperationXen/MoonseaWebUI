@@ -1,17 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import Grid from "@mui/material/Unstable_Grid2";
+import { Grid2 as Grid } from "@mui/material";
 
 import { searchAdverts } from "@/api/trade";
 import TradeAdvert from "./TradeAdvert";
 import useSnackbar from "@/datastore/snackbar";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 
-export default function TradingPostSearch(props) {
+import type { Advert } from "@/types/trade";
+
+type PropsType = {
+  filter: string;
+};
+
+export default function TradingPostSearch(props: PropsType) {
   const { filter } = props;
+
   const snackbar = useSnackbar((s) => s.displayMessage);
 
-  const [adverts, setAdverts] = useState([]);
+  const [adverts, setAdverts] = useState<Advert[]>([]);
   const [loading, setLoading] = useState(true);
 
   const handleSearch = useCallback(() => {
@@ -27,10 +34,10 @@ export default function TradingPostSearch(props) {
 
   return (
     <Grid container sx={{ margin: "0.4em", width: "100%" }} spacing={2}>
-      <LoadingOverlay show={loading} />
+      <LoadingOverlay open={loading} />
       {adverts.map((advert) => {
         return (
-          <Grid md={6} lg={4} xs={12}>
+          <Grid>
             <TradeAdvert {...advert} key={advert.uuid} market={true} />
           </Grid>
         );

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Typography, Tooltip } from "@mui/material";
+import { Typography, Tooltip, Grid2 as Grid } from "@mui/material";
 import { DataGrid, GridOverlay, GridActionsCellItem } from "@mui/x-data-grid";
-import Grid from "@mui/material/Unstable_Grid2";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -17,17 +17,20 @@ import OfferCancelConfirm from "./widgets/OfferCancelConfirm";
 import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
 
-export default function TradingPostOffers(props) {
+import type { Rarity } from "@/types/items";
+import type { TradeOffer } from "@/types/trade";
+
+export default function TradingPostOffers() {
   const router = useRouter();
   const refresh = useTradeStore((s) => s.refresh);
   const snackbar = useSnackbar((s) => s.displayMessage);
 
-  const [pendingOffers, setPendingOffers] = useState([]);
+  const [pendingOffers, setPendingOffers] = useState<TradeOffer[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [showCancel, setShowCancel] = useState(false);
-  const [offer, setOffer] = useState(null);
+  const [offer, setOffer] = useState<TradeOffer | null>(null);
 
   useEffect(() => {
     getTradeOffers()
@@ -38,22 +41,21 @@ export default function TradingPostOffers(props) {
       .finally(() => setLoading(false));
   }, [refresh, snackbar]);
 
-  const getRowRarityWidget = (r) => {
-    return <RarityWidget rarity={r.row.item.rarity} />;
+  const getRowRarityWidget = (params: GridRenderCellParams<any, Rarity>) => {
+    return <RarityWidget rarity={params.row.item.rarity} />;
   };
-  const formatDateString = (data) => {
+  const formatDateString = (data: any) => {
+    debugger; //wtf is this type?
     let val = getDateString(new Date(data.value));
     return val;
   };
-  const getOfferType = (p) => {
-    let offerType = p.row.direction;
-
-    if (offerType === "in") return "Offer";
-    else if (offerType === "out") return "My Proposal";
+  const getOfferDirectionText = (value: TradeOffer) => {
+    if (value.direction === "in") return "Offer";
+    else if (value.direction === "out") return "My Proposal";
     return "";
   };
 
-  const getItem = (x) => {
+  const getItem = (x: any) => {
     return (
       <Typography variant="body2" sx={{ cursor: "pointer" }} onClick={() => router.push(`/magicitem/${x.uuid}`)}>
         {`${x.name} (${x.owner_name})`}
@@ -61,50 +63,62 @@ export default function TradingPostOffers(props) {
     );
   };
 
-  const getMyItem = (p) => {
+  const getMyItem = (p: any) => {
     if (p.row.direction === "in") return getItem(p.row.advert.item);
     else if (p.row.direction === "out") return getItem(p.row.item);
     return null;
   };
-  const getTheirItem = (p) => {
+  const getTheirItem = (p: any) => {
     if (p.row.direction === "in") return getItem(p.row.item);
     else if (p.row.direction === "out") return getItem(p.row.advert.item);
     return null;
   };
 
-  const acceptOffer = (p) => {
-    setOffer(p.row);
+  const acceptOffer = (offer: TradeOffer) => {
+    setOffer(offer);
     setShowAccept(true);
   };
-  const rejectOffer = (p) => {
-    setOffer(p.row);
+  const rejectOffer = (offer: TradeOffer) => {
+    setOffer(offer);
     setShowReject(true);
   };
-  const cancelOffer = (p) => {
-    setOffer(p.row);
+  const cancelOffer = (offer: TradeOffer) => {
+    setOffer(offer);
     setShowCancel(true);
   };
 
-  const getRowActions = (p) => {
+  const getRowActions = (p: GridRenderCellParams) => {
     if (p.row.direction === "in") {
       return [
         <Tooltip title="Accept offer" placement="left">
-          <GridActionsCellItem onClick={() => acceptOffer(p)} icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />} />
+          <GridActionsCellItem
+            label="Accept Offer"
+            onClick={() => acceptOffer(p.row.data)}
+            icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
+          />
         </Tooltip>,
         <Tooltip title="Reject offer" placement="right">
-          <GridActionsCellItem onClick={() => rejectOffer(p)} icon={<CancelIcon sx={{ color: "darkred" }} />} />
+          <GridActionsCellItem
+            label="Reject Offer"
+            onClick={() => rejectOffer(p.row.data)}
+            icon={<CancelIcon sx={{ color: "darkred" }} />}
+          />
         </Tooltip>,
       ];
     } else if (p.row.direction === "out") {
       return [
         <Tooltip title="Rescind offer" placement="right">
-          <GridActionsCellItem onClick={() => cancelOffer(p)} icon={<CancelIcon sx={{ color: "darkred" }} />} />
+          <GridActionsCellItem
+            label="Rescind offer"
+            onClick={() => cancelOffer(p.row.data)}
+            icon={<CancelIcon sx={{ color: "darkred" }} />}
+          />
         </Tooltip>,
       ];
     }
   };
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       headerName: "Date",
       field: "datetime",
@@ -123,7 +137,7 @@ export default function TradingPostOffers(props) {
       field: "direction",
       headerName: "Offer Type",
       align: "center",
-      valueGetter: getOfferType,
+      valueGetter: getOfferDirectionText,
       flex: 0.1,
     },
     {
@@ -142,7 +156,7 @@ export default function TradingPostOffers(props) {
       field: "actions",
       headerName: "Actions",
       type: "actions",
-      getActions: getRowActions,
+      renderCell: getRowActions,
     },
   ];
 
@@ -155,8 +169,8 @@ export default function TradingPostOffers(props) {
           columns={columns}
           loading={loading}
           sx={{ height: "calc(100% - 3em)" }}
-          components={{
-            NoRowsOverlay: () => (
+          slots={{
+            noRowsOverlay: () => (
               <GridOverlay>
                 <Typography sx={{ opacity: "0.6" }}>No pending offers</Typography>
               </GridOverlay>

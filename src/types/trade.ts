@@ -1,5 +1,5 @@
 import type { UUID } from "./uuid";
-import type { MagicItem } from "./items";
+import type { Rarity, MagicItem } from "./items";
 
 export type Advert = {
 	uuid: UUID;
@@ -7,4 +7,15 @@ export type Advert = {
 	description: string;
 	offers: any;
 	item: MagicItem
+}
+
+export type TradeOfferDirection = "in" | "out"
+
+export type TradeOffer = {
+	uuid: UUID;
+	datetime: Date;
+	direction: TradeOfferDirection;
+	rarity: Rarity;
+	item: MagicItem;
+
 }
