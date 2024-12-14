@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
 
-import { deleteCharacter } from "../../../api/character";
-import useSnackbar from "../../../datastore/snackbar";
+import { deleteCharacter } from "@/api/character";
+import useSnackbar from "@/datastore/snackbar";
 
 import type { Character } from "@/types/character";
 

@@ -1,5 +1,3 @@
-"use client";
-
 import { Tooltip, Box, Typography, Link, Grid } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
@@ -11,9 +9,8 @@ import { GiTwoCoins } from "react-icons/gi";
 
 import CharacterControls from "@/components/characters/CharacterControls";
 import CharacterLevelsPane from "./CharacterLevelsPane";
-
-import { VisionWidget } from "./widgets/VisionWidget";
-import { StatsWidget } from "./widgets/StatsWidget";
+import VisionWidget from "./VisionWidget";
+import StatsWidget from "./StatsWidget";
 
 import type { Character } from "@/types/character";
 

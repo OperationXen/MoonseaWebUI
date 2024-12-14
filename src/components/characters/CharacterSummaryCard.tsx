@@ -9,8 +9,8 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import useSnackbar from "@/datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
-import ItemSummaryWidget from "../items/ItemSummaryWidget";
-import { getCharClassShort } from "../../utils/format";
+import ItemSummaryWidget from "@/components/items/ItemSummaryWidget";
+import { getCharClassShort } from "@/utils/format";
 import type { Character } from "@/types/character";
 
 type PropsType = {

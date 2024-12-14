@@ -1,9 +1,11 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 
 import { Typography, Dialog, Divider } from "@mui/material";
 import { Button, ButtonGroup, Tooltip } from "@mui/material";
 
-import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
+import ClassLevelPickerWidget from "./ClassLevelPickerWidget";
 
 import type { PlayerClass } from "@/types/character";
 

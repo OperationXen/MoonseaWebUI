@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import { Box, Dialog, Typography } from "@mui/material";
@@ -11,8 +13,8 @@ import SaveDCIcon from "@mui/icons-material/AutoFixNormal";
 import usePlayerStore from "@/datastore/player";
 import useSnackbar from "@/datastore/snackbar";
 import { createCharacter } from "@/api/character";
-import StatsWidget from "./widgets/StatsWidget";
-import ClassLevelPickerWidget from "./widgets/ClassLevelPickerWidget";
+import StatsWidget from "./StatsWidget";
+import ClassLevelPickerWidget from "./ClassLevelPickerWidget";
 
 import type { Character } from "@/types/character";
 import type { PlayerClass } from "@/types/character";

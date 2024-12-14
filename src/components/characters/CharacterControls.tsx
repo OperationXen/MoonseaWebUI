@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 
 import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
@@ -10,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Character } from "@/types/character";
 
 import CharacterControlsEditDialog from "./CharacterControlsEditDialog";
-import DeleteConfirm from "./widgets/DeleteConfirm";
+import DeleteConfirm from "./DeleteConfirm";
 
 type PropsType = {
   character: Character;
