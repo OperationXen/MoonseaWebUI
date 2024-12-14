@@ -11,7 +11,7 @@ export default function DungeonMasterPage() {
 
   useEffect(() => {
     if (userStatus?.authenticated) {
-      router.push("/characters");
+      router.push(`/dungeonmaster/${userStatus.dmUUID}`);
     }
     router.push("/auth/login");
   }, []);

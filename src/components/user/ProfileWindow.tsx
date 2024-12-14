@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Dialog, Typography, Divider, Box } from "@mui/material";
 import { Button, TextField, Stack } from "@mui/material";
 
-import userStore from "@/datastore/user";
+import { useUserStatus } from "@/data/fetch/auth";
 import useSnackBar from "@/datastore/snackbar";
 import { updateDiscordID, updatePassword } from "@/api/user";
 import { checkDiscordID } from "@/utils/user";
@@ -17,10 +17,10 @@ type PropsType = {
 
 export default function ProfileWindow(props: PropsType) {
   const { open, onClose } = props;
+  const { data: userStatus } = useUserStatus();
 
-  const [username, discord] = userStore((s) => [s.username, s.discordID]);
   const displayMessage = useSnackBar((s) => s.displayMessage);
-  const [discordID, setDiscordID] = useState(discord || "");
+  const [discordID, setDiscordID] = useState(userStatus?.discordID || "");
   const [oldPass, setOldPass] = useState("");
   const [newPass1, setNewPass1] = useState("");
   const [newPass2, setNewPass2] = useState("");
@@ -55,7 +55,7 @@ export default function ProfileWindow(props: PropsType) {
 
   const discordIDChanged = () => {
     if (!discordID) return false;
-    if (discordID === discord) return false;
+    if (discordID === userStatus?.discordID) return false;
     return true;
   };
 
@@ -64,6 +64,8 @@ export default function ProfileWindow(props: PropsType) {
     if (!newPass1) return false;
     if (newPass1 === newPass2) return true;
   };
+
+  if (!userStatus) return null;
 
   return (
     <Dialog
@@ -82,7 +84,7 @@ export default function ProfileWindow(props: PropsType) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        Edit profile for {username}
+        Edit profile for {userStatus?.username}
       </Typography>
       <Divider variant="middle">Discord information</Divider>
       <Box
@@ -139,10 +141,7 @@ export default function ProfileWindow(props: PropsType) {
           placeholder="Confirm your new password"
           error={highlight && (newPass1 !== newPass2 || !newPass2)}
         ></TextField>
-        <Box
-          onMouseOver={() => setHighlight(true)}
-          onMouseOut={() => setHighlight(false)}
-        >
+        <Box onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
           <Button disabled={!verifyPassword()} onClick={changePassword}>
             Change Password
           </Button>

@@ -11,7 +11,7 @@ async function getUserDetails() {
   });
 }
 
-export function userStatus() {
+export function useUserStatus() {
   return useQuery({
     queryKey: ["user-status"],
     queryFn: () => getUserDetails(),

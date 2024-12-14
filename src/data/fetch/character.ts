@@ -35,6 +35,14 @@ export function characterQuery(characterUUID: string) {
   return query;
 }
 
+export function useCharacters(){
+ return useQuery({
+    queryKey: ["characters"],
+    queryFn: () => getCharacters(),
+  });
+}
+
+
 export function characterMutation() {
   const queryClient = useQueryClient();
 
