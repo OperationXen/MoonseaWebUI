@@ -4,15 +4,14 @@ import { usePathname } from "next/navigation";
 import { Button } from "@mui/material";
 
 import { useUserStatus } from "@/data/fetch/auth";
-import { doLogout } from "@/api/user";
 
 export default function AuthButton() {
   const pathname = usePathname();
-  const { data: userStatus } = useUserStatus();
+  const { data: userStatus, logout } = useUserStatus();
 
   if (userStatus?.authenticated) {
     return (
-      <Button sx={{ color: "white" }} onClick={doLogout}>
+      <Button sx={{ color: "white" }} onClick={() => logout()}>
         Logout
       </Button>
     );

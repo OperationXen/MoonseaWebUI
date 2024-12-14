@@ -6,11 +6,10 @@ import { Avatar, Menu, MenuItem } from "@mui/material";
 import { blue } from "@mui/material/colors";
 
 import { useUserStatus } from "@/data/fetch/auth";
-import { doLogout } from "@/api/user";
 import ProfileWindow from "./ProfileWindow";
 
 export default function ProfileWidget() {
-  const { data: userStatus } = useUserStatus();
+  const { data: userStatus, logout } = useUserStatus();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -22,9 +21,6 @@ export default function ProfileWidget() {
   const handleMenuClose = (event: React.MouseEvent) => {
     setAnchorEl(null);
     event.stopPropagation();
-  };
-  const logout = () => {
-    doLogout();
   };
 
   return (
@@ -40,7 +36,7 @@ export default function ProfileWidget() {
       {userStatus?.username[0]?.toUpperCase() || "?"}
       <Menu id="profile-menu" anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
         <MenuItem onClick={() => setProfileOpen(true)}>Profile Management</MenuItem>
-        <MenuItem onClick={logout}>Log Out</MenuItem>
+        <MenuItem onClick={() => logout()}>Log Out</MenuItem>
       </Menu>
       <ProfileWindow open={profileOpen} onClose={() => setProfileOpen(false)} />
     </Avatar>
