@@ -78,7 +78,11 @@ export default function CreateMagicItem(props) {
       >
         <FormControl sx={{ flexGrow: 0.5 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
-          <Select label="Rarity" value={rarity} onChange={(e) => setRarity(e.target.value)}>
+          <Select
+            label="Rarity"
+            value={rarity}
+            onChange={(e) => setRarity(e.target.value)}
+          >
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
             <MenuItem value="rare">Rare</MenuItem>
@@ -87,7 +91,12 @@ export default function CreateMagicItem(props) {
           </Select>
         </FormControl>
         <FormControlLabel
-          control={<Checkbox checked={attunement} onChange={() => setAttunement(!attunement)} />}
+          control={
+            <Checkbox
+              checked={attunement}
+              onChange={() => setAttunement(!attunement)}
+            />
+          }
           label="Attunement required"
         />
       </Box>
@@ -116,7 +125,11 @@ export default function CreateMagicItem(props) {
         value={flavour}
         onChange={(e) => setFlavour(e.target.value)}
       ></TextField>
-      <Box display="flex" onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+      <Box
+        display="flex"
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
+      >
         <Button
           onClick={handleSubmit}
           variant="contained"

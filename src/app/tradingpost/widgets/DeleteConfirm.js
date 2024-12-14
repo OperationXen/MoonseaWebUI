@@ -13,7 +13,7 @@ export default function DeleteConfirm(props) {
       .then(() => {
         displayMessage(
           `Advert deleted, ${props.name} has been returned to ${props.owner_name}'s inventory`,
-          "info"
+          "info",
         );
         requestAdvertRefresh();
         props.onClose();

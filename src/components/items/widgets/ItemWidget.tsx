@@ -87,7 +87,10 @@ export default function ItemWidget(props: PropsType) {
             </Tooltip>
           )}
         </Grid>
-        <Tooltip title={equipped ? "Click to unequip item" : "Click to equip"} placement="bottom">
+        <Tooltip
+          title={equipped ? "Click to unequip item" : "Click to equip"}
+          placement="bottom"
+        >
           <Grid
             item
             xs={7}
@@ -118,10 +121,17 @@ export default function ItemWidget(props: PropsType) {
                 <ArticleIcon onClick={handleDetailClick} fontSize="small" />
               </Tooltip>
               <Tooltip
-                title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}
+                title={
+                  equipped
+                    ? "Cannot trade equipped items"
+                    : "Offer item for trade"
+                }
                 onClick={handleTradeClick}
               >
-                <LocalGroceryStoreIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 0.8 }} />
+                <LocalGroceryStoreIcon
+                  fontSize="small"
+                  sx={{ opacity: equipped ? 0.2 : 0.8 }}
+                />
               </Tooltip>
             </React.Fragment>
           )}

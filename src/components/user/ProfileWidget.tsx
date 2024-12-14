@@ -37,8 +37,15 @@ export default function ProfileWidget() {
       onClick={handleMenuOpen}
     >
       {username[0]?.toUpperCase() || "?"}
-      <Menu id="profile-menu" anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
-        <MenuItem onClick={() => setProfileOpen(true)}>Profile Management</MenuItem>
+      <Menu
+        id="profile-menu"
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={() => setProfileOpen(true)}>
+          Profile Management
+        </MenuItem>
         <MenuItem onClick={logout}>Log Out</MenuItem>
       </Menu>
       <ProfileWindow open={profileOpen} onClose={() => setProfileOpen(false)} />

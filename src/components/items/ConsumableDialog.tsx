@@ -101,7 +101,9 @@ export function ConsumableDialog(props: PropsType) {
           <Select
             label="Item Type"
             value={itemType}
-            onChange={(e: SelectChangeEvent) => setItemType(e.target.value as ConsumableType)}
+            onChange={(e: SelectChangeEvent) =>
+              setItemType(e.target.value as ConsumableType)
+            }
           >
             <MenuItem value="potion">Potion</MenuItem>
             <MenuItem value="scroll">Scroll</MenuItem>
@@ -120,13 +122,22 @@ export function ConsumableDialog(props: PropsType) {
         onChange={(e) => setDesc(e.target.value)}
         placeholder="Item abilities and rule prompts"
       ></TextField>
-      <Box sx={{ display: "flex", width: "100%", gap: "8px", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          gap: "8px",
+          justifyContent: "space-between",
+        }}
+      >
         <FormControl sx={{ flexGrow: 0.5 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
           <Select
             label="Rarity"
             value={rarity}
-            onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}
+            onChange={(e: SelectChangeEvent) =>
+              setRarity(e.target.value as Rarity)
+            }
           >
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
@@ -136,7 +147,12 @@ export function ConsumableDialog(props: PropsType) {
           </Select>
         </FormControl>
         <FormControlLabel
-          control={<Checkbox checked={!!charges} onChange={() => setCharges(charges ? 0 : 1)} />}
+          control={
+            <Checkbox
+              checked={!!charges}
+              onChange={() => setCharges(charges ? 0 : 1)}
+            />
+          }
           label="Has charges"
         />
         <TextField
@@ -147,7 +163,11 @@ export function ConsumableDialog(props: PropsType) {
           onChange={(e) => setCharges(parseInt(e.target.value))}
         />
       </Box>
-      <Box display="flex" onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+      <Box
+        display="flex"
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
+      >
         <Button
           onClick={handleSubmit}
           variant="contained"

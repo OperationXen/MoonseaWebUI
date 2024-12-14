@@ -1,146 +1,146 @@
 [
-	{
-		"name": "Nerid Shawl",
-		"downtime": 10,
-		"rewards": ["Cloak of the Manta Ray"],
-		"rarity": "uncommon",
-		"level": 1,
-		"cost": 5
-	},
-	{
-		"name": "The Night Queen's Eyes",
-		"rewards": ["Goggles of Night"],
-		"rarity": "uncommon",
-		"gold": 250,
-		"level": 1,
-		"cost": 5
-	},
-	{
-		"name": "Mariner's Armour",
-		"gold": 250,
-		"rewards": ["Mariner's Armour (Scale Mail)"],
-		"rarity": "uncommon",
-		"level": 1,
-		"cost": 5
-	},
-	{
-		"name": "Quiver of the Centaurs",
-		"gold": 250,
-		"rewards": ["Quiver of Ehlonna"],
-		"rarity": "uncommon",
-		"level": 1,
-		"cost": 5
-	},
-	{
-		"name": "Lathai's Saddle",
-		"downtime": 10,
-		"rewards": ["Saddle of the Cavalier"],
-		"rarity": "uncommon",
-		"level": 1,
-		"cost": 5
-	},
-	{
-		"name": "Pixie Wing Boots",
-		"downtime": 10,
-		"rewards": ["Winged Boots"],
-		"rarity": "uncommon",
-		"level": 1,
-		"cost": 5
-	},
-	{
-		"name": "Darkthorn Arrows (5)",
-		"gold": 2500,
-		"rewards": ["Arrows +2 (5)"],
-		"rarity": "rare",
-		"level": 1,
-		"cost": 10
-	},
-	{
-		"name": "Faerie Dragon's Favour",
-		"gold": 2500,
-		"rewards": ["Mantle of Spell Resistance"],
-		"rarity": "rare",
-		"level": 1,
-		"cost": 10
-	},
-	{
-		"name": "Hag's Clawblade",
-		"downtime": 20,
-		"rewards": ["Vicious Weapon (Rapier)"],
-		"rarity": "rare",
-		"level": 1,
-		"cost": 10
-	},
-	{
-		"name": "Siren's Caress",
-		"downtime": 20,
-		"rewards": ["Wand of Paralysis"],
-		"rarity": "rare",
-		"level": 1,
-		"cost": 10
-	},
-	{
-		"name": "The Blink Dog's Guide to Transversing the Feywild",
-		"gold": 2500,
-		"rewards": ["Atlas of Endless Horizons"],
-		"rarity": "rare",
-		"level": 1,
-		"cost": 10
-	},
-	{
-		"name": "Sprite's Rescue",
-		"downtime": 20,
-		"rewards": ["Ring of Feather Falling"],
-		"rarity": "rare",
-		"level": 1,
-		"cost": 10
-	},
-	{
-		"name": "Naerth's Planar Compass",
-		"gold": 10000,
-		"rewards": ["Amulet of the Planes"],
-		"rarity": "veryrare",
-		"level": 1,
-		"cost": 15
-	},
-	{
-		"name": "Daphnaie Armour (Hide)",
-		"downtime": 30,
-		"rewards": ["Hide Armour +3"],
-		"rarity": "veryrare",
-		"level": 1,
-		"cost": 15
-	},
-	{
-		"name": "Grig Fiddle",
-		"downtime": 30,
-		"rewards": ["Instrument of the Bards (Anstruth Harp)"],
-		"rarity": "veryrare",
-		"level": 1,
-		"cost": 15
-	},
-	{
-		"name": "Wildmane's Shoes",
-		"downtime": 30,
-		"rewards": ["Horseshoes of a Zephyr"],
-		"rarity": "veryrare",
-		"level": 1,
-		"cost": 15
-	},
-	{
-		"name": "Fairy Mushroom Ring",
-		"gold": 10000,
-		"rewards": ["Ring of Shooting Stars"],
-		"rarity": "veryrare",
-		"level": 1,
-		"cost": 15
-	},
-	{
-		"name": "Harengon's Freedom",
-		"gold": 10000,
-		"rewards": ["Shortsword +3"],
-		"rarity": "veryrare",
-		"level": 1,
-		"cost": 15
-	}
+  {
+    "name": "Nerid Shawl",
+    "downtime": 10,
+    "rewards": ["Cloak of the Manta Ray"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "The Night Queen's Eyes",
+    "rewards": ["Goggles of Night"],
+    "rarity": "uncommon",
+    "gold": 250,
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Mariner's Armour",
+    "gold": 250,
+    "rewards": ["Mariner's Armour (Scale Mail)"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Quiver of the Centaurs",
+    "gold": 250,
+    "rewards": ["Quiver of Ehlonna"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Lathai's Saddle",
+    "downtime": 10,
+    "rewards": ["Saddle of the Cavalier"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Pixie Wing Boots",
+    "downtime": 10,
+    "rewards": ["Winged Boots"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Darkthorn Arrows (5)",
+    "gold": 2500,
+    "rewards": ["Arrows +2 (5)"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Faerie Dragon's Favour",
+    "gold": 2500,
+    "rewards": ["Mantle of Spell Resistance"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Hag's Clawblade",
+    "downtime": 20,
+    "rewards": ["Vicious Weapon (Rapier)"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Siren's Caress",
+    "downtime": 20,
+    "rewards": ["Wand of Paralysis"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "The Blink Dog's Guide to Transversing the Feywild",
+    "gold": 2500,
+    "rewards": ["Atlas of Endless Horizons"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Sprite's Rescue",
+    "downtime": 20,
+    "rewards": ["Ring of Feather Falling"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Naerth's Planar Compass",
+    "gold": 10000,
+    "rewards": ["Amulet of the Planes"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 15
+  },
+  {
+    "name": "Daphnaie Armour (Hide)",
+    "downtime": 30,
+    "rewards": ["Hide Armour +3"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 15
+  },
+  {
+    "name": "Grig Fiddle",
+    "downtime": 30,
+    "rewards": ["Instrument of the Bards (Anstruth Harp)"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 15
+  },
+  {
+    "name": "Wildmane's Shoes",
+    "downtime": 30,
+    "rewards": ["Horseshoes of a Zephyr"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 15
+  },
+  {
+    "name": "Fairy Mushroom Ring",
+    "gold": 10000,
+    "rewards": ["Ring of Shooting Stars"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 15
+  },
+  {
+    "name": "Harengon's Freedom",
+    "gold": 10000,
+    "rewards": ["Shortsword +3"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 15
+  }
 ]

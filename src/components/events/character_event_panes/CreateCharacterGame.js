@@ -124,7 +124,9 @@ export default function CreateCharacterGame(props) {
             inputFormat="yyyy/MM/dd"
             value={date}
             onChange={setDate}
-            renderInput={(params) => <TextField {...params} sx={{ maxWidth: "30%" }} />}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ maxWidth: "30%" }} />
+            )}
           />
         </LocalizationProvider>
       </Box>
@@ -160,7 +162,9 @@ export default function CreateCharacterGame(props) {
         />
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox checked={level} onChange={() => setLevel(!level)} />}
+            control={
+              <Checkbox checked={level} onChange={() => setLevel(!level)} />
+            }
             label="Level Gained"
           />
         </FormGroup>
@@ -190,7 +194,13 @@ export default function CreateCharacterGame(props) {
         );
       })}
 
-      <Button startIcon={<AddIcon />} variant="outlined" size="small" fullWidth onClick={handleAddItem}>
+      <Button
+        startIcon={<AddIcon />}
+        variant="outlined"
+        size="small"
+        fullWidth
+        onClick={handleAddItem}
+      >
         {items.length >= 1 ? "Add Another item" : "Add an item"}
       </Button>
 
@@ -200,7 +210,11 @@ export default function CreateCharacterGame(props) {
         </Tooltip>
       </Box>
 
-      <Box display="flex" onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+      <Box
+        display="flex"
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
+      >
         <Button
           variant="contained"
           sx={{ width: "60%", margin: "auto" }}

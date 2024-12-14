@@ -12,7 +12,8 @@ import type { PlayerClass } from "@/types/character";
 const getLevelText = (playerClass: PlayerClass) => {
   const { name, subclass, value } = playerClass;
 
-  if (subclass) return <Typography>{`${name} (${subclass}) - ${value}`}</Typography>;
+  if (subclass)
+    return <Typography>{`${name} (${subclass}) - ${value}`}</Typography>;
   else return <Typography>{`${name} - ${value}`}</Typography>;
 };
 

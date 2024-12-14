@@ -5,7 +5,9 @@ export function EventDetailsCatchingUp(props) {
 
   return (
     <Box sx={{ minHeight: "16em" }}>
-      <Typography variant="body1">Additional details: {data.details}</Typography>
+      <Typography variant="body1">
+        Additional details: {data.details}
+      </Typography>
     </Box>
   );
 }

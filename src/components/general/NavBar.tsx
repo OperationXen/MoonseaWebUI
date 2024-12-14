@@ -23,10 +23,18 @@ export function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ width: "100%" }}>
-        <Toolbar variant="dense" sx={{ display: "flex", paddingX: "8px" }} disableGutters={true}>
+        <Toolbar
+          variant="dense"
+          sx={{ display: "flex", paddingX: "8px" }}
+          disableGutters={true}
+        >
           <MenuButton />
 
-          <Typography variant="h6" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => router.push("/")}>
+          <Typography
+            variant="h6"
+            sx={{ flexGrow: 1, cursor: "pointer" }}
+            onClick={() => router.push("/")}
+          >
             Moonsea Codex
           </Typography>
 
@@ -83,7 +91,9 @@ export function NavBar() {
               </Button>
             </Link>
           </Box>
-          <Box sx={{ width: "6em", display: "flex", justifyContent: "flex-end" }}>
+          <Box
+            sx={{ width: "6em", display: "flex", justifyContent: "flex-end" }}
+          >
             {(authenticated && <ProfileWidget />) || <AuthButton />}
           </Box>
         </Toolbar>

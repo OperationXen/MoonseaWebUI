@@ -16,7 +16,12 @@ export function SimpleItemCreateWidget(props) {
 
   return (
     <Box sx={row}>
-      <TextField sx={{ flexGrow: 1 }} label="Item Reward" value={name} onChange={(e) => setName(id, e.target.value)} />
+      <TextField
+        sx={{ flexGrow: 1 }}
+        label="Item Reward"
+        value={name}
+        onChange={(e) => setName(id, e.target.value)}
+      />
       <FormControl sx={{ minWidth: "12em" }}>
         <Select value={rarity} onChange={(e) => setRarity(id, e.target.value)}>
           <MenuItem value="common">Common</MenuItem>
@@ -27,7 +32,10 @@ export function SimpleItemCreateWidget(props) {
         </Select>
       </FormControl>
       <Tooltip title="Remove this item reward">
-        <IconButton sx={{ "&:hover": { color: "darkred" } }} onClick={handleDelete}>
+        <IconButton
+          sx={{ "&:hover": { color: "darkred" } }}
+          onClick={handleDelete}
+        >
           <DeleteIcon />
         </IconButton>
       </Tooltip>

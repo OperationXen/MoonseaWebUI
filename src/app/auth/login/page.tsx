@@ -20,7 +20,10 @@ export default function LoginWindow() {
       .then(() => router.push("/characters"))
       .catch((error) => {
         if (error.response.status === 401) {
-          displayMessage("Wrong username or password - have you activated your account?", "error");
+          displayMessage(
+            "Wrong username or password - have you activated your account?",
+            "error",
+          );
         } else displayMessage("Server error", "error");
       });
   };
@@ -74,10 +77,18 @@ export default function LoginWindow() {
           Login
         </Button>
 
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/register")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push("/auth/register")}
+        >
           Register an account
         </Link>
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/passwordreset")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push("/auth/passwordreset")}
+        >
           I forgot my password
         </Link>
       </Paper>

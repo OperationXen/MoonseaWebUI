@@ -80,7 +80,9 @@ export default function TradeOfferDialog(props) {
         <Typography variant="h5" sx={{ textDecoration: "underline" }}>
           {name}
         </Typography>
-        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>{getRarityText(rarity)}</Typography>
+        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>
+          {getRarityText(rarity)}
+        </Typography>
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Your Item</Divider>
       <Stack sx={{ width: "100%", gap: "0.8em", alignItems: "center" }}>
@@ -114,7 +116,12 @@ export default function TradeOfferDialog(props) {
           maxRows={3}
           fullWidth
         />
-        <Button variant="contained" sx={{ width: "60%" }} disabled={itemSelected === "default"} onClick={handleOffer}>
+        <Button
+          variant="contained"
+          sx={{ width: "60%" }}
+          disabled={itemSelected === "default"}
+          onClick={handleOffer}
+        >
           Make offer
         </Button>
       </Stack>

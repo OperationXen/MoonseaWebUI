@@ -10,10 +10,16 @@ import ItemWidget from "./widgets/ItemWidget";
 
 export default function WindowMagicItems(props) {
   const { magicItems } = props;
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
+    s.uuid,
+    s.editable,
+    s.requestRefresh,
+  ]);
   const [createOpen, setCreateOpen] = useState(false);
 
-  const displayItems = magicItems?.filter((i) => i.rarity !== "common" && !i.market);
+  const displayItems = magicItems?.filter(
+    (i) => i.rarity !== "common" && !i.market,
+  );
 
   return (
     <Box

@@ -11,7 +11,11 @@ import ConsumableDialog from "./ConsumableDialog";
 export default function WindowConsumableItems(props) {
   const { consumableItems } = props;
 
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
+    s.uuid,
+    s.editable,
+    s.requestRefresh,
+  ]);
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
@@ -36,9 +40,9 @@ export default function WindowConsumableItems(props) {
       >
         {(consumableItems &&
           consumableItems.length &&
-          consumableItems.map((item, index) => <ConsumableItemWidget item={item} key={`${index}-${item.id}`} />)) || (
-          <EmptyWindowWidget message="No consumables" />
-        )}
+          consumableItems.map((item, index) => (
+            <ConsumableItemWidget item={item} key={`${index}-${item.id}`} />
+          ))) || <EmptyWindowWidget message="No consumables" />}
       </Box>
       <Box
         sx={{
@@ -51,7 +55,12 @@ export default function WindowConsumableItems(props) {
           paddingRight: "0.4em",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="outlined" onClick={() => setCreateOpen(true)} disabled={!editable}>
+        <Button
+          startIcon={<AddIcon />}
+          variant="outlined"
+          onClick={() => setCreateOpen(true)}
+          disabled={!editable}
+        >
           Add Consumable
         </Button>
       </Box>

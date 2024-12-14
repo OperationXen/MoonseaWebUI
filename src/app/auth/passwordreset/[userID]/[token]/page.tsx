@@ -32,10 +32,18 @@ export default function PasswordReset() {
   };
 
   const keyPressHandler = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && password1 === password2 && validatePassword(password1)) handleSubmit();
+    if (
+      e.key === "Enter" &&
+      password1 === password2 &&
+      validatePassword(password1)
+    )
+      handleSubmit();
   };
 
-  if (!(userID as string).match(/\d+/) || !(token as string).match(/[0-9a-f-]{30,42}/)) {
+  if (
+    !(userID as string).match(/\d+/) ||
+    !(token as string).match(/[0-9a-f-]{30,42}/)
+  ) {
     router.push("/auth/login");
   }
 
@@ -75,7 +83,11 @@ export default function PasswordReset() {
             error={highlight && password1 !== password2}
             placeholder="Reenter the same password"
           />
-          <Box sx={{ width: "60%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+          <Box
+            sx={{ width: "60%" }}
+            onMouseOver={() => setHighlight(true)}
+            onMouseOut={() => setHighlight(false)}
+          >
             <Button
               fullWidth
               variant="contained"

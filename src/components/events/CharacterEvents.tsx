@@ -10,7 +10,10 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { deleteEventMundaneTrade, getEventsForCharacter } from "@/api/events";
-import { deleteEventCatchingUp, deleteEventSpellbookUpdate } from "@/api/events";
+import {
+  deleteEventCatchingUp,
+  deleteEventSpellbookUpdate,
+} from "@/api/events";
 import { removeCharacterGame } from "@/api/events";
 import useSnackbar from "@/datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
@@ -117,7 +120,8 @@ export default function CharacterEvents(props: PropsType) {
     } else if (value.event_type === "dt_mtrade") {
       return `${Math.abs(value.gold_change)}gp ${value.gold_change > 0 ? "received" : "spent"}`;
     } else if (value.event_type === "dt_sbookupd") {
-      if (value.source) return `Copied spells to spellbook from ${value.source}`;
+      if (value.source)
+        return `Copied spells to spellbook from ${value.source}`;
       return "Updated Spellbook";
     }
   };

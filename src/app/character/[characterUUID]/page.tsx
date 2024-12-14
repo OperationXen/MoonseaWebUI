@@ -50,11 +50,20 @@ export default function CharacterPage(props: PropsType) {
         }}
       >
         <Box sx={{ display: "flex" }}>
-          <CharacterArt character={characterData} updateCharacter={handleCharacterUpdate} />
-          <CharacterDetailsPane character={characterData} updateCharacter={handleCharacterUpdate} />
+          <CharacterArt
+            character={characterData}
+            updateCharacter={handleCharacterUpdate}
+          />
+          <CharacterDetailsPane
+            character={characterData}
+            updateCharacter={handleCharacterUpdate}
+          />
         </Box>
         <Box sx={{ display: "flex", width: "100%", paddingTop: "4px" }}>
-          <CharacterBiographyPane character={characterData} onUpdate={handleCharacterUpdate} />
+          <CharacterBiographyPane
+            character={characterData}
+            onUpdate={handleCharacterUpdate}
+          />
         </Box>
         <ItemPane data={characterData} />
       </Box>

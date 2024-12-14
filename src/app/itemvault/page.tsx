@@ -45,7 +45,9 @@ export default function ItemVault() {
   }, [snackbar]);
 
   const getFilteredItems = () => {
-    return items.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
+    return items.filter((x) =>
+      x.name.toLowerCase().includes(filter.toLowerCase()),
+    );
   };
 
   const rowDate = (value: MagicItem) => {
@@ -94,13 +96,17 @@ export default function ItemVault() {
       field: "name",
       headerName: "Item",
       flex: 0.25,
-      renderCell: (p: GRCellParams) => <ItemLinkWidget name={p.row.name} uuid={p.row.uuid} />,
+      renderCell: (p: GRCellParams) => (
+        <ItemLinkWidget name={p.row.name} uuid={p.row.uuid} />
+      ),
     },
     {
       field: "owner_name",
       headerName: "Owner",
       flex: 0.15,
-      renderCell: (p: GRCellParams) => <CharacterLinkWidget name={p.row.owner_name} uuid={p.row.owner_uuid} />,
+      renderCell: (p: GRCellParams) => (
+        <CharacterLinkWidget name={p.row.owner_name} uuid={p.row.owner_uuid} />
+      ),
     },
     {
       field: "source_event_type",
@@ -135,7 +141,12 @@ export default function ItemVault() {
         flexDirection: "column",
       }}
     >
-      <Box display="flex" alignItems="center" justifyContent="space-between" margin="0.5em 0">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        margin="0.5em 0"
+      >
         <Typography variant="h4">Item Vault</Typography>
         <TextField
           label="Search my items"
@@ -170,7 +181,11 @@ export default function ItemVault() {
           setCreateOpen(false);
         }}
       />
-      <CreateAdvertDialog open={showAdvertCreate} onClose={() => setShowAdvertCreate(false)} {...item} />
+      <CreateAdvertDialog
+        open={showAdvertCreate}
+        onClose={() => setShowAdvertCreate(false)}
+        {...item}
+      />
     </Container>
   );
 }

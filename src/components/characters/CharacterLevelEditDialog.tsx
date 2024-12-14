@@ -93,9 +93,16 @@ export default function CharacterLevelEditDialog(props: PropsType) {
           />
         );
       })}
-      <Tooltip title={blankClasses ? "Cannot have blank classes" : ""} placement="bottom">
+      <Tooltip
+        title={blankClasses ? "Cannot have blank classes" : ""}
+        placement="bottom"
+      >
         <ButtonGroup>
-          <Button variant="outlined" onClick={handleAddClass} disabled={!!blankClasses}>
+          <Button
+            variant="outlined"
+            onClick={handleAddClass}
+            disabled={!!blankClasses}
+          >
             Add new class
           </Button>
           <Button onClick={handleClose} disabled={!!blankClasses}>

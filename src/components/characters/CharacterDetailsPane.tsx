@@ -70,7 +70,11 @@ export function CharacterDetailsPane(props: PropsType) {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Tooltip title={character.race === "Kobold" ? "Yip yip" : "Character race"}>
+              <Tooltip
+                title={
+                  character.race === "Kobold" ? "Yip yip" : "Character race"
+                }
+              >
                 <Typography
                   variant="h5"
                   sx={{
@@ -82,7 +86,11 @@ export function CharacterDetailsPane(props: PropsType) {
                   {character.race}
                 </Typography>
               </Tooltip>
-              <VisionWidget editable={character.editable} vision={character.vision} doUpdate={updateCharacter} />
+              <VisionWidget
+                editable={character.editable}
+                vision={character.vision}
+                doUpdate={updateCharacter}
+              />
             </Box>
             <Tooltip title="Character level">
               <Typography variant="h5" sx={{ cursor: "pointer" }}>

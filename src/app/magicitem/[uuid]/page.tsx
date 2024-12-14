@@ -51,9 +51,17 @@ export default function MagicItemDetails() {
             borderRadius: "8px",
           }}
         >
-          <MagicItemInformationPane item={data} editMode={editMode} setEditMode={setEditMode} />
+          <MagicItemInformationPane
+            item={data}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
           <MagicItemImagePane item={data} />
-          <MagicItemControlPane item={data} editMode={editMode} setEditMode={setEditMode} />
+          <MagicItemControlPane
+            item={data}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
         </Stack>
         <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
           <MagicItemHistoryPane uuid={uuid} />

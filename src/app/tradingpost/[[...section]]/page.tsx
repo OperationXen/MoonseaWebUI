@@ -40,7 +40,12 @@ export default function TradingPostWindow() {
       }}
     >
       <TabContext value={(section as string) ?? "market"}>
-        <Box display="flex" alignItems="center" justifyContent="space-between" margin="0.5em 0">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          margin="0.5em 0"
+        >
           <Typography variant="h4">Trading Post</Typography>
           <Box sx={{ display: section === "market" ? "flex" : "none" }}>
             <TextField
@@ -77,7 +82,12 @@ export default function TradingPostWindow() {
               component={Link}
               href={"/tradingpost/offers/"}
             />
-            <Tab icon={<LocalGroceryStoreIcon />} label="Market" component={Link} href={"/tradingpost/market/"} />
+            <Tab
+              icon={<LocalGroceryStoreIcon />}
+              label="Market"
+              component={Link}
+              href={"/tradingpost/market/"}
+            />
           </Tabs>
         </Box>
         <Box
@@ -87,13 +97,22 @@ export default function TradingPostWindow() {
             borderRadius: "8px",
           }}
         >
-          <TabPanel value="items" sx={{ flexGrow: 1, padding: 0, height: "100%" }}>
+          <TabPanel
+            value="items"
+            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
+          >
             <TradingPostItems />
           </TabPanel>
-          <TabPanel value="offers" sx={{ flexGrow: 1, padding: 0, height: "100%" }}>
+          <TabPanel
+            value="offers"
+            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
+          >
             <TradingPostOffers />
           </TabPanel>
-          <TabPanel value="market" sx={{ flexGrow: 1, padding: 0, height: "100%" }}>
+          <TabPanel
+            value="market"
+            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
+          >
             <TradingPostSearch filter={filter} />
           </TabPanel>
         </Box>

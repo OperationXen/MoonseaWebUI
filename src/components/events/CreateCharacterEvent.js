@@ -41,7 +41,12 @@ export default function CreateCharacterEvent(props) {
       <Box margin="0.6em 0">
         <FormControl fullWidth>
           <InputLabel id="type-label">Event Type</InputLabel>
-          <Select fullWidth label="Event Type" value={event} onChange={(e) => setEvent(e.target.value)}>
+          <Select
+            fullWidth
+            label="Event Type"
+            value={event}
+            onChange={(e) => setEvent(e.target.value)}
+          >
             <Divider>Quick select</Divider>
             <MenuItem value="game">Played a game</MenuItem>
             <MenuItem value="dt-mundtrade">Visited merchant</MenuItem>
@@ -66,10 +71,27 @@ export default function CreateCharacterEvent(props) {
           </Select>
         </FormControl>
       </Box>
-      {event === "game" && <CreateCharacterGame characterUUID={characterUUID} onClose={handleClose} />}
-      {event === "dt-mundtrade" && <CreateDTMundaneTrade characterUUiD={characterUUID} onClose={handleClose} />}
-      {event === "dt-catchup" && <CreateDTCatchup characterUUID={characterUUID} onClose={handleClose} />}
-      {event === "dt-spellbook" && <CreateDTSpellbookUpdate characterUUID={characterUUID} onClose={handleClose} />}
+      {event === "game" && (
+        <CreateCharacterGame
+          characterUUID={characterUUID}
+          onClose={handleClose}
+        />
+      )}
+      {event === "dt-mundtrade" && (
+        <CreateDTMundaneTrade
+          characterUUiD={characterUUID}
+          onClose={handleClose}
+        />
+      )}
+      {event === "dt-catchup" && (
+        <CreateDTCatchup characterUUID={characterUUID} onClose={handleClose} />
+      )}
+      {event === "dt-spellbook" && (
+        <CreateDTSpellbookUpdate
+          characterUUID={characterUUID}
+          onClose={handleClose}
+        />
+      )}
       {event === "trade-npc" && (
         <Box
           border="1px solid black"
@@ -86,7 +108,11 @@ export default function CreateCharacterEvent(props) {
           <Typography>Trade with NPC</Typography>
           <TextField fullWidth multiline label="Items purchased" />
           <TextField fullWidth multiline label="Items sold" />
-          <TextField number label="Gold" helperText="Negative for gold spent, positive for profit" />
+          <TextField
+            number
+            label="Gold"
+            helperText="Negative for gold spent, positive for profit"
+          />
           <TextField label="Game date" />
         </Box>
       )}

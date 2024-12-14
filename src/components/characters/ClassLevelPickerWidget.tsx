@@ -129,7 +129,9 @@ export default function ClassLevelPickerWidget(props: PropsType) {
             marginTop: "-0.6em",
           }}
         >
-          <IconButton onClick={handleDecrement}>{(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}</IconButton>
+          <IconButton onClick={handleDecrement}>
+            {(data.value > 1 && <RemoveIcon />) || <DeleteIcon />}
+          </IconButton>
           <Typography>{data.value}</Typography>
           <IconButton onClick={handleIncrement} disabled={data.value >= 20}>
             <AddIcon />

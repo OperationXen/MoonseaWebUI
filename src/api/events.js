@@ -27,7 +27,18 @@ export function deleteDMGame(uuid) {
 }
 
 // create new game
-export function createDMGame(datetime, module, name, gold, downtime, levels, hours, breakdown, location, notes) {
+export function createDMGame(
+  datetime,
+  module,
+  name,
+  gold,
+  downtime,
+  levels,
+  hours,
+  breakdown,
+  location,
+  notes,
+) {
   let url = "/api/data/dm_game";
   let data = {
     datetime: datetime,
@@ -91,7 +102,14 @@ export function deleteEventMundaneTrade(uuid) {
 }
 
 // spellbook events
-export function createEventSpellbookUpdate(characterUUID, gold, downtime, dm, sourceChar, spellsText) {
+export function createEventSpellbookUpdate(
+  characterUUID,
+  gold,
+  downtime,
+  dm,
+  sourceChar,
+  spellsText,
+) {
   let data = {
     character_uuid: characterUUID,
     gold: gold,

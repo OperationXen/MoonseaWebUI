@@ -6,6 +6,8 @@ export function validatePassword(pass: string): boolean {
 export function checkDiscordID(discordID: string): boolean {
   if (!discordID) return false;
 
-  let retval = !!discordID.match(/^(?=.{2,32}$)(?!(?:everyone|here)$)\.?[a-z0-9_]+(?:\.[a-z0-9_]+)*\.?$/);
+  let retval = !!discordID.match(
+    /^(?=.{2,32}$)(?!(?:everyone|here)$)\.?[a-z0-9_]+(?:\.[a-z0-9_]+)*\.?$/,
+  );
   return retval;
 }

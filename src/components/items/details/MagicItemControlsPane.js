@@ -57,23 +57,42 @@ export default function MagicItemControlPane(props) {
         <React.Fragment>
           <Tooltip title={editMode ? "Save changes" : "Edit item"}>
             <IconButton onClick={handleEdit}>
-              {(editMode && <SaveIcon fontSize="small" />) || <EditIcon fontSize="small" />}
+              {(editMode && <SaveIcon fontSize="small" />) || (
+                <EditIcon fontSize="small" />
+              )}
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}>
+          <Tooltip
+            title={
+              equipped ? "Cannot trade equipped items" : "Offer item for trade"
+            }
+          >
             <IconButton onClick={handleTrade}>
-              <ShoppingCartIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 1 }} />
+              <ShoppingCartIcon
+                fontSize="small"
+                sx={{ opacity: equipped ? 0.2 : 1 }}
+              />
             </IconButton>
           </Tooltip>
-          <Tooltip title={equipped ? "Cannot delete equipped items" : "Delete item"}>
+          <Tooltip
+            title={equipped ? "Cannot delete equipped items" : "Delete item"}
+          >
             <IconButton onClick={handleDelete}>
-              <DeleteIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 1 }} />
+              <DeleteIcon
+                fontSize="small"
+                sx={{ opacity: equipped ? 0.2 : 1 }}
+              />
             </IconButton>
           </Tooltip>
         </React.Fragment>
       )}
-      <DeleteConfirm name={name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
+      <DeleteConfirm
+        name={name}
+        uuid={uuid}
+        open={showDelete}
+        onClose={() => setShowDelete(false)}
+      />
       <CreateAdvertDialog
         open={showAdvertCreate}
         onClose={() => setShowAdvertCreate(false)}

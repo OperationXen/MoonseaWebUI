@@ -48,8 +48,12 @@ export default function ForgotPassword() {
       >
         <Typography variant="h4">Account Recovery</Typography>
         <Divider sx={{ width: "100%", marginBottom: "0.4em" }} />
-        <Typography variant="caption">Enter the email account you registered with</Typography>
-        <Typography variant="caption">If found you will receive a password reset email</Typography>
+        <Typography variant="caption">
+          Enter the email account you registered with
+        </Typography>
+        <Typography variant="caption">
+          If found you will receive a password reset email
+        </Typography>
         <TextField
           fullWidth
           value={email}
@@ -66,10 +70,18 @@ export default function ForgotPassword() {
           Request reset
         </Button>
         <Divider sx={{ width: "100%", marginBottom: "0.4em" }} />
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/register")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push("/auth/register")}
+        >
           Register a new account
         </Link>
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/login")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push("/auth/login")}
+        >
           Login with existing account
         </Link>
       </Paper>
