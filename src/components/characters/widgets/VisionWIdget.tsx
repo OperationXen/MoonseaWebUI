@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 
 import { Box, TextField, Tooltip } from "@mui/material";
