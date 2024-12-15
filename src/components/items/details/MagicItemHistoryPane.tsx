@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 
 import { Box } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid/DataGrid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-import { getMagicItemHistory } from "../../../api/items";
-import useMagicItemStore from "../../../datastore/magicitem";
+import { getMagicItemHistory } from "@/api/items";
+import useMagicItemStore from "@/datastore/magicitem";
 
-export default function MagicItemHistoryPane(props) {
+import type { UUID } from "@/types/uuid";
+import type { ItemEvent } from "@/types/events";
+
+type PropsType = {
+  uuid: UUID;
+};
+
+export default function MagicItemHistoryPane(props: PropsType) {
   const { uuid } = props;
   const refresh = useMagicItemStore((s) => s.refresh);
 
   const [loading, setLoading] = useState(false);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<ItemEvent[]>([]);
 
   useEffect(() => {
     if (!uuid) return;
@@ -27,15 +34,14 @@ export default function MagicItemHistoryPane(props) {
   }, [uuid, refresh]);
 
   // format the date information
-  const rowDate = (params) => {
-    if (params.row.datetime) {
-      return params.row.datetime.slice(0, 10).replaceAll("-", " / ");
+  const rowDate = (data: ItemEvent) => {
+    if (data.datetime) {
+      return data.datetime.slice(0, 10).replaceAll("-", " / ");
     }
     return "No date information";
   };
-  const formatEventType = (params) => {
-    let data = params.row;
 
+  const formatEventType = (data: ItemEvent) => {
     if (data.event_type === "trade") return "Item traded";
     else if (data.event_type === "manual") return "Manually created";
     else if (data.event_type === "edit") return data.name;
@@ -43,17 +49,14 @@ export default function MagicItemHistoryPane(props) {
     else if (data.event_type === "dm_reward") return "DM Reward";
     return "Divine intervention";
   };
-  const formatDetails = (params) => {
-    let data = params.row;
 
+  const formatDetails = (data: ItemEvent) => {
     if (data.event_type === "manual") {
       return `For character: ${data.character_name}`;
     } else if (data.event_type === "edit") {
       return `${data.details}`;
     } else if (data.event_type === "trade") {
-      return `${data.exchanged_item ?? "Unknown item"} from ${
-        data.recipient_name
-      }`;
+      return `${data.exchanged_item ?? "Unknown item"} from ${data.recipient_name}`;
     } else if (data.event_type === "game") {
       return `${data.name} (${data.dm_name})`;
     } else if (data.event_type === "dm_reward") {
@@ -61,24 +64,24 @@ export default function MagicItemHistoryPane(props) {
     }
   };
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: "datetime",
       headerName: "Date",
       flex: 0.25,
-      valueGetter: rowDate,
+      valueFormatter: rowDate,
     },
     {
       field: "event_type",
       headerName: "Event Type",
       flex: 0.3,
-      valueGetter: formatEventType,
+      valueFormatter: formatEventType,
     },
     {
       field: "detail",
       headerName: "Details",
       flex: 0.5,
-      valueGetter: formatDetails,
+      valueFormatter: formatDetails,
     },
   ];
 
@@ -91,7 +94,7 @@ export default function MagicItemHistoryPane(props) {
         rows={events}
         loading={loading}
         rowHeight={36}
-        rowsPerPageOptions={[15, 25, 50, 100]}
+        pageSizeOptions={[15, 25, 50, 100]}
         sx={{
           border: "1px solid black",
           borderRadius: "8px",

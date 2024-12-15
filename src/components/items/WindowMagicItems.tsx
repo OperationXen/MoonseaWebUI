@@ -3,23 +3,23 @@ import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import useCharacterStore from "../../datastore/character";
+import useCharacterStore from "@/datastore/character";
 import CreateMagicItem from "./CreateMagicItem";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 import ItemWidget from "./widgets/ItemWidget";
 
-export default function WindowMagicItems(props) {
+import type { MagicItem } from "@/types/items";
+
+type PropsType = {
+  magicItems: MagicItem[];
+};
+
+export default function WindowMagicItems(props: PropsType) {
   const { magicItems } = props;
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
-    s.uuid,
-    s.editable,
-    s.requestRefresh,
-  ]);
+  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
   const [createOpen, setCreateOpen] = useState(false);
 
-  const displayItems = magicItems?.filter(
-    (i) => i.rarity !== "common" && !i.market,
-  );
+  const displayItems = magicItems?.filter((i) => i.rarity !== "common" && !i.market);
 
   return (
     <Box
@@ -41,7 +41,7 @@ export default function WindowMagicItems(props) {
       >
         {(displayItems?.length &&
           displayItems.map((item, index) => {
-            return <ItemWidget {...item} key={`${index}-${item.id}`} />;
+            return <ItemWidget {...item} key={`${index}-${item.uuid}`} />;
           })) || <EmptyWindowWidget message="No magic items" />}
       </Box>
       <Box

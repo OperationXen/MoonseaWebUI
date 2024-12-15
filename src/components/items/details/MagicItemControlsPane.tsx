@@ -2,19 +2,29 @@ import React, { useState } from "react";
 
 import { Box, IconButton, Tooltip } from "@mui/material";
 
-import EditIcon from "@mui/icons-material/Edit";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 
 import useSnackbar from "@/datastore/snackbar";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
-import DeleteConfirm from "../widgets/DeleteConfirm";
+import DeleteConfirm from "@/components/items/widgets/DeleteConfirm";
 
-export default function MagicItemControlPane(props) {
+import type { MagicItem } from "@/types/items";
+
+type PropsType = {
+  editMode: boolean;
+  setEditMode: (x: boolean) => void;
+
+  item: MagicItem;
+};
+
+export default function MagicItemControlPane(props: PropsType) {
   const { uuid, equipped, name, rarity, editable } = props.item;
   const { editMode, setEditMode } = props;
+
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [showDelete, setShowDelete] = useState(false);
@@ -57,42 +67,23 @@ export default function MagicItemControlPane(props) {
         <React.Fragment>
           <Tooltip title={editMode ? "Save changes" : "Edit item"}>
             <IconButton onClick={handleEdit}>
-              {(editMode && <SaveIcon fontSize="small" />) || (
-                <EditIcon fontSize="small" />
-              )}
+              {(editMode && <SaveIcon fontSize="small" />) || <EditIcon fontSize="small" />}
             </IconButton>
           </Tooltip>
 
-          <Tooltip
-            title={
-              equipped ? "Cannot trade equipped items" : "Offer item for trade"
-            }
-          >
+          <Tooltip title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}>
             <IconButton onClick={handleTrade}>
-              <ShoppingCartIcon
-                fontSize="small"
-                sx={{ opacity: equipped ? 0.2 : 1 }}
-              />
+              <ShoppingCartIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 1 }} />
             </IconButton>
           </Tooltip>
-          <Tooltip
-            title={equipped ? "Cannot delete equipped items" : "Delete item"}
-          >
+          <Tooltip title={equipped ? "Cannot delete equipped items" : "Delete item"}>
             <IconButton onClick={handleDelete}>
-              <DeleteIcon
-                fontSize="small"
-                sx={{ opacity: equipped ? 0.2 : 1 }}
-              />
+              <DeleteIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 1 }} />
             </IconButton>
           </Tooltip>
         </React.Fragment>
       )}
-      <DeleteConfirm
-        name={name}
-        uuid={uuid}
-        open={showDelete}
-        onClose={() => setShowDelete(false)}
-      />
+      <DeleteConfirm name={name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
       <CreateAdvertDialog
         open={showAdvertCreate}
         onClose={() => setShowAdvertCreate(false)}

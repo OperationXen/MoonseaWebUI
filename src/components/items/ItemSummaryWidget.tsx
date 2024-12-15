@@ -4,15 +4,19 @@ import { Typography, Box } from "@mui/material";
 
 import ItemChipWidget from "./widgets/ItemChipWidget";
 
-export default function ItemSummaryWidget(props) {
+import type { MagicItem } from "@/types/items";
+
+type PropsType = {
+  items: MagicItem[];
+};
+
+export default function ItemSummaryWidget(props: PropsType) {
   const { items } = props;
 
-  const [equipped, setEquipped] = useState([]);
+  const [equipped, setEquipped] = useState<MagicItem[]>([]);
 
   useEffect(() => {
-    let temp = items.filter(
-      (item) => item.equipped && item.rarity !== "common",
-    );
+    let temp = items.filter((item) => item.equipped && item.rarity !== "common");
     setEquipped(temp);
   }, [items, setEquipped]);
 
@@ -46,14 +50,7 @@ export default function ItemSummaryWidget(props) {
       }}
     >
       {equipped.map((item) => {
-        return (
-          <ItemChipWidget
-            uuid={item.uuid}
-            name={item.name}
-            rarity={item.rarity}
-            key={item.uuid}
-          />
-        );
+        return <ItemChipWidget uuid={item.uuid} name={item.name} rarity={item.rarity} key={item.uuid} />;
       })}
     </Box>
   );

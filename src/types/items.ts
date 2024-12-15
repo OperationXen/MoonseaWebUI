@@ -1,12 +1,8 @@
+import type { UUID } from "./uuid";
+
 export type Rarity = "common" | "uncommon" | "rare" | "veryrare" | "legendary";
 
-export type ItemOrigin =
-  | "game"
-  | "dm_reward"
-  | "trade"
-  | "manual"
-  | "bastion"
-  | "event_reward";
+export type ItemOrigin = "game" | "dm_reward" | "trade" | "manual" | "bastion" | "event_reward";
 export type ConsumableType = "potion" | "scroll" | "ammo" | "gear" | "other";
 
 export type Consumable = {
@@ -20,7 +16,7 @@ export type Consumable = {
 };
 
 export type MagicItem = {
-  uuid: string;
+  uuid: UUID;
   owner_uuid?: string;
   owner_name?: string;
   name: string;
@@ -33,4 +29,5 @@ export type MagicItem = {
   description?: string;
   flavour?: string;
   image: string;
+  editable: boolean;
 };

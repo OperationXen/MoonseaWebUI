@@ -1,11 +1,7 @@
 import type { UUID } from "./uuid";
 
-export type EventType =
-  | "game"
-  | "dm_reward"
-  | "dt_sbookupd"
-  | "dt_mtrade"
-  | "dt_catchingup";
+export type EventType = "game" | "dm_reward" | "dt_sbookupd" | "dt_mtrade" | "dt_catchingup";
+export type ItemEventType = "trade" | "manual" | "edit" | "game" | "dm_reward";
 
 export type CharacterEvent = {
   uuid: UUID;
@@ -19,4 +15,16 @@ export type CharacterEvent = {
   gold?: number;
   gold_change: number;
   source: string;
+};
+
+export type ItemEvent = {
+  uuid: UUID;
+  datetime: string;
+  event_type: ItemEventType;
+  name: string;
+  character_name: string;
+  details: string;
+  recipient_name?: string;
+  exchanged_item?: string;
+  dm_name?: string;
 };

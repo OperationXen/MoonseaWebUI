@@ -1,24 +1,32 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-import { Paper, Table, Typography, InputBase } from "@mui/material";
+import { Paper, Table, Typography, InputBase, SelectChangeEvent } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
-import { getRarityText } from "../../../utils/items";
-import { updateMagicItem } from "../../../api/items";
-import useMagicItemStore from "../../../datastore/magicitem";
-import useSnackbar from "../../../datastore/snackbar";
+import { getRarityText } from "@/utils/items";
+import { updateMagicItem } from "@/api/items";
+import useMagicItemStore from "@/datastore/magicitem";
+import useSnackbar from "@/datastore/snackbar";
+
+import { Rarity, type MagicItem } from "@/types/items";
+
+type PropsType = {
+  item: MagicItem;
+  editMode: boolean;
+};
 
 const rowStyle = { height: "52px" };
 const cellStyle = { padding: "0 1em" };
 
-export default function MagicItemInformationPane(props) {
+export default function MagicItemInformationPane(props: PropsType) {
   const { item, editMode } = props;
+
   const requestItemHistoryRefresh = useMagicItemStore((s) => s.requestRefresh);
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState("Loading...");
-  const [rarity, setRarity] = useState("");
+  const [rarity, setRarity] = useState<Rarity>("uncommon");
   const [attunement, setAttunement] = useState(false);
   const [description, setDescription] = useState("Loading...");
   const [flavour, setFlavour] = useState("Loading...");
@@ -35,7 +43,7 @@ export default function MagicItemInformationPane(props) {
   }, [item, name, rarity, attunement, description, flavour]);
 
   const getUpdateObject = useCallback(() => {
-    let obj = {};
+    let obj: Partial<MagicItem> = {};
     if (name !== item.name) obj["name"] = name;
     if (rarity !== item.rarity) obj["rarity"] = rarity;
     if (attunement !== item.attunement) obj["attunement"] = attunement;
@@ -51,8 +59,8 @@ export default function MagicItemInformationPane(props) {
     setName(item.name);
     setRarity(item.rarity);
     setAttunement(item.attunement);
-    setDescription(item.description);
-    setFlavour(item.flavour);
+    setDescription(item.description ?? "");
+    setFlavour(item.flavour ?? "");
   }, [item]);
 
   // save changes when edit disabled
@@ -60,21 +68,14 @@ export default function MagicItemInformationPane(props) {
     if (editMode || !item.uuid || !itemChanged()) return;
 
     updateMagicItem(item.uuid, getUpdateObject())
-      .then((response) => {
+      .then((_response) => {
         requestItemHistoryRefresh();
         snackbar("Item updated", "success");
       })
       .catch((error) => {
         snackbar(error.response.message ?? "Error updating item", "error");
       });
-  }, [
-    editMode,
-    item.uuid,
-    snackbar,
-    itemChanged,
-    getUpdateObject,
-    requestItemHistoryRefresh,
-  ]);
+  }, [editMode, item.uuid, snackbar, itemChanged, getUpdateObject, requestItemHistoryRefresh]);
 
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;
@@ -89,11 +90,7 @@ export default function MagicItemInformationPane(props) {
             </TableCell>
 
             <TableCell sx={cellStyle}>
-              <InputBase
-                disabled={!editMode}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <InputBase disabled={!editMode} value={name} onChange={(e) => setName(e.target.value)} />
             </TableCell>
           </TableRow>
 
@@ -104,10 +101,7 @@ export default function MagicItemInformationPane(props) {
             <TableCell sx={cellStyle}>
               {(editMode && (
                 <FormControl size="small" sx={{ minWidth: "12em" }}>
-                  <Select
-                    value={rarity}
-                    onChange={(e) => setRarity(e.target.value)}
-                  >
+                  <Select value={rarity} onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}>
                     <MenuItem value="uncommon">Uncommon</MenuItem>
                     <MenuItem value="rare">Rare</MenuItem>
                     <MenuItem value="veryrare">Very Rare</MenuItem>
@@ -168,7 +162,7 @@ export default function MagicItemInformationPane(props) {
               <Typography>Owner</Typography>
             </TableCell>
             <TableCell sx={cellStyle}>
-              <Typography>{item.owner}</Typography>
+              <Typography>{item.owner_name ?? "Unknown owner"}</Typography>
             </TableCell>
           </TableRow>
         </TableBody>
