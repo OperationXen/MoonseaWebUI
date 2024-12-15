@@ -51,7 +51,7 @@ export default function CreateMagicItem(props: PropsType) {
         onCreate();
         handleClose();
       })
-      .catch((error) => {
+      .catch((_error) => {
         displayMessage("Error adding item to character", "error");
       });
   };

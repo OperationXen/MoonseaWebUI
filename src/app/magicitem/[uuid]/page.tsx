@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import { Box, Container, Stack } from "@mui/material";
@@ -12,6 +12,7 @@ import MagicItemControlPane from "@/components/items/details/MagicItemControlsPa
 import MagicItemHistoryPane from "@/components/items/details/MagicItemHistoryPane";
 import MagicItemImagePane from "@/components/items/details/MagicItemImagePane";
 
+import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
 
 export default function MagicItemDetails() {
@@ -51,20 +52,16 @@ export default function MagicItemDetails() {
             borderRadius: "8px",
           }}
         >
-          <MagicItemInformationPane
-            item={data}
-            editMode={editMode}
-            setEditMode={setEditMode}
-          />
-          <MagicItemImagePane item={data} />
-          <MagicItemControlPane
-            item={data}
-            editMode={editMode}
-            setEditMode={setEditMode}
-          />
+          {data && (
+            <React.Fragment>
+              <MagicItemInformationPane item={data} editMode={editMode} setEditMode={setEditMode} />
+              <MagicItemImagePane item={data} />
+              <MagicItemControlPane item={data} editMode={editMode} setEditMode={setEditMode} />
+            </React.Fragment>
+          )}
         </Stack>
         <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
-          <MagicItemHistoryPane uuid={uuid} />
+          <MagicItemHistoryPane uuid={uuid as UUID} />
         </Stack>
       </Box>
     </Container>

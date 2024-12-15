@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -10,7 +10,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import useSnackbar from "@/datastore/snackbar";
-import { getDMLogData, updateDMLogData } from "@/api/dungeonmaster";
+import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import SeasonRewards from "../rewards/SeasonRewards";
@@ -18,11 +18,10 @@ import DMEvents from "@/components/events/DMEvents";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function DungeonMasterWindow() {
-  const { data: userStatus } = useUserStatus();
+  const { data: userStatus, isLoading } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { uuid } = useParams();
 
-  const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
@@ -48,7 +47,7 @@ export default function DungeonMasterWindow() {
 
   return (
     <React.Fragment>
-      <LoadingOverlay open={loading} />
+      <LoadingOverlay open={isLoading} />
       <Grid
         container
         sx={{
@@ -73,11 +72,7 @@ export default function DungeonMasterWindow() {
             marginBottom: "0.4em",
           }}
         >
-          <Grid
-            container
-            onMouseOver={() => setShowControls(allowUpdates)}
-            onMouseOut={() => setShowControls(false)}
-          >
+          <Grid container onMouseOver={() => setShowControls(allowUpdates)} onMouseOut={() => setShowControls(false)}>
             <Grid item xs={2} margin={"auto 0 auto 0.4em"}>
               <Tooltip title={allowUpdates ? "Manually adjust hours" : ""}>
                 <ButtonGroup
@@ -89,10 +84,7 @@ export default function DungeonMasterWindow() {
                   <Button onClick={() => updateServiceHours(+1)}>
                     <KeyboardArrowUpIcon />
                   </Button>
-                  <Button
-                    disabled={serviceHours <= 0}
-                    onClick={() => updateServiceHours(-1)}
-                  >
+                  <Button disabled={serviceHours <= 0} onClick={() => updateServiceHours(-1)}>
                     <KeyboardArrowDownIcon />
                   </Button>
                 </ButtonGroup>
@@ -130,9 +122,7 @@ export default function DungeonMasterWindow() {
             </Grid>
             <Grid item xs={2} margin="auto"></Grid>
           </Grid>
-          <Box
-            sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }}
-          />
+          <Box sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }} />
           <SeasonRewards
             allowUpdates={allowUpdates}
             dmUUID={uuid}
@@ -143,12 +133,7 @@ export default function DungeonMasterWindow() {
           />
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          lg={8}
-          sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}
-        >
+        <Grid item xs={12} lg={8} sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}>
           <DMEvents
             allowUpdates={allowUpdates}
             dmUUID={uuid}

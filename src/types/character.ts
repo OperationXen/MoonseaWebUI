@@ -1,3 +1,5 @@
+import { MagicItem, Consumable } from "./items";
+
 export type PlayerClass = {
   value: number;
   name: string;
@@ -20,8 +22,8 @@ export type Character = {
   level: number;
   classes: PlayerClass[];
 
-  items?: any[];
-  consumables?: any[];
+  items: MagicItem[];
+  consumables: Consumable[];
 
   gold: number;
   downtime: number;

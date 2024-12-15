@@ -41,7 +41,7 @@ export default function WindowMagicItems(props: PropsType) {
       >
         {(displayItems?.length &&
           displayItems.map((item, index) => {
-            return <ItemWidget {...item} key={`${index}-${item.uuid}`} />;
+            return <ItemWidget item={item} key={`${index}-${item.uuid}`} />;
           })) || <EmptyWindowWidget message="No magic items" />}
       </Box>
       <Box

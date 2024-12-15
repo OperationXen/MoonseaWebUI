@@ -28,7 +28,7 @@ export function ItemPane(props: PropsType) {
       <TabContext value={itemTab}>
         <Tabs
           value={itemTab}
-          onChange={(e, n) => setItemTab(n)}
+          onChange={(_e, n) => setItemTab(n)}
           aria-label="item categories"
           centered
           sx={{

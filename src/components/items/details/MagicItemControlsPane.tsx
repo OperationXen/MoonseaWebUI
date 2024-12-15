@@ -22,7 +22,7 @@ type PropsType = {
 };
 
 export default function MagicItemControlPane(props: PropsType) {
-  const { uuid, equipped, name, rarity, editable } = props.item;
+  const { uuid, equipped, name, editable } = props.item;
   const { editMode, setEditMode } = props;
 
   const snackbar = useSnackbar((s) => s.displayMessage);
@@ -84,13 +84,7 @@ export default function MagicItemControlPane(props: PropsType) {
         </React.Fragment>
       )}
       <DeleteConfirm name={name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
-      <CreateAdvertDialog
-        open={showAdvertCreate}
-        onClose={() => setShowAdvertCreate(false)}
-        uuid={uuid}
-        name={name}
-        rarity={rarity}
-      />
+      <CreateAdvertDialog open={showAdvertCreate} onClose={() => setShowAdvertCreate(false)} item={props.item} />
     </Box>
   );
 }

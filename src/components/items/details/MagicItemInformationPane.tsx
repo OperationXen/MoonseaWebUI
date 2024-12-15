@@ -14,6 +14,7 @@ import { Rarity, type MagicItem } from "@/types/items";
 type PropsType = {
   item: MagicItem;
   editMode: boolean;
+  setEditMode: (x: boolean) => void;
 };
 
 const rowStyle = { height: "52px" };

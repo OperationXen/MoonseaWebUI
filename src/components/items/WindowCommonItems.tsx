@@ -35,7 +35,7 @@ export default function WindowCommonItems(props: PropsType) {
       >
         {(displayItems?.length &&
           displayItems.map((item, index) => {
-            return <ItemWidget {...item} key={`${index}-${item.uuid}`} />;
+            return <ItemWidget item={item} key={`${index}-${item.uuid}`} />;
           })) || <EmptyWindowWidget message="No common items" />}
       </Box>
       <Box

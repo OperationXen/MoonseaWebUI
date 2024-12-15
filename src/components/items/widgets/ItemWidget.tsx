@@ -15,19 +15,14 @@ import useSnackbar from "@/datastore/snackbar";
 import useCharacterStore from "@/datastore/character";
 import { getRarityColour } from "@/utils/items";
 
-import type { UUID } from "@/types/uuid";
-import type { Rarity } from "@/types/items";
+import type { MagicItem } from "@/types/items";
 
 type PropsType = {
-  uuid: UUID;
-  name: string;
-  attunement: boolean;
-  rarity: Rarity;
-  equipped: boolean;
+  item: MagicItem;
 };
 
 export default function ItemWidget(props: PropsType) {
-  const { uuid, name, attunement, rarity, equipped } = props;
+  const { uuid, name, attunement, rarity, equipped } = props.item;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const refreshData = useCharacterStore((s) => s.requestRefresh);
@@ -87,10 +82,7 @@ export default function ItemWidget(props: PropsType) {
             </Tooltip>
           )}
         </Grid>
-        <Tooltip
-          title={equipped ? "Click to unequip item" : "Click to equip"}
-          placement="bottom"
-        >
+        <Tooltip title={equipped ? "Click to unequip item" : "Click to equip"} placement="bottom">
           <Grid
             item
             xs={7}
@@ -121,17 +113,10 @@ export default function ItemWidget(props: PropsType) {
                 <ArticleIcon onClick={handleDetailClick} fontSize="small" />
               </Tooltip>
               <Tooltip
-                title={
-                  equipped
-                    ? "Cannot trade equipped items"
-                    : "Offer item for trade"
-                }
+                title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}
                 onClick={handleTradeClick}
               >
-                <LocalGroceryStoreIcon
-                  fontSize="small"
-                  sx={{ opacity: equipped ? 0.2 : 0.8 }}
-                />
+                <LocalGroceryStoreIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 0.8 }} />
               </Tooltip>
             </React.Fragment>
           )}
@@ -150,13 +135,7 @@ export default function ItemWidget(props: PropsType) {
           </Typography>
         )}
       </Grid>
-      <CreateAdvertDialog
-        open={showAdvertCreate}
-        onClose={() => handleTradeDone()}
-        uuid={uuid}
-        name={name}
-        rarity={rarity}
-      />
+      <CreateAdvertDialog open={showAdvertCreate} onClose={() => handleTradeDone()} item={props.item} />
     </Card>
   );
 }
