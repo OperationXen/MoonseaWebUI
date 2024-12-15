@@ -7,7 +7,9 @@ export function EventDetailsDMReward(props) {
     <Box sx={{ minHeight: "16em" }}>
       <Typography variant="body1">Reward type: {data.name}</Typography>
       <Typography variant="body1">Cost in hours: {data.hours}</Typography>
-      <Typography variant="body1">Character: {data.character_items_assigned}</Typography>
+      <Typography variant="body1">
+        Character: {data.character_items_assigned}
+      </Typography>
       <Typography variant="body1">Gold: {data.gold}</Typography>
       <Typography variant="body1">Downtime: {data.downtime}</Typography>
     </Box>

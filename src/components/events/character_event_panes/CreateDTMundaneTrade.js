@@ -71,7 +71,10 @@ export default function CreateDTMundaneTrade(props) {
           }}
         >
           <Typography sx={{ opacity: profit ? 0.3 : 1 }}>Spent</Typography>
-          <Switch checked={profit} onChange={(e) => setProfit(e.target.checked)} />
+          <Switch
+            checked={profit}
+            onChange={(e) => setProfit(e.target.checked)}
+          />
           <Typography sx={{ opacity: profit ? 1 : 0.3 }}>Profit</Typography>
         </Box>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -80,7 +83,9 @@ export default function CreateDTMundaneTrade(props) {
             inputFormat="yyyy/MM/dd"
             value={date}
             onChange={setDate}
-            renderInput={(params) => <TextField {...params} sx={{ maxWidth: "30%" }} />}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ maxWidth: "30%" }} />
+            )}
           />
         </LocalizationProvider>
       </Box>

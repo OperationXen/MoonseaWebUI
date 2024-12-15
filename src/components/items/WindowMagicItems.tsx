@@ -3,42 +3,46 @@ import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import useCharacterStore from "../../datastore/character";
+import useCharacterStore from "@/datastore/character";
+import CreateMagicItem from "./CreateMagicItem";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
-import ConsumableItemWidget from "./widgets/ConsumableItemWidget";
-import ConsumableDialog from "./ConsumableDialog";
+import ItemWidget from "./widgets/ItemWidget";
 
-export default function WindowConsumableItems(props) {
-  const { consumableItems } = props;
+import type { MagicItem } from "@/types/items";
 
+type PropsType = {
+  magicItems: MagicItem[];
+};
+
+export default function WindowMagicItems(props: PropsType) {
+  const { magicItems } = props;
   const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
   const [createOpen, setCreateOpen] = useState(false);
+
+  const displayItems = magicItems?.filter((i) => i.rarity !== "common" && !i.market);
 
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        position: "relative",
-        height: "100%",
         width: "100%",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row wrap",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
           overflow: "auto",
           height: "15em",
-          gap: "4px",
-          padding: "2px",
         }}
       >
-        {(consumableItems &&
-          consumableItems.length &&
-          consumableItems.map((item, index) => <ConsumableItemWidget item={item} key={`${index}-${item.id}`} />)) || (
-          <EmptyWindowWidget message="No consumables" />
-        )}
+        {(displayItems?.length &&
+          displayItems.map((item, index) => {
+            return <ItemWidget item={item} key={`${index}-${item.uuid}`} />;
+          })) || <EmptyWindowWidget message="No magic items" />}
       </Box>
       <Box
         sx={{
@@ -51,15 +55,22 @@ export default function WindowConsumableItems(props) {
           paddingRight: "0.4em",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="outlined" onClick={() => setCreateOpen(true)} disabled={!editable}>
-          Add Consumable
+        <Button
+          disabled={!editable}
+          startIcon={<AddIcon />}
+          onClick={() => {
+            setCreateOpen(true);
+          }}
+          variant="outlined"
+        >
+          Add Magic Item
         </Button>
       </Box>
-      <ConsumableDialog
+      <CreateMagicItem
         open={createOpen}
         onClose={() => setCreateOpen(false)}
-        characterUUID={characterUUID}
         onCreate={() => refreshData()}
+        characterUUID={characterUUID}
       />
     </Box>
   );

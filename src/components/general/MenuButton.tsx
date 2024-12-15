@@ -6,20 +6,20 @@ import { useRouter, usePathname } from "next/navigation";
 import { IconButton, Menu, MenuItem, Divider } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import userStore from "../../datastore/user";
+import { useUserStatus } from "@/data/fetch/auth";
 
 export default function MenuButton() {
   const router = useRouter();
   const pathname = usePathname();
+  const { data: userStatus } = useUserStatus();
 
-  const [authenticated, dmID] = userStore((s) => [s.authenticated, s.dmUUID]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   return (
     <React.Fragment>
       <IconButton
-        disabled={!authenticated}
+        disabled={!userStatus?.authenticated}
         size="large"
         edge="start"
         color="inherit"
@@ -32,7 +32,11 @@ export default function MenuButton() {
       >
         <MenuIcon />
       </IconButton>
-      <Menu anchorEl={anchorEl} open={menuOpen} onClose={() => setMenuOpen(false)}>
+      <Menu
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      >
         <MenuItem
           onClick={() => {
             router.push("/");
@@ -61,9 +65,9 @@ export default function MenuButton() {
           Trading Post
         </MenuItem>
         <MenuItem
-          disabled={!dmID || pathname.includes("/dungeonmaster/")}
+          disabled={!userStatus?.dmUUID || pathname.includes("/dungeonmaster/")}
           onClick={() => {
-            router.push(`/dungeonmaster/${dmID}`);
+            router.push(`/dungeonmaster/${userStatus?.dmUUID}`);
             setMenuOpen(false);
           }}
         >

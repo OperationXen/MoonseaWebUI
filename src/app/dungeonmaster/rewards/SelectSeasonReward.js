@@ -103,7 +103,9 @@ export default function SelectSeasonReward(props) {
                 ))}
               </Select>
             </FormControl>
-            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <Box
+              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+            >
               <Typography variant="body2" sx={{ opacity: "0.8" }}>
                 Optional level up for any character
               </Typography>

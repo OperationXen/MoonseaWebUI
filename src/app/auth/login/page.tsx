@@ -1,22 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Container, Box, Paper, Link } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
-import useSnackbar from "../../../datastore/snackbar";
-import { doLogin } from "../../../api/user";
+import useSnackbar from "@/datastore/snackbar";
+import { useUserStatus } from "@/data/fetch/auth";
 
 export default function LoginWindow() {
-  const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { data: userStatus, login } = useUserStatus();
   const router = useRouter();
+  const displayMessage = useSnackbar((s) => s.displayMessage);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    doLogin(username, password)
+    login({ username: username, password: password })
       .then(() => router.push("/characters"))
       .catch((error) => {
         if (error.response.status === 401) {
@@ -26,9 +28,13 @@ export default function LoginWindow() {
   };
 
   const keyPressHandler = (e: React.KeyboardEvent) => {
-    debugger; // get type of e
     if (e.key === "Enter" && username && password) handleSubmit();
   };
+
+  // If user is already logged in don't let them waste their time here
+  useEffect(() => {
+    if (userStatus?.authenticated) router.push("/characters");
+  }, [userStatus]);
 
   return (
     <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>

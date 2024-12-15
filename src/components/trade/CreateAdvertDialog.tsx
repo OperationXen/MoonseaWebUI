@@ -3,19 +3,27 @@ import React, { useState } from "react";
 import { Box, Stack, Divider, Dialog } from "@mui/material";
 import { Typography, Button, TextField } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
-import { getRarityColour, getRarityText } from "../../utils/items";
-import { createTradeAdvert } from "../../api/trade";
+import useSnackbar from "@/datastore/snackbar";
+import { getRarityColour, getRarityText } from "@/utils/items";
+import { createTradeAdvert } from "@/api/trade";
 
-export default function CreateAdvertDialog(props) {
-  const { uuid, rarity, name, open, onClose } = props;
+import type { MagicItem } from "@/types/items";
+
+type PropsType = {
+  item: MagicItem;
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function CreateAdvertDialog(props: PropsType) {
+  const { item, open, onClose } = props;
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [advertText, setAdvertText] = useState("");
 
   const handleSubmit = () => {
-    createTradeAdvert(uuid, advertText)
-      .then((response) => {
+    createTradeAdvert(item.uuid, advertText)
+      .then((_response) => {
         snackbar("Item moved to trading post", "info");
         onClose();
       })
@@ -37,7 +45,7 @@ export default function CreateAdvertDialog(props) {
           alignItems: "center",
           borderRadius: "8px",
           border: "2px solid black",
-          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(rarity)}`,
+          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(item.rarity)}`,
           width: "42em",
         },
       }}
@@ -60,9 +68,9 @@ export default function CreateAdvertDialog(props) {
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Item Details</Divider>
       <Stack sx={{ alignItems: "center", gap: "0.4em" }}>
         <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-          {name}
+          {item.name}
         </Typography>
-        <Typography sx={{ color: `${getRarityColour(rarity)}` }}>{getRarityText(rarity)}</Typography>
+        <Typography sx={{ color: `${getRarityColour(item.rarity)}` }}>{getRarityText(item.rarity)}</Typography>
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Trade Advert</Divider>
       <Stack sx={{ width: "100%" }} spacing={"0.4em"}>

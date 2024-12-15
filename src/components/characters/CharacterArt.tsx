@@ -41,7 +41,9 @@ export function CharacterArt(props: PropsType) {
   };
 
   const copyImageLinkToClipboard = () => {
-    navigator.clipboard.writeText(`${window.location.host}${show === "artwork" ? character.artwork : character.token}`);
+    navigator.clipboard.writeText(
+      `${window.location.host}${show === "artwork" ? character.artwork : character.token}`,
+    );
     displayMessage("Link to image copied to clipboard", "info");
   };
 
@@ -50,7 +52,8 @@ export function CharacterArt(props: PropsType) {
     if (filesContent.length) {
       uploadCharacterImage(character.uuid, show, filesContent[0])
         .then((response) => {
-          if (show === "artwork") updateCharacter({ artwork: response.data.path });
+          if (show === "artwork")
+            updateCharacter({ artwork: response.data.path });
           else updateCharacter({ token: response.data.path });
           displayMessage(`${response.data.message}`, "success");
         })
@@ -63,7 +66,8 @@ export function CharacterArt(props: PropsType) {
   // when an error occurs with file upload
   useEffect(() => {
     if (errors.length) {
-      if (errors[0].fileSizeToolarge) displayMessage(`Failed to upload, file is too big`, "error");
+      if (errors[0].fileSizeToolarge)
+        displayMessage(`Failed to upload, file is too big`, "error");
     }
   }, [errors]);
 
@@ -92,30 +96,51 @@ export function CharacterArt(props: PropsType) {
         }}
       >
         {(getImageLink() && (
-          <Image src={getImageLink()} alt={`${character.name}-${show}`} width={242} height={242} />
+          <Image
+            src={getImageLink()}
+            alt={`${character.name}-${show}`}
+            width={242}
+            height={242}
+          />
         )) || (
-          <Typography sx={{ opacity: "30%" }}>{`${show === "token" ? "Token" : "Artwork"} image not set`}</Typography>
+          <Typography
+            sx={{ opacity: "30%" }}
+          >{`${show === "token" ? "Token" : "Artwork"} image not set`}</Typography>
         )}
       </Box>
       <ButtonGroup color="inherit" size="small" variant="text" fullWidth>
-        <Button onClick={() => setShow("artwork")} sx={{ paddingY: "1px", opacity: show === "artwork" ? 1 : 0.2 }}>
+        <Button
+          onClick={() => setShow("artwork")}
+          sx={{ paddingY: "1px", opacity: show === "artwork" ? 1 : 0.2 }}
+        >
           Artwork
         </Button>
-        <Button onClick={() => setShow("token")} sx={{ paddingY: "1px", opacity: show === "token" ? 1 : 0.2 }}>
+        <Button
+          onClick={() => setShow("token")}
+          sx={{ paddingY: "1px", opacity: show === "token" ? 1 : 0.2 }}
+        >
           Token
         </Button>
       </ButtonGroup>
 
       <Zoom in={active}>
         <Tooltip title="Upload image">
-          <Fab size="small" sx={{ position: "absolute", right: "4px", top: "4px" }} onClick={openFileSelector}>
+          <Fab
+            size="small"
+            sx={{ position: "absolute", right: "4px", top: "4px" }}
+            onClick={openFileSelector}
+          >
             <FileUploadIcon />
           </Fab>
         </Tooltip>
       </Zoom>
       <Zoom in={active && getImageLink() !== ""}>
         <Tooltip title="Copy link to this image">
-          <Fab size="small" sx={{ position: "absolute", left: "4px", top: "4px" }} onClick={copyImageLinkToClipboard}>
+          <Fab
+            size="small"
+            sx={{ position: "absolute", left: "4px", top: "4px" }}
+            onClick={copyImageLinkToClipboard}
+          >
             <ContentCopyIcon />
           </Fab>
         </Tooltip>

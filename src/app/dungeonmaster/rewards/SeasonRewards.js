@@ -50,7 +50,11 @@ export default function SeasonRewards(props) {
           <MenuItem value={"12e"}>Season S50B</MenuItem>
         </Select>
       </FormControl>
-      <Box width={"100%"} justifyContent={"space-around"} sx={{ flexFlow: "column", overflowY: "scroll" }}>
+      <Box
+        width={"100%"}
+        justifyContent={"space-around"}
+        sx={{ flexFlow: "column", overflowY: "scroll" }}
+      >
         {rewards.map((reward, index) => {
           return (
             <SeasonRewardWidget

@@ -1,19 +1,29 @@
 import { useState } from "react";
 
-import { Dialog, Typography, Divider, Box } from "@mui/material";
+import { Dialog, Typography, Divider, Box, SelectChangeEvent } from "@mui/material";
 import { Select, MenuItem, InputLabel } from "@mui/material";
 import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
-import { createMagicItem } from "../../api/items";
-import { getRarityColour } from "../../utils/items";
+import useSnackbar from "@/datastore/snackbar";
+import { createMagicItem } from "@/api/items";
+import { getRarityColour } from "@/utils/items";
 
-export default function CreateMagicItem(props) {
+import type { UUID } from "@/types/uuid";
+import type { Rarity } from "@/types/items";
+
+type PropsType = {
+  characterUUID: UUID;
+  onCreate: () => void;
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function CreateMagicItem(props: PropsType) {
   const { open, onClose, characterUUID, onCreate } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
-  const [rarity, setRarity] = useState("uncommon");
+  const [rarity, setRarity] = useState<Rarity>("uncommon");
   const [attunement, setAttunement] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
@@ -41,7 +51,7 @@ export default function CreateMagicItem(props) {
         onCreate();
         handleClose();
       })
-      .catch((error) => {
+      .catch((_error) => {
         displayMessage("Error adding item to character", "error");
       });
   };
@@ -78,7 +88,11 @@ export default function CreateMagicItem(props) {
       >
         <FormControl sx={{ flexGrow: 0.5 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
-          <Select label="Rarity" value={rarity} onChange={(e) => setRarity(e.target.value)}>
+          <Select
+            label="Rarity"
+            value={rarity}
+            onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}
+          >
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
             <MenuItem value="rare">Rare</MenuItem>

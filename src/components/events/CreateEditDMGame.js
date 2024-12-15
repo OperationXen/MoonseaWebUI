@@ -94,7 +94,10 @@ export default function CreateEditDMGame(props) {
           onClose();
         })
         .catch((e) =>
-          displayMessage(e.response.data.message ?? "Unable to update", "error")
+          displayMessage(
+            e.response.data.message ?? "Unable to update",
+            "error",
+          ),
         );
     } else {
       createDMGame(
@@ -107,7 +110,7 @@ export default function CreateEditDMGame(props) {
         hours,
         breakdown,
         location,
-        notes
+        notes,
       )
         .then((response) => {
           clearValues();

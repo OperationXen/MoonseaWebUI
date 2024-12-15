@@ -87,10 +87,20 @@ export default function CharacterControlsEditDialog(props: PropsType) {
           setSheet(e.target.value);
         }}
       />
-      <Box sx={{ width: "60%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+      <Box
+        sx={{ width: "60%" }}
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
+      >
         <Button
           variant="contained"
-          disabled={!race || !name || (race === character.race && name === character.name && sheet === character.sheet)}
+          disabled={
+            !race ||
+            !name ||
+            (race === character.race &&
+              name === character.name &&
+              sheet === character.sheet)
+          }
           onClick={handleSave}
           fullWidth
         >

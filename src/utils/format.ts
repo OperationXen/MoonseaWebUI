@@ -37,7 +37,7 @@ export function getCharClassShort(classes: PlayerClass[]) {
   return classStrings.join(" / ");
 }
 
-export function getSourceText(source: ItemOrigin|undefined): string {
+export function getSourceText(source: ItemOrigin | undefined): string {
   if (source === undefined) return "Unknown";
 
   if (source === "game") return "Found on adventure";

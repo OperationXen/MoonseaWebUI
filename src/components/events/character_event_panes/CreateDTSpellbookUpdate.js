@@ -26,14 +26,24 @@ export function CreateDTSpellbookUpdate(props) {
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
-    createEventSpellbookUpdate(characterUUID, gold, downtime, dmName, sourceChar, text)
+    createEventSpellbookUpdate(
+      characterUUID,
+      gold,
+      downtime,
+      dmName,
+      sourceChar,
+      text,
+    )
       .then((response) => {
         displayMessage("Spellbook update added to log", "success");
         requestCharacterRefresh();
         onClose && onClose();
       })
       .catch((error) => {
-        displayMessage(error.response.data.message ?? "Error creating event", "error");
+        displayMessage(
+          error.response.data.message ?? "Error creating event",
+          "error",
+        );
       });
   };
 
@@ -89,7 +99,9 @@ export function CreateDTSpellbookUpdate(props) {
             inputFormat="yyyy/MM/dd"
             value={date}
             onChange={setDate}
-            renderInput={(params) => <TextField {...params} sx={{ flexGrow: 2 }} />}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ flexGrow: 2 }} />
+            )}
           />
         </LocalizationProvider>
       </Box>

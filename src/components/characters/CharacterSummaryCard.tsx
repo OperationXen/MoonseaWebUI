@@ -51,7 +51,9 @@ export default function CharacterSummaryCard(props: PropsType) {
         padding: "0.2em",
       }}
     >
-      <Tooltip title={character.token ? "Character token" : "Character token not set!"}>
+      <Tooltip
+        title={character.token ? "Character token" : "Character token not set!"}
+      >
         <CardMedia
           component="img"
           height="320px"
@@ -99,7 +101,10 @@ export default function CharacterSummaryCard(props: PropsType) {
         }}
       >
         <Tooltip title="Add an event, such as a game or a DM reward">
-          <AddBoxIcon sx={{ width: 40, height: 40, cursor: "pointer" }} onClick={() => {}} />
+          <AddBoxIcon
+            sx={{ width: 40, height: 40, cursor: "pointer" }}
+            onClick={() => {}}
+          />
         </Tooltip>
 
         <ButtonGroup>
@@ -125,7 +130,10 @@ export default function CharacterSummaryCard(props: PropsType) {
           </Tooltip>
         )) || (
           <Tooltip title="No character sheet set">
-            <Avatar src={"/media/icons/beyond2.png"} sx={{ width: 40, height: 40, opacity: 0.3 }} />
+            <Avatar
+              src={"/media/icons/beyond2.png"}
+              sx={{ width: 40, height: 40, opacity: 0.3 }}
+            />
           </Tooltip>
         )}
       </Box>

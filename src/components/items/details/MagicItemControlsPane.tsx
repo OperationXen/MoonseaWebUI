@@ -2,19 +2,29 @@ import React, { useState } from "react";
 
 import { Box, IconButton, Tooltip } from "@mui/material";
 
-import EditIcon from "@mui/icons-material/Edit";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 
 import useSnackbar from "@/datastore/snackbar";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
-import DeleteConfirm from "../widgets/DeleteConfirm";
+import DeleteConfirm from "@/components/items/widgets/DeleteConfirm";
 
-export default function MagicItemControlPane(props) {
-  const { uuid, equipped, name, rarity, editable } = props.item;
+import type { MagicItem } from "@/types/items";
+
+type PropsType = {
+  editMode: boolean;
+  setEditMode: (x: boolean) => void;
+
+  item: MagicItem;
+};
+
+export default function MagicItemControlPane(props: PropsType) {
+  const { uuid, equipped, name, editable } = props.item;
   const { editMode, setEditMode } = props;
+
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [showDelete, setShowDelete] = useState(false);
@@ -74,13 +84,7 @@ export default function MagicItemControlPane(props) {
         </React.Fragment>
       )}
       <DeleteConfirm name={name} uuid={uuid} open={showDelete} onClose={() => setShowDelete(false)} />
-      <CreateAdvertDialog
-        open={showAdvertCreate}
-        onClose={() => setShowAdvertCreate(false)}
-        uuid={uuid}
-        name={name}
-        rarity={rarity}
-      />
+      <CreateAdvertDialog open={showAdvertCreate} onClose={() => setShowAdvertCreate(false)} item={props.item} />
     </Box>
   );
 }

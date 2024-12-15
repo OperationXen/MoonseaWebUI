@@ -1,18 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Container, Paper, Typography } from "@mui/material";
 import { Button, TextField, Link, Divider } from "@mui/material";
 
-import { requestPasswordReset } from "../../../api/user";
-import useSnackbar from "../../../datastore/snackbar";
+import useSnackbar from "@/datastore/snackbar";
+import { useUserStatus } from "@/data/fetch/auth";
 
 export default function ForgotPassword() {
-  const [email, setEMail] = useState<string>("");
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { data: userStatus, requestPasswordReset } = useUserStatus();
   const router = useRouter();
+
+  const [email, setEMail] = useState<string>("");
 
   const validateEMail = () => {
     if (!email || email.length < 3) return false;
@@ -30,6 +32,11 @@ export default function ForgotPassword() {
   const keyPressHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && validateEMail()) handleSubmit();
   };
+
+  // If user is already logged in don't let them waste their time here
+  useEffect(() => {
+    if (userStatus?.authenticated) router.push("/characters");
+  }, [userStatus]);
 
   return (
     <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>

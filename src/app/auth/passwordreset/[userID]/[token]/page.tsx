@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 
 import { Container, Paper, Typography, Divider } from "@mui/material";
@@ -8,20 +8,21 @@ import { Box, Stack, Button, TextField } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
 
-import { doPasswordReset } from "@/api/user";
 import { validatePassword } from "@/utils/user";
+import { useUserStatus } from "@/data/fetch/auth";
 
 export default function PasswordReset() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const router = useRouter();
+  const { data: userStatus, completePasswordReset } = useUserStatus();
   const { userID, token } = useParams();
+  const router = useRouter();
 
   const [highlight, setHighlight] = useState(false);
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
   const handleSubmit = () => {
-    doPasswordReset(userID, token, password1)
+    completePasswordReset({ user_id: userID as string, token: token as string, password: password1 })
       .then(() => {
         displayMessage("Password updated", "success");
         router.push("/characters");
@@ -35,9 +36,15 @@ export default function PasswordReset() {
     if (e.key === "Enter" && password1 === password2 && validatePassword(password1)) handleSubmit();
   };
 
+  // sanity check the token and userID
   if (!(userID as string).match(/\d+/) || !(token as string).match(/[0-9a-f-]{30,42}/)) {
     router.push("/auth/login");
   }
+
+  // If user is already logged in don't let them waste their time here
+  useEffect(() => {
+    if (userStatus?.authenticated) router.push("/characters");
+  }, [userStatus]);
 
   return (
     <Container sx={{ display: "flex", height: "70%" }}>

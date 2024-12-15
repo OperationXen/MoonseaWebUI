@@ -60,8 +60,16 @@ export default function CharacterControls(props: PropsType) {
           />
         </MenuItem>
       </Menu>
-      <CharacterControlsEditDialog character={character} open={editOpen} onClose={() => setEditOpen(false)} />
-      <DeleteConfirm character={character} open={deleteOpen} onClose={() => setDeleteOpen(false)} />
+      <CharacterControlsEditDialog
+        character={character}
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+      />
+      <DeleteConfirm
+        character={character}
+        open={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+      />
     </React.Fragment>
   );
 }

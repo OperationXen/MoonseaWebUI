@@ -5,9 +5,8 @@ import { useState } from "react";
 import { Dialog, Typography, Divider, Box } from "@mui/material";
 import { Button, TextField, Stack } from "@mui/material";
 
-import userStore from "@/datastore/user";
+import { useUserStatus } from "@/data/fetch/auth";
 import useSnackBar from "@/datastore/snackbar";
-import { updateDiscordID, updatePassword } from "@/api/user";
 import { checkDiscordID } from "@/utils/user";
 
 type PropsType = {
@@ -18,9 +17,10 @@ type PropsType = {
 export default function ProfileWindow(props: PropsType) {
   const { open, onClose } = props;
 
-  const [username, discord] = userStore((s) => [s.username, s.discordID]);
+  const { data: userStatus, updateProfile, changePassword } = useUserStatus();
   const displayMessage = useSnackBar((s) => s.displayMessage);
-  const [discordID, setDiscordID] = useState(discord || "");
+
+  const [discordID, setDiscordID] = useState(userStatus?.discordID || "");
   const [oldPass, setOldPass] = useState("");
   const [newPass1, setNewPass1] = useState("");
   const [newPass2, setNewPass2] = useState("");
@@ -34,7 +34,7 @@ export default function ProfileWindow(props: PropsType) {
   };
 
   const changeDiscordID = () => {
-    updateDiscordID(discordID)
+    updateProfile({ discordID: discordID })
       .then((_response) => {
         displayMessage("Discord details updated", "success");
       })
@@ -43,8 +43,8 @@ export default function ProfileWindow(props: PropsType) {
       });
   };
 
-  const changePassword = () => {
-    updatePassword(oldPass, newPass1, newPass2)
+  const updatePassword = () => {
+    changePassword({ oldPass, newPass1, newPass2 })
       .then((_response) => {
         displayMessage("Password updated", "success");
       })
@@ -55,7 +55,7 @@ export default function ProfileWindow(props: PropsType) {
 
   const discordIDChanged = () => {
     if (!discordID) return false;
-    if (discordID === discord) return false;
+    if (discordID === userStatus?.discordID) return false;
     return true;
   };
 
@@ -64,6 +64,8 @@ export default function ProfileWindow(props: PropsType) {
     if (!newPass1) return false;
     if (newPass1 === newPass2) return true;
   };
+
+  if (!userStatus) return null;
 
   return (
     <Dialog
@@ -82,7 +84,7 @@ export default function ProfileWindow(props: PropsType) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        Edit profile for {username}
+        Edit profile for {userStatus?.username}
       </Typography>
       <Divider variant="middle">Discord information</Divider>
       <Box
@@ -140,7 +142,7 @@ export default function ProfileWindow(props: PropsType) {
           error={highlight && (newPass1 !== newPass2 || !newPass2)}
         ></TextField>
         <Box onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
-          <Button disabled={!verifyPassword()} onClick={changePassword}>
+          <Button disabled={!verifyPassword()} onClick={updatePassword}>
             Change Password
           </Button>
         </Box>

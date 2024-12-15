@@ -7,7 +7,13 @@ import WindowMagicItems from "./WindowMagicItems";
 import WindowCommonItems from "./WindowCommonItems";
 import WindowConsumableItems from "./WindowConsumableItems";
 
-export default function ItemPane(props) {
+import type { Character } from "@/types/character";
+
+type PropsType = {
+  data: Character;
+};
+
+export function ItemPane(props: PropsType) {
   const { data } = props;
   const [itemTab, setItemTab] = useState("magicitems");
 
@@ -22,7 +28,7 @@ export default function ItemPane(props) {
       <TabContext value={itemTab}>
         <Tabs
           value={itemTab}
-          onChange={(e, n) => setItemTab(n)}
+          onChange={(_e, n) => setItemTab(n)}
           aria-label="item categories"
           centered
           sx={{
@@ -49,3 +55,5 @@ export default function ItemPane(props) {
     </Paper>
   );
 }
+
+export default ItemPane;

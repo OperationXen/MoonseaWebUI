@@ -58,7 +58,11 @@ export default function TradeAdvert(props: PropsType) {
   };
 
   return (
-    <Card sx={{ width: "100%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+    <Card
+      sx={{ width: "100%" }}
+      onMouseOver={() => setHighlight(true)}
+      onMouseOut={() => setHighlight(false)}
+    >
       <CardHeader
         avatar={<RarityWidget rarity={item.rarity} />}
         action={getActionIcon()}
@@ -84,7 +88,10 @@ export default function TradeAdvert(props: PropsType) {
         }
       />
       <CardContent sx={{ height: "3em" }}>
-        <Typography variant="caption" sx={{ opacity: highlight ? "0.9" : "0.7" }}>
+        <Typography
+          variant="caption"
+          sx={{ opacity: highlight ? "0.9" : "0.7" }}
+        >
           {description}
         </Typography>
       </CardContent>
@@ -97,7 +104,10 @@ export default function TradeAdvert(props: PropsType) {
       >
         {!market && (
           <Tooltip title="Delete this advert and return item to its owner's inventory">
-            <IconButton sx={{ margin: "0.4em" }} onClick={() => setShowDelete(true)}>
+            <IconButton
+              sx={{ margin: "0.4em" }}
+              onClick={() => setShowDelete(true)}
+            >
               <DeleteIcon
                 sx={{
                   opacity: highlight ? "0.9" : "0.3",
@@ -108,7 +118,12 @@ export default function TradeAdvert(props: PropsType) {
           </Tooltip>
         )}
       </Box>
-      <DeleteConfirm open={showDelete} onClose={() => setShowDelete(false)} name={item.name} uuid={uuid} />
+      <DeleteConfirm
+        open={showDelete}
+        onClose={() => setShowDelete(false)}
+        name={item.name}
+        uuid={uuid}
+      />
       <TradeOfferDialog
         open={showOffer}
         onClose={() => setShowOffer(false)}

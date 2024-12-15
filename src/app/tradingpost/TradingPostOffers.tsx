@@ -59,7 +59,11 @@ export default function TradingPostOffers() {
 
   const getItem = (x: any) => {
     return (
-      <Typography variant="body2" sx={{ cursor: "pointer" }} onClick={() => router.push(`/magicitem/${x.uuid}`)}>
+      <Typography
+        variant="body2"
+        sx={{ cursor: "pointer" }}
+        onClick={() => router.push(`/magicitem/${x.uuid}`)}
+      >
         {`${x.name} (${x.owner_name})`}
       </Typography>
     );
@@ -174,15 +178,29 @@ export default function TradingPostOffers() {
           slots={{
             noRowsOverlay: () => (
               <GridOverlay>
-                <Typography sx={{ opacity: "0.6" }}>No pending offers</Typography>
+                <Typography sx={{ opacity: "0.6" }}>
+                  No pending offers
+                </Typography>
               </GridOverlay>
             ),
           }}
         />
       </Grid>
-      <OfferRejectConfirm open={showReject} onClose={() => setShowReject(false)} {...offer} />
-      <OfferAcceptConfirm open={showAccept} onClose={() => setShowAccept(false)} {...offer} />
-      <OfferCancelConfirm open={showCancel} onClose={() => setShowCancel(false)} {...offer} />
+      <OfferRejectConfirm
+        open={showReject}
+        onClose={() => setShowReject(false)}
+        {...offer}
+      />
+      <OfferAcceptConfirm
+        open={showAccept}
+        onClose={() => setShowAccept(false)}
+        {...offer}
+      />
+      <OfferCancelConfirm
+        open={showCancel}
+        onClose={() => setShowCancel(false)}
+        {...offer}
+      />
     </React.Fragment>
   );
 }

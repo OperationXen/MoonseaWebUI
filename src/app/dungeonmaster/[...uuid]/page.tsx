@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -9,40 +9,28 @@ import { Typography, Tooltip } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-import userStore from "@/datastore/user";
 import useSnackbar from "@/datastore/snackbar";
-import { getDMLogData, updateDMLogData } from "@/api/dungeonmaster";
+import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import SeasonRewards from "../rewards/SeasonRewards";
 import DMEvents from "@/components/events/DMEvents";
+import { useUserStatus } from "@/data/fetch/auth";
 
 export default function DungeonMasterWindow() {
+  const { data: userStatus, isLoading } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [dmUUID] = userStore((s) => [s.dmUUID]);
   const { uuid } = useParams();
 
-  const [loading, setLoading] = useState(true);
   const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
   const [refreshEvents, setRefreshEvents] = useState(false);
 
-  const refreshDMData = useCallback(() => {
-    getDMLogData(uuid)
-      .then((response) => {
-        setServiceHours(response.data.hours);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [uuid]);
-
   useEffect(() => {
-    setAllowUpdates(uuid === dmUUID);
-    refreshDMData();
-  }, [refreshDMData, uuid, dmUUID]);
+    if (userStatus) setAllowUpdates(uuid === userStatus.dmUUID);
+  }, [uuid, userStatus]);
 
   const updateServiceHours = (val: number) => {
     setHoursChanged(true);
@@ -59,7 +47,7 @@ export default function DungeonMasterWindow() {
 
   return (
     <React.Fragment>
-      <LoadingOverlay open={loading} />
+      <LoadingOverlay open={isLoading} />
       <Grid
         container
         sx={{
@@ -140,7 +128,6 @@ export default function DungeonMasterWindow() {
             dmUUID={uuid}
             hours={serviceHours}
             onChange={() => {
-              refreshDMData();
               setRefreshEvents(true);
             }}
           />
@@ -150,7 +137,7 @@ export default function DungeonMasterWindow() {
           <DMEvents
             allowUpdates={allowUpdates}
             dmUUID={uuid}
-            onChange={refreshDMData}
+            onChange={() => {}}
             doRefresh={refreshEvents}
             setDoRefresh={setRefreshEvents}
           />

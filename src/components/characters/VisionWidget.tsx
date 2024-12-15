@@ -36,7 +36,10 @@ export function VisionWidget(props: PropsType) {
   return (
     <React.Fragment>
       <Tooltip title={visionText}>
-        <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={handleClick}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          onClick={handleClick}
+        >
           <GiSunkenEye size="1.6em" />
         </Box>
       </Tooltip>
@@ -69,7 +72,11 @@ export function VisionWidget(props: PropsType) {
               if (e.key === "Enter") handleClose();
             }}
           />
-          <Button sx={{ width: "80%" }} variant="contained" onClick={handleClose}>
+          <Button
+            sx={{ width: "80%" }}
+            variant="contained"
+            onClick={handleClose}
+          >
             Update
           </Button>
         </Stack>

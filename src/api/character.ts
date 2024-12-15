@@ -1,17 +1,23 @@
 import api from "./base";
 
-import type {Character} from "types/character";
+import type { Character } from "types/character";
 
 export async function getCharacters() {
-  return api.get("/api/data/character").then((r) => r.data.results as Character[]);
+  return api
+    .get("/api/data/character")
+    .then((r) => r.data.results as Character[]);
 }
 
-export async function getCharacter(ID: string){
-  return api.get(`/api/data/character/${ID}`).then((r) => r.data.result as Character)
+export async function getCharacter(ID: string) {
+  return api
+    .get(`/api/data/character/${ID}`)
+    .then((r) => r.data.result as Character);
 }
 
 export async function updateCharacter2(data: Character) {
-  return api.patch(`/api/data/characeter/${data.uuid}/`, data).then((r) => r.data.result as Character)
+  return api
+    .patch(`/api/data/characeter/${data.uuid}/`, data)
+    .then((r) => r.data.result as Character);
 }
 
 export function fetchAllCharacters() {

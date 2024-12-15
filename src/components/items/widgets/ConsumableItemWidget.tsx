@@ -27,7 +27,10 @@ export default function ConsumableItemWidget(props: PropsType) {
   const handleClick = () => {
     item.equipped = !item.equipped;
     updateConsumable(item).then(() => {
-      displayMessage(item.equipped ? "Item unequipped" : "Item equipped", "info");
+      displayMessage(
+        item.equipped ? "Item unequipped" : "Item equipped",
+        "info",
+      );
       refreshData();
     });
   };

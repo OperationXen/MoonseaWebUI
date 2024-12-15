@@ -73,7 +73,12 @@ export function DeleteConfirm(props: PropsType) {
         >
           Delete
         </Button>
-        <Button color="inherit" variant="contained" sx={{ width: "35%" }} onClick={onClose}>
+        <Button
+          color="inherit"
+          variant="contained"
+          sx={{ width: "35%" }}
+          onClick={onClose}
+        >
           Cancel
         </Button>
       </Box>
