@@ -6,6 +6,12 @@ import api from "./base";
 import type { UserStatus, NewAccount, Credentials } from "@/types/user";
 
 type PasswordResetParams = { user_id: string; token: string; password: string };
+type PasswordChangeParams = { oldPass: string; newPass1: string; newPass2: string };
+type UpdateProfileParams = {
+  username: string;
+  email: string;
+  discordID: string;
+};
 
 // Get the currently logged in user's details
 async function getUserStatus() {
@@ -43,6 +49,20 @@ async function requestPasswordReset(email: string) {
 
 async function completePasswordReset(data: PasswordResetParams) {
   return api.post("/api/auth/password_reset", data);
+}
+
+async function doPasswordUpdate(data: PasswordChangeParams) {
+  return api.post("/api/auth/change_password", data);
+}
+
+async function doUpdate(data: Partial<UpdateProfileParams>) {
+  // Copy changes to a new object to allow us to translate between back and front end data representation
+  const profileChanges: any = {};
+  if (data.discordID) profileChanges.discord_id = data.discordID;
+  if (data.username) profileChanges.username = data.username;
+  if (data.email) profileChanges.email = data.email;
+
+  return api.patch("/api/auth/user_details", profileChanges);
 }
 
 /****************************************************************************************/
@@ -99,14 +119,22 @@ export function useUserStatus() {
     mutationFn: completePasswordReset,
   });
 
+  const changePassword = useMutation({
+    mutationFn: doPasswordUpdate,
+  });
+
+  const updateProfile = useMutation({
+    mutationFn: doUpdate,
+  });
+
   return {
     login: login.mutateAsync,
     logout: logout.mutateAsync,
     registerAccount: register.mutateAsync,
     requestPasswordReset: forgotPassword.mutateAsync,
     completePasswordReset: resetPassword.mutateAsync,
-    changePassword: null,
-    changeDetails: null,
+    changePassword: changePassword.mutateAsync,
+    updateProfile: updateProfile.mutateAsync,
     ...dataFetch,
   };
 }

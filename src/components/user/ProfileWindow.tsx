@@ -7,7 +7,6 @@ import { Button, TextField, Stack } from "@mui/material";
 
 import { useUserStatus } from "@/data/fetch/auth";
 import useSnackBar from "@/datastore/snackbar";
-import { updateDiscordID, updatePassword } from "@/api/user";
 import { checkDiscordID } from "@/utils/user";
 
 type PropsType = {
@@ -17,9 +16,10 @@ type PropsType = {
 
 export default function ProfileWindow(props: PropsType) {
   const { open, onClose } = props;
-  const { data: userStatus } = useUserStatus();
 
+  const { data: userStatus, updateProfile, changePassword } = useUserStatus();
   const displayMessage = useSnackBar((s) => s.displayMessage);
+
   const [discordID, setDiscordID] = useState(userStatus?.discordID || "");
   const [oldPass, setOldPass] = useState("");
   const [newPass1, setNewPass1] = useState("");
@@ -34,7 +34,7 @@ export default function ProfileWindow(props: PropsType) {
   };
 
   const changeDiscordID = () => {
-    updateDiscordID(discordID)
+    updateProfile({ discordID: discordID })
       .then((_response) => {
         displayMessage("Discord details updated", "success");
       })
@@ -43,8 +43,8 @@ export default function ProfileWindow(props: PropsType) {
       });
   };
 
-  const changePassword = () => {
-    updatePassword(oldPass, newPass1, newPass2)
+  const updatePassword = () => {
+    changePassword({ oldPass, newPass1, newPass2 })
       .then((_response) => {
         displayMessage("Password updated", "success");
       })
@@ -141,11 +141,8 @@ export default function ProfileWindow(props: PropsType) {
           placeholder="Confirm your new password"
           error={highlight && (newPass1 !== newPass2 || !newPass2)}
         ></TextField>
-        <Box
-          onMouseOver={() => setHighlight(true)}
-          onMouseOut={() => setHighlight(false)}
-        >
-          <Button disabled={!verifyPassword()} onClick={changePassword}>
+        <Box onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+          <Button disabled={!verifyPassword()} onClick={updatePassword}>
             Change Password
           </Button>
         </Box>
