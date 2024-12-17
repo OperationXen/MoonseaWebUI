@@ -4,7 +4,10 @@ import { Card, Typography, Tooltip, IconButton } from "@mui/material";
 
 import { Delete } from "@mui/icons-material";
 
-import { updateConsumable, deleteConsumable } from "../../../api/consumables";
+import {
+  updateConsumable,
+  deleteConsumable,
+} from "../../../data/fetch/items/consumables";
 import useSnackbar from "../../../datastore/snackbar";
 import useCharacterStore from "../../../datastore/character";
 import { getRarityColour } from "../../../utils/items";

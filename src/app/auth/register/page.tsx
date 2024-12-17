@@ -36,13 +36,22 @@ export default function RegistrationWindow() {
   };
 
   const handleSubmit = () => {
-    registerAccount({ username: username, email: email, discord_id: discordID, password: password1 })
+    registerAccount({
+      username: username,
+      email: email,
+      discord_id: discordID,
+      password: password1,
+    })
       .then(() => {
-        displayMessage("Your account has been created, please check your email for a verification email", "success");
+        displayMessage(
+          "Your account has been created, please check your email for a verification email",
+          "success",
+        );
         router.push("/auth/login");
       })
       .catch((error) => {
-        if ("errors" in error.response.data) setIssues(error.response.data["errors"]);
+        if ("errors" in error.response.data)
+          setIssues(error.response.data["errors"]);
         displayMessage("Unable to register this account", "error");
       });
   };
@@ -140,19 +149,32 @@ export default function RegistrationWindow() {
             type="password"
             autoComplete="password-confirm"
             error={issues.password !== undefined}
-            helperText={password2 && password1 !== password2 ? "Passwords must match" : " "}
+            helperText={
+              password2 && password1 !== password2
+                ? "Passwords must match"
+                : " "
+            }
             onChange={(e) => setPassword2(e.target.value)}
           />
         </Box>
         <Button
           sx={{ width: "50%", margin: "0.4em" }}
           variant="contained"
-          disabled={!username || !password1 || !password2 || (discordID !== "" && !checkDiscordID(discordID))}
+          disabled={
+            !username ||
+            !password1 ||
+            !password2 ||
+            (discordID !== "" && !checkDiscordID(discordID))
+          }
           onClick={handleSubmit}
         >
           Create Account
         </Button>
-        <Link variant="caption" sx={{ cursor: "pointer" }} onClick={() => router.push("/auth/login")}>
+        <Link
+          variant="caption"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push("/auth/login")}
+        >
           Sign in with existing account
         </Link>
       </Paper>

@@ -54,9 +54,17 @@ export default function MagicItemDetails() {
         >
           {data && (
             <React.Fragment>
-              <MagicItemInformationPane item={data} editMode={editMode} setEditMode={setEditMode} />
+              <MagicItemInformationPane
+                item={data}
+                editMode={editMode}
+                setEditMode={setEditMode}
+              />
               <MagicItemImagePane item={data} />
-              <MagicItemControlPane item={data} editMode={editMode} setEditMode={setEditMode} />
+              <MagicItemControlPane
+                item={data}
+                editMode={editMode}
+                setEditMode={setEditMode}
+              />
             </React.Fragment>
           )}
         </Stack>

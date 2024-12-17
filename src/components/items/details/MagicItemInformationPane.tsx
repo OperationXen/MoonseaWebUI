@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-import { Paper, Table, Typography, InputBase, SelectChangeEvent } from "@mui/material";
+import {
+  Paper,
+  Table,
+  Typography,
+  InputBase,
+  SelectChangeEvent,
+} from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
 import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
@@ -76,7 +82,14 @@ export default function MagicItemInformationPane(props: PropsType) {
       .catch((error) => {
         snackbar(error.response.message ?? "Error updating item", "error");
       });
-  }, [editMode, item.uuid, snackbar, itemChanged, getUpdateObject, requestItemHistoryRefresh]);
+  }, [
+    editMode,
+    item.uuid,
+    snackbar,
+    itemChanged,
+    getUpdateObject,
+    requestItemHistoryRefresh,
+  ]);
 
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;
@@ -91,7 +104,11 @@ export default function MagicItemInformationPane(props: PropsType) {
             </TableCell>
 
             <TableCell sx={cellStyle}>
-              <InputBase disabled={!editMode} value={name} onChange={(e) => setName(e.target.value)} />
+              <InputBase
+                disabled={!editMode}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </TableCell>
           </TableRow>
 
@@ -102,7 +119,12 @@ export default function MagicItemInformationPane(props: PropsType) {
             <TableCell sx={cellStyle}>
               {(editMode && (
                 <FormControl size="small" sx={{ minWidth: "12em" }}>
-                  <Select value={rarity} onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}>
+                  <Select
+                    value={rarity}
+                    onChange={(e: SelectChangeEvent) =>
+                      setRarity(e.target.value as Rarity)
+                    }
+                  >
                     <MenuItem value="uncommon">Uncommon</MenuItem>
                     <MenuItem value="rare">Rare</MenuItem>
                     <MenuItem value="veryrare">Very Rare</MenuItem>

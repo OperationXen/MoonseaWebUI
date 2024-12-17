@@ -6,7 +6,7 @@ import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
-import { createConsumable } from "@/api/consumables";
+import { useConsumables } from "@/data/fetch/items/consumables";
 import { getRarityColour } from "@/utils/items";
 
 import type { UUID } from "@/types/uuid";
@@ -21,6 +21,8 @@ type PropsType = {
 
 export function ConsumableDialog(props: PropsType) {
   const { open, onClose, characterUUID, onCreate } = props;
+
+  const { createConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState("");
@@ -44,7 +46,7 @@ export function ConsumableDialog(props: PropsType) {
       type: itemType as ConsumableType,
       charges: charges,
     };
-    createConsumable(characterUUID, data)
+    createConsumable(data)
       .then((response) => {
         displayMessage(`Added ${response.data.name}`, "success");
         onCreate();
@@ -101,9 +103,7 @@ export function ConsumableDialog(props: PropsType) {
           <Select
             label="Item Type"
             value={itemType}
-            onChange={(e: SelectChangeEvent) =>
-              setItemType(e.target.value as ConsumableType)
-            }
+            onChange={(e: SelectChangeEvent) => setItemType(e.target.value as ConsumableType)}
           >
             <MenuItem value="potion">Potion</MenuItem>
             <MenuItem value="scroll">Scroll</MenuItem>
@@ -135,9 +135,7 @@ export function ConsumableDialog(props: PropsType) {
           <Select
             label="Rarity"
             value={rarity}
-            onChange={(e: SelectChangeEvent) =>
-              setRarity(e.target.value as Rarity)
-            }
+            onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}
           >
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
@@ -147,12 +145,7 @@ export function ConsumableDialog(props: PropsType) {
           </Select>
         </FormControl>
         <FormControlLabel
-          control={
-            <Checkbox
-              checked={!!charges}
-              onChange={() => setCharges(charges ? 0 : 1)}
-            />
-          }
+          control={<Checkbox checked={!!charges} onChange={() => setCharges(charges ? 0 : 1)} />}
           label="Has charges"
         />
         <TextField
@@ -163,11 +156,7 @@ export function ConsumableDialog(props: PropsType) {
           onChange={(e) => setCharges(parseInt(e.target.value))}
         />
       </Box>
-      <Box
-        display="flex"
-        onMouseOver={() => setHighlight(true)}
-        onMouseOut={() => setHighlight(false)}
-      >
+      <Box display="flex" onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
         <Button
           onClick={handleSubmit}
           variant="contained"

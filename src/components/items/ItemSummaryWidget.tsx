@@ -16,7 +16,9 @@ export default function ItemSummaryWidget(props: PropsType) {
   const [equipped, setEquipped] = useState<MagicItem[]>([]);
 
   useEffect(() => {
-    let temp = items.filter((item) => item.equipped && item.rarity !== "common");
+    let temp = items.filter(
+      (item) => item.equipped && item.rarity !== "common",
+    );
     setEquipped(temp);
   }, [items, setEquipped]);
 
@@ -50,7 +52,14 @@ export default function ItemSummaryWidget(props: PropsType) {
       }}
     >
       {equipped.map((item) => {
-        return <ItemChipWidget uuid={item.uuid} name={item.name} rarity={item.rarity} key={item.uuid} />;
+        return (
+          <ItemChipWidget
+            uuid={item.uuid}
+            name={item.name}
+            rarity={item.rarity}
+            key={item.uuid}
+          />
+        );
       })}
     </Box>
   );

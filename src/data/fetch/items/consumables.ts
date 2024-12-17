@@ -8,7 +8,9 @@ import type { Consumable } from "@/types/items";
 // mixin type for posts which also contain a character_uuid field
 type CharacterUUID = { character_uuid: UUID };
 
-async function createConsumableFn(itemData: Partial<Consumable> & CharacterUUID) {
+async function createConsumableFn(
+  itemData: Partial<Consumable> & CharacterUUID,
+) {
   return api.post("/api/data/consumable", itemData);
 }
 
@@ -44,7 +46,8 @@ export function useConsumables(characterUUID: UUID) {
   });
 
   const createConsumable = useMutation({
-    mutationFn: (itemData: Partial<Consumable>) => createConsumableFn({ character_uuid: characterUUID, ...itemData }),
+    mutationFn: (itemData: Partial<Consumable>) =>
+      createConsumableFn({ character_uuid: characterUUID, ...itemData }),
   });
   const deleteConsumable = useMutation({ mutationFn: deleteConsumableFn });
   const updateConsumable = useMutation({ mutationFn: updateConsumableFn });
