@@ -64,7 +64,14 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   };
 
   return (
-    <Box sx={{ margin: "0.4em 0", width: "100%", display: "flex", gap: "4px" }}>
+    <Box
+      sx={{
+        margin: "0.4em 0",
+        width: "100%",
+        display: "flex",
+        gap: "4px",
+      }}
+    >
       <FormControl sx={{ flexGrow: 2 }}>
         <InputLabel>Character Class</InputLabel>
         <Select

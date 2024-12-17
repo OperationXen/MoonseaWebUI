@@ -5,7 +5,7 @@ import { TabPanel, TabContext } from "@mui/lab";
 
 import WindowMagicItems from "./WindowMagicItems";
 import WindowCommonItems from "./WindowCommonItems";
-import WindowConsumableItems from "./WindowConsumableItems";
+import ConsumableItems from "./WindowConsumableItems";
 
 import type { Character } from "@/types/character";
 
@@ -46,7 +46,7 @@ export function ItemPane(props: PropsType) {
           <WindowMagicItems magicItems={data?.items} />
         </TabPanel>
         <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowConsumableItems consumableItems={data?.consumables} />
+          <ConsumableItems consumableItems={data?.consumables} />
         </TabPanel>
         <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
           <WindowCommonItems magicItems={data?.items} />

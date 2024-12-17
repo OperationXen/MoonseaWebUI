@@ -130,7 +130,11 @@ export default function DungeonMasterWindow() {
             <Grid item xs={2} margin="auto"></Grid>
           </Grid>
           <Box
-            sx={{ height: "0", width: "100%", borderBottom: "1px solid black" }}
+            sx={{
+              height: "0",
+              width: "100%",
+              borderBottom: "1px solid black",
+            }}
           />
           <SeasonRewards
             allowUpdates={allowUpdates}

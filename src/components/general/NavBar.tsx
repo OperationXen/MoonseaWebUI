@@ -94,7 +94,11 @@ export function NavBar() {
             </Link>
           </Box>
           <Box
-            sx={{ width: "6em", display: "flex", justifyContent: "flex-end" }}
+            sx={{
+              width: "6em",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
           >
             {(userStatus?.authenticated && <ProfileWidget />) || <AuthButton />}
           </Box>

@@ -124,7 +124,12 @@ export default function CharacterSummaryCard(props: PropsType) {
           <Tooltip title="View character sheet on D&D Beyond">
             <Avatar
               src={"/media/icons/beyond2.png"}
-              sx={{ width: 40, height: 40, opacity: 0.9, cursor: "pointer" }}
+              sx={{
+                width: 40,
+                height: 40,
+                opacity: 0.9,
+                cursor: "pointer",
+              }}
               onClick={() => window.open(character.sheet)}
             />
           </Tooltip>

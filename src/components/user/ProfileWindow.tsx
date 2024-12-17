@@ -104,7 +104,11 @@ export default function ProfileWindow(props: PropsType) {
           placeholder="Username#1234"
         ></TextField>
         <Button
-          sx={{ flexGrow: 1, marginLeft: "0.4em", alignSelf: "stretch" }}
+          sx={{
+            flexGrow: 1,
+            marginLeft: "0.4em",
+            alignSelf: "stretch",
+          }}
           variant="outlined"
           disabled={!discordIDChanged() || !checkDiscordID(discordID)}
           onClick={changeDiscordID}

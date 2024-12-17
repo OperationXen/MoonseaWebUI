@@ -190,7 +190,12 @@ export default function CharacterEvents(props: PropsType) {
                 borderTop: "1px solid black",
               }}
             >
-              <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
+              <div
+                style={{
+                  alignSelf: "center",
+                  marginLeft: "0.4em",
+                }}
+              >
                 <Button
                   disabled={!editable}
                   variant="outlined"

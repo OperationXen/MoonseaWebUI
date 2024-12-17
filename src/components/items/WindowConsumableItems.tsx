@@ -13,7 +13,7 @@ type PropsType = {
   consumableItems: Consumable[];
 };
 
-export default function WindowConsumableItems(props: PropsType) {
+export default function ConsumableItems(props: PropsType) {
   const { consumableItems } = props;
 
   const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
