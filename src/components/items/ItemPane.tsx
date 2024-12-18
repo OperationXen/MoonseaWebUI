@@ -5,7 +5,7 @@ import { TabPanel, TabContext } from "@mui/lab";
 
 import WindowMagicItems from "./WindowMagicItems";
 import WindowCommonItems from "./WindowCommonItems";
-import ConsumableItems from "./WindowConsumableItems";
+import ConsumableItems from "./ConsumableItems";
 
 import type { Character } from "@/types/character";
 
@@ -14,7 +14,8 @@ type PropsType = {
 };
 
 export function ItemPane(props: PropsType) {
-  const { data } = props;
+  const { data: character } = props;
+
   const [itemTab, setItemTab] = useState("magicitems");
 
   return (
@@ -43,13 +44,13 @@ export function ItemPane(props: PropsType) {
         </Tabs>
 
         <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowMagicItems magicItems={data?.items} />
+          <WindowMagicItems magicItems={character?.items} />
         </TabPanel>
         <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
-          <ConsumableItems consumableItems={data?.consumables} />
+          <ConsumableItems characterUUID={character.uuid} />
         </TabPanel>
         <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowCommonItems magicItems={data?.items} />
+          <WindowCommonItems magicItems={character?.items} />
         </TabPanel>
       </TabContext>
     </Paper>

@@ -4,20 +4,24 @@ import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import useCharacterStore from "@/datastore/character";
+import { useConsumables } from "@/data/fetch/items/consumables";
+
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 import ConsumableItemWidget from "./widgets/ConsumableItemWidget";
 import ConsumableDialog from "./ConsumableDialog";
-import type { Consumable } from "@/types/items";
+
+import type { UUID } from "@/types/uuid";
 
 type PropsType = {
-  consumableItems: Consumable[];
+  characterUUID: UUID;
 };
 
 export default function ConsumableItems(props: PropsType) {
-  const { consumableItems } = props;
+  const { characterUUID } = props;
 
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [
-    s.uuid,
+  const { data: consumableItems } = useConsumables(characterUUID);
+
+  const [editable, refreshData] = useCharacterStore((s) => [
     s.editable,
     s.requestRefresh,
   ]);

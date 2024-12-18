@@ -1,3 +1,4 @@
+import { UUID } from "./uuid";
 import { MagicItem, Consumable } from "./items";
 
 export type PlayerClass = {
@@ -7,7 +8,7 @@ export type PlayerClass = {
 };
 
 export type Character = {
-  uuid: string;
+  uuid: UUID;
   name: string;
   editable: boolean;
   public: boolean;

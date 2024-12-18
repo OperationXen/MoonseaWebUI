@@ -15,7 +15,9 @@ async function createConsumableFn(
 }
 
 export const getConsumables = () => {
-  return api.get("/api/data/consumable");
+  return api.get("/api/data/consumable").then((response) => {
+    return response.data as Consumable[];
+  });
 };
 
 export const getConsumableDetails = (uuid: string) => {
