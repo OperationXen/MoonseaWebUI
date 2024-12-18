@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import { Box, Button, Typography, Divider } from "@mui/material";
 
-import { updateCharacter } from "@/api/character";
-import useCharacterStore from "@/datastore/character";
 import useSnackbar from "@/datastore/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./ClassChipWidget";
+
+import { useCharacter } from "@/data/fetch/character";
 
 import type { Character, PlayerClass } from "@/types/character";
 
@@ -18,18 +18,14 @@ export default function CharacterLevelsPane(props: PropsType) {
   const { character } = props;
   const { classes, uuid, editable } = character;
 
+  const { updateCharacter } = useCharacter(uuid);
   const displayMessage = useSnackbar((s) => s.displayMessage);
-
-  //const [uuid, editable] = useCharacterStore((s) => [s.uuid, s.editable]);
 
   const [levelOpen, setLevelOpen] = useState(false);
 
-  const setLevel = useCharacterStore((s) => s.setLevel);
-
   const handleUpdate = (newVal: PlayerClass[]) => {
-    updateCharacter(uuid, { classes: newVal })
-      .then((response) => {
-        setLevel(response.data.level);
+    updateCharacter({ classes: newVal })
+      .then((_charData) => {
         displayMessage("Updated character classes and levels", "info");
       })
       .catch(() => displayMessage("Error updating character classes", "error"));

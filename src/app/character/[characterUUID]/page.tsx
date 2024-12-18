@@ -3,7 +3,7 @@
 import { Container, Box } from "@mui/material";
 
 import type { Character } from "@/types/character";
-import { characterQuery, characterMutation } from "@/data/fetch/character";
+import { useCharacter } from "@/data/fetch/character";
 
 import CharacterBiographyPane from "@/components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "@/components/characters/CharacterDetailsPane";
@@ -21,8 +21,11 @@ type PropsType = {
 export default function CharacterPage(props: PropsType) {
   const { characterUUID } = props.params;
 
-  const { data: characterData, isPending } = characterQuery(characterUUID);
-  const mutateCharacter = characterMutation();
+  const {
+    data: characterData,
+    isPending,
+    updateCharacter,
+  } = useCharacter(characterUUID);
 
   if (isPending) return <LoadingOverlay open={true} />;
   if (!characterData) return null;
@@ -33,7 +36,7 @@ export default function CharacterPage(props: PropsType) {
     // A different endpoint should be used for uploading new files
     newData.artwork = null;
     newData.token = null;
-    return mutateCharacter.mutateAsync(newData);
+    return updateCharacter(newData);
   };
 
   return (

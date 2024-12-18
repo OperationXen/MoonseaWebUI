@@ -1,11 +1,11 @@
 "use client";
 
 import axios from "axios";
-
 import api from "./base";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
+import type { UUID } from "@/types/uuid";
 import type { Character } from "@/types/character";
 
 export async function getCharacters() {
@@ -20,19 +20,10 @@ export async function getCharacter(ID: string) {
   });
 }
 
-export async function updateCharacter(data: Character) {
+export async function updateCharacterFn(data: Partial<Character>) {
   return api
-    .patch(`/api/data/character/${data.uuid}/`, data)
+    .patch(`/api/data/character/${data.uuid}/`, { ...data })
     .then((r) => r.data as Character);
-}
-
-export function characterQuery(characterUUID: string) {
-  const query = useQuery({
-    queryKey: ["character", characterUUID],
-    queryFn: () => getCharacter(characterUUID),
-  });
-
-  return query;
 }
 
 export function useCharacters() {
@@ -42,12 +33,18 @@ export function useCharacters() {
   });
 }
 
-export function characterMutation() {
+export function useCharacter(uuid: UUID) {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (char: Character) => updateCharacter(char),
-    onMutate: async (newChar: Character) => {
+  const fetchData = useQuery({
+    queryKey: ["character", uuid],
+    queryFn: () => getCharacter(uuid),
+  });
+
+  const updateCharacter = useMutation({
+    mutationFn: (charData: Partial<Character>) =>
+      updateCharacterFn({ ...charData, uuid: uuid }),
+    onMutate: async (newChar: Partial<Character>) => {
       // Cancel any outgoing refetches to avoid overwriting optimistic update
       await queryClient.cancelQueries({
         queryKey: ["character", newChar.uuid],
@@ -60,7 +57,7 @@ export function characterMutation() {
       return { oldCharData, newChar };
     },
     // If the mutation fails, use the context we returned above
-    onError: (_err, _newChar: Character, context) => {
+    onError: (_err, _newChar: Partial<Character>, context) => {
       if (context) {
         queryClient.setQueryData(
           ["character", context.newChar.uuid],
@@ -77,4 +74,6 @@ export function characterMutation() {
       }
     },
   });
+
+  return { ...fetchData, updateCharacter: updateCharacter.mutateAsync };
 }
