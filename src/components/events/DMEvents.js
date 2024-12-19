@@ -181,7 +181,12 @@ export default function DMEvents(props) {
                 borderTop: "1px solid black",
               }}
             >
-              <div style={{ alignSelf: "center", marginLeft: "0.4em" }}>
+              <div
+                style={{
+                  alignSelf: "center",
+                  marginLeft: "0.4em",
+                }}
+              >
                 <Button
                   disabled={!allowUpdates}
                   variant="outlined"
@@ -195,7 +200,10 @@ export default function DMEvents(props) {
                 </Button>
               </div>
               <GridPagination
-                style={{ justifySelf: "center", alignSelf: "center" }}
+                style={{
+                  justifySelf: "center",
+                  alignSelf: "center",
+                }}
               />
             </div>
           ),

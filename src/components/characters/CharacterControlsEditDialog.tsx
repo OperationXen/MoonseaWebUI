@@ -8,7 +8,7 @@ import { Box, Button, Divider } from "@mui/material";
 import useSnackbar from "@/datastore/snackbar";
 import { Character } from "@/types/character";
 
-import { characterMutation } from "@/data/fetch/character";
+import { useCharacter } from "@/data/fetch/character";
 
 type PropsType = {
   character: Character;
@@ -18,7 +18,8 @@ type PropsType = {
 
 export default function CharacterControlsEditDialog(props: PropsType) {
   const { character, open, onClose } = props;
-  const mutate = characterMutation();
+
+  const { updateCharacter } = useCharacter(character.uuid);
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
@@ -28,8 +29,7 @@ export default function CharacterControlsEditDialog(props: PropsType) {
   const [sheet, setSheet] = useState(character.sheet);
 
   const handleSave = () => {
-    mutate
-      .mutateAsync({ ...character, name: name, race: race, sheet: sheet })
+    updateCharacter({ ...character, name: name, race: race, sheet: sheet })
       .then(() => {
         displayMessage("Updated character details", "success");
       })

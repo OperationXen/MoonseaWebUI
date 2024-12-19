@@ -79,7 +79,7 @@ export default function CreateCharacterEvent(props) {
       )}
       {event === "dt-mundtrade" && (
         <CreateDTMundaneTrade
-          characterUUiD={characterUUID}
+          characterUUID={characterUUID}
           onClose={handleClose}
         />
       )}

@@ -1,4 +1,7 @@
+"use client";
+
 import { useState } from "react";
+
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
@@ -10,12 +13,14 @@ import AddIcon from "@mui/icons-material/Add";
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
-import useSnackbar from "../../../datastore/snackbar";
-import StatsWidget from "../../characters/StatsWidget";
+import useSnackbar from "@/datastore/snackbar";
+import StatsWidget from "@/components/characters/StatsWidget";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
-import useCharacterStore from "../../../datastore/character";
 
-import { createPlayerGame } from "../../../api/events";
+import { createPlayerGame } from "@/api/events";
+
+import type { UUID } from "@/types/uuid";
+import type { Rarity } from "@/types/items";
 
 const row = {
   display: "flex",
@@ -25,15 +30,19 @@ const row = {
   margin: "0.4em 0",
 };
 
-export default function CreateCharacterGame(props) {
-  const { onClose } = props;
+type PropsType = {
+  onClose: () => void;
+  charUUID: UUID;
+};
+
+export default function CreateCharacterGame(props: PropsType) {
+  const { onClose, charUUID } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const characterUUID = useCharacterStore((s) => s.uuid);
-  const requestCharacterRefresh = useCharacterStore((s) => s.requestRefresh);
 
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(new Date());
   const [dmName, setDMName] = useState("");
   const [location, setLocation] = useState("");
   const [level, setLevel] = useState(true);
@@ -46,23 +55,23 @@ export default function CreateCharacterGame(props) {
   const handleAddItem = () => {
     setItems([...items, { name: "", rarity: "uncommon" }]);
   };
-  const handleItemDelete = (index) => {
+  const handleItemDelete = (index: number) => {
     items.splice(index, 1);
     setItems([...items]);
   };
-  const handleItemNameChange = (index, newName) => {
+  const handleItemNameChange = (index: number, newName: string) => {
     const newItems = [...items];
     newItems[index].name = newName;
     setItems(newItems);
   };
-  const handleItemRarityChange = (index, newRarity) => {
+  const handleItemRarityChange = (index: number, newRarity: Rarity) => {
     const newItems = [...items];
     newItems[index].rarity = newRarity;
     setItems(newItems);
   };
 
   const handleSubmit = () => {
-    createPlayerGame(characterUUID, {
+    createPlayerGame(charUUID, {
       module: code,
       name: name,
       datetime: date,
@@ -73,9 +82,8 @@ export default function CreateCharacterGame(props) {
       levels: level ? 1 : 0,
       items: items,
     })
-      .then((response) => {
+      .then((_response) => {
         displayMessage("Game added to log", "success");
-        requestCharacterRefresh();
         onClose && onClose();
       })
       .catch(() => displayMessage("Error creating game", "error"));
@@ -121,12 +129,9 @@ export default function CreateCharacterGame(props) {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
             label="Game date"
-            inputFormat="yyyy/MM/dd"
+            format="yyyy/MM/dd"
             value={date}
             onChange={setDate}
-            renderInput={(params) => (
-              <TextField {...params} sx={{ maxWidth: "30%" }} />
-            )}
           />
         </LocalizationProvider>
       </Box>

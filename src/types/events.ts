@@ -1,6 +1,11 @@
 import type { UUID } from "./uuid";
 
-export type EventType = "game" | "dm_reward" | "dt_sbookupd" | "dt_mtrade" | "dt_catchingup";
+export type EventType =
+  | "game"
+  | "dm_reward"
+  | "dt_sbookupd"
+  | "dt_mtrade"
+  | "dt_catchingup";
 export type ItemEventType = "trade" | "manual" | "edit" | "game" | "dm_reward";
 
 export type CharacterEvent = {

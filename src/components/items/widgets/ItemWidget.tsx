@@ -12,7 +12,6 @@ import ArticleIcon from "@mui/icons-material/Article";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import { updateMagicItem } from "@/api/items";
 import useSnackbar from "@/datastore/snackbar";
-import useCharacterStore from "@/datastore/character";
 import { getRarityColour } from "@/utils/items";
 
 import type { MagicItem } from "@/types/items";
@@ -25,7 +24,6 @@ export default function ItemWidget(props: PropsType) {
   const { uuid, name, attunement, rarity, equipped } = props.item;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const refreshData = useCharacterStore((s) => s.requestRefresh);
   const router = useRouter();
 
   const [showControls, setShowControls] = useState(false);
@@ -36,7 +34,6 @@ export default function ItemWidget(props: PropsType) {
     updateMagicItem(uuid, { equipped: !equipped }).then(() => {
       displayMessage(equipped ? "Item unequipped" : "Item equipped", "info");
     });
-    refreshData();
   };
   const handleDetailClick = (e: React.MouseEvent) => {
     e?.stopPropagation();
@@ -48,7 +45,6 @@ export default function ItemWidget(props: PropsType) {
   };
   const handleTradeDone = () => {
     setShowAdvertCreate(false);
-    refreshData();
   };
 
   return (
@@ -82,7 +78,10 @@ export default function ItemWidget(props: PropsType) {
             </Tooltip>
           )}
         </Grid>
-        <Tooltip title={equipped ? "Click to unequip item" : "Click to equip"} placement="bottom">
+        <Tooltip
+          title={equipped ? "Click to unequip item" : "Click to equip"}
+          placement="bottom"
+        >
           <Grid
             item
             xs={7}
@@ -113,10 +112,17 @@ export default function ItemWidget(props: PropsType) {
                 <ArticleIcon onClick={handleDetailClick} fontSize="small" />
               </Tooltip>
               <Tooltip
-                title={equipped ? "Cannot trade equipped items" : "Offer item for trade"}
+                title={
+                  equipped
+                    ? "Cannot trade equipped items"
+                    : "Offer item for trade"
+                }
                 onClick={handleTradeClick}
               >
-                <LocalGroceryStoreIcon fontSize="small" sx={{ opacity: equipped ? 0.2 : 0.8 }} />
+                <LocalGroceryStoreIcon
+                  fontSize="small"
+                  sx={{ opacity: equipped ? 0.2 : 0.8 }}
+                />
               </Tooltip>
             </React.Fragment>
           )}
@@ -135,7 +141,11 @@ export default function ItemWidget(props: PropsType) {
           </Typography>
         )}
       </Grid>
-      <CreateAdvertDialog open={showAdvertCreate} onClose={() => handleTradeDone()} item={props.item} />
+      <CreateAdvertDialog
+        open={showAdvertCreate}
+        onClose={() => handleTradeDone()}
+        item={props.item}
+      />
     </Card>
   );
 }

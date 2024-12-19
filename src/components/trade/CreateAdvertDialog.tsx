@@ -61,16 +61,20 @@ export default function CreateAdvertDialog(props: PropsType) {
         <Typography variant="h3">Trade Item</Typography>
       </Box>
       <Typography variant="caption" sx={{ textAlign: "center" }}>
-        This will create an advert for the item and move it to the trading post. Whilst the item is in the trading post
-        it will be unavailable for use by this character, but other users can propose their items for exchange using AL
-        rules. Item trades consume 5 downtime days and must be 1 for 1 of the same rarity.
+        This will create an advert for the item and move it to the trading post.
+        Whilst the item is in the trading post it will be unavailable for use by
+        this character, but other users can propose their items for exchange
+        using AL rules. Item trades consume 5 downtime days and must be 1 for 1
+        of the same rarity.
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Item Details</Divider>
       <Stack sx={{ alignItems: "center", gap: "0.4em" }}>
         <Typography variant="h5" sx={{ textDecoration: "underline" }}>
           {item.name}
         </Typography>
-        <Typography sx={{ color: `${getRarityColour(item.rarity)}` }}>{getRarityText(item.rarity)}</Typography>
+        <Typography sx={{ color: `${getRarityColour(item.rarity)}` }}>
+          {getRarityText(item.rarity)}
+        </Typography>
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Trade Advert</Divider>
       <Stack sx={{ width: "100%" }} spacing={"0.4em"}>

@@ -1,25 +1,31 @@
+"use client";
+
 import { useState } from "react";
 
 import { Box, Typography, Button } from "@mui/material";
 import { TextField, Divider } from "@mui/material";
 
-import useSnackbar from "../../../datastore/snackbar";
-import useCharacterStore from "../../../datastore/character";
-import { createEventCatchingUp } from "../../../api/events";
+import useSnackbar from "@/datastore/snackbar";
+import { createEventCatchingUp } from "@/api/events";
 
-export default function CreateDTCatchup(props) {
-  const { onClose } = props;
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  onClose: () => void;
+  characterUUID: UUID;
+};
+
+export default function CreateDTCatchup(props: PropsType) {
+  const { onClose, characterUUID } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const characterUUID = useCharacterStore((s) => s.uuid);
-  const requestCharacterRefresh = useCharacterStore((s) => s.requestRefresh);
 
   const [details, setDetails] = useState("");
 
   const handleSubmit = () => {
     createEventCatchingUp(characterUUID, details)
-      .then((response) => {
+      .then((_response) => {
         displayMessage("Catching up added to log", "success");
-        requestCharacterRefresh();
         onClose && onClose();
       })
       .catch((error) => displayMessage(error.response.data.message, "error"));

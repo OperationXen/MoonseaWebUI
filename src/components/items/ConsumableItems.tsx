@@ -3,20 +3,28 @@ import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import useCharacterStore from "@/datastore/character";
+import { useConsumables } from "@/data/fetch/items/consumables";
+
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 import ConsumableItemWidget from "./widgets/ConsumableItemWidget";
 import ConsumableDialog from "./ConsumableDialog";
-import type { Consumable } from "@/types/items";
+
+import type { UUID } from "@/types/uuid";
 
 type PropsType = {
-  consumableItems: Consumable[];
+  characterUUID: UUID;
+  editable: boolean;
 };
 
-export default function WindowConsumableItems(props: PropsType) {
-  const { consumableItems } = props;
+export default function ConsumableItems(props: PropsType) {
+  const { characterUUID, editable } = props;
 
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
+  const {
+    data: consumableItems,
+    updateConsumable,
+    deleteConsumable,
+  } = useConsumables(characterUUID);
+
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
@@ -41,9 +49,14 @@ export default function WindowConsumableItems(props: PropsType) {
       >
         {(consumableItems &&
           consumableItems.length &&
-          consumableItems.map((item, index) => <ConsumableItemWidget item={item} key={`${index}-${item.uuid}`} />)) || (
-          <EmptyWindowWidget message="No consumables" />
-        )}
+          consumableItems.map((item, index) => (
+            <ConsumableItemWidget
+              item={item}
+              key={`${index}-${item.uuid}`}
+              updateItem={updateConsumable}
+              deleteItem={deleteConsumable}
+            />
+          ))) || <EmptyWindowWidget message="No consumables" />}
       </Box>
       <Box
         sx={{
@@ -56,7 +69,12 @@ export default function WindowConsumableItems(props: PropsType) {
           paddingRight: "0.4em",
         }}
       >
-        <Button startIcon={<AddIcon />} variant="outlined" onClick={() => setCreateOpen(true)} disabled={!editable}>
+        <Button
+          startIcon={<AddIcon />}
+          variant="outlined"
+          onClick={() => setCreateOpen(true)}
+          disabled={!editable}
+        >
           Add Consumable
         </Button>
       </Box>
@@ -64,7 +82,6 @@ export default function WindowConsumableItems(props: PropsType) {
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         characterUUID={characterUUID}
-        onCreate={() => refreshData()}
       />
     </Box>
   );

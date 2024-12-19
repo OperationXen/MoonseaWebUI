@@ -4,42 +4,39 @@ import { Card, Typography, Tooltip, IconButton } from "@mui/material";
 
 import { Delete } from "@mui/icons-material";
 
-import { updateConsumable, deleteConsumable } from "../../../api/consumables";
-import useSnackbar from "../../../datastore/snackbar";
-import useCharacterStore from "../../../datastore/character";
-import { getRarityColour } from "../../../utils/items";
+import useSnackbar from "@/datastore/snackbar";
+import { getRarityColour } from "@/utils/items";
 
-import type { Consumable } from "../../../types/items";
+import type { Consumable } from "@/types/items";
 
 type PropsType = {
   item: Consumable;
+  updateItem: (newVal: Consumable) => Promise<any>;
+  deleteItem: (item: Consumable) => Promise<any>;
 };
 
 export default function ConsumableItemWidget(props: PropsType) {
-  const { item } = props;
+  const { item, updateItem, deleteItem } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const [refreshData] = useCharacterStore((s) => [s.requestRefresh]);
 
   const [showControls, setShowControls] = useState(false);
   const colour = getRarityColour(item.rarity);
 
   const handleClick = () => {
     item.equipped = !item.equipped;
-    updateConsumable(item).then(() => {
+    updateItem(item).then(() => {
       displayMessage(
         item.equipped ? "Item unequipped" : "Item equipped",
         "info",
       );
-      refreshData();
     });
   };
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    deleteConsumable(item)
+    deleteItem(item)
       .then(() => {
         displayMessage(`Deleted ${item.name}`, "success");
-        refreshData();
       })
       .catch(() => {
         displayMessage(`Unable to delete ${item.name}`, "error");

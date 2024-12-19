@@ -6,7 +6,7 @@ import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
-import { createConsumable } from "@/api/consumables";
+import { useConsumables } from "@/data/fetch/items/consumables";
 import { getRarityColour } from "@/utils/items";
 
 import type { UUID } from "@/types/uuid";
@@ -16,11 +16,12 @@ type PropsType = {
   open: boolean;
   onClose: () => void;
   characterUUID: UUID;
-  onCreate: () => void;
 };
 
 export function ConsumableDialog(props: PropsType) {
-  const { open, onClose, characterUUID, onCreate } = props;
+  const { open, onClose, characterUUID } = props;
+
+  const { createConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState("");
@@ -44,10 +45,9 @@ export function ConsumableDialog(props: PropsType) {
       type: itemType as ConsumableType,
       charges: charges,
     };
-    createConsumable(characterUUID, data)
+    createConsumable(data)
       .then((response) => {
         displayMessage(`Added ${response.data.name}`, "success");
-        onCreate();
         handleClose();
       })
       .catch((error) => {

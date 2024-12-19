@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-import { Dialog, Typography, Divider, Box, SelectChangeEvent } from "@mui/material";
+import {
+  Dialog,
+  Typography,
+  Divider,
+  Box,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Select, MenuItem, InputLabel } from "@mui/material";
 import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
@@ -14,13 +20,12 @@ import type { Rarity } from "@/types/items";
 
 type PropsType = {
   characterUUID: UUID;
-  onCreate: () => void;
   open: boolean;
   onClose: () => void;
 };
 
 export default function CreateMagicItem(props: PropsType) {
-  const { open, onClose, characterUUID, onCreate } = props;
+  const { open, onClose, characterUUID } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [rarity, setRarity] = useState<Rarity>("uncommon");
@@ -48,7 +53,6 @@ export default function CreateMagicItem(props: PropsType) {
     createMagicItem(characterUUID, data)
       .then((response) => {
         displayMessage(`Added ${response.data.name}`, "success");
-        onCreate();
         handleClose();
       })
       .catch((_error) => {
@@ -91,7 +95,9 @@ export default function CreateMagicItem(props: PropsType) {
           <Select
             label="Rarity"
             value={rarity}
-            onChange={(e: SelectChangeEvent) => setRarity(e.target.value as Rarity)}
+            onChange={(e: SelectChangeEvent) =>
+              setRarity(e.target.value as Rarity)
+            }
           >
             <MenuItem value="common">Common</MenuItem>
             <MenuItem value="uncommon">Uncommon</MenuItem>
@@ -101,7 +107,12 @@ export default function CreateMagicItem(props: PropsType) {
           </Select>
         </FormControl>
         <FormControlLabel
-          control={<Checkbox checked={attunement} onChange={() => setAttunement(!attunement)} />}
+          control={
+            <Checkbox
+              checked={attunement}
+              onChange={() => setAttunement(!attunement)}
+            />
+          }
           label="Attunement required"
         />
       </Box>
@@ -130,7 +141,11 @@ export default function CreateMagicItem(props: PropsType) {
         value={flavour}
         onChange={(e) => setFlavour(e.target.value)}
       ></TextField>
-      <Box display="flex" onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+      <Box
+        display="flex"
+        onMouseOver={() => setHighlight(true)}
+        onMouseOut={() => setHighlight(false)}
+      >
         <Button
           onClick={handleSubmit}
           variant="contained"

@@ -3,23 +3,27 @@ import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import useCharacterStore from "@/datastore/character";
 import CreateMagicItem from "./CreateMagicItem";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 import ItemWidget from "./widgets/ItemWidget";
 
 import type { MagicItem } from "@/types/items";
+import type { UUID } from "@/types/uuid";
 
 type PropsType = {
+  characterUUID: UUID;
   magicItems: MagicItem[];
+  editable: boolean;
 };
 
 export default function WindowMagicItems(props: PropsType) {
-  const { magicItems } = props;
-  const [characterUUID, editable, refreshData] = useCharacterStore((s) => [s.uuid, s.editable, s.requestRefresh]);
+  const { magicItems, characterUUID, editable } = props;
+
   const [createOpen, setCreateOpen] = useState(false);
 
-  const displayItems = magicItems?.filter((i) => i.rarity !== "common" && !i.market);
+  const displayItems = magicItems?.filter(
+    (i) => i.rarity !== "common" && !i.market,
+  );
 
   return (
     <Box
@@ -69,7 +73,6 @@ export default function WindowMagicItems(props: PropsType) {
       <CreateMagicItem
         open={createOpen}
         onClose={() => setCreateOpen(false)}
-        onCreate={() => refreshData()}
         characterUUID={characterUUID}
       />
     </Box>

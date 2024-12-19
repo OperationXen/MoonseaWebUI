@@ -111,13 +111,19 @@ export function CharacterArt(props: PropsType) {
       <ButtonGroup color="inherit" size="small" variant="text" fullWidth>
         <Button
           onClick={() => setShow("artwork")}
-          sx={{ paddingY: "1px", opacity: show === "artwork" ? 1 : 0.2 }}
+          sx={{
+            paddingY: "1px",
+            opacity: show === "artwork" ? 1 : 0.2,
+          }}
         >
           Artwork
         </Button>
         <Button
           onClick={() => setShow("token")}
-          sx={{ paddingY: "1px", opacity: show === "token" ? 1 : 0.2 }}
+          sx={{
+            paddingY: "1px",
+            opacity: show === "token" ? 1 : 0.2,
+          }}
         >
           Token
         </Button>

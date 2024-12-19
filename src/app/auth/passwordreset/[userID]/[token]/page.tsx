@@ -22,7 +22,11 @@ export default function PasswordReset() {
   const [password2, setPassword2] = useState("");
 
   const handleSubmit = () => {
-    completePasswordReset({ user_id: userID as string, token: token as string, password: password1 })
+    completePasswordReset({
+      user_id: userID as string,
+      token: token as string,
+      password: password1,
+    })
       .then(() => {
         displayMessage("Password updated", "success");
         router.push("/characters");
@@ -33,11 +37,19 @@ export default function PasswordReset() {
   };
 
   const keyPressHandler = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && password1 === password2 && validatePassword(password1)) handleSubmit();
+    if (
+      e.key === "Enter" &&
+      password1 === password2 &&
+      validatePassword(password1)
+    )
+      handleSubmit();
   };
 
   // sanity check the token and userID
-  if (!(userID as string).match(/\d+/) || !(token as string).match(/[0-9a-f-]{30,42}/)) {
+  if (
+    !(userID as string).match(/\d+/) ||
+    !(token as string).match(/[0-9a-f-]{30,42}/)
+  ) {
     router.push("/auth/login");
   }
 
@@ -82,7 +94,11 @@ export default function PasswordReset() {
             error={highlight && password1 !== password2}
             placeholder="Reenter the same password"
           />
-          <Box sx={{ width: "60%" }} onMouseOver={() => setHighlight(true)} onMouseOut={() => setHighlight(false)}>
+          <Box
+            sx={{ width: "60%" }}
+            onMouseOver={() => setHighlight(true)}
+            onMouseOut={() => setHighlight(false)}
+          >
             <Button
               fullWidth
               variant="contained"

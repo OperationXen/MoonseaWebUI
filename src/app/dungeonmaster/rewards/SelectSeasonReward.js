@@ -88,7 +88,10 @@ export default function SelectSeasonReward(props) {
             <FormControl>
               <InputLabel>Character to level up</InputLabel>
               <Select
-                sx={{ width: "16em", justifySelf: "flex-start" }}
+                sx={{
+                  width: "16em",
+                  justifySelf: "flex-start",
+                }}
                 label="Character to level up"
                 value={levelChar}
                 onChange={(e) => setLevelChar(e.target.value)}
@@ -104,7 +107,11 @@ export default function SelectSeasonReward(props) {
               </Select>
             </FormControl>
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
               <Typography variant="body2" sx={{ opacity: "0.8" }}>
                 Optional level up for any character

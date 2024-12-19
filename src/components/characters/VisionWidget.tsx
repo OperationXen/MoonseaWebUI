@@ -37,7 +37,11 @@ export function VisionWidget(props: PropsType) {
     <React.Fragment>
       <Tooltip title={visionText}>
         <Box
-          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
           onClick={handleClick}
         >
           <GiSunkenEye size="1.6em" />

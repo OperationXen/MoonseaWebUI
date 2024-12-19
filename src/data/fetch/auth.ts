@@ -6,7 +6,11 @@ import api from "./base";
 import type { UserStatus, NewAccount, Credentials } from "@/types/user";
 
 type PasswordResetParams = { user_id: string; token: string; password: string };
-type PasswordChangeParams = { oldPass: string; newPass1: string; newPass2: string };
+type PasswordChangeParams = {
+  oldPass: string;
+  newPass1: string;
+  newPass2: string;
+};
 type UpdateProfileParams = {
   username: string;
   email: string;
