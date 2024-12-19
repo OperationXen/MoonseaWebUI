@@ -19,7 +19,11 @@ type PropsType = {
 export default function ConsumableItems(props: PropsType) {
   const { characterUUID } = props;
 
-  const { data: consumableItems } = useConsumables(characterUUID);
+  const {
+    data: consumableItems,
+    updateConsumable,
+    deleteConsumable,
+  } = useConsumables(characterUUID);
 
   const [editable, refreshData] = useCharacterStore((s) => [
     s.editable,
@@ -50,7 +54,12 @@ export default function ConsumableItems(props: PropsType) {
         {(consumableItems &&
           consumableItems.length &&
           consumableItems.map((item, index) => (
-            <ConsumableItemWidget item={item} key={`${index}-${item.uuid}`} />
+            <ConsumableItemWidget
+              item={item}
+              key={`${index}-${item.uuid}`}
+              updateItem={updateConsumable}
+              deleteItem={deleteConsumable}
+            />
           ))) || <EmptyWindowWidget message="No consumables" />}
       </Box>
       <Box

@@ -12,7 +12,6 @@ import ArticleIcon from "@mui/icons-material/Article";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import { updateMagicItem } from "@/api/items";
 import useSnackbar from "@/datastore/snackbar";
-import useCharacterStore from "@/datastore/character";
 import { getRarityColour } from "@/utils/items";
 
 import type { MagicItem } from "@/types/items";
@@ -25,7 +24,6 @@ export default function ItemWidget(props: PropsType) {
   const { uuid, name, attunement, rarity, equipped } = props.item;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const refreshData = useCharacterStore((s) => s.requestRefresh);
   const router = useRouter();
 
   const [showControls, setShowControls] = useState(false);
@@ -36,7 +34,6 @@ export default function ItemWidget(props: PropsType) {
     updateMagicItem(uuid, { equipped: !equipped }).then(() => {
       displayMessage(equipped ? "Item unequipped" : "Item equipped", "info");
     });
-    refreshData();
   };
   const handleDetailClick = (e: React.MouseEvent) => {
     e?.stopPropagation();
@@ -48,7 +45,6 @@ export default function ItemWidget(props: PropsType) {
   };
   const handleTradeDone = () => {
     setShowAdvertCreate(false);
-    refreshData();
   };
 
   return (
