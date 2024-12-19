@@ -44,13 +44,24 @@ export function ItemPane(props: PropsType) {
         </Tabs>
 
         <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowMagicItems magicItems={character?.items} />
+          <WindowMagicItems
+            magicItems={character?.items}
+            characterUUID={character.uuid}
+            editable={character.editable}
+          />
         </TabPanel>
         <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
-          <ConsumableItems characterUUID={character.uuid} />
+          <ConsumableItems
+            characterUUID={character.uuid}
+            editable={character.editable}
+          />
         </TabPanel>
         <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
-          <WindowCommonItems magicItems={character?.items} />
+          <WindowCommonItems
+            magicItems={character?.items}
+            characterUUID={character.uuid}
+            editable={character.editable}
+          />
         </TabPanel>
       </TabContext>
     </Paper>

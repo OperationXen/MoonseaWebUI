@@ -16,11 +16,10 @@ type PropsType = {
   open: boolean;
   onClose: () => void;
   characterUUID: UUID;
-  onCreate: () => void;
 };
 
 export function ConsumableDialog(props: PropsType) {
-  const { open, onClose, characterUUID, onCreate } = props;
+  const { open, onClose, characterUUID } = props;
 
   const { createConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -49,7 +48,6 @@ export function ConsumableDialog(props: PropsType) {
     createConsumable(data)
       .then((response) => {
         displayMessage(`Added ${response.data.name}`, "success");
-        onCreate();
         handleClose();
       })
       .catch((error) => {

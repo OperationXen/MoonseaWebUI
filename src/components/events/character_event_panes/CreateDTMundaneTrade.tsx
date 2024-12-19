@@ -1,4 +1,7 @@
+"use client";
+
 import { useState } from "react";
+
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
@@ -8,17 +11,22 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import { GiTwoCoins } from "react-icons/gi";
 
-import useSnackbar from "../../../datastore/snackbar";
-import useCharacterStore from "../../../datastore/character";
-import { createEventMundaneTrade } from "../../../api/events";
+import useSnackbar from "@/datastore/snackbar";
+import { createEventMundaneTrade } from "@/api/events";
 
-export default function CreateDTMundaneTrade(props) {
-  const { onClose } = props;
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  onClose: () => void;
+  characterUUID: UUID;
+};
+
+export default function CreateDTMundaneTrade(props: PropsType) {
+  const { onClose, characterUUID } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const characterUUID = useCharacterStore((s) => s.uuid);
-  const requestCharacterRefresh = useCharacterStore((s) => s.requestRefresh);
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(new Date());
   const [gold, setGold] = useState(0);
   const [profit, setProfit] = useState(false);
   const [sold, setSold] = useState("");
@@ -28,9 +36,8 @@ export default function CreateDTMundaneTrade(props) {
     let goldChange = gold * (profit ? 1 : -1);
 
     createEventMundaneTrade(characterUUID, goldChange, sold, purchased)
-      .then((response) => {
+      .then((_response) => {
         displayMessage("Merchant trade added to log", "success");
-        requestCharacterRefresh();
         onClose && onClose();
       })
       .catch(() => displayMessage("Error creating event", "error"));
@@ -53,7 +60,7 @@ export default function CreateDTMundaneTrade(props) {
           label="Gold"
           sx={{ width: "30%" }}
           value={gold}
-          onChange={(e) => setGold(e.target.value)}
+          onChange={(e) => setGold(parseInt(e.target.value))}
           type="number"
           InputProps={{
             startAdornment: (
@@ -80,12 +87,9 @@ export default function CreateDTMundaneTrade(props) {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
             label="Event date"
-            inputFormat="yyyy/MM/dd"
+            format="yyyy/MM/dd"
             value={date}
             onChange={setDate}
-            renderInput={(params) => (
-              <TextField {...params} sx={{ maxWidth: "30%" }} />
-            )}
           />
         </LocalizationProvider>
       </Box>

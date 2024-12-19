@@ -20,13 +20,12 @@ import type { Rarity } from "@/types/items";
 
 type PropsType = {
   characterUUID: UUID;
-  onCreate: () => void;
   open: boolean;
   onClose: () => void;
 };
 
 export default function CreateMagicItem(props: PropsType) {
-  const { open, onClose, characterUUID, onCreate } = props;
+  const { open, onClose, characterUUID } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [rarity, setRarity] = useState<Rarity>("uncommon");
@@ -54,7 +53,6 @@ export default function CreateMagicItem(props: PropsType) {
     createMagicItem(characterUUID, data)
       .then((response) => {
         displayMessage(`Added ${response.data.name}`, "success");
-        onCreate();
         handleClose();
       })
       .catch((_error) => {

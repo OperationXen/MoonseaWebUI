@@ -5,13 +5,16 @@ import ItemWidget from "./widgets/ItemWidget";
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
 
 import type { MagicItem } from "@/types/items";
+import type { UUID } from "@/types/uuid";
 
 type PropsType = {
   magicItems: MagicItem[];
+  characterUUID: UUID;
+  editable: boolean;
 };
 
 export default function WindowCommonItems(props: PropsType) {
-  const { magicItems } = props;
+  const { magicItems, characterUUID, editable } = props;
 
   const displayItems = magicItems?.filter((i) => i.rarity === "common");
 

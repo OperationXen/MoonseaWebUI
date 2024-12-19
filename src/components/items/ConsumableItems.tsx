@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import useCharacterStore from "@/datastore/character";
 import { useConsumables } from "@/data/fetch/items/consumables";
 
 import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
@@ -14,10 +13,11 @@ import type { UUID } from "@/types/uuid";
 
 type PropsType = {
   characterUUID: UUID;
+  editable: boolean;
 };
 
 export default function ConsumableItems(props: PropsType) {
-  const { characterUUID } = props;
+  const { characterUUID, editable } = props;
 
   const {
     data: consumableItems,
@@ -25,10 +25,6 @@ export default function ConsumableItems(props: PropsType) {
     deleteConsumable,
   } = useConsumables(characterUUID);
 
-  const [editable, refreshData] = useCharacterStore((s) => [
-    s.editable,
-    s.requestRefresh,
-  ]);
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
@@ -86,7 +82,6 @@ export default function ConsumableItems(props: PropsType) {
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         characterUUID={characterUUID}
-        onCreate={() => refreshData()}
       />
     </Box>
   );

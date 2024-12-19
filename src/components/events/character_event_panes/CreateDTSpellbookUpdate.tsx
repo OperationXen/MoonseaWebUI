@@ -1,4 +1,7 @@
-import { useState } from "react";
+"use client";
+
+import { ChangeEvent, useState } from "react";
+
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
@@ -8,17 +11,20 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import { GiTwoCoins, GiBed } from "react-icons/gi";
 
-import useSnackbar from "../../../datastore/snackbar";
-import useCharacterStore from "../../../datastore/character";
-import { createEventSpellbookUpdate } from "../../../api/events";
+import useSnackbar from "@/datastore/snackbar";
+import { createEventSpellbookUpdate } from "@/api/events";
+import type { UUID } from "@/types/uuid";
 
-export function CreateDTSpellbookUpdate(props) {
-  const { onClose } = props;
+type PropsType = {
+  onClose: () => void;
+  characterUUID: UUID;
+};
+
+export function CreateDTSpellbookUpdate(props: PropsType) {
+  const { onClose, characterUUID } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const characterUUID = useCharacterStore((s) => s.uuid);
-  const requestCharacterRefresh = useCharacterStore((s) => s.requestRefresh);
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(new Date());
   const [gold, setGold] = useState(0);
   const [downtime, setDowntime] = useState(0);
   const [dmName, setDMName] = useState("");
@@ -34,9 +40,8 @@ export function CreateDTSpellbookUpdate(props) {
       sourceChar,
       text,
     )
-      .then((response) => {
+      .then((_response) => {
         displayMessage("Spellbook update added to log", "success");
-        requestCharacterRefresh();
         onClose && onClose();
       })
       .catch((error) => {
@@ -65,8 +70,9 @@ export function CreateDTSpellbookUpdate(props) {
           label="Gold"
           sx={{ flexGrow: 1 }}
           value={gold}
-          onChange={(e) => {
-            if (e.target.value >= 0) setGold(e.target.value);
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            if (parseInt(e.target.value) >= 0)
+              setGold(parseInt(e.target.value));
           }}
           type="number"
           InputProps={{
@@ -82,7 +88,8 @@ export function CreateDTSpellbookUpdate(props) {
           sx={{ flexGrow: 1 }}
           value={downtime}
           onChange={(e) => {
-            if (e.target.value >= 0) setDowntime(e.target.value);
+            if (parseInt(e.target.value) >= 0)
+              setDowntime(parseInt(e.target.value));
           }}
           type="number"
           InputProps={{
@@ -96,12 +103,9 @@ export function CreateDTSpellbookUpdate(props) {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
             label="Event date"
-            inputFormat="yyyy/MM/dd"
+            format="yyyy/MM/dd"
             value={date}
             onChange={setDate}
-            renderInput={(params) => (
-              <TextField {...params} sx={{ flexGrow: 2 }} />
-            )}
           />
         </LocalizationProvider>
       </Box>
