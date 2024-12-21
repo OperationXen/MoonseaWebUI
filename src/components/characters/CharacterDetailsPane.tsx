@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { Tooltip, Box, Typography, Link } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
@@ -8,8 +12,11 @@ import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
 import CharacterControls from "@/components/characters/CharacterControls";
-import BiographyControl from "./biography/BiographyControl";
+import BiographyControlButton from "./biography/BiographyControlButton";
+import DMNotesControlButton from "./biography/DMNotesControlButton";
 import CharacterLevelsPane from "./CharacterLevelsPane";
+import BiographyModal from "./biography/BiographyModal";
+import useSnackbar from "@/datastore/snackbar";
 import VisionWidget from "./VisionWidget";
 import StatsWidget from "./StatsWidget";
 
@@ -29,6 +36,11 @@ type PropsType = {
 
 export function CharacterDetailsPane(props: PropsType) {
   const { character, updateCharacter } = props;
+
+  const { displayMessage } = useSnackbar();
+
+  const [bioOpen, setBioOpen] = useState(false);
+  const [dmNotesOpen, setDMNotesOpen] = useState(false);
 
   if (!character) return null;
   return (
@@ -180,8 +192,19 @@ export function CharacterDetailsPane(props: PropsType) {
       >
         <CharacterControls character={character} />
         <Box sx={{ flexGrow: 1 }} />
-        <BiographyControl />
+        <BiographyControlButton setOpen={() => setBioOpen(true)} />
+        <DMNotesControlButton setOpen={() => setDMNotesOpen(true)} />
       </Box>
+      <BiographyModal
+        open={bioOpen}
+        onClose={() => setBioOpen(false)}
+        text={character.biography}
+        setText={(newVal) =>
+          updateCharacter({ biography: newVal }).then(() =>
+            displayMessage("Biography updated", "success"),
+          )
+        }
+      />
     </Box>
   );
 }
