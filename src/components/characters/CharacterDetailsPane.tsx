@@ -1,4 +1,4 @@
-import { Tooltip, Box, Typography, Link, Grid } from "@mui/material";
+import { Tooltip, Box, Typography, Link } from "@mui/material";
 
 import ShieldIcon from "@mui/icons-material/Shield";
 import { default as HealthIcon } from "@mui/icons-material/LocalHospital";
@@ -8,6 +8,7 @@ import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import { GiTwoCoins } from "react-icons/gi";
 
 import CharacterControls from "@/components/characters/CharacterControls";
+import BiographyControl from "./biography/BiographyControl";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import VisionWidget from "./VisionWidget";
 import StatsWidget from "./StatsWidget";
@@ -33,40 +34,44 @@ export function CharacterDetailsPane(props: PropsType) {
   return (
     <Box
       sx={{
-        flexGrow: 100,
+        flexGrow: 1,
         maxHeight: "35em",
         display: "flex",
       }}
     >
       <Box
         sx={{
-          padding: "0.2em",
-          flexGrow: 100,
+          marginX: "1em",
+          flexGrow: 1,
           flexShrink: 1,
         }}
       >
-        <Grid container height="2.2em">
-          <Grid item xs={7}>
-            <Tooltip title="Open character sheet in a new window">
-              <Link
-                href={character.sheet}
-                target="_blank"
-                rel="noopener"
-                variant="h5"
-                underline="hover"
-                color="inherit"
-              >
-                {character.name}
-              </Link>
-            </Tooltip>
-          </Grid>
-          <Grid
-            item
-            xs={4}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Tooltip title="Open character sheet in a new window">
+            <Link
+              href={character.sheet}
+              target="_blank"
+              rel="noopener"
+              variant="h5"
+              underline="hover"
+              color="inherit"
+            >
+              {character.name}
+            </Link>
+          </Tooltip>
+
+          <Box
             sx={{
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
+              gap: 2,
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -97,11 +102,8 @@ export function CharacterDetailsPane(props: PropsType) {
                 {character.level}
               </Typography>
             </Tooltip>
-          </Grid>
-          <Grid item xs={1} textAlign={"right"}>
-            <CharacterControls character={character} />
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -164,6 +166,21 @@ export function CharacterDetailsPane(props: PropsType) {
           </Box>
           <CharacterLevelsPane character={character} />
         </Box>
+      </Box>
+      <Box
+        sx={{
+          width: "3em",
+          borderLeft: "1px solid",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <CharacterControls character={character} />
+        <Box sx={{ flexGrow: 1 }} />
+        <BiographyControl />
       </Box>
     </Box>
   );

@@ -74,7 +74,6 @@ export function CharacterArt(props: PropsType) {
   return (
     <Box
       sx={{
-        borderBottom: "1px solid black",
         borderRight: "1px solid black",
 
         position: "relative",
