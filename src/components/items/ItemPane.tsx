@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import { Paper, Tabs, Tab } from "@mui/material";
-import { TabPanel, TabContext } from "@mui/lab";
+import { TabContext } from "@mui/lab";
 
 import WindowMagicItems from "./WindowMagicItems";
 import WindowCommonItems from "./WindowCommonItems";
-import ConsumableItems from "./ConsumableItems";
+import ConsumableItemsGrid from "./ConsumableItemsGrid";
 
 import type { Character } from "@/types/character";
 
@@ -44,15 +44,15 @@ export function ItemPane(props: PropsType) {
             editable={character.editable}
           />
         )}
-        {itemTab === "consumables" && (
-          <ConsumableItems
+        {itemTab === "commonitems" && (
+          <WindowCommonItems
+            magicItems={character?.items}
             characterUUID={character.uuid}
             editable={character.editable}
           />
         )}
-        {itemTab === "commonitems" && (
-          <WindowCommonItems
-            magicItems={character?.items}
+        {itemTab === "consumables" && (
+          <ConsumableItemsGrid
             characterUUID={character.uuid}
             editable={character.editable}
           />
