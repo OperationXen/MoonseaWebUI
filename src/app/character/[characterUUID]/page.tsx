@@ -49,9 +49,10 @@ export default function CharacterPage(props: PropsType) {
           boxShadow: "1px 1px 5px 1px grey",
           overflow: "hidden",
           marginBottom: "0.4em",
+          minHeight: "calc(100vh - 4em)",
         }}
       >
-        <Box sx={{ display: "flex" }}>
+        <Box className="flex">
           <CharacterArt
             character={characterData}
             updateCharacter={handleCharacterUpdate}

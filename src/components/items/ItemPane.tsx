@@ -19,13 +19,7 @@ export function ItemPane(props: PropsType) {
   const [itemTab, setItemTab] = useState("magicitems");
 
   return (
-    <Paper
-      elevation={8}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <Paper elevation={8} className="flex flex-col flex-grow">
       <TabContext value={itemTab}>
         <Tabs
           value={itemTab}
@@ -43,26 +37,26 @@ export function ItemPane(props: PropsType) {
           <Tab label="Consumables" value={"consumables"} />
         </Tabs>
 
-        <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
+        {itemTab === "magicitems" && (
           <WindowMagicItems
             magicItems={character?.items}
             characterUUID={character.uuid}
             editable={character.editable}
           />
-        </TabPanel>
-        <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
+        )}
+        {itemTab === "consumables" && (
           <ConsumableItems
             characterUUID={character.uuid}
             editable={character.editable}
           />
-        </TabPanel>
-        <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
+        )}
+        {itemTab === "commonitems" && (
           <WindowCommonItems
             magicItems={character?.items}
             characterUUID={character.uuid}
             editable={character.editable}
           />
-        </TabPanel>
+        )}
       </TabContext>
     </Paper>
   );

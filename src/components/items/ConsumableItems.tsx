@@ -28,15 +28,7 @@ export default function ConsumableItems(props: PropsType) {
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        height: "100%",
-        width: "100%",
-      }}
-    >
+    <Box className="flex flex-col flex-grow">
       <Box
         sx={{
           display: "flex",

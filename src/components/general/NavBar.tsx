@@ -50,7 +50,7 @@ export function NavBar() {
                 disabled={!userStatus?.authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname === "/characters" ? 1 : 0.2,
+                  opacity: pathname.startsWith("/character") ? 1 : 0.2,
                 }}
               >
                 Characters
