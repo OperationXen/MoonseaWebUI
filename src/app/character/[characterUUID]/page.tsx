@@ -5,7 +5,6 @@ import { Container, Box } from "@mui/material";
 import type { Character } from "@/types/character";
 import { useCharacter } from "@/data/fetch/character";
 
-import CharacterBiographyPane from "@/components/characters/CharacterBiographyPane";
 import CharacterDetailsPane from "@/components/characters/CharacterDetailsPane";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import CharacterEvents from "components/events/CharacterEvents";
@@ -62,12 +61,7 @@ export default function CharacterPage(props: PropsType) {
             updateCharacter={handleCharacterUpdate}
           />
         </Box>
-        <Box sx={{ display: "flex", width: "100%", paddingTop: "4px" }}>
-          <CharacterBiographyPane
-            character={characterData}
-            onUpdate={handleCharacterUpdate}
-          />
-        </Box>
+
         <ItemPane data={characterData} />
       </Box>
 
