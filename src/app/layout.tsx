@@ -1,10 +1,12 @@
+import * as React from "react";
 import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 import NavBar from "@/components/general/NavBar";
 import Snackbar from "@/components/general/Snackbar";
 
-import "global.css";
+import "../global.css";
 
 export const metadata: Metadata = {
   title: "Moonsea Codex",
@@ -20,11 +22,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ReactQueryProvider>
-          <div id="root">
-            <NavBar />
-            {children}
-            <Snackbar />
-          </div>
+          <StyledEngineProvider injectFirst>
+            <div id="root">
+              <NavBar />
+              {children}
+              <Snackbar />
+            </div>
+          </StyledEngineProvider>
         </ReactQueryProvider>
       </body>
     </html>

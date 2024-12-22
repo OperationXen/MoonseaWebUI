@@ -30,9 +30,7 @@ export function BiographyModal(props: PropsType) {
           onChange={(e) => setValue(e.target.value)}
         />
       </DialogContent>
-      <DialogActions
-        sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}
-      >
+      <DialogActions>
         <Button variant="outlined" color="inherit" onClick={onClose}>
           Cancel
         </Button>

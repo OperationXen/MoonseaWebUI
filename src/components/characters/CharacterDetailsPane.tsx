@@ -192,7 +192,7 @@ export function CharacterDetailsPane(props: PropsType) {
         }}
       >
         <CharacterControls character={character} />
-        <Box sx={{ flexGrow: 1 }} />
+        <Box className="flex-grow" />
         <BiographyControlButton setOpen={() => setBioOpen(true)} />
         <DMNotesControlButton setOpen={() => setDMNotesOpen(true)} />
       </Box>
