@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { Dialog, Button, TextField } from "@mui/material";
+import { Dialog, Button, TextField, Typography } from "@mui/material";
 
 type PropsType = {
   open: boolean;
@@ -12,15 +12,20 @@ type PropsType = {
   setText: (newVal: string) => void;
 };
 
-export function BiographyModal(props: PropsType) {
+export function DMNotesModal(props: PropsType) {
   const { open, onClose, text, setText } = props;
 
   const [value, setValue] = useState(text);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>{"Character biography"}</DialogTitle>
+      <DialogTitle>{"DM Notes"}</DialogTitle>
       <DialogContent>
+        <Typography variant="caption">
+          Record useful information for your DM, for example a list of any
+          summons and familiars, chracter gimmicks or shenanigans that you want
+          to have pre-cleared, feats, etc
+        </Typography>
         <TextField
           fullWidth
           multiline
@@ -52,4 +57,4 @@ export function BiographyModal(props: PropsType) {
   );
 }
 
-export default BiographyModal;
+export default DMNotesModal;

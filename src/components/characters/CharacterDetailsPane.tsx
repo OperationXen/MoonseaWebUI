@@ -16,6 +16,7 @@ import BiographyControlButton from "./biography/BiographyControlButton";
 import DMNotesControlButton from "./biography/DMNotesControlButton";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import BiographyModal from "./biography/BiographyModal";
+import DMNotesModal from "./biography/DMNotesModal";
 import useSnackbar from "@/datastore/snackbar";
 import VisionWidget from "./VisionWidget";
 import StatsWidget from "./StatsWidget";
@@ -204,6 +205,16 @@ export function CharacterDetailsPane(props: PropsType) {
             displayMessage("Biography updated", "success"),
           )
         }
+      />
+      <DMNotesModal
+        open={dmNotesOpen}
+        onClose={() => setDMNotesOpen(false)}
+        text={character.dm_text}
+        setText={(newVal) => {
+          updateCharacter({ dm_text: newVal }).then(() =>
+            displayMessage("Updated DM notes", "success"),
+          );
+        }}
       />
     </Box>
   );
