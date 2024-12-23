@@ -12,6 +12,7 @@ import { Box, Checkbox, IconButton, Typography, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useConsumables } from "@/data/fetch/items/consumables";
+import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/datastore/snackbar";
 
 import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
@@ -133,7 +134,7 @@ export function ConsumableItemsGrid(props: PropsType) {
     },
     {
       field: "equipped",
-      headerName: "Equipped",
+      headerName: `Equipped ${getNumberEquipped(consumableItems)}`,
       flex: 2,
       renderCell: renderEquipped,
     },
