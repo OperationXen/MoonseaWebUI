@@ -152,7 +152,7 @@ export function ConsumableDialog(props: PropsType) {
       <Box
         sx={{ display: "flex", justifyContent: "space-between", gap: "8px" }}
       >
-        <FormControl sx={{ flexGrow: 1 }}>
+        <FormControl sx={{ flexGrow: 1, flexBasis: 1 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
           <Select
             label="Rarity"
@@ -170,7 +170,7 @@ export function ConsumableDialog(props: PropsType) {
         </FormControl>
 
         <TextField
-          sx={{ flexGrow: 1 }}
+          sx={{ flexGrow: 1, flexBasis: 1 }}
           value={charges}
           label="Charges"
           type="number"
