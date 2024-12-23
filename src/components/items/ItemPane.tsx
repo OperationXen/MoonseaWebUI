@@ -5,7 +5,7 @@ import { TabContext } from "@mui/lab";
 
 import WindowMagicItems from "./WindowMagicItems";
 import WindowCommonItems from "./WindowCommonItems";
-import ConsumableItemsGrid from "./ConsumableItemsGrid";
+import ConsumableItemsGrid from "./consumables/ConsumableItemsGrid";
 
 import type { Character } from "@/types/character";
 

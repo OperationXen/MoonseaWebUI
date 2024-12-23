@@ -32,6 +32,7 @@ function deleteConsumableFn(data: Consumable) {
   return api.delete(`/api/data/consumable/${data.uuid}/`);
 }
 /******************************************************************/
+// Functions for doing optimistic updates to state
 function updateConsumableData(
   data: Consumable[],
   element: Partial<Consumable>,
@@ -39,6 +40,14 @@ function updateConsumableData(
   const newState = produce(data, (draft) => {
     const index = draft.findIndex((c) => c.uuid === element.uuid);
     draft[index] = { ...draft[index], ...element };
+  });
+  return newState;
+}
+
+function deleteConsumableData(data: Consumable[], deleted: Consumable) {
+  const newState = produce(data, (draft) => {
+    const index = draft.findIndex((c) => c.uuid === deleted.uuid);
+    if (index !== -1) draft.splice(index, 1);
   });
   return newState;
 }
@@ -97,46 +106,63 @@ export function useConsumable(consumableUUID: UUID, characterUUID?: UUID) {
 
 export function useConsumables(characterUUID: UUID) {
   const queryClient = useQueryClient();
+  const queryKey = ["items", "consumable", "character", characterUUID];
 
   const dataFetch = useQuery({
-    queryKey: ["items", "consumable", "character", characterUUID],
+    queryKey: queryKey,
     queryFn: getConsumables,
   });
 
   const createConsumable = useMutation({
     mutationFn: (itemData: Partial<Consumable>) =>
       createConsumableFn({ character_uuid: characterUUID, ...itemData }),
+    // Always refetch after error or success:
+    onSettled: (_newConsumable) => {
+      queryClient.invalidateQueries({
+        queryKey: queryKey,
+      });
+    },
   });
-  const deleteConsumable = useMutation({ mutationFn: deleteConsumableFn });
+  const deleteConsumable = useMutation({
+    mutationFn: deleteConsumableFn,
+    // Always refetch after error or success:
+    onSettled: (_newConsumable) => {
+      queryClient.invalidateQueries({
+        queryKey: queryKey,
+      });
+    },
+    // optimistic update
+    onMutate: async (deleted) => {
+      await queryClient.cancelQueries({
+        queryKey: queryKey,
+      });
+      const previousData = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData(queryKey, (old: Consumable[]) => {
+        return deleteConsumableData(old, deleted);
+      });
+      return { previousData };
+    },
+  });
 
   const updateConsumable = useMutation({
     mutationFn: updateConsumableFn,
     onMutate: async (newConsumable) => {
       await queryClient.cancelQueries({
-        queryKey: ["items", "consumable", "character", characterUUID],
+        queryKey: queryKey,
       });
       // Snapshot the previous value
-      const previousData = queryClient.getQueryData([
-        "items",
-        "consumable",
-        "character",
-        characterUUID,
-      ]);
+      const previousData = queryClient.getQueryData(queryKey);
       // Optimistically update to the new value
-      queryClient.setQueryData(
-        ["items", "consumable", "character", characterUUID],
-        (old: Consumable[]) => {
-          const newData = updateConsumableData(old, newConsumable);
-          return newData;
-        },
-      );
-      // Return a context with the previous and new todo
-      return { previousData, newConsumable };
+      queryClient.setQueryData(queryKey, (old: Consumable[]) => {
+        return updateConsumableData(old, newConsumable);
+      });
+      // Return a context with the previous state
+      return { previousData };
     },
     // Always refetch after error or success:
     onSettled: (_newConsumable) => {
       queryClient.invalidateQueries({
-        queryKey: ["items", "consumable", "character", characterUUID],
+        queryKey: queryKey,
       });
     },
     // If the mutation fails, use the context we returned above

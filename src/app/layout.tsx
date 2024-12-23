@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { StyledEngineProvider } from "@mui/material/styles";
 
+import { CssBaseline } from "@mui/material";
 import NavBar from "@/components/general/NavBar";
 import Snackbar from "@/components/general/Snackbar";
 
@@ -23,11 +24,13 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <StyledEngineProvider injectFirst>
-            <div id="root">
-              <NavBar />
-              {children}
-              <Snackbar />
-            </div>
+            <CssBaseline>
+              <div id="root">
+                <NavBar />
+                {children}
+                <Snackbar />
+              </div>
+            </CssBaseline>
           </StyledEngineProvider>
         </ReactQueryProvider>
       </body>

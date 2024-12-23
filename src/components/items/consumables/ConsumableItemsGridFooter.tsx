@@ -13,7 +13,11 @@ export function ConsumableItemsGridFooter(
       className="flex px-1 py-1 h-10 items-center"
       sx={{ borderTop: "1px solid black" }}
     >
-      <Button variant="outlined" onClick={onClick as MouseEventHandler<any>}>
+      <Button
+        sx={{ pointerEvents: "auto" }}
+        variant="outlined"
+        onClick={onClick as MouseEventHandler<any>}
+      >
         Add consumable
       </Button>
       <GridPagination className="flex items-center justify-end" />

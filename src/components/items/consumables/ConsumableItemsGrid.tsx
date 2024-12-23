@@ -8,14 +8,16 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { Box, Checkbox, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
-import { useConsumable, useConsumables } from "@/data/fetch/items/consumables";
+import { useConsumables } from "@/data/fetch/items/consumables";
+import useSnackbar from "@/datastore/snackbar";
+
+import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
 import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
+import RarityWidget from "../widgets/RarityWidget";
+import ConsumableDialog from "./ConsumableDialog";
 
 import type { UUID } from "@/types/uuid";
 import type { Consumable } from "@/types/items";
-import RarityWidget from "./widgets/RarityWidget";
-import { ConsumableTypeWidget } from "./widgets/ConsumableTypeWidget";
-import CreateMagicItem from "./CreateMagicItem";
 
 type PropsType = {
   characterUUID: UUID;
@@ -24,8 +26,8 @@ type PropsType = {
 
 export function ConsumableItemsGrid(props: PropsType) {
   const { characterUUID } = props;
-  console.log(characterUUID);
 
+  const { displayMessage } = useSnackbar();
   const {
     data: consumableItems,
     updateConsumable,
@@ -38,7 +40,7 @@ export function ConsumableItemsGrid(props: PropsType) {
     return (
       <Box className="flex items-center h-full w-full justify-center">
         <Checkbox
-          value={p.row.equipped}
+          checked={p.row.equipped}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             updateConsumable({
               uuid: p.row.uuid,
@@ -121,7 +123,9 @@ export function ConsumableItemsGrid(props: PropsType) {
             </IconButton>
             <IconButton
               onClick={() => {
-                deleteConsumable(p.row);
+                deleteConsumable(p.row).then(() =>
+                  displayMessage(`Removed ${p.row.name}`, "info"),
+                );
               }}
             >
               <DeleteIcon fontSize="small" />
@@ -164,7 +168,7 @@ export function ConsumableItemsGrid(props: PropsType) {
         pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
-      <CreateMagicItem
+      <ConsumableDialog
         open={createOpen}
         onClose={() => setCreateOpen(false)}
         characterUUID={characterUUID}
