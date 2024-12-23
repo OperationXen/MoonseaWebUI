@@ -25,6 +25,7 @@ function getConsumableDetails(uuid: string) {
 }
 
 function updateConsumableFn(data: Partial<Consumable>) {
+  debugger;
   return api.patch(`/api/data/consumable/${data.uuid}/`, data);
 }
 

@@ -1,11 +1,14 @@
+"use client";
+
 import React, { ChangeEvent, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
+import TextsmsIcon from "@mui/icons-material/Textsms";
 
-import { Box, Checkbox, IconButton, Typography } from "@mui/material";
+import { Box, Checkbox, IconButton, Typography, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useConsumables } from "@/data/fetch/items/consumables";
@@ -34,7 +37,8 @@ export function ConsumableItemsGrid(props: PropsType) {
     deleteConsumable,
   } = useConsumables(characterUUID);
 
-  const [createOpen, setCreateOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editConsumable, setEditConsumable] = useState<Consumable | null>(null);
 
   const renderEquipped = (p: GridRenderCellParams<Consumable>) => {
     return (
@@ -44,7 +48,7 @@ export function ConsumableItemsGrid(props: PropsType) {
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             updateConsumable({
               uuid: p.row.uuid,
-              equipped: !!event.target.value,
+              equipped: !!event.target.checked,
             });
           }}
         />
@@ -53,11 +57,32 @@ export function ConsumableItemsGrid(props: PropsType) {
   };
 
   const columns: GridColDef<Consumable>[] = [
-    { field: "name", headerName: "Name", flex: 2 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 5,
+    },
+    {
+      field: "description",
+      flex: 1,
+      headerName: "",
+      renderCell: (p) => {
+        return (
+          <Box className="flex w-full items-center h-full justify-center">
+            <Tooltip arrow placement="bottom" title={p.row.description}>
+              <TextsmsIcon
+                fontSize="small"
+                className={p.row.description ? "" : "opacity-20"}
+              />
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
     {
       field: "type",
-      headerName: "Consumable type",
-      flex: 1,
+      headerName: "Type",
+      flex: 2,
       renderCell: (p) => {
         return <ConsumableTypeWidget type={p.row.type} />;
       },
@@ -65,7 +90,7 @@ export function ConsumableItemsGrid(props: PropsType) {
     {
       field: "rarity",
       headerName: "Rarity",
-      flex: 1,
+      flex: 2,
       renderCell: (p) => {
         return (
           <Box className="flex items-center h-full">
@@ -77,7 +102,7 @@ export function ConsumableItemsGrid(props: PropsType) {
     {
       field: "charges",
       headerName: "Charges",
-      flex: 1,
+      flex: 3,
       renderCell: (p) => {
         return (
           <Box className="flex items-center justify-between">
@@ -108,8 +133,8 @@ export function ConsumableItemsGrid(props: PropsType) {
     },
     {
       field: "equipped",
-      headerName: "Item equipped",
-      flex: 1,
+      headerName: "Equipped",
+      flex: 2,
       renderCell: renderEquipped,
     },
     {
@@ -118,7 +143,7 @@ export function ConsumableItemsGrid(props: PropsType) {
       renderCell: (p) => {
         return (
           <Box className="flex items-center justify-end">
-            <IconButton>
+            <IconButton onClick={() => setEditConsumable(p.row)}>
               <EditIcon fontSize="small" />
             </IconButton>
             <IconButton
@@ -147,7 +172,7 @@ export function ConsumableItemsGrid(props: PropsType) {
             sortModel: [{ field: "equipped", sort: "desc" }],
           },
           columns: {
-            columnVisibilityModel: { description: false },
+            columnVisibilityModel: { description: true },
           },
           pagination: {
             paginationModel: {
@@ -161,7 +186,7 @@ export function ConsumableItemsGrid(props: PropsType) {
         slotProps={{
           footer: {
             onClick: () => {
-              setCreateOpen(true);
+              setDialogOpen(true);
             },
           },
         }}
@@ -169,9 +194,13 @@ export function ConsumableItemsGrid(props: PropsType) {
         density="compact"
       />
       <ConsumableDialog
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
+        open={dialogOpen || !!editConsumable}
+        onClose={() => {
+          setDialogOpen(false);
+          setEditConsumable(null);
+        }}
         characterUUID={characterUUID}
+        consumable={editConsumable}
       />
     </React.Fragment>
   );
