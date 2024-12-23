@@ -14,7 +14,7 @@ type PropsType = {
 };
 
 export default function WindowCommonItems(props: PropsType) {
-  const { magicItems, characterUUID, editable } = props;
+  const { magicItems } = props;
 
   const displayItems = magicItems?.filter((i) => i.rarity === "common");
 
