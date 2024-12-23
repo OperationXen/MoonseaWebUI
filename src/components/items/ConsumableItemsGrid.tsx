@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -15,6 +15,7 @@ import type { UUID } from "@/types/uuid";
 import type { Consumable } from "@/types/items";
 import RarityWidget from "./widgets/RarityWidget";
 import { ConsumableTypeWidget } from "./widgets/ConsumableTypeWidget";
+import CreateMagicItem from "./CreateMagicItem";
 
 type PropsType = {
   characterUUID: UUID;
@@ -32,10 +33,10 @@ export function ConsumableItemsGrid(props: PropsType) {
 
   const [createOpen, setCreateOpen] = useState(false);
 
-  const renderEquipped = (params: GridRenderCellParams<Consumable>) => {
+  const renderEquipped = (p: GridRenderCellParams<Consumable>) => {
     return (
       <Box className="flex items-center h-full w-full justify-center">
-        <Checkbox />
+        <Checkbox value={p.row.equipped} onChange={() => {}} />
       </Box>
     );
   };
@@ -105,29 +106,43 @@ export function ConsumableItemsGrid(props: PropsType) {
   ];
 
   return (
-    <DataGrid
-      getRowId={(x) => x.uuid}
-      columns={columns}
-      rows={consumableItems}
-      initialState={{
-        sorting: {
-          sortModel: [{ field: "equipped", sort: "desc" }],
-        },
-        columns: {
-          columnVisibilityModel: { description: false },
-        },
-        pagination: {
-          paginationModel: {
-            pageSize: 10,
+    <React.Fragment>
+      <DataGrid
+        getRowId={(x) => x.uuid}
+        columns={columns}
+        rows={consumableItems}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "equipped", sort: "desc" }],
           },
-        },
-      }}
-      slots={{
-        footer: ConsumableItemsGridFooter,
-      }}
-      pageSizeOptions={[10, 15, 20, 25, 50]}
-      density="compact"
-    />
+          columns: {
+            columnVisibilityModel: { description: false },
+          },
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
+            },
+          },
+        }}
+        slots={{
+          footer: ConsumableItemsGridFooter,
+        }}
+        slotProps={{
+          footer: {
+            onClick: () => {
+              setCreateOpen(true);
+            },
+          },
+        }}
+        pageSizeOptions={[10, 15, 20, 25, 50]}
+        density="compact"
+      />
+      <CreateMagicItem
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        characterUUID={characterUUID}
+      />
+    </React.Fragment>
   );
 }
 

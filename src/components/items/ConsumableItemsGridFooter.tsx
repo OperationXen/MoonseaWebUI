@@ -4,12 +4,16 @@ import { GridPagination, GridSlotsComponentsProps } from "@mui/x-data-grid";
 export function ConsumableItemsGridFooter(
   props: NonNullable<GridSlotsComponentsProps["footer"]>,
 ) {
+  const { onClick } = props;
+
   return (
     <Box
       className="flex px-1 py-1 h-10 items-center"
       sx={{ borderTop: "1px solid black" }}
     >
-      <Button variant="outlined">Add consumable</Button>
+      <Button variant="outlined" onClick={onClick}>
+        Add consumable
+      </Button>
       <GridPagination className="flex items-center justify-end" />
     </Box>
   );
