@@ -12,7 +12,7 @@ export type ItemOrigin =
 export type ConsumableType = "potion" | "scroll" | "ammo" | "gear" | "other";
 
 export type Consumable = {
-  uuid?: string;
+  uuid: UUID;
   name: string;
   type: ConsumableType;
   rarity: Rarity;

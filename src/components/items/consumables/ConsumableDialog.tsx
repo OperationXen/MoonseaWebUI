@@ -1,8 +1,9 @@
-import { useState } from "react";
+"use client";
 
-import { Dialog, Typography, Divider, Box } from "@mui/material";
+import { useState, useEffect } from "react";
+
+import { Dialog, Typography, Divider, Box, FormControl } from "@mui/material";
 import { Select, SelectChangeEvent, MenuItem, InputLabel } from "@mui/material";
-import { FormControl, FormControlLabel, Checkbox } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
@@ -16,44 +17,69 @@ type PropsType = {
   open: boolean;
   onClose: () => void;
   characterUUID: UUID;
+  consumable: Consumable | null;
 };
 
 export function ConsumableDialog(props: PropsType) {
-  const { open, onClose, characterUUID } = props;
+  const { open, onClose, characterUUID, consumable } = props;
 
-  const { createConsumable } = useConsumables(characterUUID);
+  const { createConsumable, updateConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>("");
   const [rarity, setRarity] = useState<Rarity>("uncommon");
   const [itemType, setItemType] = useState<ConsumableType>("potion");
-  const [charges, setCharges] = useState(0);
-  const [desc, setDesc] = useState("");
-
+  const [charges, setCharges] = useState<number>(0);
+  const [desc, setDesc] = useState<string>("");
   const [highlight, setHighlight] = useState(false);
 
+  useEffect(() => {
+    if (!consumable) return;
+    setName(consumable.name);
+    setRarity(consumable.rarity);
+    setItemType(consumable.type);
+    setCharges(consumable.charges || 0);
+    setDesc(consumable.description || "");
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consumable]);
+
   const handleClose = () => {
+    onClose();
     setName("");
     setDesc("");
-    onClose();
+    setCharges(0);
   };
+
   const handleSubmit = () => {
     let data: Partial<Consumable> = {
+      uuid: consumable?.uuid || undefined,
       name: name,
       description: desc,
       rarity: rarity,
       type: itemType as ConsumableType,
       charges: charges,
     };
-    createConsumable(data)
-      .then((response) => {
-        displayMessage(`Added ${response.data.name}`, "success");
-        handleClose();
-      })
-      .catch((error) => {
-        displayMessage("Error adding consumable to character", "error");
-        console.error(error);
-      });
+    if (consumable) {
+      updateConsumable(data)
+        .then(() => {
+          displayMessage("Updated", "info");
+          handleClose();
+        })
+        .catch((error) => {
+          displayMessage("Error updating consumable item", "error");
+          console.error(error);
+        });
+    } else {
+      createConsumable(data)
+        .then((response) => {
+          displayMessage(`Added ${response.data.name}`, "success");
+          handleClose();
+        })
+        .catch((error) => {
+          displayMessage("Error adding consumable to character", "error");
+          console.error(error);
+        });
+    }
   };
 
   return (
@@ -74,7 +100,7 @@ export function ConsumableDialog(props: PropsType) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        Create New Consumable
+        {consumable ? "Edit existing consumable item" : "Create New Consumable"}
       </Typography>
       <Divider variant="middle" />
       <Box
@@ -122,15 +148,11 @@ export function ConsumableDialog(props: PropsType) {
         onChange={(e) => setDesc(e.target.value)}
         placeholder="Item abilities and rule prompts"
       ></TextField>
+
       <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          gap: "8px",
-          justifyContent: "space-between",
-        }}
+        sx={{ display: "flex", justifyContent: "space-between", gap: "8px" }}
       >
-        <FormControl sx={{ flexGrow: 0.5 }}>
+        <FormControl sx={{ flexGrow: 1, flexBasis: 1 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
           <Select
             label="Rarity"
@@ -146,23 +168,16 @@ export function ConsumableDialog(props: PropsType) {
             <MenuItem value="legendary">Legendary</MenuItem>
           </Select>
         </FormControl>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={!!charges}
-              onChange={() => setCharges(charges ? 0 : 1)}
-            />
-          }
-          label="Has charges"
-        />
+
         <TextField
+          sx={{ flexGrow: 1, flexBasis: 1 }}
           value={charges}
           label="Charges"
           type="number"
-          disabled={!charges}
           onChange={(e) => setCharges(parseInt(e.target.value))}
         />
       </Box>
+
       <Box
         display="flex"
         onMouseOver={() => setHighlight(true)}
@@ -177,7 +192,7 @@ export function ConsumableDialog(props: PropsType) {
           }}
           disabled={!name}
         >
-          Create Item
+          {consumable ? "Update item" : "Create Item"}
         </Button>
       </Box>
     </Dialog>

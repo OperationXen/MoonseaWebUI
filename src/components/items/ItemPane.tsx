@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import { Paper, Tabs, Tab } from "@mui/material";
-import { TabPanel, TabContext } from "@mui/lab";
+import { TabContext } from "@mui/lab";
 
 import WindowMagicItems from "./WindowMagicItems";
 import WindowCommonItems from "./WindowCommonItems";
-import ConsumableItems from "./ConsumableItems";
+import ConsumableItemsGrid from "./consumables/ConsumableItemsGrid";
 
 import type { Character } from "@/types/character";
 
@@ -19,13 +19,7 @@ export function ItemPane(props: PropsType) {
   const [itemTab, setItemTab] = useState("magicitems");
 
   return (
-    <Paper
-      elevation={8}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <Paper elevation={8} className="flex flex-col flex-grow">
       <TabContext value={itemTab}>
         <Tabs
           value={itemTab}
@@ -43,26 +37,26 @@ export function ItemPane(props: PropsType) {
           <Tab label="Consumables" value={"consumables"} />
         </Tabs>
 
-        <TabPanel value="magicitems" sx={{ flexGrow: 1, padding: 0 }}>
+        {itemTab === "magicitems" && (
           <WindowMagicItems
             magicItems={character?.items}
             characterUUID={character.uuid}
             editable={character.editable}
           />
-        </TabPanel>
-        <TabPanel value="consumables" sx={{ flexGrow: 1, padding: 0 }}>
-          <ConsumableItems
-            characterUUID={character.uuid}
-            editable={character.editable}
-          />
-        </TabPanel>
-        <TabPanel value="commonitems" sx={{ flexGrow: 1, padding: 0 }}>
+        )}
+        {itemTab === "commonitems" && (
           <WindowCommonItems
             magicItems={character?.items}
             characterUUID={character.uuid}
             editable={character.editable}
           />
-        </TabPanel>
+        )}
+        {itemTab === "consumables" && (
+          <ConsumableItemsGrid
+            characterUUID={character.uuid}
+            editable={character.editable}
+          />
+        )}
       </TabContext>
     </Paper>
   );

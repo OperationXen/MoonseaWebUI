@@ -26,13 +26,7 @@ export default function WindowMagicItems(props: PropsType) {
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-      }}
-    >
+    <Box className="flex flex-col flex-grow">
       <Box
         sx={{
           display: "flex",
@@ -40,7 +34,7 @@ export default function WindowMagicItems(props: PropsType) {
           flexWrap: "wrap",
           justifyContent: "space-evenly",
           overflow: "auto",
-          height: "15em",
+          alignItems: "center",
         }}
       >
         {(displayItems?.length &&

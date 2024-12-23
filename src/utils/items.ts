@@ -1,3 +1,4 @@
+import type { Consumable } from "@/types/items";
 import type { Rarity } from "@/types/items";
 
 export function getRarityText(rarity: Rarity) {
@@ -14,4 +15,11 @@ export function getRarityColour(rarity: Rarity) {
   if (rarity === "rare") return "#0000FF";
   if (rarity === "uncommon") return "#006400";
   return "#A9A9A9";
+}
+
+export function getNumberEquipped(data?: Consumable[]) {
+  if (!data) return 0;
+
+  const equipped = data.filter((c) => c.equipped);
+  return equipped.length;
 }

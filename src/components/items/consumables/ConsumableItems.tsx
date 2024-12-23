@@ -5,8 +5,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { useConsumables } from "@/data/fetch/items/consumables";
 
-import EmptyWindowWidget from "./widgets/EmptyWindowWidget";
-import ConsumableItemWidget from "./widgets/ConsumableItemWidget";
+import EmptyWindowWidget from "../widgets/EmptyWindowWidget";
+import ConsumableItemWidget from "../widgets/ConsumableItemWidget";
 import ConsumableDialog from "./ConsumableDialog";
 
 import type { UUID } from "@/types/uuid";
@@ -28,15 +28,7 @@ export default function ConsumableItems(props: PropsType) {
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        height: "100%",
-        width: "100%",
-      }}
-    >
+    <Box className="flex flex-col flex-grow">
       <Box
         sx={{
           display: "flex",
