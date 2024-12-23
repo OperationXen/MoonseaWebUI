@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,7 +8,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { Box, Checkbox, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
-import { useConsumables } from "@/data/fetch/items/consumables";
+import { useConsumable, useConsumables } from "@/data/fetch/items/consumables";
 import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
 
 import type { UUID } from "@/types/uuid";
@@ -23,7 +23,8 @@ type PropsType = {
 };
 
 export function ConsumableItemsGrid(props: PropsType) {
-  const { characterUUID, editable } = props;
+  const { characterUUID } = props;
+  console.log(characterUUID);
 
   const {
     data: consumableItems,
@@ -36,7 +37,15 @@ export function ConsumableItemsGrid(props: PropsType) {
   const renderEquipped = (p: GridRenderCellParams<Consumable>) => {
     return (
       <Box className="flex items-center h-full w-full justify-center">
-        <Checkbox value={p.row.equipped} onChange={() => {}} />
+        <Checkbox
+          value={p.row.equipped}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            updateConsumable({
+              uuid: p.row.uuid,
+              equipped: !!event.target.value,
+            });
+          }}
+        />
       </Box>
     );
   };
@@ -70,11 +79,25 @@ export function ConsumableItemsGrid(props: PropsType) {
       renderCell: (p) => {
         return (
           <Box className="flex items-center justify-between">
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                updateConsumable({
+                  uuid: p.row.uuid,
+                  charges: (p.row.charges ?? 0) - 1,
+                });
+              }}
+            >
               <RemoveIcon fontSize="small" />
             </IconButton>
             <Typography variant="body1">{p.row.charges}</Typography>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                updateConsumable({
+                  uuid: p.row.uuid,
+                  charges: (p.row.charges ?? 0) + 1,
+                });
+              }}
+            >
               <AddIcon fontSize="small" />
             </IconButton>
           </Box>
@@ -90,13 +113,17 @@ export function ConsumableItemsGrid(props: PropsType) {
     {
       field: "controls",
       headerName: "",
-      renderCell: () => {
+      renderCell: (p) => {
         return (
           <Box className="flex items-center justify-end">
             <IconButton>
               <EditIcon fontSize="small" />
             </IconButton>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                deleteConsumable(p.row);
+              }}
+            >
               <DeleteIcon fontSize="small" />
             </IconButton>
           </Box>
