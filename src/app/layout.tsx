@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { StyledEngineProvider } from "@mui/material/styles";
 
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import NavBar from "@/components/general/NavBar";
 import Snackbar from "@/components/general/Snackbar";
 
+import customTheme from "@/theme";
 import "../global.css";
 
 export const metadata: Metadata = {
@@ -24,13 +25,15 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <StyledEngineProvider injectFirst>
-            <CssBaseline>
-              <div id="root">
-                <NavBar />
-                {children}
-                <Snackbar />
-              </div>
-            </CssBaseline>
+            <ThemeProvider theme={customTheme}>
+              <CssBaseline>
+                <div id="root">
+                  <NavBar />
+                  {children}
+                  <Snackbar />
+                </div>
+              </CssBaseline>
+            </ThemeProvider>
           </StyledEngineProvider>
         </ReactQueryProvider>
       </body>
