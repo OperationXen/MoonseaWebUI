@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Box } from "@mui/material";
+import { Container, Box, Paper } from "@mui/material";
 
 import type { Character } from "@/types/character";
 import { useCharacter } from "@/data/fetch/character";
@@ -39,8 +39,8 @@ export default function CharacterPage(props: PropsType) {
   };
 
   return (
-    <Container sx={{ marginTop: "4px" }}>
-      <Box
+    <Container className="mt-4">
+      <Paper
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -49,7 +49,7 @@ export default function CharacterPage(props: PropsType) {
           boxShadow: "1px 1px 5px 1px grey",
           overflow: "hidden",
           marginBottom: "0.4em",
-          minHeight: "calc(100vh - 4em)",
+          minHeight: "calc(100vh - 5em)",
         }}
       >
         <Box className="flex">
@@ -64,7 +64,7 @@ export default function CharacterPage(props: PropsType) {
         </Box>
 
         <ItemPane data={characterData} />
-      </Box>
+      </Paper>
 
       <Box sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
         <CharacterEvents
