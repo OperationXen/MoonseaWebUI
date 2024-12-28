@@ -8,6 +8,7 @@ export type EventType =
   | "dt_mtrade"
   | "dt_catchingup";
 export type ItemEventType = "trade" | "manual" | "edit" | "game" | "dm_reward";
+export type AnyEvent = CharacterEvent & GameEvent;
 
 export type CharacterEvent = {
   uuid: UUID;

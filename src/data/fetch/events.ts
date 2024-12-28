@@ -5,7 +5,7 @@ import api from "./base";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
-import type { CharacterEvent, GameEvent } from "@/types/events";
+import type { CharacterEvent, GameEvent, AnyEvent } from "@/types/events";
 
 function getEventsFn(characterUUID: UUID) {
   return api.get(`/api/data/character_events/${characterUUID}`).then((r) => {
@@ -13,7 +13,7 @@ function getEventsFn(characterUUID: UUID) {
   });
 }
 
-function createEventFn(char: UUID, event: Partial<CharacterEvent | GameEvent>) {
+function createEventFn(char: UUID, event: Partial<AnyEvent>) {
   event.character_uuid = char;
 
   switch (event.event_type) {
@@ -32,42 +32,31 @@ function createEventFn(char: UUID, event: Partial<CharacterEvent | GameEvent>) {
 
 export function useEvents(characterUUID: UUID) {
   const queryClient = useQueryClient();
+  const queryKey = ["events", "all", "character", characterUUID];
 
   const fetchData = useQuery({
-    queryKey: ["events", "all", "character", characterUUID],
+    queryKey: queryKey,
     queryFn: () => getEventsFn(characterUUID),
   });
 
   const createEvent = useMutation({
-    mutationFn: (data: Partial<CharacterEvent | GameEvent>) =>
-      createEventFn(characterUUID, data),
+    mutationFn: (data: Partial<AnyEvent>) => createEventFn(characterUUID, data),
 
-    //     onMutate: async (newChar: Partial<Character>) => {
-    //       // Cancel any outgoing refetches to avoid overwriting optimistic update
-    //       await queryClient.cancelQueries({
-    //         queryKey: ["character", newChar.uuid],
-    //       });
-    //       // Snapshot the previous value
-    //       const oldCharData = queryClient.getQueryData(["character", newChar.uuid]);
-    //       // Optimistically update to the new value
-    //       queryClient.setQueryData(["character", newChar.uuid], newChar);
-    //       // Return a context with the old data and the new
-    //       return { oldCharData, newChar };
-    //     },
-    //     // If the mutation fails, use the context we returned above
-    //     onError: (_err, _newChar: Partial<Character>, context) => {
-    //       if (context) {
-    //         queryClient.setQueryData(
-    //           ["character", context.newChar.uuid],
-    //           context.oldCharData,
-    //         );
-    //       }
-    //     },
+    onMutate: async (newEvent: Partial<AnyEvent>) => {
+      // Cancel any outgoing refetches to avoid overwriting optimistic update
+      await queryClient.cancelQueries({ queryKey: queryKey });
+      const oldEvents = queryClient.getQueryData(queryKey) as any[];
+      queryClient.setQueryData(queryKey, [...oldEvents, newEvent]);
+      return { oldEvents, newEvent };
+    },
+    // If the mutation fails, use the context we returned above
+    onError: (_err, _newData: Partial<AnyEvent>, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context.oldEvents);
+      }
+    },
 
-    onSettled: () =>
-      queryClient.invalidateQueries({
-        queryKey: ["events", "all", "character", characterUUID],
-      }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
   });
 
   return { ...fetchData, createEvent: createEvent.mutateAsync };
