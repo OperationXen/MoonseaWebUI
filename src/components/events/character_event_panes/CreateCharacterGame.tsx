@@ -32,11 +32,11 @@ const row = {
 
 type PropsType = {
   onClose: () => void;
-  charUUID: UUID;
+  characterUUID: UUID;
 };
 
 export default function CreateCharacterGame(props: PropsType) {
-  const { onClose, charUUID } = props;
+  const { onClose, characterUUID: charUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
 

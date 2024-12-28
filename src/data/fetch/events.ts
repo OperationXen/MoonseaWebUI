@@ -7,13 +7,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UUID } from "@/types/uuid";
 import type { CharacterEvent } from "@/types/events";
 
-type charID = {
-  characterUUID: UUID;
-};
-
 function getEventsFn(characterUUID: UUID) {
   return api.get(`/api/data/character_events/${characterUUID}`).then((r) => {
-    return r.data.results as CharacterEvent[];
+    return r.data as CharacterEvent[];
   });
 }
 

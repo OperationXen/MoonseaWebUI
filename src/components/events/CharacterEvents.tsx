@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import { Box, Button, IconButton } from "@mui/material";
+import { Paper, Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useEvents } from "@/data/fetch/events";
 
-import { deleteEventMundaneTrade, getEventsForCharacter } from "@/api/events";
+import { deleteEventMundaneTrade } from "@/api/events";
 import {
   deleteEventCatchingUp,
   deleteEventSpellbookUpdate,
 } from "@/api/events";
 import { removeCharacterGame } from "@/api/events";
+
 import useSnackbar from "@/datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
 import { getDateString, getEventName } from "@/utils/format";
 
 import type { UUID } from "@/types/uuid";
-import type { CharacterEvent } from "@/types/events";
+import type { CharacterEvent, EventType } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
@@ -42,7 +43,6 @@ export default function CharacterEvents(props: PropsType) {
   const [refresh, setRefresh] = useState(false);
 
   const handleOpenEventDetails = (data: any) => {
-    debugger;
     setEventDetails(data.row);
   };
 
@@ -92,14 +92,14 @@ export default function CharacterEvents(props: PropsType) {
       </React.Fragment>
     );
   };
-  const rowEventType = (value: CharacterEvent) => {
+  const rowEventType = (_et: EventType, value: CharacterEvent) => {
     return getEventName(value.event_type);
   };
-  const rowDate = (value: CharacterEvent) => {
+  const rowDate = (_dt: Date, value: CharacterEvent) => {
     return getDateString(value.datetime);
   };
 
-  const rowDetails = (value: CharacterEvent) => {
+  const rowDetails = (_desc: string, value: CharacterEvent) => {
     if (value.event_type === "game") {
       return `${value.name} (${value.module})`;
     } else if (value.event_type === "dm_reward") {
@@ -159,15 +159,16 @@ export default function CharacterEvents(props: PropsType) {
   ];
 
   return (
-    <Box height="500px">
+    <Paper sx={{ minHeight: "600px" }}>
       <DataGrid
         disableColumnMenu
         getRowId={(r) => r.uuid}
         columns={columns}
         rows={events}
-        rowHeight={36}
         onRowDoubleClick={handleOpenEventDetails}
+        density="compact"
         sx={{
+          height: "100%",
           border: "1px solid black",
           borderRadius: "8px",
           boxShadow: "1px 1px 5px 1px grey",
@@ -208,15 +209,15 @@ export default function CharacterEvents(props: PropsType) {
       />
       <CreateCharacterEvent
         characterUUID={characterUUID}
+        charName={characterName}
         downtime={downtime}
         open={createOpen}
         onClose={() => {
           setRefresh(!refresh);
           setCreateOpen(false);
         }}
-        name={characterName}
       />
       <EventViewModal data={eventDetails} setData={setEventDetails} />
-    </Box>
+    </Paper>
   );
 }
