@@ -1,6 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-import { Dialog, Box, Divider, TextField, FormControl } from "@mui/material";
+import {
+  Dialog,
+  Box,
+  Divider,
+  TextField,
+  FormControl,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
@@ -9,6 +16,7 @@ import CreateDTMundaneTrade from "./character_event_panes/CreateDTMundaneTrade";
 import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
 
 import type { UUID } from "@/types/uuid";
+import type { EventType } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
@@ -21,7 +29,7 @@ type PropsType = {
 export default function CreateCharacterEvent(props: PropsType) {
   const { characterUUID, charName, downtime, open, onClose } = props;
 
-  const [event, setEvent] = useState("game");
+  const [event, setEvent] = useState<EventType>("game");
 
   if (!open) return null;
   const handleClose = () => {
@@ -55,24 +63,26 @@ export default function CreateCharacterEvent(props: PropsType) {
             fullWidth
             label="Event Type"
             value={event}
-            onChange={(e) => setEvent(e.target.value)}
+            onChange={(e: SelectChangeEvent) =>
+              setEvent(e.target.value as EventType)
+            }
           >
             <Divider>Quick select</Divider>
             <MenuItem value="game">Played a game</MenuItem>
-            <MenuItem value="dt-mundtrade">Visited merchant</MenuItem>
+            <MenuItem value="dt_mtrade">Visited merchant</MenuItem>
             <Divider>Downtime activities</Divider>
-            <MenuItem value="dt-catchup" disabled={downtime < 10}>
+            <MenuItem value="dt_catchingup" disabled={downtime < 10}>
               Catching up (gain a level)
             </MenuItem>
-            <MenuItem value="dt-spellbook">Copy spells to spellbook</MenuItem>
-            <MenuItem value="dt-trade" disabled>
+            <MenuItem value="dt_sbookupd">Copy spells to spellbook</MenuItem>
+            <MenuItem value="dt_trade" disabled>
               Trade magical items
             </MenuItem>
 
-            <MenuItem value="dt-scribe" disabled>
+            <MenuItem value="dt_scribe" disabled>
               Scribe scrolls
             </MenuItem>
-            <MenuItem value="dt-brew" disabled>
+            <MenuItem value="dt_brew" disabled>
               Brew potions
             </MenuItem>
             <MenuItem value="rebuild" disabled>
@@ -87,44 +97,25 @@ export default function CreateCharacterEvent(props: PropsType) {
           onClose={handleClose}
         />
       )}
-      {event === "dt-mundtrade" && (
+      {event === "dt_mtrade" && (
         <CreateDTMundaneTrade
           characterUUID={characterUUID}
           onClose={handleClose}
         />
       )}
-      {event === "dt-catchup" && (
-        <CreateDTCatchup characterUUID={characterUUID} onClose={handleClose} />
+      {event === "dt_catchingup" && (
+        <CreateDTCatchup
+          characterUUID={characterUUID}
+          onClose={handleClose}
+          downtime={downtime}
+        />
       )}
-      {event === "dt-spellbook" && (
+      {event === "dt_sbookupd" && (
         <CreateDTSpellbookUpdate
           characterUUID={characterUUID}
           onClose={handleClose}
+          downtime={downtime}
         />
-      )}
-      {event === "trade-npc" && (
-        <Box
-          border="1px solid black"
-          borderRadius="8px"
-          sx={{
-            display: "flex",
-            height: "24em",
-            justifyContent: "space-around",
-            flexFlow: "column",
-            padding: "0.4em",
-            alignContent: "space-between",
-          }}
-        >
-          <Typography>Trade with NPC</Typography>
-          <TextField fullWidth multiline label="Items purchased" />
-          <TextField fullWidth multiline label="Items sold" />
-          <TextField
-            type="number"
-            label="Gold"
-            helperText="Negative for gold spent, positive for profit"
-          />
-          <TextField label="Game date" />
-        </Box>
       )}
     </Dialog>
   );

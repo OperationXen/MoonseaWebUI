@@ -20,10 +20,11 @@ import type { SpellBookUpdateEvent } from "@/types/events";
 type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
+  downtime: number;
 };
 
 export function CreateDTSpellbookUpdate(props: PropsType) {
-  const { onClose, characterUUID } = props;
+  const { onClose, downtime: dtAvailable, characterUUID } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent } = useEvents(characterUUID);
 
@@ -142,7 +143,7 @@ export function CreateDTSpellbookUpdate(props: PropsType) {
       <Button
         variant="contained"
         sx={{ width: "60%", margin: "auto" }}
-        disabled={!text || gold <= 0 || downtime <= 0}
+        disabled={!text || gold <= 0 || downtime <= 0 || downtime > dtAvailable}
         onClick={handleSubmit}
       >
         Add Spellbook Update

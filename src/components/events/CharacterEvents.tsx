@@ -133,7 +133,13 @@ export default function CharacterEvents(props: PropsType) {
   ];
 
   return (
-    <Paper sx={{ minHeight: "600px" }}>
+    <Paper
+      sx={{
+        minHeight: "520px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <DataGrid
         disableColumnMenu
         getRowId={(r) => {
@@ -144,7 +150,6 @@ export default function CharacterEvents(props: PropsType) {
         onRowDoubleClick={handleOpenEventDetails}
         density="compact"
         sx={{
-          height: "100%",
           border: "1px solid black",
           borderRadius: "8px",
           boxShadow: "1px 1px 5px 1px grey",

@@ -96,7 +96,10 @@ export function useEvents(characterUUID: UUID) {
       }
     },
 
-    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+      queryClient.invalidateQueries({ queryKey: ["character", characterUUID] });
+    },
   });
 
   const deleteEvent = useMutation({

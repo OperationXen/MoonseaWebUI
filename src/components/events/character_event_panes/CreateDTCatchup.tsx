@@ -13,10 +13,11 @@ import type { UUID } from "@/types/uuid";
 type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
+  downtime: number;
 };
 
 export default function CreateDTCatchup(props: PropsType) {
-  const { onClose, characterUUID } = props;
+  const { onClose, downtime, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent } = useEvents(characterUUID);
@@ -48,6 +49,7 @@ export default function CreateDTCatchup(props: PropsType) {
         variant="contained"
         sx={{ width: "60%", margin: "auto" }}
         onClick={handleSubmit}
+        disabled={downtime < 10}
       >
         Gain a level (10 downtime days)
       </Button>
