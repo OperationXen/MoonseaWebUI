@@ -1,3 +1,4 @@
+import { Character } from "./character";
 import { MagicItem } from "./items";
 import type { UUID } from "./uuid";
 
@@ -14,19 +15,28 @@ export type CharacterEvent = {
   character_uuid: UUID;
   event_type: EventType;
   datetime: Date | null;
-  details: string;
-  name?: string;
-  gold_change: number;
-  source: string;
 };
 
-export type GameEvent = {
-  uuid: UUID;
-  character_uuid: UUID;
-  event_type: EventType;
-  datetime: Date | null;
-  name: string;
+export type CatchingUpEvent = CharacterEvent & {
+  details: string;
+};
 
+export type SpellBookUpdateEvent = CharacterEvent & {
+  gold_change: number;
+  dm_name: string;
+  downtime: number;
+  source: string;
+  spellsText: string;
+};
+
+export type MundaneTradeEvent = CharacterEvent & {
+  gold_change: number;
+  sold?: string;
+  purchased?: string;
+};
+
+export type GameEvent = CharacterEvent & {
+  name: string;
   dm_name: string;
   module: string;
   location: string;
@@ -36,6 +46,11 @@ export type GameEvent = {
   items: Partial<MagicItem>[];
   details: string;
 };
+
+export type AnyEvent = GameEvent &
+  MundaneTradeEvent &
+  SpellBookUpdateEvent &
+  CatchingUpEvent;
 
 export type ItemEvent = {
   uuid: UUID;

@@ -10,23 +10,13 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useEvents } from "@/data/fetch/events";
-
-import { deleteEventMundaneTrade } from "@/api/events";
-import {
-  deleteEventCatchingUp,
-  deleteEventSpellbookUpdate,
-} from "@/api/events";
-import { removeCharacterGame } from "@/api/events";
-
 import useSnackbar from "@/datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
 import { getDateString, getEventName } from "@/utils/format";
 
 import type { UUID } from "@/types/uuid";
-import type { CharacterEvent, GameEvent, EventType } from "@/types/events";
-
-type MSCEvent = CharacterEvent & GameEvent;
+import type { AnyEvent, EventType } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
@@ -38,17 +28,17 @@ type PropsType = {
 export default function CharacterEvents(props: PropsType) {
   const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { data: events } = useEvents(characterUUID);
+  const { data: events, deleteEvent } = useEvents(characterUUID);
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [eventDetails, setEventDetails] = useState<CharacterEvent | null>(null); // event visible in modal window
+  const [eventDetails, setEventDetails] = useState<AnyEvent | null>(null); // event visible in modal window
   const [refresh, setRefresh] = useState(false);
 
   const handleOpenEventDetails = (data: any) => {
     setEventDetails(data.row);
   };
 
-  const rowActions = (params: GridRenderCellParams<CharacterEvent>) => {
+  const rowActions = (params: GridRenderCellParams<AnyEvent>) => {
     if (!editable) return null;
 
     return (
@@ -66,27 +56,9 @@ export default function CharacterEvents(props: PropsType) {
         <IconButton
           disabled={params.row.event_type === "dm_reward"}
           onClick={() => {
-            if (params.row.event_type === "dt_catchingup") {
-              deleteEventCatchingUp(params.row.uuid).then(() => {
-                displayMessage("Event deleted", "info");
-                setRefresh(!refresh);
-              });
-            } else if (params.row.event_type === "dt_mtrade") {
-              deleteEventMundaneTrade(params.row.uuid).then(() => {
-                displayMessage("Event deleted", "info");
-                setRefresh(!refresh);
-              });
-            } else if (params.row.event_type === "dt_sbookupd") {
-              deleteEventSpellbookUpdate(params.row.uuid).then(() => {
-                displayMessage("Event deleted", "info");
-                setRefresh(!refresh);
-              });
-            } else {
-              removeCharacterGame(params.row.uuid, characterUUID).then(() => {
-                displayMessage("Event deleted", "info");
-                setRefresh(!refresh);
-              });
-            }
+            deleteEvent(params.row).then(() => {
+              displayMessage("Event deleted", "info");
+            });
           }}
         >
           <DeleteIcon />
@@ -94,15 +66,14 @@ export default function CharacterEvents(props: PropsType) {
       </React.Fragment>
     );
   };
-  const rowEventType = (_et: EventType, value: CharacterEvent) => {
+  const rowEventType = (_et: EventType, value: AnyEvent) => {
     return getEventName(value.event_type);
   };
-  const rowDate = (_dt: Date, value: MSCEvent) => {
-    if (value.datetime) return getDateString(value.datetime);
-    else return "";
+  const rowDate = (dt: string) => {
+    return getDateString(new Date(dt));
   };
 
-  const rowDetails = (_desc: string, value: MSCEvent) => {
+  const rowDetails = (_desc: string, value: AnyEvent) => {
     if (value.event_type === "game") {
       return `${value.name} (${value.module})`;
     } else if (value.event_type === "dm_reward") {
@@ -162,16 +133,23 @@ export default function CharacterEvents(props: PropsType) {
   ];
 
   return (
-    <Paper sx={{ minHeight: "600px" }}>
+    <Paper
+      sx={{
+        minHeight: "520px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <DataGrid
         disableColumnMenu
-        getRowId={(r) => r.uuid}
+        getRowId={(r) => {
+          return r.uuid;
+        }}
         columns={columns}
         rows={events}
         onRowDoubleClick={handleOpenEventDetails}
         density="compact"
         sx={{
-          height: "100%",
           border: "1px solid black",
           borderRadius: "8px",
           boxShadow: "1px 1px 5px 1px grey",

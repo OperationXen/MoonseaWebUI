@@ -6,24 +6,26 @@ import { Box, Typography, Button } from "@mui/material";
 import { TextField, Divider } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
-import { createEventCatchingUp } from "@/api/events";
+import { useEvents } from "@/data/fetch/events";
 
 import type { UUID } from "@/types/uuid";
 
 type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
+  downtime: number;
 };
 
 export default function CreateDTCatchup(props: PropsType) {
-  const { onClose, characterUUID } = props;
+  const { onClose, downtime, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { createEvent } = useEvents(characterUUID);
 
   const [details, setDetails] = useState("");
 
   const handleSubmit = () => {
-    createEventCatchingUp(characterUUID, details)
+    createEvent({ event_type: "dt_catchingup", details: details })
       .then((_response) => {
         displayMessage("Catching up added to log", "success");
         onClose && onClose();
@@ -47,6 +49,7 @@ export default function CreateDTCatchup(props: PropsType) {
         variant="contained"
         sx={{ width: "60%", margin: "auto" }}
         onClick={handleSubmit}
+        disabled={downtime < 10}
       >
         Gain a level (10 downtime days)
       </Button>

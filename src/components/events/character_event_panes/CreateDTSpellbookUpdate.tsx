@@ -12,17 +12,21 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { GiTwoCoins, GiBed } from "react-icons/gi";
 
 import useSnackbar from "@/datastore/snackbar";
-import { createEventSpellbookUpdate } from "@/api/events";
+import { useEvents } from "@/data/fetch/events";
+
 import type { UUID } from "@/types/uuid";
+import type { SpellBookUpdateEvent } from "@/types/events";
 
 type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
+  downtime: number;
 };
 
 export function CreateDTSpellbookUpdate(props: PropsType) {
-  const { onClose, characterUUID } = props;
+  const { onClose, downtime: dtAvailable, characterUUID } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { createEvent } = useEvents(characterUUID);
 
   const [date, setDate] = useState<Date | null>(new Date());
   const [gold, setGold] = useState(0);
@@ -32,14 +36,14 @@ export function CreateDTSpellbookUpdate(props: PropsType) {
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
-    createEventSpellbookUpdate(
-      characterUUID,
-      gold,
-      downtime,
-      dmName,
-      sourceChar,
-      text,
-    )
+    createEvent({
+      event_type: "dt_sbookupd",
+      gold_change: gold,
+      downtime: downtime,
+      dm_name: dmName,
+      source: sourceChar,
+      spellsText: text,
+    } as SpellBookUpdateEvent)
       .then((_response) => {
         displayMessage("Spellbook update added to log", "success");
         onClose && onClose();
@@ -139,7 +143,7 @@ export function CreateDTSpellbookUpdate(props: PropsType) {
       <Button
         variant="contained"
         sx={{ width: "60%", margin: "auto" }}
-        disabled={!text || gold <= 0 || downtime <= 0}
+        disabled={!text || gold <= 0 || downtime <= 0 || downtime > dtAvailable}
         onClick={handleSubmit}
       >
         Add Spellbook Update
