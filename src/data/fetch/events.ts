@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
 import type { AnyEvent } from "@/types/events";
+import { generateUUID } from "@/utils/uuid";
 
 /******************************************************************/
 function getEventsFn(characterUUID: UUID) {
@@ -19,10 +20,10 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
   event.character_uuid = char;
 
   switch (event.event_type) {
-    case "dt_catchingup":
-      return api.post("/api/data/catchingup", event);
     case "dt_mtrade":
       return api.post("/api/data/mundanetrade", event);
+    case "dt_catchingup":
+      return api.post("/api/data/catchingup", event);
     case "dt_sbookupd":
       return api.post("/api/data/spellbook", event);
     case "game":
@@ -34,14 +35,14 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
 
 function deleteEventfn(event: AnyEvent) {
   switch (event.event_type) {
+    case "dt_mtrade":
+      return api.delete(`/api/data/mundanetrade/${event.uuid}`);
     case "dt_catchingup":
       return api.delete(`/api/data/catchingup/${event.uuid}`);
-    case "dt_mtrade":
-      return api.post("/api/data/mundanetrade", event);
     case "dt_sbookupd":
-      return api.post("/api/data/spellbook", event);
+      return api.delete(`/api/data/spellbook/${event.uuid}`);
     case "game":
-      return api.post("/api/data/game", event);
+      return api.delete(`/api/data/game/${event.uuid}`);
     default:
       return Promise.resolve(null);
   }
@@ -78,7 +79,10 @@ export function useEvents(characterUUID: UUID) {
   const createEvent = useMutation({
     mutationFn: (data: Partial<AnyEvent>) => createEventFn(characterUUID, data),
 
-    onMutate: async (newEvent: Partial<AnyEvent>) => {
+    onMutate: async (event: Partial<AnyEvent>) => {
+      // generate a temporary UUID to use with the optimistic update
+      const newEvent = { ...event };
+      newEvent.uuid = generateUUID();
       // Cancel any outgoing refetches to avoid overwriting optimistic update
       await queryClient.cancelQueries({ queryKey: queryKey });
       const oldEvents = queryClient.getQueryData(queryKey) as any[];

@@ -76,32 +76,6 @@ export function removeCharacterGame(gameUUID, characterUUID) {
   });
 }
 
-// catching up events
-export function createEventCatchingUp(characterUUID, details) {
-  let data = { character_uuid: characterUUID, details: details };
-
-  return api.post("/api/data/catchingup", data);
-}
-
-export function deleteEventCatchingUp(uuid) {
-  return api.delete(`/api/data/catchingup/${uuid}/`);
-}
-
-// mundane trade events
-export function createEventMundaneTrade(characterUUID, gold, sold, purchased) {
-  let data = {
-    character_uuid: characterUUID,
-    gold_change: gold,
-    sold: sold,
-    purchased: purchased,
-  };
-  return api.post("/api/data/mundanetrade", data);
-}
-
-export function deleteEventMundaneTrade(uuid) {
-  return api.delete(`/api/data/mundanetrade/${uuid}/`);
-}
-
 // spellbook events
 export function createEventSpellbookUpdate(
   characterUUID,
@@ -120,8 +94,4 @@ export function createEventSpellbookUpdate(
     spells: spellsText,
   };
   return api.post("/api/data/spellbook", data);
-}
-
-export function deleteEventSpellbookUpdate(uuid) {
-  return api.delete(`/api/data/spellbook/${uuid}/`);
 }

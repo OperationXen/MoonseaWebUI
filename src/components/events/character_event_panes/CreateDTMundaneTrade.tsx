@@ -12,7 +12,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { GiTwoCoins } from "react-icons/gi";
 
 import useSnackbar from "@/datastore/snackbar";
-import { createEventMundaneTrade } from "@/api/events";
+import { useEvents } from "@/data/fetch/events";
 
 import type { UUID } from "@/types/uuid";
 
@@ -25,6 +25,7 @@ export default function CreateDTMundaneTrade(props: PropsType) {
   const { onClose, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { createEvent } = useEvents(characterUUID);
 
   const [date, setDate] = useState<Date | null>(new Date());
   const [gold, setGold] = useState(0);
@@ -35,7 +36,12 @@ export default function CreateDTMundaneTrade(props: PropsType) {
   const handleSubmit = () => {
     let goldChange = gold * (profit ? 1 : -1);
 
-    createEventMundaneTrade(characterUUID, goldChange, sold, purchased)
+    createEvent({
+      event_type: "dt_mtrade",
+      gold_change: goldChange,
+      sold: sold,
+      purchased: purchased,
+    })
       .then((_response) => {
         displayMessage("Merchant trade added to log", "success");
         onClose && onClose();
