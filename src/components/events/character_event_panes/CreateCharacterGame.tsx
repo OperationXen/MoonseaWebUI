@@ -2,25 +2,23 @@
 
 import { useState } from "react";
 
+import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
+import AddIcon from "@mui/icons-material/Add";
+import { GiTwoCoins } from "react-icons/gi";
+
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
 import { Box, Typography, Button, FormGroup, Tooltip } from "@mui/material";
 import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-import AddIcon from "@mui/icons-material/Add";
-import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
-import { GiTwoCoins } from "react-icons/gi";
-
 import useSnackbar from "@/datastore/snackbar";
 import StatsWidget from "@/components/characters/StatsWidget";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
-
-import { createPlayerGame } from "@/api/events";
+import { useEvents } from "@/data/fetch/events";
 
 import type { UUID } from "@/types/uuid";
-import type { Rarity } from "@/types/items";
+import type { Rarity, MagicItem } from "@/types/items";
 
 const row = {
   display: "flex",
@@ -32,13 +30,14 @@ const row = {
 
 type PropsType = {
   onClose: () => void;
-  charUUID: UUID;
+  characterUUID: UUID;
 };
 
 export default function CreateCharacterGame(props: PropsType) {
-  const { onClose, charUUID } = props;
+  const { onClose, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { createEvent } = useEvents(characterUUID);
 
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
@@ -48,7 +47,7 @@ export default function CreateCharacterGame(props: PropsType) {
   const [level, setLevel] = useState(true);
   const [gold, setGold] = useState(250);
   const [downtime, setDowntime] = useState(10);
-  const [items, setItems] = useState([{ name: "", rarity: "uncommon" }]);
+  const [items, setItems] = useState<Partial<MagicItem>[]>([]);
 
   const [highlight, setHighlight] = useState(false);
 
@@ -71,8 +70,10 @@ export default function CreateCharacterGame(props: PropsType) {
   };
 
   const handleSubmit = () => {
-    createPlayerGame(charUUID, {
+    createEvent({
+      character_uuid: characterUUID,
       module: code,
+      event_type: "game",
       name: name,
       datetime: date,
       dm_name: dmName,

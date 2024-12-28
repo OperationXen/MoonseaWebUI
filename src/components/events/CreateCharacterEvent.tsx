@@ -8,8 +8,18 @@ import CreateDTSpellbookUpdate from "./character_event_panes/CreateDTSpellbookUp
 import CreateDTMundaneTrade from "./character_event_panes/CreateDTMundaneTrade";
 import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
 
-export default function CreateCharacterEvent(props) {
-  const { characterUUID, downtime, open, onClose } = props;
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  characterUUID: UUID;
+  charName: string;
+  downtime: number;
+  open: boolean;
+  onClose: () => void;
+};
+
+export default function CreateCharacterEvent(props: PropsType) {
+  const { characterUUID, charName, downtime, open, onClose } = props;
 
   const [event, setEvent] = useState("game");
 
@@ -35,7 +45,7 @@ export default function CreateCharacterEvent(props) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        {props.name ? `Add event to ${props.name}` : "Add event to character"}
+        {charName ? `Add event to ${charName}` : "Add event to character"}
       </Typography>
       <Divider variant="middle" />
       <Box margin="0.6em 0">
@@ -109,7 +119,7 @@ export default function CreateCharacterEvent(props) {
           <TextField fullWidth multiline label="Items purchased" />
           <TextField fullWidth multiline label="Items sold" />
           <TextField
-            number
+            type="number"
             label="Gold"
             helperText="Negative for gold spent, positive for profit"
           />
