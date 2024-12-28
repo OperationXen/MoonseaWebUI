@@ -24,7 +24,9 @@ import { EventViewModal } from "./details/EventViewModal";
 import { getDateString, getEventName } from "@/utils/format";
 
 import type { UUID } from "@/types/uuid";
-import type { CharacterEvent, EventType } from "@/types/events";
+import type { CharacterEvent, GameEvent, EventType } from "@/types/events";
+
+type MSCEvent = CharacterEvent & GameEvent;
 
 type PropsType = {
   characterUUID: UUID;
@@ -95,11 +97,12 @@ export default function CharacterEvents(props: PropsType) {
   const rowEventType = (_et: EventType, value: CharacterEvent) => {
     return getEventName(value.event_type);
   };
-  const rowDate = (_dt: Date, value: CharacterEvent) => {
-    return getDateString(value.datetime);
+  const rowDate = (_dt: Date, value: MSCEvent) => {
+    if (value.datetime) return getDateString(value.datetime);
+    else return "";
   };
 
-  const rowDetails = (_desc: string, value: CharacterEvent) => {
+  const rowDetails = (_desc: string, value: MSCEvent) => {
     if (value.event_type === "game") {
       return `${value.name} (${value.module})`;
     } else if (value.event_type === "dm_reward") {

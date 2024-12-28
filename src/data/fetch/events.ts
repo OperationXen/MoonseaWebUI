@@ -5,7 +5,7 @@ import api from "./base";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
-import type { CharacterEvent } from "@/types/events";
+import type { CharacterEvent, GameEvent } from "@/types/events";
 
 function getEventsFn(characterUUID: UUID) {
   return api.get(`/api/data/character_events/${characterUUID}`).then((r) => {
@@ -13,7 +13,7 @@ function getEventsFn(characterUUID: UUID) {
   });
 }
 
-function createEventFn(char: UUID, event: Partial<CharacterEvent>) {
+function createEventFn(char: UUID, event: Partial<CharacterEvent | GameEvent>) {
   event.character_uuid = char;
 
   switch (event.event_type) {
@@ -23,6 +23,8 @@ function createEventFn(char: UUID, event: Partial<CharacterEvent>) {
       return api.post("/api/data/mundanetrade", event);
     case "dt_sbookupd":
       return api.post("/api/data/spellbook", event);
+    case "game":
+      return api.post("/api/data/game", event);
     default:
       return Promise.resolve(null);
   }
@@ -37,7 +39,7 @@ export function useEvents(characterUUID: UUID) {
   });
 
   const createEvent = useMutation({
-    mutationFn: (data: Partial<CharacterEvent>) =>
+    mutationFn: (data: Partial<CharacterEvent | GameEvent>) =>
       createEventFn(characterUUID, data),
     onSettled: () =>
       queryClient.invalidateQueries({
