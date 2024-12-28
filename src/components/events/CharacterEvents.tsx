@@ -9,6 +9,8 @@ import { Box, Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
+import { useEvents } from "@/data/fetch/events";
+
 import { deleteEventMundaneTrade, getEventsForCharacter } from "@/api/events";
 import {
   deleteEventCatchingUp,
@@ -33,17 +35,11 @@ type PropsType = {
 export default function CharacterEvents(props: PropsType) {
   const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { data: events } = useEvents(characterUUID);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [eventDetails, setEventDetails] = useState<CharacterEvent | null>(null); // event visible in modal window
-  const [events, setEvents] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
-  useEffect(() => {
-    getEventsForCharacter(characterUUID).then((result) => {
-      setEvents(result.data);
-    });
-  }, [characterUUID, refresh]);
 
   const handleOpenEventDetails = (data: any) => {
     debugger;

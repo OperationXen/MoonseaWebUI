@@ -75,7 +75,7 @@ async function doUpdate(data: Partial<UpdateProfileParams>) {
 export function useUserStatus() {
   const queryClient = useQueryClient();
 
-  const dataFetch = useQuery({
+  const fetchData = useQuery({
     queryKey: ["user-status"],
     queryFn: () => getUserStatus(),
   });
@@ -139,6 +139,6 @@ export function useUserStatus() {
     completePasswordReset: resetPassword.mutateAsync,
     changePassword: changePassword.mutateAsync,
     updateProfile: updateProfile.mutateAsync,
-    ...dataFetch,
+    ...fetchData,
   };
 }

@@ -64,6 +64,7 @@ export function updateDMGame(uuid, data) {
 }
 
 export function createPlayerGame(ID, gameData) {
+  debugger;
   let data = { character_uuid: ID, ...gameData };
 
   return api.post(`/api/data/game`, data);

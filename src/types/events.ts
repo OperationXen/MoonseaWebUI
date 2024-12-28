@@ -10,6 +10,7 @@ export type ItemEventType = "trade" | "manual" | "edit" | "game" | "dm_reward";
 
 export type CharacterEvent = {
   uuid: UUID;
+  character_uuid: UUID;
   event_type: EventType;
   datetime: Date;
   details: string;
