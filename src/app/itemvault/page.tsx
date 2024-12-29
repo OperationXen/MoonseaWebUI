@@ -44,6 +44,27 @@ export default function ItemVault() {
       let datetime = new Date(item.datetime_obtained);
       return getDateString(datetime);
     } catch (_error) {
+      console.error(_error);
+      return "";
+    }
+  };
+
+  const rowSourceText = (item: MagicItem) => {
+    try {
+      let sourceText = item.source_event_type || "";
+      return sourceText;
+    } catch (_error) {
+      console.error(_error);
+      return "";
+    }
+  };
+  const rowStatusText = (item: MagicItem) => {
+    try {
+      if (item.market) return "In trading post";
+      if (item.equipped) return "Equipped";
+      return "Unused";
+    } catch (_error) {
+      console.error(_error);
       return "";
     }
   };
@@ -105,16 +126,14 @@ export default function ItemVault() {
       field: "source_event_type",
       headerName: "Source",
       flex: 0.2,
-      valueGetter: (p: MagicItem) => getSourceText(p.source_event_type),
+      valueGetter: rowSourceText,
     },
     {
       field: "market",
       headerName: "Status",
       align: "center",
       flex: 0.1,
-      valueGetter: (p: MagicItem) => {
-        p.market ? "In trade post" : p.equipped ? "Equipped" : "Unused";
-      },
+      valueGetter: rowStatusText,
     },
     {
       field: "actions",
