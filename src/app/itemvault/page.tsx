@@ -31,15 +31,21 @@ export default function ItemVault() {
   const [showAdvertCreate, setShowAdvertCreate] = useState(false);
   const [item, setItem] = useState<MagicItem | null>(null);
 
-  const getFilteredItems = () => {
-    return items?.filter((x) =>
+  const getFilteredItems = (): MagicItem[] => {
+    if (!items) return [];
+
+    return items.filter((x) =>
       x.name.toLowerCase().includes(filter.toLowerCase()),
     );
   };
 
-  const rowDate = (value: MagicItem) => {
-    let datetime = new Date(value.datetime_obtained);
-    return getDateString(datetime);
+  const rowDate = (item: MagicItem) => {
+    try {
+      let datetime = new Date(item.datetime_obtained);
+      return getDateString(datetime);
+    } catch (_error) {
+      return "";
+    }
   };
 
   const handleTrade = (item: MagicItem) => {
