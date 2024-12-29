@@ -51,8 +51,8 @@ export default function ItemVault() {
 
   const rowSourceText = (item: MagicItem) => {
     try {
-      let sourceText = item.source_event_type || "";
-      return sourceText;
+      if (item.source_event_type) return getSourceText(item.source_event_type);
+      return "";
     } catch (_error) {
       console.error(_error);
       return "";
