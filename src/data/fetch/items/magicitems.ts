@@ -1,9 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { produce } from "immer";
+import { useQuery } from "@tanstack/react-query";
 
 import api from "../base";
 
-import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
 
 function getUserMagicItemsFn() {

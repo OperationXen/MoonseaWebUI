@@ -50,13 +50,13 @@ function deleteEventfn(event: AnyEvent) {
 
 /******************************************************************/
 // Functions for doing optimistic updates to state
-function updateEventsData(data: AnyEvent[], element: Partial<AnyEvent>) {
-  const newState = produce(data, (draft) => {
-    const index = draft.findIndex((c) => c.uuid === element.uuid);
-    draft[index] = { ...draft[index], ...element };
-  });
-  return newState;
-}
+// function updateEventsData(data: AnyEvent[], element: Partial<AnyEvent>) {
+//   const newState = produce(data, (draft) => {
+//     const index = draft.findIndex((c) => c.uuid === element.uuid);
+//     draft[index] = { ...draft[index], ...element };
+//   });
+//   return newState;
+// }
 
 function deleteEventData(data: AnyEvent[], deleted: AnyEvent) {
   const newState = produce(data, (draft) => {

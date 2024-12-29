@@ -1,4 +1,3 @@
-import { Character } from "./character";
 import { MagicItem } from "./items";
 import type { UUID } from "./uuid";
 
