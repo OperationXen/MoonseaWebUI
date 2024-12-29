@@ -13,7 +13,7 @@ import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
 import { Box, Paper, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
-import { useMagicItems } from "@/data/fetch/items/magicitems";
+import { useUserMagicItems } from "@/data/fetch/items/usermagicitems";
 import { getDateString, getSourceText } from "@/utils/format";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
@@ -24,7 +24,7 @@ import type { MagicItem } from "types/items";
 
 export default function ItemVault() {
   const router = useRouter();
-  const { data: items, isLoading } = useMagicItems();
+  const { data: items, isLoading } = useUserMagicItems();
 
   const [createOpen, setCreateOpen] = useState(false);
   const [filter, setFilter] = useState("");

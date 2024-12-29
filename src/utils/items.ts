@@ -1,4 +1,4 @@
-import type { Consumable } from "@/types/items";
+import type { Consumable, MagicItem } from "@/types/items";
 import type { Rarity } from "@/types/items";
 
 export function getRarityText(rarity: Rarity) {
@@ -17,7 +17,7 @@ export function getRarityColour(rarity: Rarity) {
   return "#A9A9A9";
 }
 
-export function getNumberEquipped(data?: Consumable[]) {
+export function getNumberEquipped(data?: (Consumable | MagicItem)[]) {
   if (!data) return 0;
 
   const equipped = data.filter((c) => c.equipped);
