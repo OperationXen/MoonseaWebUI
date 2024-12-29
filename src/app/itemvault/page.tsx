@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { ErrorBoundary } from "react-error-boundary";
 import SearchIcon from "@mui/icons-material/Search";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
@@ -145,32 +146,35 @@ export default function ItemVault() {
         />
       </Box>
 
-      <Box className="flex-grow">
-        <DataGrid
-          getRowId={(r) => r.uuid}
-          columns={columns}
-          rows={getFilteredItems()}
-          density="compact"
-          loading={isLoading}
-          sx={{
-            border: "1px solid black",
+      <ErrorBoundary fallback="Error!">
+        <Box className="flex-grow">
+          <DataGrid
+            getRowId={(r) => r.uuid}
+            columns={columns}
+            rows={getFilteredItems()}
+            density="compact"
+            loading={isLoading}
+            sx={{
+              border: "1px solid black",
+            }}
+          />
+        </Box>
+      </ErrorBoundary>
+      <ErrorBoundary fallback="Error in dialogs">
+        <Dialog
+          open={createOpen}
+          onClose={() => {
+            setCreateOpen(false);
           }}
         />
-      </Box>
-
-      <Dialog
-        open={createOpen}
-        onClose={() => {
-          setCreateOpen(false);
-        }}
-      />
-      {item && (
-        <CreateAdvertDialog
-          open={showAdvertCreate}
-          onClose={() => setShowAdvertCreate(false)}
-          item={item}
-        />
-      )}
+        {item && (
+          <CreateAdvertDialog
+            open={showAdvertCreate}
+            onClose={() => setShowAdvertCreate(false)}
+            item={item}
+          />
+        )}
+      </ErrorBoundary>
     </Paper>
   );
 }
