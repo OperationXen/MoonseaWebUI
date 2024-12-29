@@ -3,17 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { GridColDef, DataGrid } from "@mui/x-data-grid";
-import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
-import { Box, Container, Dialog, IconButton, Tooltip } from "@mui/material";
-import { TextField, Typography, InputAdornment } from "@mui/material";
-
 import SearchIcon from "@mui/icons-material/Search";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
-import useSnackbar from "@/datastore/snackbar";
-import { getUserMagicItems } from "@/api/items";
+import { GridColDef, DataGrid } from "@mui/x-data-grid";
+import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
+import { Box, Paper, Dialog, IconButton, Tooltip } from "@mui/material";
+import { TextField, Typography, InputAdornment } from "@mui/material";
+
+import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getDateString, getSourceText } from "@/utils/format";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
@@ -24,28 +23,15 @@ import type { MagicItem } from "types/items";
 
 export default function ItemVault() {
   const router = useRouter();
-  const snackbar = useSnackbar((s) => s.displayMessage);
+  const { data: items, isLoading } = useMagicItems();
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [items, setItems] = useState<MagicItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
   const [showAdvertCreate, setShowAdvertCreate] = useState(false);
   const [item, setItem] = useState<MagicItem | null>(null);
 
-  useEffect(() => {
-    getUserMagicItems()
-      .then((response) => {
-        setItems(response.data);
-      })
-      .catch(() => {
-        snackbar("Unable to fetch your items", "error");
-      })
-      .finally(() => setLoading(false));
-  }, [snackbar]);
-
   const getFilteredItems = () => {
-    return items.filter((x) =>
+    return items?.filter((x) =>
       x.name.toLowerCase().includes(filter.toLowerCase()),
     );
   };
@@ -132,14 +118,9 @@ export default function ItemVault() {
   ];
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        padding: "0.5em",
-        height: "calc(100vh - 4em)",
-        justifyContent: "space-around",
-        flexDirection: "column",
-      }}
+    <Paper
+      className="flex flex-col flex-grow p-2 m-4"
+      sx={{ height: "calc(100vh - 5em)" }}
     >
       <Box
         display="flex"
@@ -164,16 +145,18 @@ export default function ItemVault() {
         />
       </Box>
 
-      <DataGrid
-        getRowId={(r) => r.uuid}
-        columns={columns}
-        rows={getFilteredItems()}
-        rowHeight={36}
-        loading={loading}
-        sx={{
-          border: "1px solid black",
-        }}
-      />
+      <Box className="flex-grow">
+        <DataGrid
+          getRowId={(r) => r.uuid}
+          columns={columns}
+          rows={getFilteredItems()}
+          density="compact"
+          loading={isLoading}
+          sx={{
+            border: "1px solid black",
+          }}
+        />
+      </Box>
 
       <Dialog
         open={createOpen}
@@ -188,6 +171,6 @@ export default function ItemVault() {
           item={item}
         />
       )}
-    </Container>
+    </Paper>
   );
 }
