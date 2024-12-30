@@ -17,6 +17,7 @@ import useSnackbar from "@/datastore/snackbar";
 
 import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
 import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
+import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
 import ConsumableDialog from "./ConsumableDialog";
 
@@ -183,6 +184,7 @@ export function ConsumableItemsGrid(props: PropsType) {
         }}
         slots={{
           footer: ConsumableItemsGridFooter,
+          noRowsOverlay: NoItemsOverlay,
         }}
         slotProps={{
           footer: {

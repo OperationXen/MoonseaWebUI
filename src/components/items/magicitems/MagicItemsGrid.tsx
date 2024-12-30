@@ -14,6 +14,7 @@ import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/datastore/snackbar";
 
 import MagicItemsGridFooter from "./MagicItemsGridFooter";
+import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
 import MagicItemDialog from "../MagicItemDialog";
 
@@ -153,6 +154,7 @@ export function MagicItemsGrid(props: PropsType) {
         }}
         slots={{
           footer: MagicItemsGridFooter,
+          noRowsOverlay: NoItemsOverlay,
         }}
         slotProps={{
           footer: {
