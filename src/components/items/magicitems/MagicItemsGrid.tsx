@@ -13,7 +13,7 @@ import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/datastore/snackbar";
 
-import CommonItemsGridFooter from "./CommonItemsGridFooter";
+import MagicItemsGridFooter from "./MagicItemsGridFooter";
 import RarityWidget from "../widgets/RarityWidget";
 import MagicItemDialog from "../MagicItemDialog";
 
@@ -25,7 +25,7 @@ type PropsType = {
   editable: boolean;
 };
 
-export function CommonItemsGrid(props: PropsType) {
+export function MagicItemsGrid(props: PropsType) {
   const { characterUUID } = props;
 
   const { displayMessage } = useSnackbar();
@@ -152,7 +152,7 @@ export function CommonItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: CommonItemsGridFooter,
+          footer: MagicItemsGridFooter,
         }}
         slotProps={{
           footer: {
@@ -172,10 +172,10 @@ export function CommonItemsGrid(props: PropsType) {
         }}
         characterUUID={characterUUID}
         item={editConsumable}
-        defaultRarity="common"
+        defaultRarity="uncommon"
       />
     </React.Fragment>
   );
 }
 
-export default CommonItemsGrid;
+export default MagicItemsGrid;

@@ -21,7 +21,7 @@ type PropsType = {
   defaultRarity?: Rarity;
 };
 
-export function CommonItemDialog(props: PropsType) {
+export function MagicItemDialog(props: PropsType) {
   const { open, onClose, characterUUID, item, defaultRarity } = props;
 
   const { createConsumable, updateConsumable } = useConsumables(characterUUID);
@@ -195,4 +195,4 @@ export function CommonItemDialog(props: PropsType) {
   );
 }
 
-export default CommonItemDialog;
+export default MagicItemDialog;
