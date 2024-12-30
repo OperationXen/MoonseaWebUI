@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
 
-import { Box, Checkbox, IconButton, Tooltip } from "@mui/material";
+import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
@@ -90,6 +90,18 @@ export function CommonItemsGrid(props: PropsType) {
       },
     },
     {
+      field: "attunement",
+      headerName: "Attunement",
+      flex: 1,
+      renderCell: (p) => {
+        return (
+          <Box className="flex items-center h-full">
+            <Typography>{p.row.attunement ? "Required" : ""}</Typography>
+          </Box>
+        );
+      },
+    },
+    {
       field: "equipped",
       headerName: `Equipped ${getNumberEquipped(magicItems)}`,
       flex: 2,
@@ -158,7 +170,7 @@ export function CommonItemsGrid(props: PropsType) {
           setEditConsumable(null);
         }}
         characterUUID={characterUUID}
-        consumable={editConsumable}
+        item={editConsumable}
       />
     </React.Fragment>
   );

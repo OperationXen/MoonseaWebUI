@@ -11,37 +11,34 @@ import { useConsumables } from "@/data/fetch/items/consumables";
 import { getRarityColour } from "@/utils/items";
 
 import type { UUID } from "@/types/uuid";
-import type { Consumable, Rarity, ConsumableType } from "@/types/items";
+import type { MagicItem, Rarity } from "@/types/items";
 
 type PropsType = {
   open: boolean;
   onClose: () => void;
   characterUUID: UUID;
-  consumable: Consumable | null;
+  item: MagicItem | null;
 };
 
 export function CommonItemDialog(props: PropsType) {
-  const { open, onClose, characterUUID, consumable } = props;
+  const { open, onClose, characterUUID, item } = props;
 
   const { createConsumable, updateConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState<string>("");
   const [rarity, setRarity] = useState<Rarity>("uncommon");
-  const [itemType, setItemType] = useState<ConsumableType>("potion");
   const [charges, setCharges] = useState<number>(0);
   const [desc, setDesc] = useState<string>("");
   const [highlight, setHighlight] = useState(false);
 
   useEffect(() => {
-    if (!consumable) return;
-    setName(consumable.name);
-    setRarity(consumable.rarity);
-    setItemType(consumable.type);
-    setCharges(consumable.charges || 0);
-    setDesc(consumable.description || "");
+    if (!item) return;
+    setName(item.name);
+    setRarity(item.rarity);
+    setDesc(item.description || "");
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [consumable]);
+  }, [item]);
 
   const handleClose = () => {
     onClose();
@@ -51,15 +48,13 @@ export function CommonItemDialog(props: PropsType) {
   };
 
   const handleSubmit = () => {
-    let data: Partial<Consumable> = {
-      uuid: consumable?.uuid || undefined,
+    let data: Partial<MagicItem> = {
+      uuid: item?.uuid || undefined,
       name: name,
       description: desc,
       rarity: rarity,
-      type: itemType as ConsumableType,
-      charges: charges,
     };
-    if (consumable) {
+    if (item) {
       updateConsumable(data)
         .then(() => {
           displayMessage("Updated", "info");
@@ -100,7 +95,7 @@ export function CommonItemDialog(props: PropsType) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        {consumable ? "Edit existing consumable item" : "Create New Consumable"}
+        {item ? "Edit existing consumable item" : "Create New Consumable"}
       </Typography>
       <Divider variant="middle" />
       <Box
@@ -122,22 +117,6 @@ export function CommonItemDialog(props: PropsType) {
           error={highlight && !name}
           required
         ></TextField>
-        <FormControl sx={{ width: "10em" }}>
-          <InputLabel id="type-label">Item Type</InputLabel>
-          <Select
-            label="Item Type"
-            value={itemType}
-            onChange={(e: SelectChangeEvent) =>
-              setItemType(e.target.value as ConsumableType)
-            }
-          >
-            <MenuItem value="potion">Potion</MenuItem>
-            <MenuItem value="scroll">Scroll</MenuItem>
-            <MenuItem value="ammo">Ammunition</MenuItem>
-            <MenuItem value="gear">Wearable gear</MenuItem>
-            <MenuItem value="other">Other</MenuItem>
-          </Select>
-        </FormControl>
       </Box>
       <TextField
         label="Description"
@@ -192,7 +171,7 @@ export function CommonItemDialog(props: PropsType) {
           }}
           disabled={!name}
         >
-          {consumable ? "Update item" : "Create Item"}
+          {item ? "Update item" : "Create Item"}
         </Button>
       </Box>
     </Dialog>

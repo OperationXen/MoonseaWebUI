@@ -10,7 +10,7 @@ export function CommonItemsGridFooter(
 
   return (
     <Box
-      className="flex px-1 py-1 h-10 items-center"
+      className="flex px-1 py-1 h-11 items-center"
       sx={{ borderTop: "1px solid black" }}
     >
       <Button

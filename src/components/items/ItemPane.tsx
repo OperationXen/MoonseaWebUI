@@ -46,8 +46,7 @@ export function ItemPane(props: PropsType) {
           />
         )}
         {itemTab === "commonitems" && (
-          <WindowCommonItems
-            magicItems={character?.items}
+          <CommonItemsGrid
             characterUUID={character.uuid}
             editable={character.editable}
           />
