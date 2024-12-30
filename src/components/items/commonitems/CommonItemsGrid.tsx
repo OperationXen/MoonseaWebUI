@@ -171,6 +171,7 @@ export function CommonItemsGrid(props: PropsType) {
         }}
         characterUUID={characterUUID}
         item={editConsumable}
+        defaultRarity="common"
       />
     </React.Fragment>
   );

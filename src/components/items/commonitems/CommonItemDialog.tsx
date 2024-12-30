@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import { Dialog, Typography, Divider, Box, FormControl } from "@mui/material";
 import { Select, SelectChangeEvent, MenuItem, InputLabel } from "@mui/material";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Checkbox } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
 import { useConsumables } from "@/data/fetch/items/consumables";
@@ -18,41 +18,43 @@ type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
   item: MagicItem | null;
+  defaultRarity?: Rarity;
 };
 
 export function CommonItemDialog(props: PropsType) {
-  const { open, onClose, characterUUID, item } = props;
+  const { open, onClose, characterUUID, item, defaultRarity } = props;
 
   const { createConsumable, updateConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState<string>("");
   const [rarity, setRarity] = useState<Rarity>("uncommon");
-  const [charges, setCharges] = useState<number>(0);
+  const [attunement, setAttunement] = useState(false);
   const [desc, setDesc] = useState<string>("");
+  const [flavour, setFlavour] = useState("");
   const [highlight, setHighlight] = useState(false);
 
   useEffect(() => {
-    if (!item) return;
-    setName(item.name);
-    setRarity(item.rarity);
-    setDesc(item.description || "");
+    setName(item?.name || "");
+    setRarity(item?.rarity || defaultRarity || "uncommon");
+    setDesc(item?.description || "");
+    setFlavour(item?.flavour || "");
+    setAttunement(item?.attunement || false);
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
   const handleClose = () => {
     onClose();
-    setName("");
-    setDesc("");
-    setCharges(0);
   };
 
   const handleSubmit = () => {
     let data: Partial<MagicItem> = {
       uuid: item?.uuid || undefined,
-      name: name,
+      name,
+      rarity,
       description: desc,
-      rarity: rarity,
+      flavour,
+      attunement,
     };
     if (item) {
       updateConsumable(data)
@@ -95,7 +97,7 @@ export function CommonItemDialog(props: PropsType) {
       }}
     >
       <Typography variant="h4" marginLeft="0.4em">
-        {item ? "Edit existing consumable item" : "Create New Consumable"}
+        {item ? "Edit existing magic item" : "Create New Item"}
       </Typography>
       <Divider variant="middle" />
       <Box
@@ -107,31 +109,17 @@ export function CommonItemDialog(props: PropsType) {
           justifyContent: "space-between",
         }}
       ></Box>
-      <Box sx={{ width: "100%", display: "flex", gap: "8px" }}>
+      <Box sx={{ width: "100%", display: "flex", gap: "4px" }}>
         <TextField
-          sx={{ flexGrow: 1 }}
+          sx={{ flexGrow: 2, flexBasis: 4 }}
           label="Item Name"
           value={name}
-          placeholder="Potion of healing"
+          placeholder="Item name"
           onChange={(e) => setName(e.target.value)}
           error={highlight && !name}
           required
-        ></TextField>
-      </Box>
-      <TextField
-        label="Description"
-        multiline
-        minRows={1}
-        maxRows={5}
-        value={desc}
-        onChange={(e) => setDesc(e.target.value)}
-        placeholder="Item abilities and rule prompts"
-      ></TextField>
-
-      <Box
-        sx={{ display: "flex", justifyContent: "space-between", gap: "8px" }}
-      >
-        <FormControl sx={{ flexGrow: 1, flexBasis: 1 }}>
+        />
+        <FormControl sx={{ flexGrow: 1, flexBasis: 2 }}>
           <InputLabel id="type-label">Rarity</InputLabel>
           <Select
             label="Rarity"
@@ -147,15 +135,44 @@ export function CommonItemDialog(props: PropsType) {
             <MenuItem value="legendary">Legendary</MenuItem>
           </Select>
         </FormControl>
-
-        <TextField
-          sx={{ flexGrow: 1, flexBasis: 1 }}
-          value={charges}
-          label="Charges"
-          type="number"
-          onChange={(e) => setCharges(parseInt(e.target.value))}
-        />
+        <Box
+          sx={{
+            flexBasis: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            border: "1px solid darkgrey",
+            borderRadius: "4px",
+            padding: "4px",
+            cursor: "pointer",
+          }}
+          onClick={() => setAttunement(!attunement)}
+        >
+          <Checkbox checked={attunement} sx={{ padding: 0 }} />
+          <Typography variant="caption">Attunement</Typography>
+        </Box>
       </Box>
+
+      <TextField
+        label="Description"
+        multiline
+        minRows={2}
+        maxRows={5}
+        value={desc}
+        onChange={(e) => setDesc(e.target.value)}
+        placeholder="Item abilities and rule prompts"
+      />
+
+      <TextField
+        label="Flavour"
+        multiline
+        minRows={2}
+        maxRows={5}
+        value={flavour}
+        onChange={(e) => setFlavour(e.target.value)}
+        placeholder="Item flavour text"
+      />
 
       <Box
         display="flex"
