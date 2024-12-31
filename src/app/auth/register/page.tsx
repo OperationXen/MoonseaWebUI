@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { Container, Box, Paper, Link } from "@mui/material";
+import { Container, Box, Paper, Link, Divider } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
@@ -80,35 +80,30 @@ export default function RegistrationWindow() {
         }}
         onKeyDown={keyPressHandler}
       >
-        <Typography variant="h4">Register A New Account</Typography>
-        <Box
-          sx={{
-            margin: "0.4em",
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <TextField
-            sx={{ flexGrow: 0.6 }}
-            value={username}
-            label="Username"
-            autoComplete="username"
-            error={issues.username !== undefined}
-            helperText={issues.username ? issues.username : null}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            sx={{ flexGrow: 0.35 }}
-            value={discordID}
-            label="Discord Username (optional)"
-            autoComplete="discord"
-            error={discordID !== "" && !checkDiscordID(discordID)}
-            placeholder="Username"
-            onChange={(e) => setDiscordID(e.target.value.trim())}
-          />
-        </Box>
-        <Box sx={{ margin: "0.4em", width: "100%" }}>
+        <Typography variant="h4">Create an account</Typography>
+        <Divider className="w-full my-2" />
+        <Box className="flex flex-col gap-2 w-full">
+          <Box className="flex gap-2">
+            <TextField
+              sx={{ flexGrow: 0.6 }}
+              value={username}
+              label="Username"
+              autoComplete="username"
+              error={issues.username !== undefined}
+              helperText={issues.username ? issues.username : null}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              sx={{ flexGrow: 0.35 }}
+              value={discordID}
+              label="Discord Username (optional)"
+              autoComplete="discord"
+              error={discordID !== "" && !checkDiscordID(discordID)}
+              placeholder="Username"
+              onChange={(e) => setDiscordID(e.target.value.trim())}
+            />
+          </Box>
+
           <TextField
             fullWidth
             value={email}
@@ -117,66 +112,69 @@ export default function RegistrationWindow() {
             error={issues.email !== undefined}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </Box>
-        <Box
-          sx={{
-            margin: "0.4em",
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <TextField
-            sx={{ flexGrow: 0.48 }}
-            value={password1}
-            label="Password"
-            type="password"
-            autoComplete="password"
-            error={issues.password !== undefined}
-            helperText={
-              issues.password
-                ? issues.password[0]
-                : password1 && !validatePassword(password1)
-                  ? "Password too short"
+          <Box className="flex gap-2">
+            <TextField
+              sx={{ flexGrow: 0.48 }}
+              value={password1}
+              label="Password"
+              type="password"
+              autoComplete="password"
+              error={issues.password !== undefined}
+              helperText={
+                issues.password
+                  ? issues.password[0]
+                  : password1 && !validatePassword(password1)
+                    ? "Password too short"
+                    : " "
+              }
+              onChange={updatePassword1}
+            />
+            <TextField
+              sx={{ flexGrow: 0.48 }}
+              value={password2}
+              label="Confirm Password"
+              type="password"
+              autoComplete="password-confirm"
+              error={issues.password !== undefined}
+              helperText={
+                password2 && password1 !== password2
+                  ? "Passwords must match"
                   : " "
-            }
-            onChange={updatePassword1}
-          />
-          <TextField
-            sx={{ flexGrow: 0.48 }}
-            value={password2}
-            label="Confirm Password"
-            type="password"
-            autoComplete="password-confirm"
-            error={issues.password !== undefined}
-            helperText={
-              password2 && password1 !== password2
-                ? "Passwords must match"
-                : " "
-            }
-            onChange={(e) => setPassword2(e.target.value)}
-          />
+              }
+              onChange={(e) => setPassword2(e.target.value)}
+            />
+          </Box>
         </Box>
-        <Button
-          sx={{ width: "50%", margin: "0.4em" }}
-          variant="contained"
-          disabled={
-            !username ||
-            !password1 ||
-            !password2 ||
-            (discordID !== "" && !checkDiscordID(discordID))
-          }
-          onClick={handleSubmit}
-        >
-          Create Account
-        </Button>
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => router.push("/auth/login")}
-        >
-          Sign in with existing account
-        </Link>
+        <Box className="flex flex-col w-full items-center justify-center">
+          <Button
+            className="w-full"
+            variant="contained"
+            disabled={
+              !username ||
+              !password1 ||
+              !password2 ||
+              (discordID !== "" && !checkDiscordID(discordID))
+            }
+            onClick={handleSubmit}
+          >
+            Create Account
+          </Button>
+          <Divider className="w-80">
+            <Typography className="opacity-80">or</Typography>
+          </Divider>
+          <Button disabled className="w-full" variant="outlined">
+            Sign in with discord (coming soon)
+          </Button>
+        </Box>
+        <Box className="mt-2">
+          <Link
+            variant="caption"
+            sx={{ cursor: "pointer" }}
+            onClick={() => router.push("/auth/login")}
+          >
+            Sign in with existing account
+          </Link>
+        </Box>
       </Paper>
     </Container>
   );
