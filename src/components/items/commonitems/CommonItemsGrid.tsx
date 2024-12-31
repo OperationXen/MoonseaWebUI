@@ -2,53 +2,51 @@
 
 import React, { ChangeEvent, useState } from "react";
 
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import RemoveIcon from "@mui/icons-material/Remove";
 import TextsmsIcon from "@mui/icons-material/Textsms";
 
-import { Box, Checkbox, IconButton, Typography, Tooltip } from "@mui/material";
+import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
-import { useConsumables } from "@/data/fetch/items/consumables";
+import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/datastore/snackbar";
 
-import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
-import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
+import CommonItemsGridFooter from "./CommonItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
-import ConsumableDialog from "./ConsumableDialog";
+import MagicItemDialog from "../MagicItemDialog";
 
 import type { UUID } from "@/types/uuid";
-import type { Consumable } from "@/types/items";
+import type { MagicItem } from "@/types/items";
 
 type PropsType = {
   characterUUID: UUID;
   editable: boolean;
 };
 
-export function ConsumableItemsGrid(props: PropsType) {
+export function CommonItemsGrid(props: PropsType) {
   const { characterUUID } = props;
 
   const { displayMessage } = useSnackbar();
-  const {
-    data: consumableItems,
-    updateConsumable,
-    deleteConsumable,
-  } = useConsumables(characterUUID);
+  const { data, updateItem, deleteItem } = useMagicItems(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editConsumable, setEditConsumable] = useState<Consumable | null>(null);
+  const [editConsumable, setEditConsumable] = useState<MagicItem | null>(null);
 
-  const renderEquipped = (p: GridRenderCellParams<Consumable>) => {
+  // filter items down to just the common
+  const magicItems = data?.filter((item: MagicItem) => {
+    return item.rarity === "common";
+  });
+
+  const renderEquipped = (p: GridRenderCellParams<MagicItem>) => {
     return (
       <Box className="flex items-center h-full w-full justify-center">
         <Checkbox
           checked={p.row.equipped}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            updateConsumable({
+            updateItem({
               uuid: p.row.uuid,
               equipped: !!event.target.checked,
             });
@@ -58,7 +56,7 @@ export function ConsumableItemsGrid(props: PropsType) {
     );
   };
 
-  const columns: GridColDef<Consumable>[] = [
+  const columns: GridColDef<MagicItem>[] = [
     {
       field: "name",
       headerName: "Name",
@@ -82,14 +80,6 @@ export function ConsumableItemsGrid(props: PropsType) {
       },
     },
     {
-      field: "type",
-      headerName: "Type",
-      flex: 2,
-      renderCell: (p) => {
-        return <ConsumableTypeWidget type={p.row.type} />;
-      },
-    },
-    {
       field: "rarity",
       headerName: "Rarity",
       flex: 2,
@@ -102,40 +92,20 @@ export function ConsumableItemsGrid(props: PropsType) {
       },
     },
     {
-      field: "charges",
-      headerName: "Charges",
-      flex: 3,
+      field: "attunement",
+      headerName: "Attunement",
+      flex: 1,
       renderCell: (p) => {
         return (
-          <Box className="flex items-center justify-between">
-            <IconButton
-              onClick={() => {
-                updateConsumable({
-                  uuid: p.row.uuid,
-                  charges: (p.row.charges ?? 0) - 1,
-                });
-              }}
-            >
-              <RemoveIcon fontSize="small" />
-            </IconButton>
-            <Typography variant="body1">{p.row.charges}</Typography>
-            <IconButton
-              onClick={() => {
-                updateConsumable({
-                  uuid: p.row.uuid,
-                  charges: (p.row.charges ?? 0) + 1,
-                });
-              }}
-            >
-              <AddIcon fontSize="small" />
-            </IconButton>
+          <Box className="flex items-center h-full">
+            <Typography>{p.row.attunement ? "Required" : ""}</Typography>
           </Box>
         );
       },
     },
     {
       field: "equipped",
-      headerName: `Equipped ${getNumberEquipped(consumableItems)}`,
+      headerName: `Equipped ${getNumberEquipped(magicItems)}`,
       flex: 2,
       renderCell: renderEquipped,
     },
@@ -150,7 +120,7 @@ export function ConsumableItemsGrid(props: PropsType) {
             </IconButton>
             <IconButton
               onClick={() => {
-                deleteConsumable(p.row).then(() =>
+                deleteItem(p.row).then(() =>
                   displayMessage(`Removed ${p.row.name}`, "info"),
                 );
               }}
@@ -168,7 +138,7 @@ export function ConsumableItemsGrid(props: PropsType) {
       <DataGrid
         getRowId={(x) => x.uuid}
         columns={columns}
-        rows={consumableItems}
+        rows={magicItems}
         initialState={{
           sorting: {
             sortModel: [{ field: "equipped", sort: "desc" }],
@@ -183,7 +153,7 @@ export function ConsumableItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: ConsumableItemsGridFooter,
+          footer: CommonItemsGridFooter,
           noRowsOverlay: NoItemsOverlay,
         }}
         slotProps={{
@@ -196,17 +166,18 @@ export function ConsumableItemsGrid(props: PropsType) {
         pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
-      <ConsumableDialog
+      <MagicItemDialog
         open={dialogOpen || !!editConsumable}
         onClose={() => {
           setDialogOpen(false);
           setEditConsumable(null);
         }}
         characterUUID={characterUUID}
-        consumable={editConsumable}
+        item={editConsumable}
+        defaultRarity="common"
       />
     </React.Fragment>
   );
 }
 
-export default ConsumableItemsGrid;
+export default CommonItemsGrid;

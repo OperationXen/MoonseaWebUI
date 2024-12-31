@@ -1,4 +1,4 @@
-import type { Consumable } from "@/types/items";
+import type { Consumable, MagicItem } from "@/types/items";
 import type { Rarity } from "@/types/items";
 
 export function getRarityText(rarity: Rarity) {
@@ -6,6 +6,7 @@ export function getRarityText(rarity: Rarity) {
   if (rarity === "veryrare") return "Very rare";
   if (rarity === "rare") return "Rare";
   if (rarity === "uncommon") return "Uncommon";
+  if (rarity === "common") return "Common";
   return "Unknown";
 }
 
@@ -14,10 +15,11 @@ export function getRarityColour(rarity: Rarity) {
   if (rarity === "veryrare") return "#4B0082";
   if (rarity === "rare") return "#0000FF";
   if (rarity === "uncommon") return "#006400";
+  if (rarity === "common") return "#696969";
   return "#A9A9A9";
 }
 
-export function getNumberEquipped(data?: Consumable[]) {
+export function getNumberEquipped(data?: (Consumable | MagicItem)[]) {
   if (!data) return 0;
 
   const equipped = data.filter((c) => c.equipped);

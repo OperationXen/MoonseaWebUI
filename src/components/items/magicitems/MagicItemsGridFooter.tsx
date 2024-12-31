@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 import { Box, Button } from "@mui/material";
 import { GridPagination, GridSlotsComponentsProps } from "@mui/x-data-grid";
 
-export function ConsumableItemsGridFooter(
+export function MagicItemsGridFooter(
   props: NonNullable<GridSlotsComponentsProps["footer"]>,
 ) {
   const { onClick } = props;
@@ -18,11 +18,11 @@ export function ConsumableItemsGridFooter(
         variant="outlined"
         onClick={onClick as MouseEventHandler<any>}
       >
-        Add consumable
+        Add magic item
       </Button>
       <GridPagination className="flex items-center justify-end" />
     </Box>
   );
 }
 
-export default ConsumableItemsGridFooter;
+export default MagicItemsGridFooter;
