@@ -6,6 +6,7 @@ export function getRarityText(rarity: Rarity) {
   if (rarity === "veryrare") return "Very rare";
   if (rarity === "rare") return "Rare";
   if (rarity === "uncommon") return "Uncommon";
+  if (rarity === "common") return "Common";
   return "Unknown";
 }
 
@@ -14,6 +15,7 @@ export function getRarityColour(rarity: Rarity) {
   if (rarity === "veryrare") return "#4B0082";
   if (rarity === "rare") return "#0000FF";
   if (rarity === "uncommon") return "#006400";
+  if (rarity === "common") return "#696969";
   return "#A9A9A9";
 }
 

@@ -7,7 +7,7 @@ import { Select, SelectChangeEvent, MenuItem, InputLabel } from "@mui/material";
 import { TextField, Button, Checkbox } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
-import { useConsumables } from "@/data/fetch/items/consumables";
+import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getRarityColour } from "@/utils/items";
 
 import type { UUID } from "@/types/uuid";
@@ -24,7 +24,7 @@ type PropsType = {
 export function MagicItemDialog(props: PropsType) {
   const { open, onClose, characterUUID, item, defaultRarity } = props;
 
-  const { createConsumable, updateConsumable } = useConsumables(characterUUID);
+  const { createItem, updateItem } = useMagicItems(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState<string>("");
@@ -57,7 +57,7 @@ export function MagicItemDialog(props: PropsType) {
       attunement,
     };
     if (item) {
-      updateConsumable(data)
+      updateItem(data)
         .then(() => {
           displayMessage("Updated", "info");
           handleClose();
@@ -67,7 +67,7 @@ export function MagicItemDialog(props: PropsType) {
           console.error(error);
         });
     } else {
-      createConsumable(data)
+      createItem(data)
         .then((response) => {
           displayMessage(`Added ${response.data.name}`, "success");
           handleClose();

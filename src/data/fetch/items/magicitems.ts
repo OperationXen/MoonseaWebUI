@@ -5,10 +5,26 @@ import api from "../base";
 import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
 
+type CharUUID = { character_uuid: UUID };
+
 function getMagicItemsFn(charUUID: UUID) {
   return api.get(`/api/data/character/${charUUID}`).then((response) => {
     return response.data.items as MagicItem[];
   });
+}
+
+function getMagicItemFn(itemUUID: UUID) {
+  return api.get(`/api/data/magicitem/${itemUUID}`).then((response) => {
+    return response.data as MagicItem;
+  });
+}
+
+function createMagicItemFn(
+  item: Partial<MagicItem & CharUUID>,
+  characterUUID?: UUID,
+) {
+  if (characterUUID) item.character_uuid = characterUUID;
+  return api.post("/api/data/magicitem", item);
 }
 
 function updateMagicItemFn(item: Partial<MagicItem>) {
@@ -31,7 +47,15 @@ export function useMagicItems(characterUUID: UUID) {
   });
   const updateItem = useMutation({
     mutationFn: updateMagicItemFn,
-    onSettled: (_item) => {
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
+  const createItem = useMutation({
+    mutationFn: (item: Partial<MagicItem>) =>
+      createMagicItemFn(item, characterUUID),
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
     },
   });
@@ -41,6 +65,41 @@ export function useMagicItems(characterUUID: UUID) {
     onSettled: (_item) => {
       queryClient.invalidateQueries({ queryKey });
     },
+  });
+
+  return {
+    ...fetchData,
+    createItem: createItem.mutateAsync,
+    updateItem: updateItem.mutateAsync,
+    deleteItem: deleteItem.mutateAsync,
+  };
+}
+
+export function useMagicItem(uuid: UUID, characterUUID?: UUID) {
+  const queryKey = ["items", "magic", "individual", uuid];
+  const queryClient = useQueryClient();
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey });
+    if (characterUUID)
+      queryClient.invalidateQueries({
+        queryKey: ["items", "magic", "character", characterUUID],
+      });
+  };
+
+  const fetchData = useQuery({
+    queryKey,
+    queryFn: () => getMagicItemFn(uuid),
+  });
+
+  const updateItem = useMutation({
+    mutationFn: updateMagicItemFn,
+    onSettled: invalidate,
+  });
+
+  const deleteItem = useMutation({
+    mutationFn: deleteMagicItemFn,
+    onSettled: invalidate,
   });
 
   return {
