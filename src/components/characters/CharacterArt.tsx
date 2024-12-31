@@ -17,11 +17,11 @@ import type { Character, CharacterImageType } from "@/types/character";
 
 type PropsType = {
   character: Character;
-  updateCharacter: (x: Partial<Character>) => Promise<any>;
+  refreshCharacter: () => void;
 };
 
 export function CharacterArt(props: PropsType) {
-  const { character, updateCharacter } = props;
+  const { character, refreshCharacter } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [openFileSelector, { filesContent, clear, errors }] = useFilePicker({
@@ -54,9 +54,7 @@ export function CharacterArt(props: PropsType) {
     if (filesContent.length) {
       uploadCharacterImage(character.uuid, show, filesContent[0])
         .then((response) => {
-          if (show === "artwork")
-            updateCharacter({ artwork: response.data.path });
-          else updateCharacter({ token: response.data.path });
+          refreshCharacter();
           displayMessage(`${response.data.message}`, "success");
         })
         .finally(() => {
@@ -69,7 +67,10 @@ export function CharacterArt(props: PropsType) {
   useEffect(() => {
     if (errors.length) {
       if (errors[0].fileSizeToolarge)
-        displayMessage(`Failed to upload, file is too big`, "error");
+        displayMessage(
+          `Failed to upload, file is too big - max size 1 Mbit`,
+          "error",
+        );
     }
   }, [errors]);
 
