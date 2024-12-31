@@ -3,6 +3,10 @@
 const nextConfig = {
   output: "standalone", // Outputs a Single-Page Application (SPA).
 
+  images: {
+    domains: ["moonseacodex.com"],
+  },
+
   async redirects() {
     return [
       {
