@@ -37,7 +37,6 @@ export function MagicItemsGrid(props: PropsType) {
 
   // filter items down to just the common
   const magicItems = data?.filter((item: MagicItem) => {
-    debugger;
     return ["uncommon", "rare", "veryrare", "legendary"].includes(item.rarity);
   });
 

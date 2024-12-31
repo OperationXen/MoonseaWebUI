@@ -13,25 +13,27 @@ import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import { uploadCharacterImage } from "@/api/character";
 import useSnackbar from "@/datastore/snackbar";
 
-import { Character } from "@/types/character";
+import type { Character, CharacterImageType } from "@/types/character";
 
-type ImageTypes = "artwork" | "token";
 type PropsType = {
   character: Character;
-  updateCharacter: (x: Partial<Character>) => Promise<any>;
+  refreshCharacter: () => void;
 };
 
 export function CharacterArt(props: PropsType) {
-  const { character, updateCharacter } = props;
+  const { character, refreshCharacter } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [openFileSelector, { filesContent, clear, errors }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
-    maxFileSize: 0.8,
+    maxFileSize: 1.2,
   });
-  const [show, setShow] = useState<ImageTypes>("token");
+
+  const [show, setShow] = useState<CharacterImageType>(
+    character.artwork ? "artwork" : "token",
+  );
   const [active, setActive] = useState(false);
 
   const getImageLink = () => {
@@ -52,9 +54,7 @@ export function CharacterArt(props: PropsType) {
     if (filesContent.length) {
       uploadCharacterImage(character.uuid, show, filesContent[0])
         .then((response) => {
-          if (show === "artwork")
-            updateCharacter({ artwork: response.data.path });
-          else updateCharacter({ token: response.data.path });
+          refreshCharacter();
           displayMessage(`${response.data.message}`, "success");
         })
         .finally(() => {
@@ -67,7 +67,10 @@ export function CharacterArt(props: PropsType) {
   useEffect(() => {
     if (errors.length) {
       if (errors[0].fileSizeToolarge)
-        displayMessage(`Failed to upload, file is too big`, "error");
+        displayMessage(
+          `Failed to upload, file is too big - max size 1 Mbit`,
+          "error",
+        );
     }
   }, [errors]);
 
@@ -80,6 +83,7 @@ export function CharacterArt(props: PropsType) {
         display: "flex",
         flexDirection: "column",
         minWidth: "256px",
+        overflow: "hidden",
       }}
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
@@ -90,16 +94,16 @@ export function CharacterArt(props: PropsType) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          paddingY: "4px",
           height: 256,
+          width: 256,
         }}
       >
         {(getImageLink() && (
           <Image
             src={getImageLink()}
             alt={`${character.name}-${show}`}
-            width={242}
-            height={242}
+            width={262}
+            height={262}
           />
         )) || (
           <Typography

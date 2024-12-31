@@ -1,6 +1,7 @@
 import api from "./base";
 
-import type { Character } from "types/character";
+import type { Character, CharacterImageType } from "@/types/character";
+import type { UUID } from "@/types/uuid";
 
 export async function getCharacters() {
   return api
@@ -40,7 +41,11 @@ export function deleteCharacter(ID: any) {
   return api.delete(`/api/data/character/${ID}/`);
 }
 
-export function uploadCharacterImage(ID: any, imageType: any, fileData: any) {
+export function uploadCharacterImage(
+  ID: UUID,
+  imageType: CharacterImageType,
+  fileData: any,
+) {
   return api.post(`/api/data/character/${ID}/${imageType}`, fileData, {
     headers: { "Content-Type": "multipart/form-data" },
   });

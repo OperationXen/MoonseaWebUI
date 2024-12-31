@@ -24,6 +24,7 @@ export default function CharacterPage(props: PropsType) {
     data: characterData,
     isPending,
     updateCharacter,
+    refreshCharacter,
   } = useCharacter(characterUUID);
 
   if (isPending) return <LoadingOverlay open={true} />;
@@ -31,10 +32,6 @@ export default function CharacterPage(props: PropsType) {
 
   const handleCharacterUpdate = (changes: Partial<Character>) => {
     const newData = { ...characterData, ...changes };
-    // TODO logically updating artwork or tokens should be a case of changing the URL
-    // A different endpoint should be used for uploading new files
-    newData.artwork = null;
-    newData.token = null;
     return updateCharacter(newData);
   };
 
@@ -55,7 +52,7 @@ export default function CharacterPage(props: PropsType) {
         <Box className="flex">
           <CharacterArt
             character={characterData}
-            updateCharacter={handleCharacterUpdate}
+            refreshCharacter={refreshCharacter}
           />
           <CharacterDetailsPane
             character={characterData}
