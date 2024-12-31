@@ -59,7 +59,10 @@ export default function PasswordReset() {
   }, [userStatus]);
 
   return (
-    <Container sx={{ display: "flex", height: "70%" }}>
+    <Container
+      className="flex items-center justify-around"
+      sx={{ height: "calc(100vh - 6em)" }}
+    >
       <Paper
         elevation={12}
         sx={{
