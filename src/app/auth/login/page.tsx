@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Container, Box, Paper, Link } from "@mui/material";
+import { Container, Box, Paper, Link, Divider } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function LoginWindow() {
-  const { data: userStatus, login } = useUserStatus();
   const router = useRouter();
+  const { data: userStatus, login } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [username, setUsername] = useState("");
@@ -35,9 +35,7 @@ export default function LoginWindow() {
   };
 
   // If user is already logged in don't let them waste their time here
-  useEffect(() => {
-    if (userStatus?.authenticated) router.push("/characters");
-  }, [userStatus]);
+  if (userStatus?.authenticated) router.push("/characters");
 
   return (
     <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>
@@ -45,7 +43,7 @@ export default function LoginWindow() {
         elevation={12}
         sx={{
           alignSelf: "center",
-          width: "25em",
+          width: "28em",
           margin: "auto",
           display: "flex",
           padding: "0.8em 2em",
@@ -74,29 +72,39 @@ export default function LoginWindow() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
-        <Button
-          sx={{ width: "50%", margin: "0.4em" }}
-          variant="contained"
-          disabled={!username || !password}
-          onClick={handleSubmit}
-        >
-          Login
-        </Button>
+        <Box className="flex flex-col items-center w-full">
+          <Button
+            className="w-full"
+            variant="contained"
+            disabled={!username || !password}
+            onClick={handleSubmit}
+          >
+            Login
+          </Button>
+          <Divider className="w-80">
+            <Typography className="opacity-80">or</Typography>
+          </Divider>
+          <Button disabled className="w-full" variant="outlined">
+            Sign in with discord (coming soon)
+          </Button>
+        </Box>
 
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => router.push("/auth/register")}
-        >
-          Register an account
-        </Link>
-        <Link
-          variant="caption"
-          sx={{ cursor: "pointer" }}
-          onClick={() => router.push("/auth/passwordreset")}
-        >
-          I forgot my password
-        </Link>
+        <Box className="flex gap-8 mt-2">
+          <Link
+            variant="caption"
+            sx={{ cursor: "pointer" }}
+            onClick={() => router.push("/auth/register")}
+          >
+            Register an account
+          </Link>
+          <Link
+            variant="caption"
+            sx={{ cursor: "pointer" }}
+            onClick={() => router.push("/auth/passwordreset")}
+          >
+            I forgot my password
+          </Link>
+        </Box>
       </Paper>
     </Container>
   );

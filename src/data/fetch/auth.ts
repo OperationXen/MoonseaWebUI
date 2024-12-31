@@ -77,7 +77,8 @@ export function useUserStatus() {
 
   const fetchData = useQuery({
     queryKey: ["user-status"],
-    queryFn: () => getUserStatus(),
+    queryFn: getUserStatus,
+    refetchInterval: 30 * 1000,
   });
 
   const login = useMutation({
