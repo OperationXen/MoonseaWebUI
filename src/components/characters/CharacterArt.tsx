@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { useFilePicker } from "use-file-picker";
 
-import Image from "next/image";
-
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Zoom, Fab, Tooltip } from "@mui/material";
@@ -78,11 +76,9 @@ export function CharacterArt(props: PropsType) {
     <Box
       sx={{
         borderRight: "1px solid black",
-
         position: "relative",
         display: "flex",
         flexDirection: "column",
-        minWidth: "256px",
         overflow: "hidden",
       }}
       onMouseEnter={() => setActive(true)}
@@ -99,11 +95,14 @@ export function CharacterArt(props: PropsType) {
         }}
       >
         {(getImageLink() && (
-          <Image
+          <Box
+            component="img"
+            sx={{
+              height: 262,
+              width: 262,
+            }}
             src={getImageLink()}
             alt={`${character.name}-${show}`}
-            width={262}
-            height={262}
           />
         )) || (
           <Typography
