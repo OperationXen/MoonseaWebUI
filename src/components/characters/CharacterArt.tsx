@@ -13,9 +13,8 @@ import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import { uploadCharacterImage } from "@/api/character";
 import useSnackbar from "@/datastore/snackbar";
 
-import { Character } from "@/types/character";
+import type { Character, CharacterImageType } from "@/types/character";
 
-type ImageTypes = "artwork" | "token";
 type PropsType = {
   character: Character;
   updateCharacter: (x: Partial<Character>) => Promise<any>;
@@ -29,9 +28,12 @@ export function CharacterArt(props: PropsType) {
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
-    maxFileSize: 0.8,
+    maxFileSize: 1.2,
   });
-  const [show, setShow] = useState<ImageTypes>("token");
+
+  const [show, setShow] = useState<CharacterImageType>(
+    character.artwork ? "artwork" : "token",
+  );
   const [active, setActive] = useState(false);
 
   const getImageLink = () => {
@@ -80,6 +82,7 @@ export function CharacterArt(props: PropsType) {
         display: "flex",
         flexDirection: "column",
         minWidth: "256px",
+        overflow: "hidden",
       }}
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
@@ -90,16 +93,16 @@ export function CharacterArt(props: PropsType) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          paddingY: "4px",
           height: 256,
+          width: 256,
         }}
       >
         {(getImageLink() && (
           <Image
             src={getImageLink()}
             alt={`${character.name}-${show}`}
-            width={242}
-            height={242}
+            width={262}
+            height={262}
           />
         )) || (
           <Typography

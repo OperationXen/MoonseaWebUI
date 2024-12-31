@@ -1,6 +1,8 @@
 import { UUID } from "./uuid";
 import { MagicItem, Consumable } from "./items";
 
+export type CharacterImageType = "artwork" | "token";
+
 export type PlayerClass = {
   value: number;
   name: string;
