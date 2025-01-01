@@ -26,7 +26,7 @@ export async function updateCharacterFn(
 ) {
   data.uuid = charUUID;
   return api
-    .patch(`/api/data/character/${charUUID}/`, data)
+    .patch(`/api/data/character/${charUUID}`, data)
     .then((r) => r.data as Character);
 }
 
