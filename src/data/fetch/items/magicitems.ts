@@ -94,6 +94,19 @@ export function useMagicItem(uuid: UUID, characterUUID?: UUID) {
 
   const updateItem = useMutation({
     mutationFn: updateMagicItemFn,
+    onMutate: async (newData: Partial<MagicItem>) => {
+      await queryClient.cancelQueries({ queryKey });
+      const oldData = queryClient.getQueryData(queryKey) as MagicItem;
+
+      queryClient.setQueryData(queryKey, { ...oldData, ...newData });
+      // Return a context with the old data and the new
+      return { oldData, newItem: newData };
+    },
+    onError: (_err, _newChar: Partial<MagicItem>, context) => {
+      if (context) {
+        queryClient.setQueryData(queryKey, context.oldData);
+      }
+    },
     onSettled: invalidate,
   });
 

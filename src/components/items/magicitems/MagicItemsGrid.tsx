@@ -5,14 +5,17 @@ import React, { ChangeEvent, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridRenderCellParams, GridRowParams } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/datastore/snackbar";
 
+import ItemMarketWidget from "../widgets/ItemMarketWidget";
 import MagicItemsGridFooter from "./MagicItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
@@ -33,25 +36,39 @@ export function MagicItemsGrid(props: PropsType) {
   const { data, updateItem, deleteItem } = useMagicItems(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editConsumable, setEditConsumable] = useState<MagicItem | null>(null);
+  const [hideMarket, setHideMarket] = useState(true);
+  const [editItem, setEditItem] = useState<MagicItem | null>(null);
 
-  // filter items down to just the common
+  // filter out common items, and anything in the trading post
   const magicItems = data?.filter((item: MagicItem) => {
+    if (item.market && hideMarket) return false;
     return ["uncommon", "rare", "veryrare", "legendary"].includes(item.rarity);
   });
+
+  const getRowFormat = (p: GridRowParams) => {
+    if (p.row.market) return "bg-gray-400 opacity-70";
+    return "";
+  };
 
   const renderEquipped = (p: GridRenderCellParams<MagicItem>) => {
     return (
       <Box className="flex items-center h-full w-full justify-center">
-        <Checkbox
-          checked={p.row.equipped}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            updateItem({
-              uuid: p.row.uuid,
-              equipped: !!event.target.checked,
-            });
-          }}
-        />
+        {(p.row.market && (
+          <Tooltip title="This item is in the trading post, if you want to equip it you must first remove it from the trading post">
+            <DisabledByDefaultIcon className="opacity-80" />
+          </Tooltip>
+        )) || (
+          <Checkbox
+            disabled={p.row.market}
+            checked={p.row.equipped}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+              updateItem({
+                uuid: p.row.uuid,
+                equipped: !!event.target.checked,
+              });
+            }}
+          />
+        )}
       </Box>
     );
   };
@@ -60,7 +77,7 @@ export function MagicItemsGrid(props: PropsType) {
     {
       field: "name",
       headerName: "Name",
-      flex: 5,
+      flex: 4,
     },
     {
       field: "description",
@@ -85,7 +102,7 @@ export function MagicItemsGrid(props: PropsType) {
       flex: 2,
       renderCell: (p) => {
         return (
-          <Box className="flex items-center h-full">
+          <Box className="flex items-center h-full justify-center">
             <RarityWidget rarity={p.row.rarity} text />
           </Box>
         );
@@ -93,11 +110,11 @@ export function MagicItemsGrid(props: PropsType) {
     },
     {
       field: "attunement",
-      headerName: "Attunement",
-      flex: 1,
+      headerName: `Attunement (${0})`,
+      flex: 2,
       renderCell: (p) => {
         return (
-          <Box className="flex items-center h-full">
+          <Box className="flex items-center h-full justify-center">
             <Typography>{p.row.attunement ? "Required" : ""}</Typography>
           </Box>
         );
@@ -105,17 +122,25 @@ export function MagicItemsGrid(props: PropsType) {
     },
     {
       field: "equipped",
-      headerName: `Equipped ${getNumberEquipped(magicItems)}`,
+      headerName: `Equipped (${getNumberEquipped(magicItems)})`,
       flex: 2,
       renderCell: renderEquipped,
     },
     {
-      field: "controls",
+      field: "market",
+      headerName: "Trade",
+      flex: 1,
+      renderCell: (p) => {
+        return <ItemMarketWidget item={p.row} charUUID={characterUUID} />;
+      },
+    },
+    {
+      field: "Item edit controls",
       headerName: "",
       renderCell: (p) => {
         return (
           <Box className="flex items-center justify-end">
-            <IconButton onClick={() => setEditConsumable(p.row)}>
+            <IconButton onClick={() => setEditItem(p.row)}>
               <EditIcon fontSize="small" />
             </IconButton>
             <IconButton
@@ -137,6 +162,7 @@ export function MagicItemsGrid(props: PropsType) {
     <React.Fragment>
       <DataGrid
         getRowId={(x) => x.uuid}
+        getRowClassName={getRowFormat}
         columns={columns}
         rows={magicItems}
         initialState={{
@@ -153,27 +179,32 @@ export function MagicItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: MagicItemsGridFooter,
-          noRowsOverlay: NoItemsOverlay,
+          footer: MagicItemsGridFooter as any,
+          noRowsOverlay: NoItemsOverlay as any,
         }}
         slotProps={{
           footer: {
             onClick: () => {
               setDialogOpen(true);
             },
-          },
+            hideMarket,
+            setHideMarket,
+          } as any,
+          noRowsOverlay: {
+            additional: "By default items in the trading post are not shown",
+          } as any,
         }}
         pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
       <MagicItemDialog
-        open={dialogOpen || !!editConsumable}
+        open={dialogOpen || !!editItem}
         onClose={() => {
           setDialogOpen(false);
-          setEditConsumable(null);
+          setEditItem(null);
         }}
         characterUUID={characterUUID}
-        item={editConsumable}
+        item={editItem}
         defaultRarity="uncommon"
       />
     </React.Fragment>
