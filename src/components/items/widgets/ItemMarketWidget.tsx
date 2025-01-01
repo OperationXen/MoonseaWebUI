@@ -30,13 +30,13 @@ export function ItemMarketWidget(props: PropsType) {
   const getIcon = () => {
     if (mouseOver && item.market)
       return (
-        <Tooltip title="Remove item from trading post">
+        <Tooltip title="Remove item from trading post" placement="left">
           <RemoveShoppingCartIcon />
         </Tooltip>
       );
     if (mouseOver && !item.market)
       return (
-        <Tooltip title="Send item to trading post">
+        <Tooltip title="Send item to trading post" placement="left">
           <ShoppingCartCheckoutIcon />
         </Tooltip>
       );

@@ -54,7 +54,10 @@ export function MagicItemsGrid(props: PropsType) {
     return (
       <Box className="flex items-center h-full w-full justify-center">
         {(p.row.market && (
-          <Tooltip title="This item is in the trading post, if you want to equip it you must first remove it from the trading post">
+          <Tooltip
+            title="This item is in the trading post, if you want to equip it you must first remove it from the trading post"
+            placement="left"
+          >
             <DisabledByDefaultIcon className="opacity-80" />
           </Tooltip>
         )) || (
