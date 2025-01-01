@@ -13,11 +13,12 @@ import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
 import { Box, Paper, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
-import { useUserMagicItems } from "@/data/fetch/items/usermagicitems";
-import { getDateString, getSourceText } from "@/utils/format";
+import AuthenticationRequired from "@/components/user/AuthenticationRequired";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
+import { useUserMagicItems } from "@/data/fetch/items/usermagicitems";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
+import { getDateString, getSourceText } from "@/utils/format";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
 
 import type { MagicItem } from "types/items";
@@ -144,62 +145,62 @@ export default function ItemVault() {
   ];
 
   return (
-    <Paper
-      className="flex flex-col flex-grow p-2 m-4"
-      sx={{ height: "calc(100vh - 5em)" }}
-    >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        margin="0.5em 0"
-      >
-        <Typography variant="h4">Item Vault</Typography>
-        <TextField
-          label="Search my items"
-          variant="standard"
-          sx={{ width: "25em" }}
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-
-      <ErrorBoundary fallback="Error!">
-        <Box className="flex-grow">
-          <DataGrid
-            getRowId={(r) => r.uuid}
-            columns={columns}
-            rows={getFilteredItems()}
-            density="compact"
-            loading={isLoading}
-            sx={{
-              border: "1px solid black",
+    <AuthenticationRequired>
+      <Paper className="flex flex-col flex-grow p-2 m-4">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          margin="0.5em 0"
+        >
+          <Typography variant="h4">Item Vault</Typography>
+          <TextField
+            label="Search my items"
+            variant="standard"
+            sx={{ width: "25em" }}
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
             }}
           />
         </Box>
-      </ErrorBoundary>
-      <ErrorBoundary fallback="Error in dialogs">
-        <Dialog
-          open={createOpen}
-          onClose={() => {
-            setCreateOpen(false);
-          }}
-        />
-        {item && (
-          <CreateAdvertDialog
-            open={showAdvertCreate}
-            onClose={() => setShowAdvertCreate(false)}
-            item={item}
+
+        <ErrorBoundary fallback="Error!">
+          <Box className="flex-grow">
+            <DataGrid
+              getRowId={(r) => r.uuid}
+              columns={columns}
+              rows={getFilteredItems()}
+              density="compact"
+              loading={isLoading}
+              sx={{
+                border: "1px solid black",
+                minHeight: "calc(100vh - 12em)",
+              }}
+            />
+          </Box>
+        </ErrorBoundary>
+        <ErrorBoundary fallback="Error in dialogs">
+          <Dialog
+            open={createOpen}
+            onClose={() => {
+              setCreateOpen(false);
+            }}
           />
-        )}
-      </ErrorBoundary>
-    </Paper>
+          {item && (
+            <CreateAdvertDialog
+              open={showAdvertCreate}
+              onClose={() => setShowAdvertCreate(false)}
+              item={item}
+            />
+          )}
+        </ErrorBoundary>
+      </Paper>
+    </AuthenticationRequired>
   );
 }
