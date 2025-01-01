@@ -8,7 +8,8 @@ import TextsmsIcon from "@mui/icons-material/Textsms";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridRenderCellParams, GridRowParams } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
@@ -43,6 +44,11 @@ export function MagicItemsGrid(props: PropsType) {
     if (item.market && hideMarket) return false;
     return ["uncommon", "rare", "veryrare", "legendary"].includes(item.rarity);
   });
+
+  const getRowFormat = (p: GridRowParams) => {
+    if (p.row.market) return "bg-gray-400 opacity-70";
+    return "";
+  };
 
   const renderEquipped = (p: GridRenderCellParams<MagicItem>) => {
     return (
@@ -156,6 +162,7 @@ export function MagicItemsGrid(props: PropsType) {
     <React.Fragment>
       <DataGrid
         getRowId={(x) => x.uuid}
+        getRowClassName={getRowFormat}
         columns={columns}
         rows={magicItems}
         initialState={{
