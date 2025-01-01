@@ -125,7 +125,7 @@ export function MagicItemsGrid(props: PropsType) {
       headerName: "Trade",
       flex: 1,
       renderCell: (p) => {
-        return <ItemMarketWidget item={p.row} />;
+        return <ItemMarketWidget item={p.row} charUUID={characterUUID} />;
       },
     },
     {

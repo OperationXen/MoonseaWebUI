@@ -11,16 +11,18 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import useSnackbar from "@/datastore/snackbar";
 import { useMagicItem } from "@/data/fetch/items/magicitems";
 
+import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
 
 type PropsType = {
   item: MagicItem;
+  charUUID?: UUID;
 };
 
 export function ItemMarketWidget(props: PropsType) {
-  const { item } = props;
+  const { item, charUUID } = props;
 
-  const { updateItem } = useMagicItem(item.uuid);
+  const { updateItem } = useMagicItem(item.uuid, charUUID);
   const { displayMessage } = useSnackbar();
 
   const [mouseOver, setMouseOver] = useState(false);
@@ -57,7 +59,7 @@ export function ItemMarketWidget(props: PropsType) {
         onClick={() => {
           updateItem({ uuid: item.uuid, market: !item.market }).then(() => {
             displayMessage(
-              `${item.name} ${item.market ? "sent to trading post" : "removed from trading post"}`,
+              `${item.name} ${item.market ? "removed from trading post" : "sent to trading post"}`,
               "info",
             );
           });
