@@ -178,6 +178,10 @@ export default function ItemVault() {
               rows={getFilteredItems()}
               density="compact"
               loading={isLoading}
+              pageSizeOptions={[10, 20, 50, 100]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 20 } }, // Setting initial pageSize
+              }}
               sx={{
                 border: "1px solid black",
                 minHeight: "calc(100vh - 12em)",
