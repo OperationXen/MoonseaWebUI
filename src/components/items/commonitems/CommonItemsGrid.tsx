@@ -154,7 +154,7 @@ export function CommonItemsGrid(props: PropsType) {
         }}
         slots={{
           footer: CommonItemsGridFooter,
-          noRowsOverlay: NoItemsOverlay,
+          noRowsOverlay: NoItemsOverlay as any,
         }}
         slotProps={{
           footer: {

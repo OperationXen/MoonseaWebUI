@@ -184,7 +184,7 @@ export function ConsumableItemsGrid(props: PropsType) {
         }}
         slots={{
           footer: ConsumableItemsGridFooter,
-          noRowsOverlay: NoItemsOverlay,
+          noRowsOverlay: NoItemsOverlay as any,
         }}
         slotProps={{
           footer: {
