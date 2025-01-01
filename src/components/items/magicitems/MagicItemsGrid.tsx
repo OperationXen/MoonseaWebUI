@@ -8,11 +8,13 @@ import TextsmsIcon from "@mui/icons-material/Textsms";
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { GridSlotsComponentsProps } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/datastore/snackbar";
 
+import ItemMarketWidget from "../widgets/ItemMarketWidget";
 import MagicItemsGridFooter from "./MagicItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
@@ -33,10 +35,12 @@ export function MagicItemsGrid(props: PropsType) {
   const { data, updateItem, deleteItem } = useMagicItems(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editConsumable, setEditConsumable] = useState<MagicItem | null>(null);
+  const [hideMarket, setHideMarket] = useState(true);
+  const [editItem, setEditItem] = useState<MagicItem | null>(null);
 
-  // filter items down to just the common
+  // filter out common items, and anything in the trading post
   const magicItems = data?.filter((item: MagicItem) => {
+    if (item.market && hideMarket) return false;
     return ["uncommon", "rare", "veryrare", "legendary"].includes(item.rarity);
   });
 
@@ -110,12 +114,24 @@ export function MagicItemsGrid(props: PropsType) {
       renderCell: renderEquipped,
     },
     {
+      field: "market",
+      headerName: "Market",
+      flex: 1,
+      renderCell: (p) => {
+        return (
+          <Box className="w-full flex items-center justify-center">
+            <ItemMarketWidget item={p.row} />
+          </Box>
+        );
+      },
+    },
+    {
       field: "controls",
       headerName: "",
       renderCell: (p) => {
         return (
           <Box className="flex items-center justify-end">
-            <IconButton onClick={() => setEditConsumable(p.row)}>
+            <IconButton onClick={() => setEditItem(p.row)}>
               <EditIcon fontSize="small" />
             </IconButton>
             <IconButton
@@ -153,27 +169,32 @@ export function MagicItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: MagicItemsGridFooter,
-          noRowsOverlay: NoItemsOverlay,
+          footer: MagicItemsGridFooter as any,
+          noRowsOverlay: NoItemsOverlay as any,
         }}
         slotProps={{
           footer: {
             onClick: () => {
               setDialogOpen(true);
             },
-          },
+            hideMarket,
+            setHideMarket,
+          } as any,
+          noRowsOverlay: {
+            additional: "By default items in the trading post are not shown",
+          } as any,
         }}
         pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
       <MagicItemDialog
-        open={dialogOpen || !!editConsumable}
+        open={dialogOpen || !!editItem}
         onClose={() => {
           setDialogOpen(false);
-          setEditConsumable(null);
+          setEditItem(null);
         }}
         characterUUID={characterUUID}
-        item={editConsumable}
+        item={editItem}
         defaultRarity="uncommon"
       />
     </React.Fragment>

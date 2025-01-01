@@ -1,6 +1,12 @@
 import { Box, Typography } from "@mui/material";
 
-export function NoItemsOverlay() {
+type PropsType = {
+  additional?: string;
+};
+
+export function NoItemsOverlay(props: PropsType) {
+  const { additional } = props;
+
   return (
     <Box className="w-full h-full flex items-center justify-center">
       <Box
@@ -14,6 +20,11 @@ export function NoItemsOverlay() {
           Create a new item via a game entry, or by clicking the "Add item"
           button
         </Typography>
+        {additional && (
+          <Typography variant="body2" className="opacity-50">
+            {additional}
+          </Typography>
+        )}
       </Box>
     </Box>
   );
