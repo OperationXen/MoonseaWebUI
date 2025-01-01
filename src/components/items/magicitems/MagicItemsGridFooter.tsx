@@ -1,6 +1,6 @@
 import { MouseEventHandler } from "react";
 
-import { Box, Button, Checkbox, Typography, Tooltip } from "@mui/material";
+import { Box, Button, Checkbox, Typography } from "@mui/material";
 import { GridPagination, GridSlotsComponentsProps } from "@mui/x-data-grid";
 
 type ExtraProps = {
