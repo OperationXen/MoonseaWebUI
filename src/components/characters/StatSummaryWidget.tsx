@@ -15,16 +15,7 @@ export default function StatSummaryWidget(props: PropsType) {
   const { character } = props;
 
   return (
-    <React.Fragment>
-      <Divider sx={{ margin: "8px" }} />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
+      <Box className="flex justify-around items-center">
         <Tooltip title="Armour Class">
           <Box sx={{ display: "flex", cursor: "pointer" }}>
             <ShieldIcon />
@@ -50,7 +41,6 @@ export default function StatSummaryWidget(props: PropsType) {
           </Box>
         </Tooltip>
       </Box>
-      <Divider sx={{ margin: "8px" }} />
-    </React.Fragment>
+
   );
 }

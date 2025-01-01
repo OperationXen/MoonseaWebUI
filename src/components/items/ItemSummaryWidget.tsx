@@ -44,11 +44,11 @@ export default function ItemSummaryWidget(props: PropsType) {
     <Box
       style={{
         display: "flex",
-        minHeight: "9em",
+        minHeight: "12em",
         flexFlow: "column wrap",
         gap: "0.2em",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-around",
       }}
     >
       {equipped.map((item) => {
