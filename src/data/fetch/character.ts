@@ -30,6 +30,7 @@ export async function updateCharacterFn(
     .then((r) => r.data as Character);
 }
 
+/*********************************************************************/
 export function useCharacters() {
   return useQuery({
     queryKey: ["characters"],
@@ -52,12 +53,10 @@ export function useCharacter(uuid: UUID) {
     mutationFn: (charData: Partial<Character>) =>
       updateCharacterFn(charData, uuid),
     onMutate: async (newChar: Partial<Character>) => {
-      // Cancel any outgoing refetches to avoid overwriting optimistic update
       await queryClient.cancelQueries({ queryKey });
-      // Snapshot the previous value
-      const oldCharData = queryClient.getQueryData(queryKey);
-      // Optimistically update to the new value
-      queryClient.setQueryData(queryKey, newChar);
+      const oldCharData = queryClient.getQueryData(queryKey) as Character;
+
+      queryClient.setQueryData(queryKey, { ...oldCharData, ...newChar });
       // Return a context with the old data and the new
       return { oldCharData, newChar };
     },
