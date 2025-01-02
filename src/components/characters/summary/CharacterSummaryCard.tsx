@@ -9,7 +9,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import useSnackbar from "@/datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
-import ItemSummaryWidget from "@/components/items/ItemSummaryWidget";
+import ItemSummaryWidget from "@/components/characters/summary/ItemSummaryWidget";
 import { getCharClassShort } from "@/utils/format";
 import type { Character } from "@/types/character";
 
@@ -74,13 +74,12 @@ export default function CharacterSummaryCard(props: PropsType) {
             {classesText || "Commoner"}
           </Typography>
         </Box>
-              <Divider className="m-1" />
+        <Divider className="m-1" />
         <StatSummaryWidget character={character} />
-              <Divider className="m-1" />
+        <Divider className="m-1" />
         <ItemSummaryWidget items={character.items} />
-              
       </Box>
-      <Divider className="m-1"/>
+      <Divider className="m-1" />
       <Box className="flex justify-between items-center">
         <Tooltip title="Add an event, such as a game or a DM reward">
           <AddBoxIcon

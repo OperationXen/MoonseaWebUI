@@ -29,8 +29,7 @@ export default function ItemChipWidget(props: PropsType) {
           background: `${getRarityColour(rarity)}A5`,
           border: `1px solid ${getRarityColour(rarity)}`,
           color: "white",
-          minWidth: "10em",
-          maxWidth: "14em",
+          minWidth: "16em",
           cursor: "pointer",
         }}
       />
