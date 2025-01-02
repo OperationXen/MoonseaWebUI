@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useCharacters } from "@/data/fetch/character";
 
 import CreateCharacterWindow from "@/components/characters/CreateCharacterWindow";
-import CharacterSummaryCard from "@/components/characters/CharacterSummaryCard";
+import CharacterSummaryCard from "@/components/characters/summary/CharacterSummaryCard";
 import NoCharactersOverlay from "@/components/characters/NoCharactersOverlay";
 import AuthenticationRequired from "@/components/user/AuthenticationRequired";
 import LoadingOverlay from "@/components/general/LoadingOverlay";

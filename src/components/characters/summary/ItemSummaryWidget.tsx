@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Typography, Box } from "@mui/material";
 
-import ItemChipWidget from "./widgets/ItemChipWidget";
+import ItemChipWidget from "./ItemChipWidget";
 
 import type { MagicItem } from "@/types/items";
 
@@ -41,16 +41,7 @@ export default function ItemSummaryWidget(props: PropsType) {
     );
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        minHeight: "9em",
-        flexFlow: "column wrap",
-        gap: "0.2em",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Box className="flex flex-col items-center justify-around h-[14rem]">
       {equipped.map((item) => {
         return (
           <ItemChipWidget

@@ -44,6 +44,10 @@ export function MagicItemDialog(props: PropsType) {
   }, [item]);
 
   const handleClose = () => {
+    setName("");
+    setDesc("");
+    setFlavour("");
+    setAttunement(false);
     onClose();
   };
 

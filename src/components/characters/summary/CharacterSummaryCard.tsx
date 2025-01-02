@@ -9,7 +9,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import useSnackbar from "@/datastore/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
-import ItemSummaryWidget from "@/components/items/ItemSummaryWidget";
+import ItemSummaryWidget from "@/components/characters/summary/ItemSummaryWidget";
 import { getCharClassShort } from "@/utils/format";
 import type { Character } from "@/types/character";
 
@@ -43,35 +43,20 @@ export default function CharacterSummaryCard(props: PropsType) {
   };
 
   return (
-    <Card
-      sx={{
-        width: "25em",
-        border: "1px solid black",
-        borderRadius: "8px",
-        padding: "0.2em",
-      }}
-    >
+    <Card className="p-1 border-solid rounded-lg border w-96">
       <Tooltip
         title={character.token ? "Character token" : "Character token not set!"}
       >
         <CardMedia
+          className="rounded-lg overflow-hidden h-72"
           component="img"
-          height="320px"
           src={getTokenURL()}
           alt={character.name}
-          sx={{ borderRadius: "8px", overflow: "hidden" }}
         />
       </Tooltip>
-      <Divider variant="middle" sx={{ marginTop: "0.2em" }} />
-      <Box sx={{ margin: "0 0.4em" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+      <Divider className="m-1" />
+      <Box className="mx-2">
+        <Box className="flex justify-between items-center">
           <Typography variant="h5" component="div">
             {character.name}
           </Typography>
@@ -81,7 +66,7 @@ export default function CharacterSummaryCard(props: PropsType) {
             </Typography>
           </Tooltip>
         </Box>
-        <Box sx={{ height: "2em" }}>
+        <Box className="flex justify-between items-center">
           <Typography variant="body2" color="text.secondary">
             {character.race}
           </Typography>
@@ -89,17 +74,13 @@ export default function CharacterSummaryCard(props: PropsType) {
             {classesText || "Commoner"}
           </Typography>
         </Box>
+        <Divider className="m-1" />
         <StatSummaryWidget character={character} />
+        <Divider className="m-1" />
         <ItemSummaryWidget items={character.items} />
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <Divider className="m-1" />
+      <Box className="flex justify-between items-center">
         <Tooltip title="Add an event, such as a game or a DM reward">
           <AddBoxIcon
             sx={{ width: 40, height: 40, cursor: "pointer" }}
