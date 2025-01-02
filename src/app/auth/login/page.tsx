@@ -56,7 +56,7 @@ export default function LoginWindow() {
         <Box sx={{ margin: "0.4em", width: "100%" }}>
           <TextField
             fullWidth
-            value={username}
+            value={username || ""}
             label="Username"
             autoComplete="username"
             onChange={(e) => setUsername(e.target.value)}
@@ -65,7 +65,7 @@ export default function LoginWindow() {
         <Box sx={{ margin: "0.4em", width: "100%" }}>
           <TextField
             fullWidth
-            value={password}
+            value={password || ""}
             label="Password"
             type="password"
             autoComplete="password"
