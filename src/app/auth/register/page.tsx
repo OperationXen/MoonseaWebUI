@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import NextLink from "next/link";
 
 import { Container, Box, Paper, Link, Divider } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
@@ -162,9 +163,15 @@ export default function RegistrationWindow() {
           <Divider className="w-80">
             <Typography className="opacity-80">or</Typography>
           </Divider>
-          <Button disabled className="w-full" variant="outlined">
-            Sign in with discord (coming soon)
-          </Button>
+          <NextLink
+            href={"/api/discord_auth/login"}
+            passHref
+            className="w-full"
+          >
+            <Button className="w-full" variant="outlined">
+              Sign in with discord
+            </Button>
+          </NextLink>
         </Box>
         <Box className="mt-2">
           <Link

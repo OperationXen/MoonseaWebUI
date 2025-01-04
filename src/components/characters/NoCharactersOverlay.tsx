@@ -11,7 +11,7 @@ export function NoCharactersOverlay(props: PropsType) {
     <Container
       sx={{
         display: "flex",
-        height: "70%",
+        height: "calc(100vh - 12em)",
         alignItems: "center",
         justifyContent: "center",
       }}
