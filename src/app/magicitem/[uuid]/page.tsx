@@ -6,28 +6,20 @@ import { useParams } from "next/navigation";
 import { Box, Container, Stack } from "@mui/material";
 import { Typography, Divider } from "@mui/material";
 
-import { getMagicItemDetails } from "@/api/items";
-import MagicItemInformationPane from "@/components/items/details/MagicItemInformationPane";
-import MagicItemControlPane from "@/components/items/details/MagicItemControlsPane";
-import MagicItemHistoryPane from "@/components/items/details/MagicItemHistoryPane";
-import MagicItemImagePane from "@/components/items/details/MagicItemImagePane";
+import { useMagicItem } from "@/data/fetch/items/magicitems";
+import MagicItemInformationPane from "./MagicItemInformationPane";
+import MagicItemControlPane from "./MagicItemControlsPane";
+import MagicItemHistoryPane from "./MagicItemHistoryPane";
+import MagicItemImagePane from "./MagicItemImagePane";
 
 import type { UUID } from "@/types/uuid";
-import type { MagicItem } from "@/types/items";
 
 export default function MagicItemDetails() {
   const { uuid } = useParams();
 
-  const [data, setData] = useState<MagicItem | null>(null);
+  const {data} = useMagicItem(uuid as UUID);
+
   const [editMode, setEditMode] = useState(false);
-
-  useEffect(() => {
-    if (!uuid) return;
-
-    getMagicItemDetails(uuid).then((response) => {
-      setData(response.data);
-    });
-  }, [uuid]);
 
   return (
     <Container sx={{ marginTop: "0.4em" }}>
