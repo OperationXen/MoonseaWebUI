@@ -1,10 +1,12 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
+import {useRouter} from "next/navigation";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
+import DescriptionIcon from '@mui/icons-material/Description';
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
@@ -29,6 +31,7 @@ type PropsType = {
 export function CommonItemsGrid(props: PropsType) {
   const { characterUUID } = props;
 
+  const router = useRouter();
   const { displayMessage } = useSnackbar();
   const { data, updateItem, deleteItem } = useMagicItems(characterUUID);
 
@@ -118,6 +121,9 @@ export function CommonItemsGrid(props: PropsType) {
             <IconButton onClick={() => setEditConsumable(p.row)}>
               <EditIcon fontSize="small" />
             </IconButton>
+            <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
+              <DescriptionIcon fontSize="small" />
+            </IconButton>
             <IconButton
               onClick={() => {
                 deleteItem(p.row).then(() =>
@@ -139,6 +145,7 @@ export function CommonItemsGrid(props: PropsType) {
         getRowId={(x) => x.uuid}
         columns={columns}
         rows={magicItems}
+        onRowDoubleClick={(p) => router.push(`/magicitem/${p.row.uuid}`)}
         initialState={{
           sorting: {
             sortModel: [{ field: "equipped", sort: "desc" }],
