@@ -1,10 +1,12 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
+import DescriptionIcon from '@mui/icons-material/Description';
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
@@ -32,6 +34,7 @@ type PropsType = {
 export function MagicItemsGrid(props: PropsType) {
   const { characterUUID } = props;
 
+  const router = useRouter();
   const { displayMessage } = useSnackbar();
   const { data, updateItem, deleteItem } = useMagicItems(characterUUID);
 
@@ -140,11 +143,15 @@ export function MagicItemsGrid(props: PropsType) {
     {
       field: "Item edit controls",
       headerName: "",
+      flex: 1,
       renderCell: (p) => {
         return (
           <Box className="flex items-center justify-end">
             <IconButton onClick={() => setEditItem(p.row)}>
               <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
+              <DescriptionIcon fontSize="small" />
             </IconButton>
             <IconButton
               onClick={() => {
@@ -168,6 +175,7 @@ export function MagicItemsGrid(props: PropsType) {
         getRowClassName={getRowFormat}
         columns={columns}
         rows={magicItems}
+        onRowDoubleClick={(p) => { router.push(`/magicitem/${p.row.uuid}`)}}
         initialState={{
           sorting: {
             sortModel: [{ field: "equipped", sort: "desc" }],

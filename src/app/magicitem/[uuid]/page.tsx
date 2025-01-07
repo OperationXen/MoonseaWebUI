@@ -1,77 +1,53 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
-import { Box, Container, Stack } from "@mui/material";
-import { Typography, Divider } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
-import { getMagicItemDetails } from "@/api/items";
-import MagicItemInformationPane from "@/components/items/details/MagicItemInformationPane";
-import MagicItemControlPane from "@/components/items/details/MagicItemControlsPane";
-import MagicItemHistoryPane from "@/components/items/details/MagicItemHistoryPane";
-import MagicItemImagePane from "@/components/items/details/MagicItemImagePane";
+import { useMagicItem } from "@/data/fetch/items/magicitems";
+import MagicItemInformationPane from "./MagicItemInformationPane";
+import MagicItemControlPane from "./MagicItemControlsPane";
+import MagicItemHistoryPane from "./MagicItemHistoryPane";
+
+const defaultImage = "/media/images/chest-mimic.png";
 
 import type { UUID } from "@/types/uuid";
-import type { MagicItem } from "@/types/items";
 
 export default function MagicItemDetails() {
   const { uuid } = useParams();
+  const { data: item } = useMagicItem(uuid as UUID);
 
-  const [data, setData] = useState<MagicItem | null>(null);
   const [editMode, setEditMode] = useState(false);
 
-  useEffect(() => {
-    if (!uuid) return;
-
-    getMagicItemDetails(uuid).then((response) => {
-      setData(response.data);
-    });
-  }, [uuid]);
+  if (!item) return null;
 
   return (
     <Container sx={{ marginTop: "0.4em" }}>
-      <Typography variant="h5" sx={{ textAlign: "center" }}>
-        Item Details
-      </Typography>
-      <Divider variant="middle" />
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          margin: "0.4em",
-          justifyContent: "center",
-          gap: "0.4em",
-        }}
-      >
-        <Stack
+      <Box className="flex gap-2">
+        <Box
+          component="img"
           sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            border: "1px solid black",
-            borderRadius: "8px",
+            height: 233,
+            width: 350,
+            maxHeight: { xs: 233, md: 167 },
+            maxWidth: { xs: 350, md: 250 },
           }}
-        >
-          {data && (
-            <React.Fragment>
-              <MagicItemInformationPane
-                item={data}
-                editMode={editMode}
-                setEditMode={setEditMode}
-              />
-              <MagicItemImagePane item={data} />
-              <MagicItemControlPane
-                item={data}
-                editMode={editMode}
-                setEditMode={setEditMode}
-              />
-            </React.Fragment>
-          )}
-        </Stack>
-        <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
-          <MagicItemHistoryPane uuid={uuid as UUID} />
-        </Stack>
+          alt="Magic item image"
+          src={item.image ?? defaultImage} />
+
+        <MagicItemInformationPane
+          item={item}
+          editMode={editMode}
+          setEditMode={setEditMode}
+        />
       </Box>
-    </Container>
+      <MagicItemControlPane
+        item={item}
+        editMode={editMode}
+        setEditMode={setEditMode}
+      />
+      <MagicItemHistoryPane item={item} />
+    </Container >
   );
 }
