@@ -16,11 +16,11 @@ import type { UUID } from "@/types/uuid";
 
 export default function MagicItemDetails() {
   const { uuid } = useParams();
-  const { data } = useMagicItem(uuid as UUID);
+  const { data: item } = useMagicItem(uuid as UUID);
 
   const [editMode, setEditMode] = useState(false);
 
-  if (!data) return null;
+  if (!item) return null;
 
   return (
     <Container sx={{ marginTop: "0.4em" }}>
@@ -34,21 +34,20 @@ export default function MagicItemDetails() {
             maxWidth: { xs: 350, md: 250 },
           }}
           alt="Magic item image"
-          src={data.image ?? defaultImage} />
+          src={item.image ?? defaultImage} />
 
         <MagicItemInformationPane
-          item={data}
+          item={item}
           editMode={editMode}
           setEditMode={setEditMode}
         />
       </Box>
       <MagicItemControlPane
-        item={data}
+        item={item}
         editMode={editMode}
         setEditMode={setEditMode}
       />
-      <MagicItemHistoryPane uuid={uuid as UUID} />
-
+      <MagicItemHistoryPane item={item} />
     </Container >
   );
 }

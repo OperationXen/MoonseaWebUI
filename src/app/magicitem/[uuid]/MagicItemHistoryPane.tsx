@@ -3,36 +3,32 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
+import { useMagicItem } from "@/data/fetch/items/magicitems";
 import { getMagicItemHistory } from "@/api/items";
-import useMagicItemStore from "@/datastore/magicitem";
 
-import type { UUID } from "@/types/uuid";
 import type { ItemEvent } from "@/types/events";
+import type { MagicItem } from "@/types/items";
 
 type PropsType = {
-  uuid: UUID;
+  item: MagicItem
 };
 
 export default function MagicItemHistoryPane(props: PropsType) {
-  const { uuid } = props;
+  const { item } = props;
 
-  const refresh = useMagicItemStore((s) => s.refresh);
-
-  const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState<ItemEvent[]>([]);
 
-  useEffect(() => {
-    if (!uuid) return;
+  // useEffect(() => {
+  //   if (!uuid) return;
 
-    getMagicItemHistory(uuid)
-      .then((r) => {
-        let allEvents = [r.data.origin];
-        allEvents = allEvents.concat(r.data.trades);
-        allEvents = allEvents.concat(r.data.edits);
-        setEvents(allEvents);
-      })
-      .finally(() => setLoading(false));
-  }, [uuid, refresh]);
+  //   getMagicItemHistory(uuid)
+  //     .then((r) => {
+  //       let allEvents = [r.data.origin];
+  //       allEvents = allEvents.concat(r.data.trades);
+  //       allEvents = allEvents.concat(r.data.edits);
+  //       setEvents(allEvents);
+  //     })
+  // }, [uuid]);
 
   // format the date information
   const rowDate = (data: ItemEvent) => {
@@ -97,7 +93,7 @@ export default function MagicItemHistoryPane(props: PropsType) {
         disableColumnMenu
         columns={columns}
         rows={events}
-        loading={loading}
+        loading={false}
         rowHeight={36}
         pageSizeOptions={[15, 25, 50, 100]}
         sx={{
