@@ -1,69 +1,54 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
-import { Box, Container, Stack } from "@mui/material";
-import { Typography, Divider } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 import { useMagicItem } from "@/data/fetch/items/magicitems";
 import MagicItemInformationPane from "./MagicItemInformationPane";
 import MagicItemControlPane from "./MagicItemControlsPane";
 import MagicItemHistoryPane from "./MagicItemHistoryPane";
-import MagicItemImagePane from "./MagicItemImagePane";
+
+const defaultImage = "/media/images/chest-mimic.png";
 
 import type { UUID } from "@/types/uuid";
 
 export default function MagicItemDetails() {
   const { uuid } = useParams();
-
-  const {data} = useMagicItem(uuid as UUID);
+  const { data } = useMagicItem(uuid as UUID);
 
   const [editMode, setEditMode] = useState(false);
 
+  if (!data) return null;
+
   return (
     <Container sx={{ marginTop: "0.4em" }}>
-      <Typography variant="h5" sx={{ textAlign: "center" }}>
-        Item Details
-      </Typography>
-      <Divider variant="middle" />
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          margin: "0.4em",
-          justifyContent: "center",
-          gap: "0.4em",
-        }}
-      >
-        <Stack
+      <Box className="flex gap-2">
+        <Box
+          component="img"
           sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            border: "1px solid black",
-            borderRadius: "8px",
+            height: 233,
+            width: 350,
+            maxHeight: { xs: 233, md: 167 },
+            maxWidth: { xs: 350, md: 250 },
           }}
-        >
-          {data && (
-            <React.Fragment>
-              <MagicItemInformationPane
-                item={data}
-                editMode={editMode}
-                setEditMode={setEditMode}
-              />
-              <MagicItemImagePane item={data} />
-              <MagicItemControlPane
-                item={data}
-                editMode={editMode}
-                setEditMode={setEditMode}
-              />
-            </React.Fragment>
-          )}
-        </Stack>
-        <Stack sx={{ flexGrow: 1, minHeight: "30em" }}>
-          <MagicItemHistoryPane uuid={uuid as UUID} />
-        </Stack>
+          alt="Magic item image"
+          src={data.image ?? defaultImage} />
+
+        <MagicItemInformationPane
+          item={data}
+          editMode={editMode}
+          setEditMode={setEditMode}
+        />
       </Box>
-    </Container>
+      <MagicItemControlPane
+        item={data}
+        editMode={editMode}
+        setEditMode={setEditMode}
+      />
+      <MagicItemHistoryPane uuid={uuid as UUID} />
+
+    </Container >
   );
 }

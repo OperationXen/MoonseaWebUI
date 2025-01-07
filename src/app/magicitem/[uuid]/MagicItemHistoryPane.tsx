@@ -15,6 +15,7 @@ type PropsType = {
 
 export default function MagicItemHistoryPane(props: PropsType) {
   const { uuid } = props;
+
   const refresh = useMagicItemStore((s) => s.refresh);
 
   const [loading, setLoading] = useState(false);
@@ -42,6 +43,8 @@ export default function MagicItemHistoryPane(props: PropsType) {
   };
 
   const formatEventType = (data: ItemEvent) => {
+    if (!data) return "";
+
     if (data.event_type === "trade") return "Item traded";
     else if (data.event_type === "manual") return "Manually created";
     else if (data.event_type === "edit") return data.name;
@@ -51,6 +54,8 @@ export default function MagicItemHistoryPane(props: PropsType) {
   };
 
   const formatDetails = (data: ItemEvent) => {
+    if (!data) return "";
+
     if (data.event_type === "manual") {
       return `For character: ${data.character_name}`;
     } else if (data.event_type === "edit") {
