@@ -8,7 +8,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Zoom, Fab, Tooltip } from "@mui/material";
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 
-import { uploadCharacterImage } from "@/api/character";
+import { uploadCharacterImage } from "@/api/character-image";
 import useSnackbar from "@/datastore/snackbar";
 
 import type { Character, CharacterImageType } from "@/types/character";
@@ -105,10 +105,10 @@ export function CharacterArt(props: PropsType) {
             alt={`${character.name}-${show}`}
           />
         )) || (
-          <Typography
-            sx={{ opacity: "30%" }}
-          >{`${show === "token" ? "Token" : "Artwork"} image not set`}</Typography>
-        )}
+            <Typography
+              sx={{ opacity: "30%" }}
+            >{`${show === "token" ? "Token" : "Artwork"} image not set`}</Typography>
+          )}
       </Box>
       <ButtonGroup color="inherit" size="small" variant="text" fullWidth>
         <Button
