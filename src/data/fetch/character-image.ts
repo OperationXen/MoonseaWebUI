@@ -1,4 +1,4 @@
-import api from "./base";
+import api from "../../api/base";
 
 import type { CharacterImageType } from "@/types/character";
 import type { UUID } from "@/types/uuid";

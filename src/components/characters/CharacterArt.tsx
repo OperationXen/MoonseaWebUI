@@ -8,7 +8,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Zoom, Fab, Tooltip } from "@mui/material";
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 
-import { uploadCharacterImage } from "@/api/character-image";
+import { uploadCharacterImage } from "@/data/fetch/character-image";
 import useSnackbar from "@/datastore/snackbar";
 
 import type { Character, CharacterImageType } from "@/types/character";
