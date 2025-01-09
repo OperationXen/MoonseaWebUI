@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Character } from "@/types/character";
 
 import CharacterControlsEditDialog from "./CharacterControlsEditDialog";
-import DeleteConfirm from "./DeleteConfirm";
+import CharacterDeleteConfirmation from "./CharacterDeleteConfirmation";
 
 type PropsType = {
   character: Character;
@@ -65,8 +65,9 @@ export default function CharacterControls(props: PropsType) {
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />
-      <DeleteConfirm
-        character={character}
+      <CharacterDeleteConfirmation
+        uuid={character.uuid}
+        name={character.name}
         open={deleteOpen}
         onClose={() => setDeleteOpen(false)}
       />

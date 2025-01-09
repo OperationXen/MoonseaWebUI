@@ -1,11 +1,7 @@
-import api from "./base";
+import api from "../../api/base";
 
 import type { CharacterImageType } from "@/types/character";
 import type { UUID } from "@/types/uuid";
-
-export function deleteCharacter(ID: any) {
-  return api.delete(`/api/data/character/${ID}/`);
-}
 
 export function uploadCharacterImage(
   ID: UUID,

@@ -31,6 +31,10 @@ function updateCharacterFn(data: Partial<Character>, charUUID: UUID) {
     .then((r) => r.data as Character);
 }
 
+function deleteCharacterFn(uuid: UUID) {
+  return api.delete(`/api/data/character/${uuid}/`);
+}
+
 /*********************************************************************/
 export function useCharacters() {
   const queryClient = useQueryClient();
@@ -87,9 +91,17 @@ export function useCharacter(uuid: UUID) {
     },
   });
 
+  const deleteCharacter = useMutation({
+    mutationFn: () => deleteCharacterFn(uuid),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     ...fetchData,
     updateCharacter: updateCharacter.mutateAsync,
+    deleteCharacter: deleteCharacter.mutateAsync,
     refreshCharacter: refreshCharacter,
   };
 }
