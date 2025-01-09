@@ -27,7 +27,7 @@ export function CharacterDeleteConfirmation(props: PropsType) {
   const handleDelete = () => {
     deleteCharacter().then(() => {
       displayMessage(`Character ${props.name} deleted`, "info");
-      router.push("/");
+      router.push("/characters");
     });
   };
 
