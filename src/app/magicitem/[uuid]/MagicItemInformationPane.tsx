@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Paper,
@@ -11,7 +11,6 @@ import { TableBody, TableCell, TableRow } from "@mui/material";
 import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
 
 import { getRarityText } from "@/utils/items";
-import useSnackbar from "@/datastore/snackbar";
 
 import { Rarity, type MagicItem } from "@/types/items";
 
@@ -27,35 +26,11 @@ const cellStyle = { padding: "0 1em" };
 export default function MagicItemInformationPane(props: PropsType) {
   const { item, editMode } = props;
 
-  const snackbar = useSnackbar((s) => s.displayMessage);
-
   const [name, setName] = useState("Loading...");
   const [rarity, setRarity] = useState<Rarity>("uncommon");
   const [attunement, setAttunement] = useState(false);
   const [description, setDescription] = useState("Loading...");
   const [flavour, setFlavour] = useState("Loading...");
-
-  const itemChanged = useCallback(() => {
-    if (!name) return false;
-
-    if (name !== item.name) return true;
-    else if (rarity !== item.rarity) return true;
-    else if (attunement !== item.attunement) return true;
-    else if (description !== item.description) return true;
-    else if (flavour !== item.flavour) return true;
-    return false;
-  }, [item, name, rarity, attunement, description, flavour]);
-
-  const getUpdateObject = useCallback(() => {
-    let obj: Partial<MagicItem> = {};
-    if (name !== item.name) obj["name"] = name;
-    if (rarity !== item.rarity) obj["rarity"] = rarity;
-    if (attunement !== item.attunement) obj["attunement"] = attunement;
-    if (description !== item.description) obj["description"] = description;
-    if (flavour !== item.flavour) obj["flavour"] = flavour;
-
-    return obj;
-  }, [item, name, rarity, attunement, description, flavour]);
 
   // set state from props
   useEffect(() => {

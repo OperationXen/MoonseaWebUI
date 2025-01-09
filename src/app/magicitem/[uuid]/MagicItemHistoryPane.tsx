@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Box } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-
-import { useMagicItem } from "@/data/fetch/items/magicitems";
-import { getMagicItemHistory } from "@/api/items";
 
 import type { ItemEvent } from "@/types/events";
 import type { MagicItem } from "@/types/items";
@@ -14,9 +11,9 @@ type PropsType = {
 };
 
 export default function MagicItemHistoryPane(props: PropsType) {
-  const { item } = props;
+  const { item: _ } = props;
 
-  const [events, setEvents] = useState<ItemEvent[]>([]);
+  const [events, _setEvents] = useState<ItemEvent[]>([]);
 
   // useEffect(() => {
   //   if (!uuid) return;
