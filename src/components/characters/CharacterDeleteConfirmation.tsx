@@ -4,26 +4,28 @@ import { useRouter } from "next/navigation";
 
 import { Typography, Button, Box, Divider, Dialog } from "@mui/material";
 
-import { deleteCharacter } from "@/api/character";
+import { useCharacter } from "@/data/fetch/character";
 import useSnackbar from "@/datastore/snackbar";
-import usePlayerStore from "@/datastore/player";
+
+import type { UUID } from "@/types/uuid"
 
 type PropsType = {
   open: boolean;
   onClose: () => void;
-  uuid: string | null;
+  uuid: UUID;
   name: string;
 };
 
 export function CharacterDeleteConfirmation(props: PropsType) {
+  const { open, uuid, name, onClose } = props;
+
   const router = useRouter();
+  const { deleteCharacter } = useCharacter(uuid);
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestRefresh = usePlayerStore((s) => s.requestRefresh);
 
   const handleDelete = () => {
-    deleteCharacter(props.uuid).then(() => {
-      requestRefresh();
+    deleteCharacter().then(() => {
       displayMessage(`Character ${props.name} deleted`, "info");
       router.push("/");
     });
@@ -31,8 +33,8 @@ export function CharacterDeleteConfirmation(props: PropsType) {
 
   return (
     <Dialog
-      open={props.open}
-      onClose={props.onClose}
+      open={open}
+      onClose={onClose}
       PaperProps={{
         sx: {
           borderRadius: "8px",
@@ -49,7 +51,7 @@ export function CharacterDeleteConfirmation(props: PropsType) {
       <Typography variant="h4">Confirm Delete</Typography>
       <Divider sx={{ width: "95%" }} />
       <Typography variant="body1" sx={{ padding: "0.6em" }}>
-        Are you sure you want to delete {props.name}?
+        Are you sure you want to delete {name}?
       </Typography>
       <Typography variant="caption" sx={{ padding: "0.6em", margin: "auto" }}>
         This action cannot be undone
@@ -77,7 +79,7 @@ export function CharacterDeleteConfirmation(props: PropsType) {
           color="inherit"
           variant="contained"
           sx={{ width: "35%" }}
-          onClick={props.onClose}
+          onClick={onClose}
         >
           Cancel
         </Button>
