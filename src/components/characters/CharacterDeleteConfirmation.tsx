@@ -26,9 +26,12 @@ export function CharacterDeleteConfirmation(props: PropsType) {
 
   const handleDelete = () => {
     deleteCharacter().then(() => {
-      displayMessage(`Character ${props.name} deleted`, "info");
-      router.push("/characters");
+      displayMessage(`Character ${name} deleted`, "info");
+    }).catch((_) => {
+      displayMessage("Failed to delete character", "error");
     });
+    router.push("/characters");
+    onClose();
   };
 
   return (
