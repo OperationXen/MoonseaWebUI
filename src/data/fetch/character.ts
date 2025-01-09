@@ -8,22 +8,23 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UUID } from "@/types/uuid";
 import type { Character } from "@/types/character";
 
-export async function getCharacters() {
+function getCharacters() {
   return axios.get("/api/data/character").then((r) => {
     return r.data.results as Character[];
   });
 }
 
-export async function getCharacter(ID: string) {
+function getCharacter(ID: string) {
   return api.get(`/api/data/character/${ID}`).then((r) => {
     return r.data as Character;
   });
 }
 
-export async function updateCharacterFn(
-  data: Partial<Character>,
-  charUUID: UUID,
-) {
+function createCharacterFn(charData: Partial<Character>) {
+  return api.post("/api/data/character", charData);
+}
+
+function updateCharacterFn(data: Partial<Character>, charUUID: UUID) {
   data.uuid = charUUID;
   return api
     .patch(`/api/data/character/${charUUID}`, data)
@@ -32,10 +33,22 @@ export async function updateCharacterFn(
 
 /*********************************************************************/
 export function useCharacters() {
-  return useQuery({
+  const queryClient = useQueryClient();
+  const queryKey = ["characters"];
+
+  const fetchData = useQuery({
     queryKey: ["characters"],
     queryFn: () => getCharacters(),
   });
+
+  const createCharacter = useMutation({
+    mutationFn: (charData: Partial<Character>) => createCharacterFn(charData),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
+  return { ...fetchData, createCharacter: createCharacter.mutateAsync };
 }
 
 export function useCharacter(uuid: UUID) {

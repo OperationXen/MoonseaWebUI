@@ -10,9 +10,8 @@ import HealthIcon from "@mui/icons-material/LocalHospital";
 import PerceptionIcon from "@mui/icons-material/Visibility";
 import SaveDCIcon from "@mui/icons-material/AutoFixNormal";
 
-import usePlayerStore from "@/datastore/player";
 import useSnackbar from "@/datastore/snackbar";
-import { createCharacter } from "@/api/character";
+import { useCharacters } from "@/data/fetch/character";
 import StatsWidget from "./StatsWidget";
 import ClassLevelPickerWidget from "./ClassLevelPickerWidget";
 
@@ -36,7 +35,7 @@ export default function CreateCharacterWindow(props: PropsType) {
   const { open, onClose } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const requestRefresh = usePlayerStore((s) => s.requestRefresh);
+  const { createCharacter } = useCharacters();
 
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
@@ -84,7 +83,6 @@ export default function CreateCharacterWindow(props: PropsType) {
     };
     createCharacter(data).then((_response) => {
       displayMessage(`Character ${name} created`, "success");
-      requestRefresh();
       onClose();
     });
   };
