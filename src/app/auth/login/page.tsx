@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
+
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { Container, Box, Paper, Link, Divider } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
@@ -41,10 +44,11 @@ export default function LoginWindow() {
   return (
     <Container sx={{ display: "flex", height: "calc(100vh - 7em)" }}>
       <Paper
-        elevation={12}
+        elevation={6}
         sx={{
           alignSelf: "center",
           width: "28em",
+          minHeight: "8em",
           margin: "auto",
           display: "flex",
           padding: "0.8em 2em",
@@ -53,62 +57,74 @@ export default function LoginWindow() {
         }}
         onKeyDown={keyPressHandler}
       >
-        <Typography variant="h4">User login</Typography>
-        <Box sx={{ margin: "0.4em", width: "100%" }}>
-          <TextField
-            fullWidth
-            value={username || ""}
-            label="Username"
-            autoComplete="username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Box>
-        <Box sx={{ margin: "0.4em", width: "100%" }}>
-          <TextField
-            fullWidth
-            value={password || ""}
-            label="Password"
-            type="password"
-            autoComplete="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Box>
-        <Box className="flex flex-col items-center w-full">
-          <Button
-            className="w-full"
-            variant="contained"
-            disabled={!username || !password}
-            onClick={handleSubmit}
-          >
-            Login
-          </Button>
-          <Divider className="w-80">
-            <Typography className="opacity-80">or</Typography>
-          </Divider>
-          <NextLink href={"/api/discord_auth/login"} passHref>
-            <Button className="w-full" variant="outlined">
-              Sign in with discord
-            </Button>
-          </NextLink>
-        </Box>
+        <Typography variant="h4">Login required</Typography>
+        <Divider className="w-full m-2" />
 
-        <Box className="flex gap-8 mt-2">
-          <Link
-            variant="caption"
-            sx={{ cursor: "pointer" }}
-            onClick={() => router.push("/auth/register")}
+        <NextLink className="w-full" href={"/api/discord_auth/login"} passHref>
+          <Button className="w-full" variant="contained">
+            Sign in with discord
+          </Button>
+        </NextLink>
+
+        <Divider className="w-80 my-4 opacity-70">
+          OR
+        </Divider>
+
+        <Accordion className="w-full" sx={{
+          '&:before': {
+            display: 'none',
+          }
+        }}>
+          <AccordionSummary
+            expandIcon={<ArrowDownwardIcon />}
+            className="opacity-70"
           >
-            Register an account
-          </Link>
-          <Link
-            variant="caption"
-            sx={{ cursor: "pointer" }}
-            onClick={() => router.push("/auth/passwordreset")}
-          >
-            I forgot my password
-          </Link>
-        </Box>
+            <Typography component="span">Sign in to account</Typography>
+          </AccordionSummary>
+          <AccordionDetails className="flex flex-col gap-4 items-center">
+            <TextField
+              fullWidth
+              value={username || ""}
+              label="Username"
+              autoComplete="username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              value={password || ""}
+              label="Password"
+              type="password"
+              autoComplete="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              className="w-full"
+              variant="contained"
+              disabled={!username || !password}
+              onClick={handleSubmit}
+            >
+              Login
+            </Button>
+
+            <Box className="flex gap-8 mt-2">
+              <Link
+                variant="caption"
+                sx={{ cursor: "pointer" }}
+                onClick={() => router.push("/auth/register")}
+              >
+                Register an account
+              </Link>
+              <Link
+                variant="caption"
+                sx={{ cursor: "pointer" }}
+                onClick={() => router.push("/auth/passwordreset")}
+              >
+                I forgot my password
+              </Link>
+            </Box>
+          </AccordionDetails>
+        </Accordion>
       </Paper>
-    </Container>
+    </Container >
   );
 }
