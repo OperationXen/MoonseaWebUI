@@ -32,7 +32,7 @@ function updateCharacterFn(data: Partial<Character>, charUUID: UUID) {
 }
 
 function deleteCharacterFn(uuid: UUID) {
-  return api.delete(`/api/data/character/${uuid}/`);
+  return api.delete(`/api/data/character/${uuid}`);
 }
 
 /*********************************************************************/
