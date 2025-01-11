@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
-import DescriptionIcon from '@mui/icons-material/Description';
+import DescriptionIcon from "@mui/icons-material/Description";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
@@ -84,6 +84,20 @@ export function MagicItemsGrid(props: PropsType) {
       field: "name",
       headerName: "Name",
       flex: 4,
+      renderCell: (p) => {
+        if (p.row.rp_name) {
+          return (
+            <Box className="flex w-full items-center h-full">
+              <Typography>{`${p.row.rp_name} (${p.row.name})`}</Typography>
+            </Box>
+          );
+        }
+        return (
+          <Box className="flex w-full items-center h-full">
+            <Typography>{`${p.row.name}`}</Typography>
+          </Box>
+        );
+      },
     },
     {
       field: "description",
@@ -175,7 +189,9 @@ export function MagicItemsGrid(props: PropsType) {
         getRowClassName={getRowFormat}
         columns={columns}
         rows={magicItems}
-        onRowDoubleClick={(p) => { router.push(`/magicitem/${p.row.uuid}`)}}
+        onRowDoubleClick={(p) => {
+          router.push(`/magicitem/${p.row.uuid}`);
+        }}
         initialState={{
           sorting: {
             sortModel: [{ field: "equipped", sort: "desc" }],

@@ -22,18 +22,23 @@ export type Consumable = {
 };
 
 export type MagicItem = {
+  // Common item elements
   uuid: UUID;
-  owner_uuid?: string;
-  owner_name?: string;
+  editable: boolean;
+  owner_uuid: string;
+  owner_name: string;
+  // mandatory
   name: string;
   rarity: Rarity;
-  source_event_type?: ItemOrigin;
-  datetime_obtained: Date;
   attunement: boolean;
   equipped: boolean;
   market: boolean;
+  // optional
+  rp_name?: string;
+  minor_properties?: string;
+  source_event_type?: ItemOrigin;
+  datetime_obtained: Date;
   description?: string;
   flavour?: string;
-  image: string;
-  editable: boolean;
+  url?: string;
 };

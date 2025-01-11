@@ -2,9 +2,14 @@
 
 import { useState, useEffect } from "react";
 
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import HelpIcon from "@mui/icons-material/Help";
+
 import { Dialog, Typography, Divider, Box, FormControl } from "@mui/material";
 import { Select, SelectChangeEvent, MenuItem, InputLabel } from "@mui/material";
+import { AccordionSummary, AccordionDetails, Accordion } from "@mui/material";
 import { TextField, Button, Checkbox } from "@mui/material";
+import { InputAdornment, Tooltip } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
 import { useMagicItems } from "@/data/fetch/items/magicitems";
@@ -28,15 +33,21 @@ export function MagicItemDialog(props: PropsType) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState<string>("");
+  const [rpName, setRPName] = useState<string>("");
   const [rarity, setRarity] = useState<Rarity>("uncommon");
-  const [attunement, setAttunement] = useState(false);
+  const [minorProperties, setMinorProperties] = useState<string>("");
+  const [url, setURL] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [flavour, setFlavour] = useState("");
+  const [attunement, setAttunement] = useState(false);
   const [highlight, setHighlight] = useState(false);
 
   useEffect(() => {
     setName(item?.name || "");
     setRarity(item?.rarity || defaultRarity || "uncommon");
+    setRPName(item?.rp_name || "");
+    setMinorProperties(item?.minor_properties || "");
+    setURL(item?.url || "");
     setDesc(item?.description || "");
     setFlavour(item?.flavour || "");
     setAttunement(item?.attunement || false);
@@ -45,6 +56,9 @@ export function MagicItemDialog(props: PropsType) {
 
   const handleClose = () => {
     setName("");
+    setRPName("");
+    setMinorProperties("");
+    setURL("");
     setDesc("");
     setFlavour("");
     setAttunement(false);
@@ -56,9 +70,12 @@ export function MagicItemDialog(props: PropsType) {
       uuid: item?.uuid || undefined,
       name,
       rarity,
-      description: desc,
       flavour,
       attunement,
+      url,
+      description: desc,
+      rp_name: rpName,
+      minor_properties: minorProperties,
     };
     if (item) {
       updateItem(data)
@@ -107,7 +124,7 @@ export function MagicItemDialog(props: PropsType) {
       <Box
         sx={{
           display: "flex",
-          gap: "0.2em",
+          gap: "8px",
           flexDirection: "row",
           width: "100%",
           justifyContent: "space-between",
@@ -168,15 +185,105 @@ export function MagicItemDialog(props: PropsType) {
         placeholder="Item abilities and rule prompts"
       />
 
-      <TextField
-        label="Flavour"
-        multiline
-        minRows={2}
-        maxRows={5}
-        value={flavour}
-        onChange={(e) => setFlavour(e.target.value)}
-        placeholder="Item flavour text"
-      />
+      <Accordion>
+        <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
+          <Typography>Advanced options</Typography>
+        </AccordionSummary>
+        <AccordionDetails
+          sx={{ display: "flex", flexDirection: "column", gap: "8px" }}
+        >
+          <TextField
+            fullWidth
+            label="Item name override"
+            value={rpName}
+            onChange={(e) => setRPName(e.target.value)}
+            placeholder="Lots of people name their swords"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Tooltip
+                      placement="top"
+                      title="Overrides the item name, allowing you to record both the base item type and the item name. For example the axe 'Hew' is a +1 battle axe with some additional rules"
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+
+          <TextField
+            fullWidth
+            label="Flavour"
+            multiline
+            minRows={3}
+            maxRows={8}
+            value={flavour}
+            onChange={(e) => setFlavour(e.target.value)}
+            placeholder="This item easily catches the light and seems to glimmer with an iridescent sheen. It is slightly cool to the touch"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Tooltip
+                      placement="top"
+                      title="Lots of AL rewards have additional non-mechanical details described on them, which can be recorded here leaving the description field free for rules and mechanical effects"
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+
+          <TextField
+            fullWidth
+            label="Minor properties"
+            value={minorProperties}
+            onChange={(e) => setMinorProperties(e.target.value)}
+            placeholder="Guardian, Silvered, Sentient, Moontouched, etc"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Tooltip
+                      placement="top"
+                      title="A list of minor properties that the item has, for example a silvered sword would have the 'silvered' property"
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+
+          <TextField
+            fullWidth
+            label="Link to item source"
+            value={url}
+            onChange={(e) => setURL(e.target.value)}
+            placeholder="https://www.dndbeyond.com/magic-items/9228421-deck-of-many-things"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Tooltip
+                      placement="top"
+                      title="A link to a page which contains more details about the item, for example DND Beyond or the SRD"
+                    >
+                      <HelpIcon />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+        </AccordionDetails>
+      </Accordion>
 
       <Box
         display="flex"
