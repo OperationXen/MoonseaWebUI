@@ -34,7 +34,8 @@ export default function MagicItemDetails() {
             maxWidth: { xs: 350, md: 250 },
           }}
           alt="Magic item image"
-          src={item.image ?? defaultImage} />
+          src={defaultImage}
+        />
 
         <MagicItemInformationPane
           item={item}
@@ -48,6 +49,6 @@ export default function MagicItemDetails() {
         setEditMode={setEditMode}
       />
       <MagicItemHistoryPane item={item} />
-    </Container >
+    </Container>
   );
 }

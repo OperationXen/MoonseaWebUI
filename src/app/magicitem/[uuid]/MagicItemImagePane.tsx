@@ -18,7 +18,7 @@ export default function MagicItemImagePane(props: PropsType) {
 
   return (
     <Box sx={{ width: "100%", textAlign: "center", padding: "0.4em" }}>
-      <Image src={item.image ?? defaultImage} alt="Magic item image" />
+      <Image src={defaultImage} alt="Magic item image" />
     </Box>
   );
 }
