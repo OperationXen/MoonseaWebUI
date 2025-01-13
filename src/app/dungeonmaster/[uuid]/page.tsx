@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -22,15 +22,12 @@ export default function DungeonMasterWindow() {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { uuid } = useParams();
 
-  const [allowUpdates, setAllowUpdates] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
   const [refreshEvents, setRefreshEvents] = useState(false);
 
-  useEffect(() => {
-    if (userStatus) setAllowUpdates(uuid === userStatus.dmUUID);
-  }, [uuid, userStatus]);
+  const allowUpdates = !!(uuid && uuid === userStatus?.dmUUID);
 
   const updateServiceHours = (val: number) => {
     setHoursChanged(true);
