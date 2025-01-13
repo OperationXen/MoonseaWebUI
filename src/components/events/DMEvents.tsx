@@ -1,53 +1,38 @@
-import React from "react";
-import { useState, useCallback, useLayoutEffect, useEffect } from "react";
+"use client";
 
-import { Button } from "@mui/material";
-import { DataGrid, GridPagination } from "@mui/x-data-grid";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+import React, { useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import useSnackbar from "../../datastore/snackbar";
-import { getDateString } from "../../utils/format";
-import { getDMEvents, deleteDMGame, deleteDMReward } from "../../api/events.js";
-import CreateEditDMGame from "./CreateEditDMGame.js";
+import { Button } from "@mui/material";
+import { DataGrid, GridPagination } from "@mui/x-data-grid";
+import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 
-export default function DMEvents(props) {
-  const { dmUUID, onChange, allowUpdates } = props;
-  const { doRefresh, setDoRefresh } = props;
+import useSnackbar from "@/datastore/snackbar";
+import { getDateString } from "@/utils/format";
+import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
+
+import CreateEditDMGame from "./CreateEditDMGame";
+
+import type { UUID } from "@/types/uuid";
+
+type PropsType = {
+  uuid: UUID;
+  allowUpdates: boolean;
+};
+
+export default function DMEvents(props: PropsType) {
+  const { uuid, allowUpdates } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { data, isLoading, deleteEvent, updateEvent } = useDMEvents(uuid);
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
   const [initialGameData, setInitialGameData] = useState([]);
-  const [events, setEvents] = useState([]);
   const [pageSize, setPageSize] = useState(15);
   const [pageNum, setPageNum] = useState(1);
-
-  const refreshDMEvents = useCallback(() => {
-    getDMEvents(dmUUID).then((response) => {
-      setEvents(response.data);
-    });
-  }, [dmUUID]);
-
-  // fetch events on component initial load
-  useLayoutEffect(() => {
-    refreshDMEvents();
-  }, [refreshDMEvents]);
-
-  // allow parent to trigger a refresh (leaving state here for encapsulation)
-  useEffect(() => {
-    if (doRefresh) {
-      refreshDMEvents();
-      setDoRefresh(false);
-    }
-  }, [doRefresh, refreshDMEvents, setDoRefresh]);
-
-  const onGameAdded = () => {
-    refreshDMEvents();
-    onChange();
-  };
 
   const editItem = (data) => {
     if (data.event_type === "game") {
@@ -60,14 +45,10 @@ export default function DMEvents(props) {
     if (type === "game") {
       deleteDMGame(uuid).then(() => {
         displayMessage("Removed DMed game", "info");
-        onChange();
-        refreshDMEvents();
       });
     } else if (type === "dm_reward") {
       deleteDMReward(uuid).then(() => {
         displayMessage("Removed service reward", "info");
-        onChange();
-        refreshDMEvents();
       });
     }
   };
@@ -109,7 +90,7 @@ export default function DMEvents(props) {
     }
   };
 
-  const columns = [
+  const columns: GridColDef = [
     {
       field: "type",
       headerName: "Event",
@@ -158,7 +139,7 @@ export default function DMEvents(props) {
       <DataGrid
         disableColumnMenu
         columns={columns}
-        rows={events}
+        rows={data}
         rowHeight={36}
         pageSize={pageSize}
         onPageSizeChange={setPageSize}

@@ -12,7 +12,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { GiTwoCoins, GiBed } from "react-icons/gi";
 
 import useSnackbar from "@/datastore/snackbar";
-import { useEvents } from "@/data/fetch/events";
+import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";
 import type { SpellBookUpdateEvent } from "@/types/events";

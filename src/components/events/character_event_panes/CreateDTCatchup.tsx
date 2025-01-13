@@ -6,7 +6,7 @@ import { Box, Typography, Button } from "@mui/material";
 import { TextField, Divider } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
-import { useEvents } from "@/data/fetch/events";
+import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";
 
