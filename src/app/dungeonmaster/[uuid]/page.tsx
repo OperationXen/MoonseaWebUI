@@ -18,11 +18,10 @@ import DMEvents from "@/components/events/DMEvents";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function DungeonMasterWindow() {
+  const { uuid } = useParams();
   const { data: userStatus, isLoading } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { uuid } = useParams();
 
-  const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
   const [refreshEvents, setRefreshEvents] = useState(false);
@@ -33,6 +32,7 @@ export default function DungeonMasterWindow() {
     setHoursChanged(true);
     setServiceHours(serviceHours + val);
   };
+
   const handleServiceHoursUpdate = () => {
     if (hoursChanged) {
       updateDMLogData(uuid, serviceHours).then((_response) => {
@@ -69,17 +69,13 @@ export default function DungeonMasterWindow() {
             marginBottom: "0.4em",
           }}
         >
-          <Grid
-            container
-            onMouseOver={() => setShowControls(allowUpdates)}
-            onMouseOut={() => setShowControls(false)}
-          >
+          <Grid container>
             <Grid item xs={2} margin={"auto 0 auto 0.4em"}>
               <Tooltip title={allowUpdates ? "Manually adjust hours" : ""}>
                 <ButtonGroup
                   disabled={!allowUpdates}
                   orientation="vertical"
-                  sx={{ opacity: showControls ? 0.8 : 0.1 }}
+                  sx={{ opacity: allowUpdates ? 0.8 : 0.1 }}
                   onMouseLeave={handleServiceHoursUpdate}
                 >
                   <Button onClick={() => updateServiceHours(+1)}>
