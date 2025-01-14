@@ -20,7 +20,12 @@ import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
 
 import CreateEditDMGame from "./CreateEditDMGame";
 
-import type { DMGameEvent, DMEvent } from "@/types/events";
+import type {
+  DMGameEvent,
+  DMEvent,
+  DMEventType,
+  DMRewardEvent,
+} from "@/types/events";
 import type { UUID } from "@/types/uuid";
 
 type PropsType = {
@@ -73,25 +78,27 @@ export default function DMEvents(props: PropsType) {
     ];
   };
 
-  const rowType = (params: GridRowParams) => {
-    if (params.row.event_type === "game") return "DMed game";
-    if (params.row.event_type === "dm_reward") return "Service reward";
+  const rowType = (val: DMEventType, event: DMEvent) => {
+    if (event.event_type === "game") return "DMed game";
+    if (event.event_type === "dm_reward") return "Service reward";
   };
-  const rowDate = (params: GridRowParams) => {
-    let datetime = new Date(params.row.datetime);
+  const rowDate = (val: string) => {
+    let datetime = new Date(val);
     return getDateString(datetime);
   };
-  const rowHours = (params: GridRowParams) => {
-    if (params.row.event_type === "game") return params.row.hours;
-    if (params.row.event_type === "dm_reward") return -params.row.hours;
+  const rowHours = (hours: number, event: DMEvent) => {
+    if (event.event_type === "game") return hours;
+    if (event.event_type === "dm_reward") return -hours;
+    return "Error";
   };
-  const rowDetails = (params: GridRowParams) => {
-    let data = params.row;
-    if (data.event_type === "game") {
-      return `${data.name} (${data.module})`;
+  const rowDetails = (_val: string, event: DMEvent) => {
+    if (event.event_type === "game") {
+      event = event as DMGameEvent;
+      return `${event.name} (${event.module})`;
     }
-    if (data.event_type === "dm_reward") {
-      return `${data.name} given to ${data.character_items_assigned}`;
+    if (event.event_type === "dm_reward") {
+      event = event as DMRewardEvent;
+      return `${event.name} given to ${event.character_items_assigned}`;
     }
   };
 
