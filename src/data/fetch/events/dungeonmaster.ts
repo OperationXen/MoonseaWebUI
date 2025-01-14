@@ -11,6 +11,7 @@ import { generateUUID } from "@/utils/uuid";
 /******************************************************************/
 function getEventsFn(dmUUID: UUID) {
   return api.get(`/api/data/dm_events/${dmUUID}`).then((r) => {
+    debugger;
     return r.data as DMEvent[];
   });
 }

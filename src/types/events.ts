@@ -63,9 +63,13 @@ export type ItemEvent = {
   dm_name?: string;
 };
 
+export type DMEventType = "game" | "dm_reward";
+
 export type DMRewardEvent = {
   uuid: UUID;
+  event_type: DMEventType;
   datetime: string;
+
   dm: string;
   name: string;
   gold: number;
@@ -76,6 +80,9 @@ export type DMRewardEvent = {
 };
 export type DMGameEvent = {
   uuid: UUID;
+  event_type: DMEventType;
+  datetime: string;
+
   name: string;
   dm_name: string;
   notes: string;

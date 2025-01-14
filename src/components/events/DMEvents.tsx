@@ -8,7 +8,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import { Button } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
-import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
+import {
+  GridActionsCellItem,
+  GridColDef,
+  GridRowParams,
+} from "@mui/x-data-grid";
 
 import useSnackbar from "@/datastore/snackbar";
 import { getDateString } from "@/utils/format";
@@ -16,6 +20,7 @@ import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
 
 import CreateEditDMGame from "./CreateEditDMGame";
 
+import type { DMGameEvent, DMEvent } from "@/types/events";
 import type { UUID } from "@/types/uuid";
 
 type PropsType = {
@@ -30,57 +35,57 @@ export default function DMEvents(props: PropsType) {
   const { data, isLoading, deleteEvent, updateEvent } = useDMEvents(uuid);
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
-  const [initialGameData, setInitialGameData] = useState([]);
-  const [pageSize, setPageSize] = useState(15);
-  const [pageNum, setPageNum] = useState(1);
+  const [initialGameData, setInitialGameData] = useState<DMGameEvent | null>();
 
-  const editItem = (data) => {
-    if (data.event_type === "game") {
-      setInitialGameData(data);
+  const editItem = (event: DMEvent) => {
+    if (event.event_type === "game") {
+      setInitialGameData(event as DMGameEvent);
       setCreateEditOpen(true);
     }
   };
 
-  const deleteItem = (type, uuid) => {
-    if (type === "game") {
-      deleteDMGame(uuid).then(() => {
-        displayMessage("Removed DMed game", "info");
-      });
-    } else if (type === "dm_reward") {
-      deleteDMReward(uuid).then(() => {
+  const deleteItem = (event: DMEvent) => {
+    if (event.event_type === "game") {
+      // deleteDMGame(uuid).then(() => {
+      //   displayMessage("Removed DMed game", "info");
+      // });
+    } else if (event.event_type === "dm_reward") {
+      deleteEvent(event).then(() => {
         displayMessage("Removed service reward", "info");
       });
     }
   };
 
-  const getRowActions = (params) => {
+  const getRowActions = (p: GridRowParams) => {
     return [
       <GridActionsCellItem
         icon={<EditIcon />}
         disabled={!allowUpdates}
-        onClick={() => editItem(params.row)}
+        onClick={() => editItem(p.row)}
+        label="Edit"
       />,
       <GridActionsCellItem
         icon={<DeleteIcon />}
         disabled={!allowUpdates}
-        onClick={() => deleteItem(params.row.event_type, params.row.uuid)}
+        onClick={() => deleteItem(p.row)}
+        label="Delete"
       />,
     ];
   };
 
-  const rowType = (params) => {
+  const rowType = (params: GridRowParams) => {
     if (params.row.event_type === "game") return "DMed game";
     if (params.row.event_type === "dm_reward") return "Service reward";
   };
-  const rowDate = (params) => {
+  const rowDate = (params: GridRowParams) => {
     let datetime = new Date(params.row.datetime);
     return getDateString(datetime);
   };
-  const rowHours = (params) => {
+  const rowHours = (params: GridRowParams) => {
     if (params.row.event_type === "game") return params.row.hours;
     if (params.row.event_type === "dm_reward") return -params.row.hours;
   };
-  const rowDetails = (params) => {
+  const rowDetails = (params: GridRowParams) => {
     let data = params.row;
     if (data.event_type === "game") {
       return `${data.name} (${data.module})`;
@@ -90,7 +95,7 @@ export default function DMEvents(props: PropsType) {
     }
   };
 
-  const columns: GridColDef = [
+  const columns: GridColDef[] = [
     {
       field: "type",
       headerName: "Event",
@@ -141,11 +146,6 @@ export default function DMEvents(props: PropsType) {
         columns={columns}
         rows={data}
         rowHeight={36}
-        pageSize={pageSize}
-        onPageSizeChange={setPageSize}
-        rowsPerPageOptions={[15, 25, 50, 100]}
-        pageNum={pageNum}
-        onPageChange={setPageNum}
         sx={{ border: "1px solid black", borderRadius: "8px" }}
         getRowId={(row) => row.uuid}
         initialState={{
@@ -153,8 +153,8 @@ export default function DMEvents(props: PropsType) {
             sortModel: [{ field: "datetime", sort: "desc" }],
           },
         }}
-        components={{
-          Footer: () => (
+        slots={{
+          footer: () => (
             <div
               style={{
                 display: "flex",
@@ -173,7 +173,7 @@ export default function DMEvents(props: PropsType) {
                   variant="outlined"
                   startIcon={<AddIcon />}
                   onClick={() => {
-                    setInitialGameData([]);
+                    setInitialGameData(null);
                     setCreateEditOpen(true);
                   }}
                 >
@@ -194,7 +194,7 @@ export default function DMEvents(props: PropsType) {
         open={createEditOpen}
         data={initialGameData}
         onClose={() => setCreateEditOpen(false)}
-        onAdd={onGameAdded}
+        onAdd={() => {}}
       />
     </React.Fragment>
   );
