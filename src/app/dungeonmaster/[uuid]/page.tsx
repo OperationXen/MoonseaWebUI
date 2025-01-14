@@ -17,6 +17,8 @@ import SeasonRewards from "../rewards/SeasonRewards";
 import DMEvents from "@/components/events/DMEvents";
 import { useUserStatus } from "@/data/fetch/auth";
 
+import type { UUID } from "@/types/uuid";
+
 export default function DungeonMasterWindow() {
   const { uuid } = useParams();
   const { data: userStatus, isLoading } = useUserStatus();
@@ -145,13 +147,7 @@ export default function DungeonMasterWindow() {
           lg={8}
           sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}
         >
-          <DMEvents
-            allowUpdates={allowUpdates}
-            dmUUID={uuid}
-            onChange={() => {}}
-            doRefresh={refreshEvents}
-            setDoRefresh={setRefreshEvents}
-          />
+          <DMEvents allowUpdates={allowUpdates} uuid={uuid as UUID} />
         </Grid>
       </Grid>
     </React.Fragment>

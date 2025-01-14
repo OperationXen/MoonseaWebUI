@@ -190,12 +190,13 @@ export default function DMEvents(props: PropsType) {
           ),
         }}
       />
-      <CreateEditDMGame
+      {/* <CreateEditDMGame
+        uuid={uuid}
         open={createEditOpen}
         data={initialGameData}
         onClose={() => setCreateEditOpen(false)}
         onAdd={() => {}}
-      />
+      /> */}
     </React.Fragment>
   );
 }
