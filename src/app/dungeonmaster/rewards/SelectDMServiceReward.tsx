@@ -4,16 +4,26 @@ import { Dialog, Box, Typography } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Divider, Button } from "@mui/material";
 
-import useSnackBar from "../../../datastore/snackbar";
-import usePlayerStore from "../../../datastore/player";
-import { getRarityColour } from "../../../utils/items";
-import { createDMReward } from "../../../api/events";
+import useSnackBar from "@/datastore/snackbar";
+import usePlayerStore from "@/datastore/player";
+import { getRarityColour } from "@/utils/items";
+import { createDMReward } from "@/api/events";
 import RewardSelectWidget from "./RewardSelectWidget";
 
-export default function SelectSeasonReward(props) {
+import type { DMServiceReward } from "@/types/dm";
+import type { Character } from "@/types/character";
+
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+  onChange: () => void;
+  data?: DMServiceReward;
+};
+
+export default function SelectSeasonReward(props: PropsType) {
   const { data, open, onClose, onChange } = props;
   const displayMessage = useSnackBar((s) => s.displayMessage);
-  const characters = usePlayerStore((s) => s.characters);
+  const characters = usePlayerStore((s) => s.characters as Character[]);
 
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
@@ -22,23 +32,24 @@ export default function SelectSeasonReward(props) {
 
   const handleSubmit = () => {
     let temp = {
-      name: data.name,
-      hours: data.cost,
-      gold: data.gold,
-      downtime: data.downtime,
-      levels: data.levels,
-      rarity: data.rarity,
+      name: data?.name,
+      hours: data?.cost,
+      gold: data?.gold,
+      downtime: data?.downtime,
+      levels: data?.level,
+      rarity: data?.rarity,
       charLevels: levelChar,
       charItems: rewardChar,
+      item: "",
     };
-    if (typeof data.rewards === "string") {
+    if (typeof data?.rewards === "string") {
       temp["item"] = rewardText;
     } else {
-      temp["item"] = data.rewards[rewardItem];
+      temp["item"] = data?.rewards[rewardItem] || "";
     }
 
     createDMReward(temp).then(() => {
-      displayMessage(`Purchased DM reward for ${data.cost} hours`, "success");
+      displayMessage(`Purchased DM reward for ${data?.cost} hours`, "success");
       onChange();
       onClose();
     });
@@ -46,8 +57,8 @@ export default function SelectSeasonReward(props) {
 
   const getRewardText = () => {
     let retval = "Misc rewards:";
-    if (data.gold) retval += ` ${data.gold} GP`;
-    if (data.downtime) retval += ` ${data.downtime} downtime days`;
+    if (data?.gold) retval += ` ${data.gold} GP`;
+    if (data?.downtime) retval += ` ${data.downtime} downtime days`;
 
     return retval;
   };
@@ -59,8 +70,8 @@ export default function SelectSeasonReward(props) {
       PaperProps={{
         sx: {
           borderRadius: "8px",
-          border: `2px solid ${getRarityColour(data.rarity)}`,
-          boxShadow: `0 0 32px inset ${getRarityColour(data.rarity)}`,
+          border: `2px solid ${getRarityColour(data?.rarity || "common")}`,
+          boxShadow: `0 0 32px inset ${getRarityColour(data?.rarity || "common")}`,
           display: "flex",
           width: "42em",
           flexDirection: "column",
@@ -70,9 +81,9 @@ export default function SelectSeasonReward(props) {
       }}
     >
       <Typography variant="h4" mb="0.4em">
-        DM Reward: {data.name}
+        DM Reward: {data?.name}
       </Typography>
-      {data.level && (
+      {data?.level && (
         <React.Fragment>
           <Divider sx={{ width: "95%", margin: "0.4em 0" }}>
             <Typography variant="body2">Character Advancement</Typography>
@@ -94,12 +105,12 @@ export default function SelectSeasonReward(props) {
                 }}
                 label="Character to level up"
                 value={levelChar}
-                onChange={(e) => setLevelChar(e.target.value)}
+                onChange={(e) => setLevelChar(e.target.value as number)}
               >
                 <MenuItem value={0} divider>
                   None - skip level up
                 </MenuItem>
-                {characters.map((char) => (
+                {characters.map((char: Character) => (
                   <MenuItem value={char.uuid} key={char.uuid}>
                     {char.name}
                   </MenuItem>
@@ -138,7 +149,7 @@ export default function SelectSeasonReward(props) {
             sx={{ width: "16em", justifySelf: "flex-start" }}
             label="Character to recieve items"
             value={rewardChar}
-            onChange={(e) => setRewardChar(e.target.value)}
+            onChange={(e) => setRewardChar(e.target.value as number)}
           >
             <MenuItem value={0} divider disabled>
               None - skip item rewards
@@ -155,7 +166,7 @@ export default function SelectSeasonReward(props) {
           setValue={setRewardItem}
           text={rewardText}
           setText={setRewardText}
-          rewards={data.rewards}
+          rewards={data?.rewards || ""}
         />
       </Box>
       <Box
@@ -174,7 +185,7 @@ export default function SelectSeasonReward(props) {
         variant="contained"
         sx={{ marginBottom: "1em", width: "50%" }}
         onClick={handleSubmit}
-      >{`Claim reward (${data.cost} hours)`}</Button>
+      >{`Claim reward (${data?.cost} hours)`}</Button>
     </Dialog>
   );
 }

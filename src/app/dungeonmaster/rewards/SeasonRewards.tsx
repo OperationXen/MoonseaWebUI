@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { Box, Select, MenuItem, FormControl } from "@mui/material";
 
-import SelectSeasonReward from "./SelectSeasonReward";
-import SeasonRewardWidget from "./SeasonRewardWidget";
+import SelectSeasonReward from "./SelectDMServiceReward";
+import SeasonRewardWidget from "./ServiceRewardWidget";
 import rewardData11a from "@/config/dm-rewards/season11a.json";
 import rewardData11b from "@/config/dm-rewards/season11b.json";
 import rewardData12a from "@/config/dm-rewards/season12a.json";
@@ -19,7 +19,6 @@ type PropsType = {
   allowUpdates: boolean;
   dmUUID: UUID;
   hours: number;
-  onChange: (x: number) => void;
 };
 
 export default function SeasonRewards(props: PropsType) {
@@ -85,7 +84,6 @@ export default function SeasonRewards(props: PropsType) {
       <SelectSeasonReward
         open={selectRewardOpen}
         onClose={() => setSelectRewardOpen(false)}
-        dmUUID={dmUUID}
         data={selectedReward}
         onChange={onChange}
       />

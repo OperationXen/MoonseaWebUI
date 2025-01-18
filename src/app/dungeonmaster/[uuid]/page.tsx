@@ -26,7 +26,6 @@ export default function DungeonMasterWindow() {
 
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
-  const [refreshEvents, setRefreshEvents] = useState(false);
 
   const allowUpdates = !!(uuid && uuid === userStatus?.dmUUID);
 
@@ -133,7 +132,7 @@ export default function DungeonMasterWindow() {
           />
           <SeasonRewards
             allowUpdates={allowUpdates}
-            dmUUID={uuid}
+            dmUUID={uuid as UUID}
             hours={serviceHours}
           />
         </Grid>
