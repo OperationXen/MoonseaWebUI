@@ -4,13 +4,13 @@ import { Box, Select, MenuItem, FormControl } from "@mui/material";
 
 import SelectSeasonReward from "./SelectSeasonReward";
 import SeasonRewardWidget from "./SeasonRewardWidget";
-import rewardData11a from "../season11a.json";
-import rewardData11b from "../season11b.json";
-import rewardData12a from "../season12a.json";
-import rewardData12b from "../season12b.json";
-import rewardData12c from "../season12c.json";
-import rewardData12d from "../season12d.json";
-import rewardData12e from "../season12e.json";
+import rewardData11a from "@/config/dm-rewards/season11a.json";
+import rewardData11b from "@/config/dm-rewards/season11b.json";
+import rewardData12a from "@/config/dm-rewards/season12a.json";
+import rewardData12b from "@/config/dm-rewards/season12b.json";
+import rewardData12c from "@/config/dm-rewards/season12c.json";
+import rewardData12d from "@/config/dm-rewards/season12d.json";
+import rewardData12e from "@/config/dm-rewards/season12e.json";
 
 export default function SeasonRewards(props) {
   const { allowUpdates, dmUUID, hours, onChange } = props;

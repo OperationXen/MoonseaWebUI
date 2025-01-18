@@ -14,7 +14,7 @@ import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import SeasonRewards from "../rewards/SeasonRewards";
-import DMEvents from "@/components/events/DMEvents";
+import DMEvents from "@/app/dungeonmaster/DMEvents";
 import { useUserStatus } from "@/data/fetch/auth";
 
 import type { UUID } from "@/types/uuid";

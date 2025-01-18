@@ -78,7 +78,7 @@ export default function DMEvents(props: PropsType) {
     ];
   };
 
-  const rowType = (val: DMEventType, event: DMEvent) => {
+  const rowType = (_val: DMEventType, event: DMEvent) => {
     if (event.event_type === "game") return "DMed game";
     if (event.event_type === "dm_reward") return "Service reward";
   };
