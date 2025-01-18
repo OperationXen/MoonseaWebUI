@@ -12,25 +12,41 @@ import rewardData12c from "@/config/dm-rewards/season12c.json";
 import rewardData12d from "@/config/dm-rewards/season12d.json";
 import rewardData12e from "@/config/dm-rewards/season12e.json";
 
-export default function SeasonRewards(props) {
-  const { allowUpdates, dmUUID, hours, onChange } = props;
+import type { UUID } from "@/types/uuid";
+import type { DMServiceReward } from "@/types/dm";
 
-  const [rewards, setRewards] = useState(rewardData11b);
-  const [selectedReward, setSelectedReward] = useState({});
+type PropsType = {
+  allowUpdates: boolean;
+  dmUUID: UUID;
+  hours: number;
+  onChange: (x: number) => void;
+};
+
+export default function SeasonRewards(props: PropsType) {
+  const { allowUpdates, dmUUID, hours } = props;
+
+  const [rewards, setRewards] = useState<DMServiceReward[]>(
+    rewardData12e as DMServiceReward[],
+  );
+  const [selectedReward, setSelectedReward] = useState<DMServiceReward>();
   const [selectRewardOpen, setSelectRewardOpen] = useState(false);
   const [season, setSeason] = useState("12e");
 
+  const onChange = () => {
+    //TODO: invalidate state
+  };
+
   useEffect(() => {
-    if (season === "11a") setRewards(rewardData11a);
-    if (season === "11b") setRewards(rewardData11b);
-    if (season === "12a") setRewards(rewardData12a);
-    if (season === "12b") setRewards(rewardData12b);
-    if (season === "12c") setRewards(rewardData12c);
-    if (season === "12d") setRewards(rewardData12d);
-    if (season === "12e") setRewards(rewardData12e);
+    if (season === "11a") setRewards(rewardData11a as DMServiceReward[]);
+    if (season === "11b") setRewards(rewardData11b as DMServiceReward[]);
+    if (season === "12a") setRewards(rewardData12a as DMServiceReward[]);
+    if (season === "12b") setRewards(rewardData12b as DMServiceReward[]);
+    if (season === "12c") setRewards(rewardData12c as DMServiceReward[]);
+    if (season === "12d") setRewards(rewardData12d as DMServiceReward[]);
+    if (season === "12e") setRewards(rewardData12e as DMServiceReward[]);
   }, [season]);
 
-  const handleSelect = (reward) => {
+  const handleSelect = (reward: DMServiceReward) => {
     if (allowUpdates && reward.cost <= hours) {
       setSelectedReward(reward);
       setSelectRewardOpen(true);

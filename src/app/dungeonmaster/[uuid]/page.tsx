@@ -135,9 +135,6 @@ export default function DungeonMasterWindow() {
             allowUpdates={allowUpdates}
             dmUUID={uuid}
             hours={serviceHours}
-            onChange={() => {
-              setRefreshEvents(true);
-            }}
           />
         </Grid>
 
