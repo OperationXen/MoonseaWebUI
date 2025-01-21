@@ -20,7 +20,7 @@ type PropsType = {
   data?: DMServiceReward;
 };
 
-export default function SelectSeasonReward(props: PropsType) {
+export function SelectDMServiceReward(props: PropsType) {
   const { data, open, onClose, onChange } = props;
   const displayMessage = useSnackBar((s) => s.displayMessage);
   const characters = usePlayerStore((s) => s.characters as Character[]);
@@ -189,3 +189,5 @@ export default function SelectSeasonReward(props: PropsType) {
     </Dialog>
   );
 }
+
+export default SelectDMServiceReward;
