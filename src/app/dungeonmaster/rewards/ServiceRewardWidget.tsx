@@ -1,9 +1,18 @@
 import { Box, Card, Typography, Tooltip } from "@mui/material";
 
-import { getRarityColour } from "../../../utils/items";
+import { getRarityColour } from "@/utils/items";
 
-export default function SeasonRewardWidget(props) {
-  const { name, rarity, reward, level, downtime, gold, cost, locked } = props;
+import type { DMServiceReward } from "@/types/dm";
+
+type PropsType = {
+  reward: DMServiceReward;
+  locked: boolean;
+  onSelect: () => void;
+}
+
+export default function SeasonRewardWidget(props: PropsType) {
+  const { reward, onSelect, locked } = props;
+  const { name, rarity, level, downtime, gold, cost } = reward;
 
   const getBackgroundColour = () => {
     if (locked) return "#42424240";
@@ -28,7 +37,7 @@ export default function SeasonRewardWidget(props) {
         background: getBackgroundColour(),
         boxShadow: "2px 2px 4px darkgrey",
       }}
-      onClick={props.onSelect}
+      onClick={onSelect}
     >
       <Box
         style={{

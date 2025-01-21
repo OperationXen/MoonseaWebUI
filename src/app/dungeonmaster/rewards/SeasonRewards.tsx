@@ -73,7 +73,7 @@ export default function SeasonRewards(props: PropsType) {
         {rewards.map((reward, index) => {
           return (
             <SeasonRewardWidget
-              {...reward}
+              reward={reward}
               locked={!allowUpdates || reward.cost > hours}
               key={index}
               onSelect={() => handleSelect(reward)}
