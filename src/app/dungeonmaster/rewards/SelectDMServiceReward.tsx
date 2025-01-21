@@ -71,9 +71,9 @@ export function SelectDMServiceReward(props: PropsType) {
         sx: {
           borderRadius: "8px",
           border: `2px solid ${getRarityColour(data?.rarity || "common")}`,
-          boxShadow: `0 0 32px inset ${getRarityColour(data?.rarity || "common")}`,
+          boxShadow: `0 0 32px ${getRarityColour(data?.rarity || "common")}`,
           display: "flex",
-          width: "42em",
+          minWidth: "42em",
           flexDirection: "column",
           alignItems: "center",
           padding: "1em 2em",
