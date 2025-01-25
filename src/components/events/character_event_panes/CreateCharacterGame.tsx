@@ -15,7 +15,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import useSnackbar from "@/datastore/snackbar";
 import StatsWidget from "@/components/characters/StatsWidget";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
-import { useEvents } from "@/data/fetch/events";
+import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";
 import type { Rarity, MagicItem } from "@/types/items";

@@ -1,6 +1,6 @@
 "use client";
 
-import api from "./base";
+import api from "../base";
 import { produce } from "immer";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -14,28 +14,26 @@ import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import SeasonRewards from "../rewards/SeasonRewards";
-import DMEvents from "@/components/events/DMEvents";
+import DMEvents from "@/app/dungeonmaster/DMEvents";
 import { useUserStatus } from "@/data/fetch/auth";
 
+import type { UUID } from "@/types/uuid";
+
 export default function DungeonMasterWindow() {
+  const { uuid } = useParams();
   const { data: userStatus, isLoading } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { uuid } = useParams();
 
-  const [allowUpdates, setAllowUpdates] = useState(false);
-  const [showControls, setShowControls] = useState(false);
   const [serviceHours, setServiceHours] = useState(0);
   const [hoursChanged, setHoursChanged] = useState(false);
-  const [refreshEvents, setRefreshEvents] = useState(false);
 
-  useEffect(() => {
-    if (userStatus) setAllowUpdates(uuid === userStatus.dmUUID);
-  }, [uuid, userStatus]);
+  const allowUpdates = !!(uuid && uuid === userStatus?.dmUUID);
 
   const updateServiceHours = (val: number) => {
     setHoursChanged(true);
     setServiceHours(serviceHours + val);
   };
+
   const handleServiceHoursUpdate = () => {
     if (hoursChanged) {
       updateDMLogData(uuid, serviceHours).then((_response) => {
@@ -72,17 +70,13 @@ export default function DungeonMasterWindow() {
             marginBottom: "0.4em",
           }}
         >
-          <Grid
-            container
-            onMouseOver={() => setShowControls(allowUpdates)}
-            onMouseOut={() => setShowControls(false)}
-          >
+          <Grid container>
             <Grid item xs={2} margin={"auto 0 auto 0.4em"}>
               <Tooltip title={allowUpdates ? "Manually adjust hours" : ""}>
                 <ButtonGroup
                   disabled={!allowUpdates}
                   orientation="vertical"
-                  sx={{ opacity: showControls ? 0.8 : 0.1 }}
+                  sx={{ opacity: allowUpdates ? 0.8 : 0.1 }}
                   onMouseLeave={handleServiceHoursUpdate}
                 >
                   <Button onClick={() => updateServiceHours(+1)}>
@@ -138,11 +132,8 @@ export default function DungeonMasterWindow() {
           />
           <SeasonRewards
             allowUpdates={allowUpdates}
-            dmUUID={uuid}
+            dmUUID={uuid as UUID}
             hours={serviceHours}
-            onChange={() => {
-              setRefreshEvents(true);
-            }}
           />
         </Grid>
 
@@ -152,13 +143,7 @@ export default function DungeonMasterWindow() {
           lg={8}
           sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}
         >
-          <DMEvents
-            allowUpdates={allowUpdates}
-            dmUUID={uuid}
-            onChange={() => {}}
-            doRefresh={refreshEvents}
-            setDoRefresh={setRefreshEvents}
-          />
+          <DMEvents allowUpdates={allowUpdates} uuid={uuid as UUID} />
         </Grid>
       </Grid>
     </React.Fragment>

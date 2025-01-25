@@ -62,3 +62,40 @@ export type ItemEvent = {
   exchanged_item?: string;
   dm_name?: string;
 };
+
+export type DMEventType = "game" | "dm_reward";
+
+export type DMRewardEvent = {
+  uuid: UUID;
+  event_type: DMEventType;
+  datetime: string;
+
+  dm: string;
+  name: string;
+  gold: number;
+  downtime: number;
+  hours: number;
+  character_level_assigned: number;
+  character_items_assigned: number;
+};
+export type DMGameEvent = {
+  uuid: UUID;
+  event_type: DMEventType;
+  datetime: string;
+
+  name: string;
+  dm_name: string;
+  notes: string;
+  hours: number;
+  hours_notes: string;
+  module: string;
+  location: string;
+  downtime: number;
+  gold: number;
+  levels: number;
+  items: Partial<MagicItem>[];
+  details: string;
+  characters?: Array<number>;
+};
+
+export type DMEvent = DMGameEvent | DMRewardEvent;
