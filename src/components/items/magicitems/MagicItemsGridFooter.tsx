@@ -35,7 +35,7 @@ export function MagicItemsGridFooter(
           Hide items in trading post
         </Typography>
       </Box>
-      <GridPagination className="flex items-center justify-end no-scrollbar" />
+      <GridPagination className="flex items-center justify-end no-scrollbar overflow-hidden" />
     </Box>
   );
 }
