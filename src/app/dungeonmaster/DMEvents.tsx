@@ -18,15 +18,10 @@ import useSnackbar from "@/datastore/snackbar";
 import { getDateString } from "@/utils/format";
 import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
 
-import CreateEditDMGame from "./CreateEditDMGame";
+import type { DMEvent, DMGameEvent, DMEventType, DMRewardEvent } from "@/types/events";
 
-import type {
-  DMGameEvent,
-  DMEvent,
-  DMEventType,
-  DMRewardEvent,
-} from "@/types/events";
 import type { UUID } from "@/types/uuid";
+
 
 type PropsType = {
   uuid: UUID;
