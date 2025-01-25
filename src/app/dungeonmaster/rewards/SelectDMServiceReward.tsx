@@ -146,7 +146,7 @@ export function SelectDMServiceReward(props: PropsType) {
           <InputLabel>Character to recieve items</InputLabel>
 
           <Select
-            sx={{ width: "10em", justifySelf: "flex-start" }}
+            sx={{ width: "16em", justifySelf: "flex-start" }}
             label="Character to recieve items"
             value={rewardChar}
             onChange={(e) => setRewardChar(e.target.value as number)}
