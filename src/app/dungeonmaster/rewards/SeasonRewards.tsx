@@ -84,6 +84,7 @@ export default function SeasonRewards(props: PropsType) {
       <SelectSeasonReward
         open={selectRewardOpen}
         onClose={() => setSelectRewardOpen(false)}
+        dmUUID={dmUUID}
         data={selectedReward}
         onChange={onChange}
       />

@@ -6,24 +6,31 @@ import { Divider, Button } from "@mui/material";
 
 import useSnackBar from "@/datastore/snackbar";
 import usePlayerStore from "@/datastore/player";
+import { useCharacters } from "@/data/fetch/character";
+
 import { getRarityColour } from "@/utils/items";
 import { createDMReward } from "@/api/events";
+import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
 import RewardSelectWidget from "./RewardSelectWidget";
 
+import type { UUID } from "@/types/uuid";
 import type { DMServiceReward } from "@/types/dm";
 import type { Character } from "@/types/character";
 
 type PropsType = {
   open: boolean;
+  dmUUID: UUID;
   onClose: () => void;
   onChange: () => void;
   data?: DMServiceReward;
 };
 
 export default function SelectSeasonReward(props: PropsType) {
-  const { data, open, onClose, onChange } = props;
+  const { data, open, dmUUID, onClose, onChange } = props;
   const displayMessage = useSnackBar((s) => s.displayMessage);
-  const characters = usePlayerStore((s) => s.characters as Character[]);
+
+  const { data: characters } = useCharacters();
+  const { createEvent } = useDMEvents(dmUUID);
 
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
@@ -71,9 +78,9 @@ export default function SelectSeasonReward(props: PropsType) {
         sx: {
           borderRadius: "8px",
           border: `2px solid ${getRarityColour(data?.rarity || "common")}`,
-          boxShadow: `0 0 32px inset ${getRarityColour(data?.rarity || "common")}`,
+          boxShadow: `0 0 64px ${getRarityColour(data?.rarity || "common")}`,
           display: "flex",
-          width: "42em",
+          minWidth: "42em",
           flexDirection: "column",
           alignItems: "center",
           padding: "1em 2em",
@@ -110,7 +117,7 @@ export default function SelectSeasonReward(props: PropsType) {
                 <MenuItem value={0} divider>
                   None - skip level up
                 </MenuItem>
-                {characters.map((char: Character) => (
+                {characters?.map((char: Character) => (
                   <MenuItem value={char.uuid} key={char.uuid}>
                     {char.name}
                   </MenuItem>
@@ -154,7 +161,7 @@ export default function SelectSeasonReward(props: PropsType) {
             <MenuItem value={0} divider disabled>
               None - skip item rewards
             </MenuItem>
-            {characters.map((char) => (
+            {characters?.map((char) => (
               <MenuItem value={char.uuid} key={char.uuid}>
                 {char.name}
               </MenuItem>
