@@ -11,7 +11,6 @@ import { generateUUID } from "@/utils/uuid";
 /******************************************************************/
 function getEventsFn(dmUUID: UUID) {
   return api.get(`/api/data/dm_events/${dmUUID}`).then((r) => {
-    debugger;
     return r.data as DMEvent[];
   });
 }
@@ -29,13 +28,15 @@ function deleteEventfn(event: DMEvent) {
 }
 
 /******************************************************************/
-export function useDMEvents(dmUUID: UUID) {
+export function useDMEvents(dmUUID: UUID | null) {
   const queryClient = useQueryClient();
   const queryKey = ["events", "all", "dm", dmUUID];
 
   const fetchData = useQuery({
     queryKey: queryKey,
-    queryFn: () => getEventsFn(dmUUID),
+    queryFn: () => {
+      (dmUUID && getEventsFn(dmUUID)) || null;
+    },
   });
 
   const createEvent = useMutation({

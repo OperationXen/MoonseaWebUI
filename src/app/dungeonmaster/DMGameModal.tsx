@@ -9,6 +9,7 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
+import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
 import useSnackbar from "../../datastore/snackbar";
 
 import type { DMGameEvent } from "@/types/events";
@@ -30,6 +31,8 @@ export default function DMGameModal(props: PropsType) {
   const { open, onClose, data } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { createEvent, updateEvent } = useDMEvents(null);
+
   const [highlight, setHighlight] = useState(false);
 
   const [code, setCode] = useState("");
@@ -81,6 +84,7 @@ export default function DMGameModal(props: PropsType) {
 
   const handleSubmit = () => {
     let gameData = {
+      uuid: data.uuid,
       datetime: datetime,
       module: code,
       name: name,
@@ -91,10 +95,10 @@ export default function DMGameModal(props: PropsType) {
       hours_notes: breakdown,
       location: location,
       notes: notes,
-    };
+    } as DMGameEvent;
 
     if (editMode) {
-      updateDMGame(data.uuid, gameData)
+      updateEvent(gameData)
         .then((_r) => {
           displayMessage("Game updated", "info");
           onClose();
@@ -106,18 +110,7 @@ export default function DMGameModal(props: PropsType) {
           ),
         );
     } else {
-      createDMGame(
-        datetime,
-        code,
-        name,
-        gold,
-        downtime,
-        levelup ? 1 : 0,
-        hours,
-        breakdown,
-        location,
-        notes,
-      )
+      createEvent(gameData)
         .then((_response) => {
           clearValues();
           displayMessage("Game added successfully", "success");
