@@ -25,12 +25,12 @@ type PropsType = {
   data?: DMServiceReward;
 };
 
-export default function SelectSeasonReward(props: PropsType) {
+export function SelectDMServiceReward(props: PropsType) {
   const { data, open, dmUUID, onClose, onChange } = props;
   const displayMessage = useSnackBar((s) => s.displayMessage);
   const { data: characters } = useCharacters();
   const { createEvent } = useDMEvents(dmUUID);
-  
+
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
   const [rewardItem, setRewardItem] = useState(0);
@@ -196,5 +196,4 @@ export default function SelectSeasonReward(props: PropsType) {
   );
 }
 
-export default SelectServiceReward
-
+export default SelectDMServiceReward;
