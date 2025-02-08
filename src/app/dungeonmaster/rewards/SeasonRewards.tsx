@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { Box, Select, MenuItem, FormControl } from "@mui/material";
 
-
-import SelectSeasonReward from "./SelectDMServiceReward";
-import SeasonRewardWidget from "./ServiceRewardWidget";
+import SelectDMServiceReward from "./SelectDMServiceReward";
+import ServiceRewardWidget from "./ServiceRewardWidget";
 import rewardData11a from "@/config/dm-rewards/season11a.json";
 import rewardData11b from "@/config/dm-rewards/season11b.json";
 import rewardData12a from "@/config/dm-rewards/season12a.json";
@@ -73,8 +72,8 @@ export default function SeasonRewards(props: PropsType) {
       >
         {rewards.map((reward, index) => {
           return (
-            <SeasonRewardWidget
-              {...reward}
+            <ServiceRewardWidget
+              reward={reward}
               locked={!allowUpdates || reward.cost > hours}
               key={index}
               onSelect={() => handleSelect(reward)}
@@ -83,7 +82,7 @@ export default function SeasonRewards(props: PropsType) {
         })}
       </Box>
 
-      <SelectSeasonReward
+      <SelectDMServiceReward
         open={selectRewardOpen}
         onClose={() => setSelectRewardOpen(false)}
         dmUUID={dmUUID}

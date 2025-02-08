@@ -18,7 +18,7 @@ import useSnackbar from "@/datastore/snackbar";
 import { getDateString } from "@/utils/format";
 import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
 
-import CreateEditDMGame from "./CreateEditDMGame";
+import DMGameModal from "./DMGameModal";
 
 import type {
   DMGameEvent,
@@ -33,7 +33,7 @@ type PropsType = {
   allowUpdates: boolean;
 };
 
-export default function DMEvents(props: PropsType) {
+export function DMEventsGrid(props: PropsType) {
   const { uuid, allowUpdates } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -197,13 +197,14 @@ export default function DMEvents(props: PropsType) {
           ),
         }}
       />
-      {/* <CreateEditDMGame
+      <DMGameModal
         uuid={uuid}
         open={createEditOpen}
         data={initialGameData}
         onClose={() => setCreateEditOpen(false)}
-        onAdd={() => {}}
-      /> */}
+      />
     </React.Fragment>
   );
 }
+
+export default DMEventsGrid;

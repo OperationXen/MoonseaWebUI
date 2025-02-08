@@ -8,7 +8,7 @@ type PropsType = {
   reward: DMServiceReward;
   locked: boolean;
   onSelect: () => void;
-}
+};
 
 export default function SeasonRewardWidget(props: PropsType) {
   const { reward, onSelect, locked } = props;

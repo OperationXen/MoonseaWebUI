@@ -10,7 +10,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import useSnackbar from "../../datastore/snackbar";
-import { createDMGame, updateDMGame } from "../../api/events";
+
+import type { DMGameEvent } from "@/types/events";
 
 const row = {
   display: "flex",
@@ -19,8 +20,14 @@ const row = {
   alignItems: "center",
 };
 
-export default function CreateEditDMGame(props) {
-  const { open, onClose, onAdd, data } = props;
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+  data: DMGameEvent;
+};
+
+export default function DMGameModal(props: PropsType) {
+  const { open, onClose, data } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const [highlight, setHighlight] = useState(false);
@@ -36,10 +43,10 @@ export default function CreateEditDMGame(props) {
   const [item, setItem] = useState("");
 
   const [location, setLocation] = useState("");
-  const [datetime, setDatetime] = useState(null);
+  const [datetime, setDatetime] = useState("");
   const [notes, setNotes] = useState("");
 
-  const editMode = !!data.uuid;
+  const editMode = !!data?.uuid;
 
   // Helper function to clear out all game state to a set of defaults
   const clearValues = () => {
@@ -53,7 +60,7 @@ export default function CreateEditDMGame(props) {
     setGold(250);
     setDowntime(10);
     setLevelup(true);
-    setDatetime(null);
+    setDatetime("");
   };
 
   // Set initial state value to whatever is passed in as props if component is being used in edit mode
@@ -88,9 +95,8 @@ export default function CreateEditDMGame(props) {
 
     if (editMode) {
       updateDMGame(data.uuid, gameData)
-        .then((r) => {
+        .then((_r) => {
           displayMessage("Game updated", "info");
-          onAdd();
           onClose();
         })
         .catch((e) =>
@@ -112,13 +118,12 @@ export default function CreateEditDMGame(props) {
         location,
         notes,
       )
-        .then((response) => {
+        .then((_response) => {
           clearValues();
           displayMessage("Game added successfully", "success");
-          onAdd();
           onClose();
         })
-        .catch((error) => {
+        .catch((_error) => {
           displayMessage("Unable to create this game", "error");
         });
     }
@@ -188,14 +193,19 @@ export default function CreateEditDMGame(props) {
             sx={{ width: "10em" }}
             label="Gold"
             value={gold}
-            onChange={(e) => e.target.value >= 0 && setGold(e.target.value)}
+            onChange={(e) =>
+              parseInt(e.target.value) >= 0 && setGold(parseInt(e.target.value))
+            }
           ></TextField>
           <TextField
             type="number"
             sx={{ width: "10em" }}
             label="Downtime"
             value={downtime}
-            onChange={(e) => e.target.value >= 0 && setDowntime(e.target.value)}
+            onChange={(e) =>
+              parseInt(e.target.value) >= 0 &&
+              setDowntime(parseInt(e.target.value))
+            }
           ></TextField>
           <FormGroup sx={{ width: "6em" }}>
             <FormControlLabel
@@ -226,10 +236,11 @@ export default function CreateEditDMGame(props) {
 
           <DateTimePicker
             label="Date and Time"
-            value={datetime}
-            inputFormat="yyyy/MM/dd HH:mm"
-            onChange={setDatetime}
-            renderInput={(params) => <TextField {...params} />}
+            value={new Date(datetime)}
+            format="yyyy/MM/dd HH:mm"
+            onChange={(x) => {
+              setDatetime(x?.toISOString() ?? "");
+            }}
           />
         </Box>
         <TextField
