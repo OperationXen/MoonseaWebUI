@@ -20,7 +20,7 @@ export function CommonItemsGridFooter(
       >
         Add common item
       </Button>
-      <GridPagination className="flex items-center justify-end" />
+      <GridPagination className="flex items-center justify-end no-scrollbar overflow-hidden" />
     </Box>
   );
 }

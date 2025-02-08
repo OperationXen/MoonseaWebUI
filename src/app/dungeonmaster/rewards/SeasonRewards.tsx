@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Box, Select, MenuItem, FormControl } from "@mui/material";
 
+
 import SelectSeasonReward from "./SelectDMServiceReward";
 import SeasonRewardWidget from "./ServiceRewardWidget";
 import rewardData11a from "@/config/dm-rewards/season11a.json";
@@ -81,6 +82,7 @@ export default function SeasonRewards(props: PropsType) {
           );
         })}
       </Box>
+
       <SelectSeasonReward
         open={selectRewardOpen}
         onClose={() => setSelectRewardOpen(false)}
