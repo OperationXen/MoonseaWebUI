@@ -5,42 +5,42 @@ import api from "../base";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
-import type { DMRewardEvent } from "@/types/events";
+import type { DMGameEvent } from "@/types/events";
 import { generateUUID } from "@/utils/uuid";
 
 /******************************************************************/
-function getRewardsFn() {
-  return api.get("/api/data/dm_reward/").then((r) => {
-    return r.data as DMRewardEvent[];
+function getGamesFn() {
+  return api.get("/api/data/dm_game/").then((r) => {
+    return r.data as DMGameEvent[];
   });
 }
 
-function createRewardFn(event: Partial<DMRewardEvent>) {
-  return api.post("/api/data/dm_reward", { event });
+function createGameFn(event: Partial<DMGameEvent>) {
+  return api.post("/api/data/dm_game", { event });
 }
 
-function updateRewardFn(event: Partial<DMRewardEvent>) {
-  return api.patch(`/api/data/dm_reward/${event.uuid}`, event);
+function updateGameFn(event: Partial<DMGameEvent>) {
+  return api.patch(`/api/data/dm_game/${event.uuid}`, event);
 }
 
-function deleteRewardfn(event: DMRewardEvent) {
-  return api.delete(`/api/data/dm_reward/${event.uuid}/`);
+function deleteGamefn(event: DMGameEvent) {
+  return api.delete(`/api/data/dm_game/${event.uuid}/`);
 }
 
 /******************************************************************/
 export function useDMRewards(dmUUID: UUID | null) {
   const queryClient = useQueryClient();
-  const queryKey = ["rewards", "all", "dm", dmUUID];
+  const queryKey = ["games", "all", "dm", dmUUID];
 
   const fetchData = useQuery({
     queryKey: queryKey,
-    queryFn: getRewardsFn,
+    queryFn: getGamesFn,
   });
 
-  const createReward = useMutation({
-    mutationFn: (data: Partial<DMRewardEvent>) => createRewardFn(data),
+  const createGame = useMutation({
+    mutationFn: (data: Partial<DMGameEvent>) => createGameFn(data),
 
-    onMutate: async (event: Partial<DMRewardEvent>) => {
+    onMutate: async (event: Partial<DMGameEvent>) => {
       // generate a temporary UUID to use with the optimistic update
       const newEvent = { ...event };
       newEvent.uuid = generateUUID();
@@ -51,7 +51,7 @@ export function useDMRewards(dmUUID: UUID | null) {
       return { oldEvents };
     },
     // If the mutation fails, use the context we returned above
-    onError: (_err, _newData: Partial<DMRewardEvent>, context) => {
+    onError: (_err, _newData: Partial<DMGameEvent>, context) => {
       if (context) {
         queryClient.setQueryData(queryKey, context.oldEvents);
       }
@@ -63,20 +63,20 @@ export function useDMRewards(dmUUID: UUID | null) {
     },
   });
 
-  const updateReward = useMutation({
-    mutationFn: (reward: DMRewardEvent) => updateRewardFn(reward),
+  const updateGame = useMutation({
+    mutationFn: (reward: DMGameEvent) => updateGameFn(reward),
     onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
   });
 
-  const deleteReward = useMutation({
-    mutationFn: (reward: DMRewardEvent) => deleteRewardfn(reward),
+  const deleteGame = useMutation({
+    mutationFn: (reward: DMGameEvent) => deleteGamefn(reward),
     onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
   });
 
   return {
     ...fetchData,
-    createReward: createReward.mutateAsync,
-    updateReward: updateReward.mutateAsync,
-    deleteReward: deleteReward.mutateAsync,
+    createGame: createGame.mutateAsync,
+    updateGame: updateGame.mutateAsync,
+    deleteGame: deleteGame.mutateAsync,
   };
 }
