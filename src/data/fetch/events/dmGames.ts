@@ -28,7 +28,7 @@ function deleteGamefn(event: DMGameEvent) {
 }
 
 /******************************************************************/
-export function useDMRewards(dmUUID: UUID | null) {
+export function useDMGames(dmUUID: UUID | null) {
   const queryClient = useQueryClient();
   const queryKey = ["games", "all", "dm", dmUUID];
 

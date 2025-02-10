@@ -17,6 +17,8 @@ import {
 import useSnackbar from "@/datastore/snackbar";
 import { getDateString } from "@/utils/format";
 import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
+import { useDMRewards } from "@/data/fetch/events/dmRewards";
+import { useDMGames } from "@/data/fetch/events/dmGames";
 
 import DMGameModal from "./DMGameModal";
 
@@ -37,7 +39,9 @@ export function DMEventsGrid(props: PropsType) {
   const { uuid, allowUpdates } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { data, isLoading, deleteEvent, updateEvent } = useDMEvents(uuid);
+  const { data: events, deleteEvent } = useDMEvents(uuid);
+  const { createReward, deleteReward } = useDMRewards(uuid);
+  const { createGame, deleteGame } = useDMGames(uuid);
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
   const [initialGameData, setInitialGameData] = useState<DMGameEvent | null>();
@@ -51,11 +55,11 @@ export function DMEventsGrid(props: PropsType) {
 
   const deleteItem = (event: DMEvent) => {
     if (event.event_type === "game") {
-      // deleteDMGame(uuid).then(() => {
-      //   displayMessage("Removed DMed game", "info");
-      // });
+      deleteGame(event).then(() => {
+        displayMessage("Removed DMed game", "info");
+      });
     } else if (event.event_type === "dm_reward") {
-      deleteEvent(event).then(() => {
+      deleteReward(event).then(() => {
         displayMessage("Removed service reward", "info");
       });
     }
@@ -151,7 +155,7 @@ export function DMEventsGrid(props: PropsType) {
       <DataGrid
         disableColumnMenu
         columns={columns}
-        rows={data}
+        rows={events}
         rowHeight={36}
         sx={{ border: "1px solid black", borderRadius: "8px" }}
         getRowId={(row) => row.uuid}
