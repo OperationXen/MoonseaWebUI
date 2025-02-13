@@ -34,6 +34,10 @@ export function useDMEvents(dmUUID: UUID | null) {
     enabled: !!dmUUID,
   });
 
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey });
+  };
+
   const createEvent = useMutation({
     mutationFn: (data: Partial<DMEvent>) => createEventFn(data),
 
@@ -67,6 +71,7 @@ export function useDMEvents(dmUUID: UUID | null) {
 
   return {
     ...fetchData,
+    refresh,
     createEvent: createEvent.mutateAsync,
     updateEvent: updateEvent.mutateAsync,
   };
