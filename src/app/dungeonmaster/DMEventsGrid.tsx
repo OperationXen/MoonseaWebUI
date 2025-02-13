@@ -40,8 +40,8 @@ export function DMEventsGrid(props: PropsType) {
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { data: allDMEvents, refresh: refreshDMEvents } = useDMEvents(uuid);
-  const { createReward, deleteReward } = useDMRewards(uuid);
-  const { createGame, deleteGame } = useDMGames(uuid);
+  const { deleteReward } = useDMRewards(uuid);
+  const { deleteGame } = useDMGames(uuid);
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
   const [initialGameData, setInitialGameData] = useState<DMGameEvent | null>();

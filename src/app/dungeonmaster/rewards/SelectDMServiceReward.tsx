@@ -5,12 +5,10 @@ import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Divider, Button } from "@mui/material";
 
 import useSnackBar from "@/datastore/snackbar";
-import usePlayerStore from "@/datastore/player";
 
 import { useCharacters } from "@/data/fetch/character";
 import { getRarityColour } from "@/utils/items";
 import { createDMReward } from "@/api/events";
-import { useDMEvents } from "@/data/fetch/events/dmEvents";
 import RewardSelectWidget from "./RewardSelectWidget";
 
 import type { UUID } from "@/types/uuid";
@@ -26,10 +24,10 @@ type PropsType = {
 };
 
 export function SelectDMServiceReward(props: PropsType) {
-  const { data, open, dmUUID, onClose, onChange } = props;
+  const { data, open, onClose, onChange } = props;
   const displayMessage = useSnackBar((s) => s.displayMessage);
   const { data: characters } = useCharacters();
-  const { createEvent } = useDMEvents(dmUUID);
+  //const { createEvent } = useDMEvents(dmUUID);
 
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
