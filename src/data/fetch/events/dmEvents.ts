@@ -11,7 +11,6 @@ import { generateUUID } from "@/utils/uuid";
 /******************************************************************/
 function getEventsFn(dmUUID: UUID) {
   return api.get(`/api/data/dm_events/${dmUUID}`).then((r) => {
-    debugger;
     return r.data as DMEvent[];
   });
 }
@@ -24,19 +23,20 @@ function updateEventFn(event: Partial<DMEvent>) {
   return api.patch(`/api/data/dm_reward/${event.uuid}`, event);
 }
 
-function deleteEventfn(event: DMEvent) {
-  return api.delete(`/api/data/dm_reward/${event.uuid}/`);
-}
-
 /******************************************************************/
-export function useDMEvents(dmUUID: UUID) {
+export function useDMEvents(dmUUID: UUID | null) {
   const queryClient = useQueryClient();
   const queryKey = ["events", "all", "dm", dmUUID];
 
   const fetchData = useQuery({
     queryKey: queryKey,
-    queryFn: () => getEventsFn(dmUUID),
+    queryFn: () => getEventsFn(dmUUID!),
+    enabled: !!dmUUID,
   });
+
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey });
+  };
 
   const createEvent = useMutation({
     mutationFn: (data: Partial<DMEvent>) => createEventFn(data),
@@ -69,15 +69,10 @@ export function useDMEvents(dmUUID: UUID) {
     onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
   });
 
-  const deleteEvent = useMutation({
-    mutationFn: (event: DMEvent) => deleteEventfn(event),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
-  });
-
   return {
     ...fetchData,
+    refresh,
     createEvent: createEvent.mutateAsync,
     updateEvent: updateEvent.mutateAsync,
-    deleteEvent: deleteEvent.mutateAsync,
   };
 }

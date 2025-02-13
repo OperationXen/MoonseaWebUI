@@ -16,9 +16,11 @@ import {
 
 import useSnackbar from "@/datastore/snackbar";
 import { getDateString } from "@/utils/format";
-import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
+import { useDMEvents } from "@/data/fetch/events/dmEvents";
+import { useDMRewards } from "@/data/fetch/events/dmRewards";
+import { useDMGames } from "@/data/fetch/events/dmGames";
 
-import CreateEditDMGame from "./CreateEditDMGame";
+import DMGameModal from "./DMGameModal";
 
 import type {
   DMGameEvent,
@@ -33,11 +35,13 @@ type PropsType = {
   allowUpdates: boolean;
 };
 
-export default function DMEvents(props: PropsType) {
+export function DMEventsGrid(props: PropsType) {
   const { uuid, allowUpdates } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { data, isLoading, deleteEvent, updateEvent } = useDMEvents(uuid);
+  const { data: allDMEvents, refresh: refreshDMEvents } = useDMEvents(uuid);
+  const { createReward, deleteReward } = useDMRewards(uuid);
+  const { createGame, deleteGame } = useDMGames(uuid);
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
   const [initialGameData, setInitialGameData] = useState<DMGameEvent | null>();
@@ -51,12 +55,14 @@ export default function DMEvents(props: PropsType) {
 
   const deleteItem = (event: DMEvent) => {
     if (event.event_type === "game") {
-      // deleteDMGame(uuid).then(() => {
-      //   displayMessage("Removed DMed game", "info");
-      // });
+      deleteGame(event as DMGameEvent).then(() => {
+        displayMessage("Removed DMed game", "info");
+        refreshDMEvents();
+      });
     } else if (event.event_type === "dm_reward") {
-      deleteEvent(event).then(() => {
+      deleteReward(event as DMRewardEvent).then(() => {
         displayMessage("Removed service reward", "info");
+        refreshDMEvents();
       });
     }
   };
@@ -151,7 +157,7 @@ export default function DMEvents(props: PropsType) {
       <DataGrid
         disableColumnMenu
         columns={columns}
-        rows={data}
+        rows={allDMEvents}
         rowHeight={36}
         sx={{ border: "1px solid black", borderRadius: "8px" }}
         getRowId={(row) => row.uuid}
@@ -197,13 +203,13 @@ export default function DMEvents(props: PropsType) {
           ),
         }}
       />
-      {/* <CreateEditDMGame
-        uuid={uuid}
+      <DMGameModal
         open={createEditOpen}
-        data={initialGameData}
+        data={initialGameData ?? null}
         onClose={() => setCreateEditOpen(false)}
-        onAdd={() => {}}
-      /> */}
+      />
     </React.Fragment>
   );
 }
+
+export default DMEventsGrid;

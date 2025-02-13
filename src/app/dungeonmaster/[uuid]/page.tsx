@@ -14,12 +14,12 @@ import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import SeasonRewards from "../rewards/SeasonRewards";
-import DMEvents from "@/app/dungeonmaster/DMEvents";
+import DMEventsGrid from "@/app/dungeonmaster/DMEventsGrid";
 import { useUserStatus } from "@/data/fetch/auth";
 
 import type { UUID } from "@/types/uuid";
 
-export default function DungeonMasterWindow() {
+export default function DMPage() {
   const { uuid } = useParams();
   const { data: userStatus, isLoading } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -143,7 +143,7 @@ export default function DungeonMasterWindow() {
           lg={8}
           sx={{ height: "calc(100vh - 4em)", marginBottom: "0.4em" }}
         >
-          <DMEvents allowUpdates={allowUpdates} uuid={uuid as UUID} />
+          <DMEventsGrid allowUpdates={allowUpdates} uuid={uuid as UUID} />
         </Grid>
       </Grid>
     </React.Fragment>
