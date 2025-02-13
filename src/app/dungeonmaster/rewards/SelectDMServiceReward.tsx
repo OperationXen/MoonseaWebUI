@@ -10,7 +10,7 @@ import usePlayerStore from "@/datastore/player";
 import { useCharacters } from "@/data/fetch/character";
 import { getRarityColour } from "@/utils/items";
 import { createDMReward } from "@/api/events";
-import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
+import { useDMEvents } from "@/data/fetch/events/dmEvents";
 import RewardSelectWidget from "./RewardSelectWidget";
 
 import type { UUID } from "@/types/uuid";

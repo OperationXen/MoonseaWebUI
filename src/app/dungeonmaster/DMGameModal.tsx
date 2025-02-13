@@ -9,7 +9,7 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { useDMEvents } from "@/data/fetch/events/dungeonmaster";
+import { useDMEvents } from "@/data/fetch/events/dmEvents";
 import useSnackbar from "../../datastore/snackbar";
 
 import type { DMGameEvent } from "@/types/events";
@@ -24,7 +24,7 @@ const row = {
 type PropsType = {
   open: boolean;
   onClose: () => void;
-  data: DMGameEvent;
+  data: DMGameEvent | null;
 };
 
 export default function DMGameModal(props: PropsType) {
@@ -68,7 +68,7 @@ export default function DMGameModal(props: PropsType) {
 
   // Set initial state value to whatever is passed in as props if component is being used in edit mode
   useEffect(() => {
-    if (editMode) {
+    if (editMode && data) {
       setCode(data.module);
       setName(data.name);
       setHours(data.hours);
@@ -84,7 +84,7 @@ export default function DMGameModal(props: PropsType) {
 
   const handleSubmit = () => {
     let gameData = {
-      uuid: data.uuid,
+      uuid: data?.uuid,
       datetime: datetime,
       module: code,
       name: name,

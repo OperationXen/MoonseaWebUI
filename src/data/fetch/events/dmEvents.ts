@@ -23,10 +23,6 @@ function updateEventFn(event: Partial<DMEvent>) {
   return api.patch(`/api/data/dm_reward/${event.uuid}`, event);
 }
 
-function deleteEventfn(event: DMEvent) {
-  return api.delete(`/api/data/dm_reward/${event.uuid}/`);
-}
-
 /******************************************************************/
 export function useDMEvents(dmUUID: UUID | null) {
   const queryClient = useQueryClient();
@@ -34,9 +30,8 @@ export function useDMEvents(dmUUID: UUID | null) {
 
   const fetchData = useQuery({
     queryKey: queryKey,
-    queryFn: () => {
-      (dmUUID && getEventsFn(dmUUID)) || null;
-    },
+    queryFn: () => getEventsFn(dmUUID!),
+    enabled: !!dmUUID,
   });
 
   const createEvent = useMutation({
@@ -70,15 +65,9 @@ export function useDMEvents(dmUUID: UUID | null) {
     onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
   });
 
-  const deleteEvent = useMutation({
-    mutationFn: (event: DMEvent) => deleteEventfn(event),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
-  });
-
   return {
     ...fetchData,
     createEvent: createEvent.mutateAsync,
     updateEvent: updateEvent.mutateAsync,
-    deleteEvent: deleteEvent.mutateAsync,
   };
 }
