@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { Button, AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { Button, AppBar, Box } from "@mui/material";
+import { Divider, Toolbar, Typography } from "@mui/material";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 import ProfileWidget from "@/components/user/ProfileWidget";
@@ -36,11 +37,10 @@ export function NavBar() {
           >
             Moonsea Codex
           </Typography>
-
+          <Box className="flex-grow" />
           {/* TODO: consider tabs */}
           <Box
             sx={{
-              width: "32em",
               display: smallMode ? "none" : "flex",
               justifyContent: "center",
             }}
@@ -56,15 +56,17 @@ export function NavBar() {
                 Characters
               </Button>
             </Link>
-            <Link href="/tradingpost/" passHref>
+            <Divider flexItem orientation="vertical" />
+
+            <Link href="/modules" passHref>
               <Button
                 disabled={!userStatus?.authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname.startsWith("/tradingpost") ? 1 : 0.2,
+                  opacity: pathname.startsWith("/modules") ? 1 : 0.2,
                 }}
               >
-                Trading Post
+                Modules
               </Button>
             </Link>
             <Link href="/itemvault" passHref>
@@ -76,6 +78,19 @@ export function NavBar() {
                 }}
               >
                 Item Vault
+              </Button>
+            </Link>
+
+            <Divider flexItem orientation="vertical" />
+            <Link href="/tradingpost/" passHref>
+              <Button
+                disabled={!userStatus?.authenticated}
+                sx={{
+                  color: theme.palette.common.white,
+                  opacity: pathname.startsWith("/tradingpost") ? 1 : 0.2,
+                }}
+              >
+                Trading Post
               </Button>
             </Link>
             <Link href={`/dungeonmaster/${userStatus?.dmUUID}`} passHref>
