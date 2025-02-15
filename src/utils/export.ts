@@ -17,7 +17,7 @@ function makeFilename(charName: string) {
   let name = charName.replace(/^\W$/gm, "");
   name = name.toLowerCase();
 
-  return `msc-export-{name}.json`;
+  return `msc-export-${name}.json`;
 }
 
 export function exportCharacter(uuid: UUID, name: string) {

@@ -3,16 +3,15 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Box, Fab } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-
-import { useCharacters } from "@/data/fetch/character";
+import { Box, Button, ButtonGroup } from "@mui/material";
 
 import CreateCharacterWindow from "@/components/characters/CreateCharacterWindow";
 import CharacterSummaryCard from "@/components/characters/summary/CharacterSummaryCard";
+import ImportCharacterDialog from "@/components/characters/import/ImportCharacter";
 import NoCharactersOverlay from "@/components/characters/NoCharactersOverlay";
 import AuthenticationRequired from "@/components/user/AuthenticationRequired";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
+import { useCharacters } from "@/data/fetch/character";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function Dashboard() {
@@ -21,6 +20,7 @@ export default function Dashboard() {
   const router = useRouter();
 
   const [createOpen, setCreateOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
 
   if (isLoading || checkingAuth) return <LoadingOverlay open={true} />;
   if (!userStatus?.authenticated) {
@@ -49,13 +49,29 @@ export default function Dashboard() {
           <CharacterSummaryCard key={character.uuid} character={character} />
         ))}
       </Box>
-      <Fab
-        color="primary"
-        onClick={() => setCreateOpen(true)}
-        sx={{ position: "fixed", right: "2em", bottom: "2em" }}
-      >
-        <AddIcon />
-      </Fab>
+      <ButtonGroup className="fixed bottom-10 right-4">
+        <Button
+          size="large"
+          variant="contained"
+          className="rounded-l-3xl"
+          onClick={() => setImportOpen(true)}
+        >
+          Import
+        </Button>
+        <Button
+          size="large"
+          variant="contained"
+          className="rounded-r-3xl"
+          onClick={() => setCreateOpen(true)}
+        >
+          Create
+        </Button>
+      </ButtonGroup>
+
+      <ImportCharacterDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+      />
       <CreateCharacterWindow
         open={createOpen}
         onClose={() => setCreateOpen(false)}
