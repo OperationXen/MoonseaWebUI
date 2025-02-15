@@ -33,6 +33,8 @@ export default function CharacterControls(props: PropsType) {
     snackbar("Copied character link to clipboard");
   };
 
+  if (!character.editable) return null;
+
   return (
     <React.Fragment>
       <Tooltip title="Edit character name, race and links" placement="left">
