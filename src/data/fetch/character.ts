@@ -8,13 +8,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UUID } from "@/types/uuid";
 import type { Character } from "@/types/character";
 
-function getCharacters() {
+async function getCharacters() {
   return axios.get("/api/data/character").then((r) => {
     return r.data.results as Character[];
   });
 }
 
-function getCharacter(ID: string) {
+async function getCharacter(ID: string) {
   return api.get(`/api/data/character/${ID}`).then((r) => {
     return r.data as Character;
   });
@@ -24,7 +24,7 @@ function createCharacterFn(charData: Partial<Character>) {
   return api.post("/api/data/character", charData);
 }
 
-function updateCharacterFn(data: Partial<Character>, charUUID: UUID) {
+async function updateCharacterFn(data: Partial<Character>, charUUID: UUID) {
   data.uuid = charUUID;
   return api
     .patch(`/api/data/character/${charUUID}`, data)
@@ -33,6 +33,11 @@ function updateCharacterFn(data: Partial<Character>, charUUID: UUID) {
 
 function deleteCharacterFn(uuid: UUID) {
   return api.delete(`/api/data/character/${uuid}`);
+}
+
+/*********************************************************************/
+export function getCharacterArchiveData(uuid: UUID) {
+  return getCharacter(uuid);
 }
 
 /*********************************************************************/

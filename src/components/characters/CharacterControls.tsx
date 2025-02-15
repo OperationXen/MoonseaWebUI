@@ -2,17 +2,19 @@
 
 import React, { useState } from "react";
 
-import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
-
-import EditIcon from "@mui/icons-material/Edit";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShareIcon from "@mui/icons-material/Share";
-import MenuIcon from "@mui/icons-material/Menu";
+import EditIcon from "@mui/icons-material/Edit";
 
-import { Character } from "@/types/character";
+import { IconButton, Tooltip } from "@mui/material";
 
+import useSnackbar from "@/datastore/snackbar";
+import { exportCharacter } from "@/utils/export";
 import CharacterControlsEditDialog from "./CharacterControlsEditDialog";
 import CharacterDeleteConfirmation from "./CharacterDeleteConfirmation";
+
+import { Character } from "@/types/character";
 
 type PropsType = {
   character: Character;
@@ -21,45 +23,53 @@ type PropsType = {
 export default function CharacterControls(props: PropsType) {
   const { character } = props;
 
+  const { displayMessage: snackbar } = useSnackbar();
+
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const copyLinkToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    snackbar("Copied character link to clipboard");
+  };
 
   return (
     <React.Fragment>
-      <IconButton color="inherit" onClick={(e) => setAnchorEl(e.currentTarget)}>
-        <MenuIcon sx={{ opacity: "0.4" }} />
-      </IconButton>
-      <Menu
-        open={anchorEl !== null}
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
-        TransitionComponent={Fade}
-      >
-        <MenuItem sx={{ padding: "0.4em" }}>
+      <Tooltip title="Edit character name, race and links" placement="left">
+        <IconButton>
           <EditIcon
-            fontSize="small"
             onClick={() => {
               setEditOpen(true);
-              setAnchorEl(null);
             }}
           />
-        </MenuItem>
-        <MenuItem sx={{ padding: "0.4em" }} disabled>
-          <ShareIcon fontSize="small" />
-        </MenuItem>
-        <MenuItem sx={{ padding: "0.4em" }}>
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title="Share a link to this character" placement="left">
+        <IconButton>
+          <ShareIcon onClick={copyLinkToClipboard} />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title="Export character information" placement="left">
+        <IconButton>
+          <FileDownloadIcon
+            onClick={() => exportCharacter(character.uuid, character.name)}
+          />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title="Delete character" placement="left">
+        <IconButton>
           <DeleteIcon
-            fontSize="small"
+            className="hover:opacity-90 opacity-30"
             onClick={() => {
               setDeleteOpen(true);
-              setAnchorEl(null);
             }}
           />
-        </MenuItem>
-      </Menu>
+        </IconButton>
+      </Tooltip>
+
       <CharacterControlsEditDialog
         character={character}
         open={editOpen}
