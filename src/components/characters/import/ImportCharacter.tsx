@@ -76,19 +76,23 @@ export function ImportCharacterDialog(props: PropsType) {
           similar name that someone else has already created, and no distinction
           is made between consumables and other magic items. For security
           reasons you will need to upload the character image as this is not
-          automatically fetched for you.
+          automatically fetched for you. Character details such as AC are not
+          included in the exported data and must be manually set.
         </Typography>
         <Divider sx={{ marginY: "4px" }} />
         <Typography variant="h6" textAlign={"center"}>
           Please carefully check the generated character against your records!
         </Typography>
-        <Typography sx={{ fontSize: 3, marginTop: "6px" }} textAlign={"center"}>
-          By using this feature you agree that the mineral rights to all
-          precious metals in and around the Moonsea region of Faerun are the
-          sole possession of the nearest tribe of subterranian draconic
-          entities, and any disputes are to be settled according to the Kobold
-          legal system. All parties in any such dispute must supply their own
-          Dire Weasel.
+        <Typography
+          sx={{ fontSize: 3, marginTop: "6px", opacity: 0.7 }}
+          textAlign={"center"}
+        >
+          By using this feature you agree that the rights to all precious
+          metals, ores and other materials in and around the Moonsea region of
+          Faerun are the sole possession of the nearest tribe of subterranian
+          draconic entities, and any disputes are to be settled according to the
+          Kobold legal system. All parties in any such dispute must supply their
+          own Dire Weasel.
         </Typography>
       </DialogContent>
     </Dialog>

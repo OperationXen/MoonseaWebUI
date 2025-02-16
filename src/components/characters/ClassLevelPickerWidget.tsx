@@ -36,10 +36,10 @@ export default function ClassLevelPickerWidget(props: PropsType) {
   }, []);
 
   const setName = (newVal: string) => {
-    update({ name: newVal, subclass: "", value: data.value });
+    update({ name: newVal, subclass: "", value: data.value || 1 });
   };
   const setSubclass = (newVal: string) => {
-    update({ name: data.name, subclass: newVal, value: data.value });
+    update({ name: data.name, subclass: newVal, value: data.value || 1 });
   };
   const setvalue = (newvalue: number) => {
     update({ name: data.name, subclass: data.subclass, value: newvalue });
@@ -60,6 +60,7 @@ export default function ClassLevelPickerWidget(props: PropsType) {
     else if (onDelete) onDelete();
   };
   const handleIncrement = () => {
+    if (!data.value) setvalue(1);
     if (data.value < 20) setvalue(data.value + 1);
   };
 
