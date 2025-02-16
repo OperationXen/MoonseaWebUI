@@ -65,6 +65,15 @@ export function ImportCharacterDialog(props: PropsType) {
         {(processing && <ProcessingSpinner />) || (
           <FileDropZone onFileChosen={handleFileChosen} />
         )}
+        <br />
+        <Typography sx={{ fontSize: 10 }}>
+          This will create a new character, populated with the games and magic
+          items contained within the import CSV. However, trade history of magic
+          items will not be recreated (these items will be flagged as being
+          imported). Only games, purchases and DM events such as rewards will be
+          imported - this may lead to complications for which you have my
+          sympathies.
+        </Typography>
       </DialogContent>
     </Dialog>
   );
