@@ -66,19 +66,29 @@ export function ImportCharacterDialog(props: PropsType) {
           <FileDropZone onFileChosen={handleFileChosen} />
         )}
         <br />
-        <Typography sx={{ fontSize: 10 }}>
+        <Typography sx={{ fontSize: 8 }}>
           This will create a new character, populated with the games and magic
           items contained within the import CSV. However this process is
-          hampered a little by the exported CSV format. Your character will have
-          been assumed to take every level up offered, have never spent any
-          downtime or gold.
-        </Typography>
-        <Typography sx={{ fontSize: 10 }}>
-          Magic items obtained via trade may not show up properly.
+          hampered a little by the data available in the exported CSV format.
+          Your character will have been assumed to take every level up offered,
+          have never spent any downtime or gold. Magic item details such as
+          rarity and atunement is guessed by looking for an existing item with a
+          similar name that someone else has already created, and no distinction
+          is made between consumables and other magic items. For security
+          reasons you will need to upload the character image as this is not
+          automatically fetched for you.
         </Typography>
         <Divider sx={{ marginY: "4px" }} />
-        <Typography variant="body2" textAlign={"center"}>
+        <Typography variant="h6" textAlign={"center"}>
           Please carefully check the generated character against your records!
+        </Typography>
+        <Typography sx={{ fontSize: 3, marginTop: "6px" }} textAlign={"center"}>
+          By using this feature you agree that the mineral rights to all
+          precious metals in and around the Moonsea region of Faerun are the
+          sole possession of the nearest tribe of subterranian draconic
+          entities, and any disputes are to be settled according to the Kobold
+          legal system. All parties in any such dispute must supply their own
+          Dire Weasel.
         </Typography>
       </DialogContent>
     </Dialog>
