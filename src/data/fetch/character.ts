@@ -49,6 +49,7 @@ export function useCharacters() {
     queryKey: ["characters"],
     queryFn: () => getCharacters(),
   });
+  const refreshCharacters = () => queryClient.invalidateQueries({ queryKey });
 
   const createCharacter = useMutation({
     mutationFn: (charData: Partial<Character>) => createCharacterFn(charData),
@@ -57,7 +58,11 @@ export function useCharacters() {
     },
   });
 
-  return { ...fetchData, createCharacter: createCharacter.mutateAsync };
+  return {
+    ...fetchData,
+    createCharacter: createCharacter.mutateAsync,
+    refreshCharacters,
+  };
 }
 
 export function useCharacter(uuid: UUID) {

@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 import useSnackbar from "@/datastore/snackbar";
 
 type PropsType = {
-  onFileChosen: (x: ArrayBuffer) => void;
+  onFileChosen: (fileContents: string) => void;
 };
 
 export function FileDropZone(props: PropsType) {
@@ -22,12 +22,12 @@ export function FileDropZone(props: PropsType) {
       reader.onerror = () => snackbar("Could not read file", "error");
       // callback for when the file has been read
       reader.onload = () => {
-        onFileChosen(reader.result as ArrayBuffer);
+        onFileChosen(reader.result as string);
 
         // const binaryStr = reader.result;
         // console.log(binaryStr);
       };
-      reader.readAsArrayBuffer(file);
+      reader.readAsText(file);
     });
   }, []);
   const { getRootProps, getInputProps } = useDropzone({

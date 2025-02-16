@@ -18,7 +18,7 @@ const getLevelText = (playerClass: PlayerClass) => {
 };
 
 const getClassColour = (playerClass: PlayerClass) => {
-  let c = playerClass.name.toLowerCase();
+  let c = playerClass.name?.toLowerCase();
   if (c === "artificer") return "#887242";
   if (c === "barbarian") return "#d0725c";
   if (c === "bard") return "#b58cb6";
@@ -35,7 +35,7 @@ const getClassColour = (playerClass: PlayerClass) => {
 };
 
 const getClassIcon = (playerClass: PlayerClass) => {
-  let c = playerClass.name.toLowerCase();
+  let c = playerClass.name?.toLowerCase();
   if (c === "artificer") return <GiGearHammer color="black" />;
   if (c === "barbarian") return <GiCrossedAxes color="black" />;
   if (c === "bard") return <GiBanjo color="black" />;
