@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 import { doCharacterImport } from "@/data/fetch/import";
 import ProcessingSpinner from "./ProcessingSpinner";
@@ -23,7 +23,7 @@ export function ImportCharacterDialog(props: PropsType) {
 
   const [processing, setProcessing] = useState(false);
 
-  const handleFileChosen = (data: ArrayBuffer) => {
+  const handleFileChosen = (data: string) => {
     setProcessing(true);
     doCharacterImport(data)
       .then(() => {
@@ -68,11 +68,17 @@ export function ImportCharacterDialog(props: PropsType) {
         <br />
         <Typography sx={{ fontSize: 10 }}>
           This will create a new character, populated with the games and magic
-          items contained within the import CSV. However, trade history of magic
-          items will not be recreated (these items will be flagged as being
-          imported). Only games, purchases and DM events such as rewards will be
-          imported - this may lead to complications for which you have my
-          sympathies.
+          items contained within the import CSV. However this process is
+          hampered a little by the exported CSV format. Your character will have
+          been assumed to take every level up offered, have never spent any
+          downtime or gold.
+        </Typography>
+        <Typography sx={{ fontSize: 10 }}>
+          Magic items obtained via trade may not show up properly.
+        </Typography>
+        <Divider sx={{ marginY: "4px" }} />
+        <Typography variant="body2" textAlign={"center"}>
+          Please carefully check the generated character against your records!
         </Typography>
       </DialogContent>
     </Dialog>
