@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Box, Divider, Typography } from "@mui/material";
 
 import { doCharacterImport } from "@/data/fetch/import";
+import { useCharacters } from "@/data/fetch/character";
 import ProcessingSpinner from "./ProcessingSpinner";
 import useSnackbar from "@/datastore/snackbar";
 
@@ -20,14 +21,19 @@ export function ImportCharacterDialog(props: PropsType) {
   const { open, onClose } = props;
 
   const { displayMessage: snackbar } = useSnackbar();
+  const { refreshCharacters } = useCharacters();
 
   const [processing, setProcessing] = useState(false);
 
   const handleFileChosen = (data: string) => {
     setProcessing(true);
     doCharacterImport(data)
-      .then(() => {
-        snackbar("Imported from file", "success");
+      .then((response) => {
+        snackbar(
+          `Imported character ${response.data.name} from file`,
+          "success",
+        );
+        refreshCharacters();
         setProcessing(false);
         onClose();
       })
