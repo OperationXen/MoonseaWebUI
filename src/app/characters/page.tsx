@@ -49,7 +49,7 @@ export default function Dashboard() {
           <CharacterSummaryCard key={character.uuid} character={character} />
         ))}
       </Box>
-      <ButtonGroup className="fixed bottom-10 right-4">
+      <ButtonGroup className="fixed bottom-4 right-4">
         <Button
           size="large"
           variant="contained"
