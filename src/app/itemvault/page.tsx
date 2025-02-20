@@ -64,7 +64,7 @@ export default function ItemVault() {
       return "";
     }
   };
-  const rowStatusText = (item: MagicItem | undefined) => {
+  const rowStatusText = (_: boolean, item: MagicItem | undefined) => {
     try {
       if (item?.market) return "In trading post";
       if (item?.equipped) return "Equipped";
@@ -111,14 +111,20 @@ export default function ItemVault() {
       field: "rarity",
       headerName: "Rarity",
       align: "center",
-      renderCell: (p: GRCellParams) => <RarityWidget rarity={p.row.rarity} />,
+      renderCell: (p: GRCellParams) => (
+        <Box className="flex justify-center items-center h-full">
+          <RarityWidget rarity={p.row.rarity} />
+        </Box>
+      ),
     },
     {
       field: "name",
       headerName: "Item",
       flex: 0.25,
       renderCell: (p: GRCellParams) => (
-        <ItemLinkWidget name={p.row.name} uuid={p.row.uuid} />
+        <Box className="flex justify-start items-center h-full">
+          <ItemLinkWidget name={p.row.name} uuid={p.row.uuid} />
+        </Box>
       ),
     },
     {
@@ -126,7 +132,12 @@ export default function ItemVault() {
       headerName: "Owner",
       flex: 0.15,
       renderCell: (p: GRCellParams) => (
-        <CharacterLinkWidget name={p.row.owner_name} uuid={p.row.owner_uuid} />
+        <Box className="flex justify-start items-center h-full">
+          <CharacterLinkWidget
+            name={p.row.owner_name}
+            uuid={p.row.owner_uuid}
+          />
+        </Box>
       ),
     },
     {
@@ -136,7 +147,7 @@ export default function ItemVault() {
       valueGetter: rowSourceText,
     },
     {
-      field: "market",
+      field: "status",
       headerName: "Status",
       align: "center",
       flex: 0.1,
@@ -187,6 +198,9 @@ export default function ItemVault() {
               pageSizeOptions={[10, 20, 50, 100]}
               initialState={{
                 pagination: { paginationModel: { pageSize: 20 } }, // Setting initial pageSize
+                sorting: {
+                  sortModel: [{ field: "status", sort: "asc" }],
+                },
               }}
               sx={{
                 border: "1px solid black",

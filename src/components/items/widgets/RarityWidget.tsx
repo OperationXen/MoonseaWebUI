@@ -14,6 +14,23 @@ type PropsType = {
 export default function RarityWidget(props: PropsType) {
   const { rarity, text = false } = props;
 
+  const getAvatar = (val: Rarity) => {
+    switch (val) {
+      case "legendary":
+        return "L";
+      case "veryrare":
+        return "V";
+      case "rare":
+        return "R";
+      case "uncommon":
+        return "U";
+      case "common":
+        return "C";
+      default:
+        return "-";
+    }
+  };
+
   if (text) {
     return (
       <Typography color={getRarityColour(rarity)}>
@@ -23,7 +40,7 @@ export default function RarityWidget(props: PropsType) {
   } else
     return (
       <Avatar sx={{ bgcolor: getRarityColour(rarity), height: 32, width: 32 }}>
-        {getRarityText(rarity).toUpperCase()[0]}
+        {getAvatar(rarity)}
       </Avatar>
     );
 }
