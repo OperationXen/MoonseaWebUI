@@ -1,12 +1,12 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
-import DescriptionIcon from '@mui/icons-material/Description';
+import DescriptionIcon from "@mui/icons-material/Description";
 
 import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
@@ -55,6 +55,29 @@ export function CommonItemsGrid(props: PropsType) {
             });
           }}
         />
+      </Box>
+    );
+  };
+
+  const getRowActions = (p: GridRenderCellParams<MagicItem>) => {
+    if (!p.row.editable) return null;
+    return (
+      <Box className="flex items-center justify-end">
+        <IconButton onClick={() => setEditConsumable(p.row)}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+        <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
+          <DescriptionIcon fontSize="small" />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            deleteItem(p.row).then(() =>
+              displayMessage(`Removed ${p.row.name}`, "info"),
+            );
+          }}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
       </Box>
     );
   };
@@ -113,35 +136,19 @@ export function CommonItemsGrid(props: PropsType) {
       renderCell: renderEquipped,
     },
     {
-      field: "controls",
-      headerName: "",
-      renderCell: (p) => {
-        return (
-          <Box className="flex items-center justify-end">
-            <IconButton onClick={() => setEditConsumable(p.row)}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
-              <DescriptionIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                deleteItem(p.row).then(() =>
-                  displayMessage(`Removed ${p.row.name}`, "info"),
-                );
-              }}
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </Box>
-        );
-      },
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      minWidth: 130,
+      headerAlign: "center",
+      renderCell: getRowActions,
     },
   ];
 
   return (
     <React.Fragment>
       <DataGrid
+        autoPageSize
         getRowId={(x) => x.uuid}
         columns={columns}
         rows={magicItems}
@@ -152,11 +159,6 @@ export function CommonItemsGrid(props: PropsType) {
           },
           columns: {
             columnVisibilityModel: { description: true },
-          },
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
           },
         }}
         slots={{
@@ -170,7 +172,6 @@ export function CommonItemsGrid(props: PropsType) {
             },
           },
         }}
-        pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
       <MagicItemDialog

@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import { Paper, Button, IconButton } from "@mui/material";
+import { Box, Paper, Button, IconButton } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
@@ -38,11 +38,11 @@ export default function CharacterEvents(props: PropsType) {
     setEventDetails(data.row);
   };
 
-  const rowActions = (params: GridRenderCellParams<AnyEvent>) => {
+  const getRowActions = (params: GridRenderCellParams<AnyEvent>) => {
     if (!editable) return null;
 
     return (
-      <React.Fragment>
+      <Box>
         <IconButton
           onClick={() => {
             handleOpenEventDetails(params);
@@ -63,7 +63,7 @@ export default function CharacterEvents(props: PropsType) {
         >
           <DeleteIcon />
         </IconButton>
-      </React.Fragment>
+      </Box>
     );
   };
   const rowEventType = (_et: EventType, value: AnyEvent) => {
@@ -124,11 +124,10 @@ export default function CharacterEvents(props: PropsType) {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.2,
-      align: "right",
-      headerAlign: "center",
       type: "actions",
-      renderCell: rowActions,
+      minWidth: 130,
+      headerAlign: "center",
+      renderCell: getRowActions,
     },
   ];
 
