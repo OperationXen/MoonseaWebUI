@@ -58,6 +58,27 @@ export function ConsumableItemsGrid(props: PropsType) {
     );
   };
 
+  const getRowActions = (p: GridRenderCellParams<Consumable>) => {
+    //if (!p.row.editable) return null;
+
+    return (
+      <Box className="flex items-center justify-end">
+        <IconButton onClick={() => setEditConsumable(p.row)}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            deleteConsumable(p.row).then(() =>
+              displayMessage(`Removed ${p.row.name}`, "info"),
+            );
+          }}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Box>
+    );
+  };
+
   const columns: GridColDef<Consumable>[] = [
     {
       field: "name",
@@ -140,32 +161,19 @@ export function ConsumableItemsGrid(props: PropsType) {
       renderCell: renderEquipped,
     },
     {
-      field: "controls",
-      headerName: "",
-      renderCell: (p) => {
-        return (
-          <Box className="flex items-center justify-end">
-            <IconButton onClick={() => setEditConsumable(p.row)}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                deleteConsumable(p.row).then(() =>
-                  displayMessage(`Removed ${p.row.name}`, "info"),
-                );
-              }}
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </Box>
-        );
-      },
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      minWidth: 130,
+      headerAlign: "center",
+      renderCell: getRowActions,
     },
   ];
 
   return (
     <React.Fragment>
       <DataGrid
+        autoPageSize
         getRowId={(x) => x.uuid}
         columns={columns}
         rows={consumableItems}
@@ -175,11 +183,6 @@ export function ConsumableItemsGrid(props: PropsType) {
           },
           columns: {
             columnVisibilityModel: { description: true },
-          },
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
           },
         }}
         slots={{
@@ -193,7 +196,6 @@ export function ConsumableItemsGrid(props: PropsType) {
             },
           },
         }}
-        pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
       <ConsumableDialog

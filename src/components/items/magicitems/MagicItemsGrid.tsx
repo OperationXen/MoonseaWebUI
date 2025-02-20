@@ -79,6 +79,31 @@ export function MagicItemsGrid(props: PropsType) {
     );
   };
 
+  const getRowActions = (p: GridRenderCellParams<MagicItem>) => {
+    if (!p.row.editable) return null;
+    return (
+      <Box className="flex items-center justify-end">
+        <ItemMarketWidget item={p.row} charUUID={characterUUID} />
+
+        <IconButton onClick={() => setEditItem(p.row)}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+        <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
+          <DescriptionIcon fontSize="small" />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            deleteItem(p.row).then(() =>
+              displayMessage(`Removed ${p.row.name}`, "info"),
+            );
+          }}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Box>
+    );
+  };
+
   const columns: GridColDef<MagicItem>[] = [
     {
       field: "name",
@@ -147,44 +172,19 @@ export function MagicItemsGrid(props: PropsType) {
       renderCell: renderEquipped,
     },
     {
-      field: "market",
-      headerName: "Trade",
-      flex: 1,
-      renderCell: (p) => {
-        return <ItemMarketWidget item={p.row} charUUID={characterUUID} />;
-      },
-    },
-    {
-      field: "Item edit controls",
-      headerName: "",
-      flex: 1,
-      renderCell: (p) => {
-        return (
-          <Box className="flex items-center justify-end">
-            <IconButton onClick={() => setEditItem(p.row)}>
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
-              <DescriptionIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                deleteItem(p.row).then(() =>
-                  displayMessage(`Removed ${p.row.name}`, "info"),
-                );
-              }}
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </Box>
-        );
-      },
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      minWidth: 160,
+      headerAlign: "center",
+      renderCell: getRowActions,
     },
   ];
 
   return (
     <React.Fragment>
       <DataGrid
+        autoPageSize
         getRowId={(x) => x.uuid}
         getRowClassName={getRowFormat}
         columns={columns}
@@ -198,11 +198,6 @@ export function MagicItemsGrid(props: PropsType) {
           },
           columns: {
             columnVisibilityModel: { description: true },
-          },
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
           },
         }}
         slots={{
@@ -221,7 +216,6 @@ export function MagicItemsGrid(props: PropsType) {
             additional: "By default items in the trading post are not shown",
           } as any,
         }}
-        pageSizeOptions={[10, 15, 20, 25, 50]}
         density="compact"
       />
       <MagicItemDialog
