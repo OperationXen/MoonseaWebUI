@@ -64,7 +64,7 @@ export default function ItemVault() {
       return "";
     }
   };
-  const rowStatusText = (item: MagicItem | undefined) => {
+  const rowStatusText = (_: boolean, item: MagicItem | undefined) => {
     try {
       if (item?.market) return "In trading post";
       if (item?.equipped) return "Equipped";
