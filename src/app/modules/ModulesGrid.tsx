@@ -57,17 +57,6 @@ export function ModulesGrid(props: PropsType) {
 
   const columns: GridColDef<CharGameRow>[] = [
     {
-      field: "module",
-      headerName: "Module code",
-      flex: 1,
-    },
-    {
-      field: "name",
-      headerName: "Module Name",
-      flex: 1,
-    },
-    { field: "character", headerName: "Character name", flex: 1 },
-    {
       field: "datetime",
       headerName: "Date / Time",
       flex: 1,
@@ -75,13 +64,33 @@ export function ModulesGrid(props: PropsType) {
         return getDateString(new Date(val));
       },
     },
+    {
+      field: "module",
+      headerName: "Module code",
+      flex: 1,
+    },
+    {
+      field: "name",
+      headerName: "Module Name",
+      flex: 2,
+    },
+    { field: "character", headerName: "Character name", flex: 2 },
   ];
 
   return (
     <DataGrid
+      autoPageSize
+      sx={{
+        border: "1px solid black",
+        minHeight: "calc(100vh - 9em)",
+      }}
+      density="compact"
       columns={columns}
       rows={filterGames(flattenGames(data || []))}
       getRowId={(r) => r.gameUUID}
+      initialState={{
+        sorting: { sortModel: [{ field: "datetime", sort: "desc" }] },
+      }}
     />
   );
 }

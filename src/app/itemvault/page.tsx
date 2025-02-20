@@ -163,26 +163,28 @@ export default function ItemVault() {
 
   return (
     <AuthenticationRequired>
-      <Paper className="flex flex-col flex-grow p-2 m-4">
+      <Paper className="flex flex-col flex-grow px-2 pb-2 m-2">
         <Box
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          margin="0.5em 0"
+          className="mt-2 mb-1"
         >
-          <Typography variant="h4">Item Vault</Typography>
+          <Typography variant="h5">Item Vault</Typography>
           <TextField
             label="Search my items"
-            variant="standard"
-            sx={{ width: "25em" }}
+            size="small"
+            className="basis-1/2 min-w-96"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Box>
@@ -204,7 +206,7 @@ export default function ItemVault() {
               }}
               sx={{
                 border: "1px solid black",
-                minHeight: "calc(100vh - 12em)",
+                minHeight: "calc(100vh - 9em)",
               }}
             />
           </Box>
