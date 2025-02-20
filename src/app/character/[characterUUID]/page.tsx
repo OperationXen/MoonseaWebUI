@@ -2,15 +2,14 @@
 
 import { Container, Box, Paper } from "@mui/material";
 
-import type { Character } from "@/types/character";
 import { useCharacter } from "@/data/fetch/character";
-
 import CharacterDetailsPane from "@/components/characters/CharacterDetailsPane";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import CharacterEvents from "components/events/CharacterEvents";
 import CharacterArt from "@/components/characters/CharacterArt";
 import ItemPane from "components/items/ItemPane";
 
+import type { Character } from "@/types/character";
 import type { UUID } from "@/types/uuid";
 
 type PropsType = {

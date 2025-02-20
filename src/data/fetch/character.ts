@@ -72,6 +72,9 @@ export function useCharacter(uuid: UUID) {
   const fetchData = useQuery({
     queryKey,
     queryFn: () => getCharacter(uuid),
+    // if this request fails, throw an error from the hook
+    throwOnError: true,
+    retry: false,
   });
 
   const refreshCharacter = () => queryClient.invalidateQueries({ queryKey });
