@@ -35,13 +35,18 @@ export default function ItemVault() {
   const getFilteredItems = (): MagicItem[] => {
     if (!items) return [];
 
-    return items.filter((x) =>
+    const filtered = items.filter((x) =>
       x.name.toLowerCase().includes(filter.toLowerCase()),
     );
+    return filtered;
   };
 
-  const rowDate = (item: MagicItem) => {
+  const rowDate = (item: MagicItem | undefined) => {
     try {
+      if (!item) {
+        return "";
+      }
+
       let datetime = new Date(item.datetime_obtained);
       return getDateString(datetime);
     } catch (_error) {
@@ -50,19 +55,19 @@ export default function ItemVault() {
     }
   };
 
-  const rowSourceText = (item: MagicItem) => {
+  const rowSourceText = (item: MagicItem | undefined) => {
     try {
-      if (item.source_event_type) return getSourceText(item.source_event_type);
+      if (item?.source_event_type) return getSourceText(item.source_event_type);
       return "";
     } catch (_error) {
       console.error(_error);
       return "";
     }
   };
-  const rowStatusText = (item: MagicItem) => {
+  const rowStatusText = (item: MagicItem | undefined) => {
     try {
-      if (item.market) return "In trading post";
-      if (item.equipped) return "Equipped";
+      if (item?.market) return "In trading post";
+      if (item?.equipped) return "Equipped";
       return "Unused";
     } catch (_error) {
       console.error(_error);
@@ -74,6 +79,7 @@ export default function ItemVault() {
     setItem(item);
     setShowAdvertCreate(true);
   };
+
   const getRowActions = (params: any) => {
     if (params.row.market) {
       return [
