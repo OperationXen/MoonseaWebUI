@@ -20,6 +20,7 @@ import RarityWidget from "@/components/items/widgets/RarityWidget";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
 import { getDateString, getSourceText } from "@/utils/format";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
+import { raritySortComparitor } from "@/utils/sort";
 
 import type { MagicItem } from "types/items";
 
@@ -111,6 +112,7 @@ export default function ItemVault() {
       field: "rarity",
       headerName: "Rarity",
       align: "center",
+      sortComparator: raritySortComparitor,
       renderCell: (p: GRCellParams) => (
         <Box className="flex justify-center items-center h-full">
           <RarityWidget rarity={p.row.rarity} />

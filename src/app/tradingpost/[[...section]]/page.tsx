@@ -9,7 +9,6 @@ import { Button, ButtonGroup, InputAdornment, Paper } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 import HikingIcon from "@mui/icons-material/Hiking";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 import TradingPostOffers from "../TradingPostOffers";
