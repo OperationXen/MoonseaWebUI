@@ -96,7 +96,8 @@ export default function TradeAdvert(props: PropsType) {
           variant="caption"
           sx={{ opacity: highlight ? "0.9" : "0.7" }}
         >
-          {description || "No text"}
+          {description?.substring(0, 80) +
+            (description.length > 80 ? "..." : "") || "No advert text"}
         </Typography>
       </CardContent>
       <Box className="flex flex-row w-full items-end justify-end">
