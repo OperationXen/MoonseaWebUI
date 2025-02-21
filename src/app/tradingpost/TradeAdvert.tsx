@@ -7,11 +7,10 @@ import { Card, CardContent, CardHeader, Box } from "@mui/material";
 import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
 
 import LabelIcon from "@mui/icons-material/Label";
-import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import RarityWidget from "@/components/items/widgets/RarityWidget";
-import DeleteConfirm from "@/components/items/widgets/DeleteConfirm";
 import TradeOfferDialog from "./TradeOfferDialog";
 
 import type { UUID } from "@/types/uuid";
@@ -32,7 +31,7 @@ export default function TradeAdvert(props: PropsType) {
 
   const numOffers = offers?.length ?? 0;
   const [highlight, setHighlight] = useState(false);
-  const [showDelete, setShowDelete] = useState(false);
+  const [showReturn, setShowReturn] = useState(false);
   const [showOffer, setShowOffer] = useState(false);
 
   const getActionIcon = () => {
@@ -59,16 +58,18 @@ export default function TradeAdvert(props: PropsType) {
 
   return (
     <Card
-      sx={{ width: "100%" }}
+      className="flex-grow-0 h-40 rounded-md"
+      sx={{ minWidth: "14em" }}
       onMouseOver={() => setHighlight(true)}
       onMouseOut={() => setHighlight(false)}
+      elevation={6}
     >
       <CardHeader
-        avatar={<RarityWidget rarity={item.rarity} />}
-        action={getActionIcon()}
+        className="py-1 px-2"
+        avatar={<RarityWidget rarity={item.rarity} size="medium" />}
         title={
           <Typography
-            variant="subtitle1"
+            variant="body1"
             sx={{ cursor: "pointer" }}
             onClick={() => router.push(`/magicitem/${item.uuid}`)}
           >
@@ -77,7 +78,7 @@ export default function TradeAdvert(props: PropsType) {
         }
         subheader={
           <Typography
-            variant="subtitle2"
+            variant="caption"
             sx={{ opacity: 0.8, cursor: "pointer" }}
             onClick={() => {
               router.push(`/character/${item.owner_uuid}`);
@@ -87,28 +88,22 @@ export default function TradeAdvert(props: PropsType) {
           </Typography>
         }
       />
-      <CardContent sx={{ height: "3em" }}>
+      <CardContent
+        className="h-16 flex items-center justify-center mx-1"
+        sx={{ border: "1px dotted lightgrey" }}
+      >
         <Typography
           variant="caption"
           sx={{ opacity: highlight ? "0.9" : "0.7" }}
         >
-          {description}
+          {description || "No text"}
         </Typography>
       </CardContent>
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "flex-end",
-        }}
-      >
-        {!market && (
-          <Tooltip title="Delete this advert and return item to its owner's inventory">
-            <IconButton
-              sx={{ margin: "0.4em" }}
-              onClick={() => setShowDelete(true)}
-            >
-              <DeleteIcon
+      <Box className="flex flex-row w-full items-end justify-end">
+        {item.editable && (
+          <Tooltip title="Remove this item from the trading post and return it to the owner">
+            <IconButton onClick={() => setShowReturn(true)}>
+              <RemoveShoppingCartIcon
                 sx={{
                   opacity: highlight ? "0.9" : "0.3",
                   cursor: "pointer",
@@ -117,13 +112,9 @@ export default function TradeAdvert(props: PropsType) {
             </IconButton>
           </Tooltip>
         )}
+        {getActionIcon()}
       </Box>
-      <DeleteConfirm
-        open={showDelete}
-        onClose={() => setShowDelete(false)}
-        name={item.name}
-        uuid={uuid}
-      />
+
       <TradeOfferDialog
         open={showOffer}
         onClose={() => setShowOffer(false)}

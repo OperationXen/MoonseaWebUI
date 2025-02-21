@@ -5,8 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Container, Box, Typography, TextField } from "@mui/material";
-import { Tabs, Tab, InputAdornment } from "@mui/material";
-import { TabPanel, TabContext } from "@mui/lab";
+import { Button, ButtonGroup, InputAdornment, Paper } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 import HikingIcon from "@mui/icons-material/Hiking";
@@ -16,7 +15,7 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import TradingPostOffers from "../TradingPostOffers";
 import TradingPostSearch from "../TradingPostSearch";
 import TradingPostItems from "../TradingPostItems";
-
+import AuthenticationRequired from "@/components/user/AuthenticationRequired";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function TradingPostWindow() {
@@ -26,32 +25,39 @@ export default function TradingPostWindow() {
 
   const [filter, setFilter] = useState("");
 
+  const tabValue = (section?.[0] as string) ?? "market";
+
   useEffect(() => {
     if (!section) router.push("/tradingpost/market/");
   }, [router, section]);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        padding: "0.5em",
-        height: "calc(100% - 2.5em)",
-        justifyContent: "space-around",
-        flexDirection: "column",
-      }}
-    >
-      <TabContext value={(section as string) ?? "market"}>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          margin="0.5em 0"
+    <AuthenticationRequired>
+      <Container
+        sx={{
+          display: "flex",
+          padding: "0.5em",
+          justifyContent: "space-around",
+          flexDirection: "column",
+        }}
+      >
+        <Paper
+          className="flex flex-col flex-grow px-2 pb-2 m-2"
+          sx={{ minHeight: "calc(100vh - 6em)" }}
         >
-          <Typography variant="h4">Trading Post</Typography>
-          <Box sx={{ display: section === "market" ? "flex" : "none" }}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            margin="0.5em 0"
+          >
+            <Typography variant="h5">Trading Post</Typography>
+
             <TextField
+              disabled={tabValue !== "market"}
               label="Search the trading post"
-              variant="standard"
+              variant="outlined"
+              size="small"
               sx={{ width: "25em" }}
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
@@ -63,61 +69,50 @@ export default function TradingPostWindow() {
                 ),
               }}
             />
+
+            <ButtonGroup>
+              <Button
+                disabled={!userStatus?.authenticated}
+                size="large"
+                startIcon={<HikingIcon />}
+                component={Link}
+                href={"/tradingpost/items/"}
+                sx={{ opacity: tabValue === "items" ? 1 : 0.4 }}
+              >
+                My Items
+              </Button>
+              <Button
+                disabled={!userStatus?.authenticated}
+                component={Link}
+                href={"/tradingpost/offers/"}
+                sx={{ opacity: tabValue === "offers" ? 1 : 0.4 }}
+              >
+                Pending Offers
+              </Button>
+              <Button
+                endIcon={<LocalGroceryStoreIcon />}
+                component={Link}
+                href={"/tradingpost/market/"}
+                sx={{ opacity: tabValue === "market" ? 1 : 0.4 }}
+              >
+                Market
+              </Button>
+            </ButtonGroup>
           </Box>
-          <Tabs
+
+          <Box
             sx={{
-              padding: "0 0.2em",
+              flexGrow: 1,
+              border: "1px solid black",
+              borderRadius: "8px",
             }}
           >
-            <Tab
-              disabled={!userStatus?.authenticated}
-              icon={<HikingIcon />}
-              label="My Items"
-              component={Link}
-              href={"/tradingpost/items/"}
-            />
-            <Tab
-              disabled={!userStatus?.authenticated}
-              icon={<LocalOfferIcon />}
-              label="Offers"
-              component={Link}
-              href={"/tradingpost/offers/"}
-            />
-            <Tab
-              icon={<LocalGroceryStoreIcon />}
-              label="Market"
-              component={Link}
-              href={"/tradingpost/market/"}
-            />
-          </Tabs>
-        </Box>
-        <Box
-          sx={{
-            flexGrow: 1,
-            border: "1px solid black",
-            borderRadius: "8px",
-          }}
-        >
-          <TabPanel
-            value="items"
-            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
-          >
-            <TradingPostItems />
-          </TabPanel>
-          <TabPanel
-            value="offers"
-            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
-          >
-            <TradingPostOffers />
-          </TabPanel>
-          <TabPanel
-            value="market"
-            sx={{ flexGrow: 1, padding: 0, height: "100%" }}
-          >
-            <TradingPostSearch filter={filter} />
-          </TabPanel>
-        </Box>
-      </TabContext>
-    </Container>
+            {tabValue === "items" && <TradingPostItems />}
+            {tabValue === "offers" && <TradingPostOffers />}
+            {tabValue === "market" && <TradingPostSearch filter={filter} />}
+          </Box>
+        </Paper>
+      </Container>
+    </AuthenticationRequired>
   );
 }

@@ -1,45 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import { Grid2 } from "@mui/material";
+import { Box } from "@mui/material";
 
 import TradeAdvert from "./TradeAdvert";
-import { getUserAdverts } from "@/api/trade";
-import useTradeStore from "@/datastore/trade";
-import useSnackbar from "@/datastore/snackbar";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import EmptyAdvertsWidget from "./widgets/EmptyAdvertsWidget";
+import useTradingPostAdverts from "@/data/fetch/tradingpost/items";
 
 import type { Advert } from "@/types/trade";
 
 export default function TradingPostItems() {
-  const snackbar = useSnackbar((s) => s.displayMessage);
+  const { data: tradeItems, isLoading } = useTradingPostAdverts();
 
-  const [adverts, setAdverts] = useTradeStore((s) => [s.adverts, s.setAdverts]);
-  const [loading, setLoading] = useState(true);
-  const refreshAdverts = useTradeStore((s) => s.refresh);
-
-  useEffect(() => {
-    getUserAdverts()
-      .then((response) => {
-        setAdverts(response.data);
-      })
-      .catch((error) => snackbar(error.response.data.message, "error"))
-      .finally(() => setLoading(false));
-  }, [refreshAdverts, setAdverts, snackbar]);
-
-  if (loading) {
-    return <LoadingOverlay open={loading} />;
-  } else if (adverts && adverts.length) {
+  if (isLoading) {
+    return <LoadingOverlay open={true} />;
+  } else if (tradeItems) {
     return (
-      <Grid2 container sx={{ margin: "0.4em" }} spacing={2}>
-        {adverts.map((advert: Advert) => {
-          return (
-            <Grid2>
-              <TradeAdvert {...advert} />
-            </Grid2>
-          );
+      <Box className="flex flex-wrap flex-row p-2 gap-2 items-center justify-evenly h-full">
+        {tradeItems.map((advert: Advert) => {
+          return <TradeAdvert {...advert} key={advert.uuid} />;
         })}
-      </Grid2>
+      </Box>
     );
   } else {
     return <EmptyAdvertsWidget />;
