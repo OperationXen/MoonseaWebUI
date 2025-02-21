@@ -2,7 +2,7 @@
 
 import api from "../base";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
 import type { Advert } from "@/types/trade";

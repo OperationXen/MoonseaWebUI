@@ -31,7 +31,7 @@ export default function TradeAdvert(props: PropsType) {
 
   const numOffers = offers?.length ?? 0;
   const [highlight, setHighlight] = useState(false);
-  const [showReturn, setShowReturn] = useState(false);
+  const [_showReturn, setShowReturn] = useState(false);
   const [showOffer, setShowOffer] = useState(false);
 
   const getActionIcon = () => {
