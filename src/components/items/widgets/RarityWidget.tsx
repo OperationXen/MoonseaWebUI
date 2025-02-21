@@ -9,10 +9,11 @@ import type { Rarity } from "@/types/items";
 type PropsType = {
   rarity: Rarity;
   text?: boolean;
+  size?: "small" | "medium";
 };
 
 export default function RarityWidget(props: PropsType) {
-  const { rarity, text = false } = props;
+  const { rarity, text = false, size = "medium" } = props;
 
   const getAvatar = (val: Rarity) => {
     switch (val) {
@@ -33,13 +34,22 @@ export default function RarityWidget(props: PropsType) {
 
   if (text) {
     return (
-      <Typography color={getRarityColour(rarity)}>
+      <Typography
+        color={getRarityColour(rarity)}
+        fontSize={size === "medium" ? 12 : 8}
+      >
         {getRarityText(rarity)}
       </Typography>
     );
   } else
     return (
-      <Avatar sx={{ bgcolor: getRarityColour(rarity), height: 32, width: 32 }}>
+      <Avatar
+        sx={{
+          bgcolor: getRarityColour(rarity),
+          height: size === "medium" ? 32 : 26,
+          width: size === "medium" ? 32 : 26,
+        }}
+      >
         {getAvatar(rarity)}
       </Avatar>
     );

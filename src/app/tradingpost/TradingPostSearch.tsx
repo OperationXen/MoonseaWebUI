@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import { Grid2 as Grid } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { searchAdverts } from "@/api/trade";
 import TradeAdvert from "./TradeAdvert";
@@ -33,15 +33,11 @@ export default function TradingPostSearch(props: PropsType) {
   }, [handleSearch]);
 
   return (
-    <Grid container sx={{ margin: "0.4em", width: "100%" }} spacing={2}>
+    <Box className="flex flex-wrap flex-row p-2 gap-2 items-center justify-evenly h-full">
       <LoadingOverlay open={loading} />
       {adverts.map((advert) => {
-        return (
-          <Grid>
-            <TradeAdvert {...advert} key={advert.uuid} market={true} />
-          </Grid>
-        );
+        return <TradeAdvert {...advert} key={advert.uuid} market={true} />;
       })}
-    </Grid>
+    </Box>
   );
 }
