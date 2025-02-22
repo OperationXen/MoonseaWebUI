@@ -19,6 +19,7 @@ import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";
 import type { Rarity, MagicItem } from "@/types/items";
+import type { GameEvent } from "@/types/events";
 
 const row = {
   display: "flex",
@@ -48,6 +49,7 @@ export default function CreateCharacterGame(props: PropsType) {
   const [gold, setGold] = useState(250);
   const [downtime, setDowntime] = useState(10);
   const [items, setItems] = useState<Partial<MagicItem>[]>([]);
+  const [notes, setNotes] = useState("");
 
   const [highlight, setHighlight] = useState(false);
 
@@ -82,7 +84,8 @@ export default function CreateCharacterGame(props: PropsType) {
       downtime: downtime,
       levels: level ? 1 : 0,
       items: items,
-    })
+      notes: notes,
+    } as Partial<GameEvent>)
       .then((_response) => {
         displayMessage("Game added to log", "success");
         onClose && onClose();
@@ -151,6 +154,22 @@ export default function CreateCharacterGame(props: PropsType) {
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           placeholder="Triden Games"
+        />
+      </Box>
+
+      <Divider sx={{ width: "95%", margin: "auto" }}>
+        <Typography>Notes</Typography>
+      </Divider>
+      <Box sx={row}>
+        <TextField
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          fullWidth
+          multiline
+          minRows={1}
+          maxRows={4}
+          label="Game notes"
+          placeholder="Enter any important additional information about this game"
         />
       </Box>
       <Divider sx={{ width: "95%", margin: "auto" }}>
