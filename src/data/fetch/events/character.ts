@@ -33,7 +33,7 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
   }
 }
 
-function deleteEventfn(event: AnyEvent, characterToRemove: UUID) {
+function deleteEventfn(event: AnyEvent, characterUUID: UUID) {
   switch (event.event_type) {
     case "dt_mtrade":
       return api.delete(`/api/data/mundanetrade/${event.uuid}`);
@@ -42,9 +42,9 @@ function deleteEventfn(event: AnyEvent, characterToRemove: UUID) {
     case "dt_sbookupd":
       return api.delete(`/api/data/spellbook/${event.uuid}`);
     case "game":
-      // remove the character from the game
+      // remove the specified character from the game
       return api.post(`/api/data/game/${event.uuid}/remove_character/`, {
-        character_uuid: characterToRemove,
+        character_uuid: characterUUID,
       });
     default:
       return Promise.resolve(null);
