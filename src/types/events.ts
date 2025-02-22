@@ -43,7 +43,7 @@ export type GameEvent = CharacterEvent & {
   gold: number;
   levels: number;
   items: Partial<MagicItem>[];
-  details: string;
+  notes: string;
 };
 
 export type AnyEvent = GameEvent &
