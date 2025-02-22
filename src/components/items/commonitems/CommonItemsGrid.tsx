@@ -63,11 +63,11 @@ export function CommonItemsGrid(props: PropsType) {
     if (!p.row.editable) return null;
     return (
       <Box className="flex items-center justify-end">
-        <IconButton onClick={() => setEditConsumable(p.row)}>
-          <EditIcon fontSize="small" />
-        </IconButton>
         <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
           <DescriptionIcon fontSize="small" />
+        </IconButton>
+        <IconButton onClick={() => setEditConsumable(p.row)}>
+          <EditIcon fontSize="small" />
         </IconButton>
         <IconButton
           onClick={() => {

@@ -15,9 +15,10 @@ import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
 import { getDateString, getEventName } from "@/utils/format";
 import ConfirmEventDelete from "./ConfirmEventDelete";
+import EditEvent from "./EditEvent";
 
 import type { UUID } from "@/types/uuid";
-import type { AnyEvent, EventType } from "@/types/events";
+import type { AnyEvent, EventType, GameEvent } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
@@ -34,6 +35,7 @@ export default function CharacterEvents(props: PropsType) {
   const [createOpen, setCreateOpen] = useState(false);
   const [eventDetails, setEventDetails] = useState<AnyEvent | null>(null); // event visible in modal window
   const [deleteConfirmEvent, setDeleteConfirmEvent] = useState<AnyEvent>();
+  const [editEvent, setEditEvent] = useState<AnyEvent>();
 
   const handleOpenEventDetails = (data: any) => {
     setEventDetails(data.row);
@@ -59,7 +61,10 @@ export default function CharacterEvents(props: PropsType) {
         >
           <VisibilityIcon />
         </IconButton>
-        <IconButton disabled>
+        <IconButton
+          onClick={() => setEditEvent(params.row)}
+          disabled={params.row.event_type !== "game"}
+        >
           <EditIcon />
         </IconButton>
         <IconButton
@@ -208,6 +213,11 @@ export default function CharacterEvents(props: PropsType) {
         event={deleteConfirmEvent}
         onClose={() => setDeleteConfirmEvent(undefined)}
         onConfirm={() => handleDeleteEvent(deleteConfirmEvent)}
+      />
+      <EditEvent
+        event={editEvent}
+        characterUUID={characterUUID}
+        onClose={() => setEditEvent(undefined)}
       />
     </Paper>
   );

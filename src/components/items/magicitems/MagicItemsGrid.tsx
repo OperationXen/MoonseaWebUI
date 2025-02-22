@@ -85,11 +85,11 @@ export function MagicItemsGrid(props: PropsType) {
       <Box className="flex items-center justify-end">
         <ItemMarketWidget item={p.row} charUUID={characterUUID} />
 
-        <IconButton onClick={() => setEditItem(p.row)}>
-          <EditIcon fontSize="small" />
-        </IconButton>
         <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
           <DescriptionIcon fontSize="small" />
+        </IconButton>
+        <IconButton onClick={() => setEditItem(p.row)}>
+          <EditIcon fontSize="small" />
         </IconButton>
         <IconButton
           onClick={() => {

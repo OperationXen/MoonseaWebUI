@@ -30,26 +30,29 @@ const row = {
 };
 
 type PropsType = {
+  existingGame?: GameEvent;
   onClose: () => void;
   characterUUID: UUID;
 };
 
-export default function CreateCharacterGame(props: PropsType) {
-  const { onClose, characterUUID } = props;
+export function GameEventPane(props: PropsType) {
+  const { existingGame, onClose, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createEvent } = useEvents(characterUUID);
+  const { createEvent, updateEvent } = useEvents(characterUUID);
 
-  const [code, setCode] = useState("");
-  const [name, setName] = useState("");
-  const [date, setDate] = useState<Date | null>(new Date());
-  const [dmName, setDMName] = useState("");
-  const [location, setLocation] = useState("");
-  const [level, setLevel] = useState(true);
-  const [gold, setGold] = useState(250);
-  const [downtime, setDowntime] = useState(10);
+  const [code, setCode] = useState(existingGame?.module || "");
+  const [name, setName] = useState(existingGame?.name || "");
+  const [dmName, setDMName] = useState(existingGame?.dm_name || "");
+  const [location, setLocation] = useState(existingGame?.location || "");
+  const [level, setLevel] = useState<boolean>(!!existingGame?.levels || true);
+  const [gold, setGold] = useState(existingGame?.gold || 250);
+  const [downtime, setDowntime] = useState(existingGame?.downtime || 10);
   const [items, setItems] = useState<Partial<MagicItem>[]>([]);
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState(existingGame?.notes || "");
+  const [date, setDate] = useState<Date | null>(
+    existingGame?.datetime ? new Date(existingGame.datetime) : new Date(),
+  );
 
   const [highlight, setHighlight] = useState(false);
 
@@ -72,7 +75,7 @@ export default function CreateCharacterGame(props: PropsType) {
   };
 
   const handleSubmit = () => {
-    createEvent({
+    const gameEvent = {
       character_uuid: characterUUID,
       module: code,
       event_type: "game",
@@ -85,12 +88,22 @@ export default function CreateCharacterGame(props: PropsType) {
       levels: level ? 1 : 0,
       items: items,
       notes: notes,
-    } as Partial<GameEvent>)
-      .then((_response) => {
-        displayMessage("Game added to log", "success");
-        onClose && onClose();
-      })
-      .catch(() => displayMessage("Error creating game", "error"));
+    };
+
+    if (existingGame) {
+      updateEvent({ ...existingGame, ...gameEvent } as GameEvent)
+        .then((_response) => {
+          displayMessage("Updated game", "info");
+          onClose();
+        })
+        .catch(() => displayMessage("Error updating game", "error"));
+    } else
+      createEvent(gameEvent as Partial<GameEvent>)
+        .then((_response) => {
+          displayMessage("Game added to log", "success");
+          onClose && onClose();
+        })
+        .catch(() => displayMessage("Error creating game", "error"));
   };
 
   return (
@@ -221,6 +234,7 @@ export default function CreateCharacterGame(props: PropsType) {
 
       <Button
         startIcon={<AddIcon />}
+        disabled={!!existingGame}
         variant="outlined"
         size="small"
         fullWidth
@@ -246,9 +260,11 @@ export default function CreateCharacterGame(props: PropsType) {
           disabled={!code || !dmName}
           onClick={handleSubmit}
         >
-          Create Game
+          {!!existingGame ? "Update" : "Create Game"}
         </Button>
       </Box>
     </Box>
   );
 }
+
+export default GameEventPane;
