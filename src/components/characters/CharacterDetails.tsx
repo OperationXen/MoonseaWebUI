@@ -60,7 +60,7 @@ export function CharacterDetails(props: PropsType) {
         <ItemPane data={characterData} />
       </Paper>
 
-      <Box sx={{ minHeight: "50em", marginBottom: "0.4em" }}>
+      <Box sx={{ minHeight: "50em", marginBottom: "1em" }}>
         <CharacterEvents
           characterUUID={characterUUID}
           characterName={characterData?.name || ""}
