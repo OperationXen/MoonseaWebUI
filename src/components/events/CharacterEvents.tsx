@@ -14,6 +14,7 @@ import useSnackbar from "@/datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
 import { getDateString, getEventName } from "@/utils/format";
+import ConfirmEventDelete from "./ConfirmEventDelete";
 
 import type { UUID } from "@/types/uuid";
 import type { AnyEvent, EventType } from "@/types/events";
@@ -32,10 +33,18 @@ export default function CharacterEvents(props: PropsType) {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [eventDetails, setEventDetails] = useState<AnyEvent | null>(null); // event visible in modal window
-  const [refresh, setRefresh] = useState(false);
+  const [deleteConfirmEvent, setDeleteConfirmEvent] = useState<AnyEvent>();
 
   const handleOpenEventDetails = (data: any) => {
     setEventDetails(data.row);
+  };
+
+  const handleDeleteEvent = (event: AnyEvent | undefined) => {
+    if (!event) return;
+    setDeleteConfirmEvent(undefined);
+    deleteEvent(event).then(() => {
+      displayMessage(`Event ${event.name} deleted`, "info");
+    });
   };
 
   const getRowActions = (params: GridRenderCellParams<AnyEvent>) => {
@@ -56,9 +65,7 @@ export default function CharacterEvents(props: PropsType) {
         <IconButton
           disabled={params.row.event_type === "dm_reward"}
           onClick={() => {
-            deleteEvent(params.row).then(() => {
-              displayMessage("Event deleted", "info");
-            });
+            setDeleteConfirmEvent(params.row);
           }}
         >
           <DeleteIcon />
@@ -160,14 +167,14 @@ export default function CharacterEvents(props: PropsType) {
         }}
         slots={{
           footer: () => (
-            <div
+            <Box
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 borderTop: "1px solid black",
               }}
             >
-              <div
+              <Box
                 style={{
                   alignSelf: "center",
                   marginLeft: "0.4em",
@@ -181,9 +188,9 @@ export default function CharacterEvents(props: PropsType) {
                 >
                   Add event
                 </Button>
-              </div>
+              </Box>
               <GridPagination />
-            </div>
+            </Box>
           ),
         }}
       />
@@ -193,11 +200,15 @@ export default function CharacterEvents(props: PropsType) {
         downtime={downtime}
         open={createOpen}
         onClose={() => {
-          setRefresh(!refresh);
           setCreateOpen(false);
         }}
       />
       <EventViewModal data={eventDetails} setData={setEventDetails} />
+      <ConfirmEventDelete
+        event={deleteConfirmEvent}
+        onClose={() => setDeleteConfirmEvent(undefined)}
+        onConfirm={() => handleDeleteEvent(deleteConfirmEvent)}
+      />
     </Paper>
   );
 }

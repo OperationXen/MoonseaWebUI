@@ -33,7 +33,7 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
   }
 }
 
-function deleteEventfn(event: AnyEvent) {
+function deleteEventfn(event: AnyEvent, characterUUID: UUID) {
   switch (event.event_type) {
     case "dt_mtrade":
       return api.delete(`/api/data/mundanetrade/${event.uuid}`);
@@ -42,7 +42,10 @@ function deleteEventfn(event: AnyEvent) {
     case "dt_sbookupd":
       return api.delete(`/api/data/spellbook/${event.uuid}`);
     case "game":
-      return api.delete(`/api/data/game/${event.uuid}`);
+      // remove the specified character from the game
+      return api.post(`/api/data/game/${event.uuid}/remove_character/`, {
+        character_uuid: characterUUID,
+      });
     default:
       return Promise.resolve(null);
   }
@@ -103,7 +106,7 @@ export function useEvents(characterUUID: UUID) {
   });
 
   const deleteEvent = useMutation({
-    mutationFn: (event: AnyEvent) => deleteEventfn(event),
+    mutationFn: (event: AnyEvent) => deleteEventfn(event, characterUUID),
     onMutate: async (deletedEvent: AnyEvent) => {
       // Cancel any outgoing refetches to avoid overwriting optimistic update
       await queryClient.cancelQueries({ queryKey: queryKey });
