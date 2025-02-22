@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
-import CreateCharacterGame from "./character_event_panes/CreateCharacterGame";
+import GameEventPane from "./character_event_panes/GameEventPane";
 import CreateDTSpellbookUpdate from "./character_event_panes/CreateDTSpellbookUpdate";
 import CreateDTMundaneTrade from "./character_event_panes/CreateDTMundaneTrade";
 import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
@@ -91,10 +91,7 @@ export default function CreateCharacterEvent(props: PropsType) {
         </FormControl>
       </Box>
       {event === "game" && (
-        <CreateCharacterGame
-          characterUUID={characterUUID}
-          onClose={handleClose}
-        />
+        <GameEventPane characterUUID={characterUUID} onClose={handleClose} />
       )}
       {event === "dt_mtrade" && (
         <CreateDTMundaneTrade
