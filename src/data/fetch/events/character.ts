@@ -33,7 +33,19 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
   }
 }
 
-function deleteEventfn(event: AnyEvent, characterUUID: UUID) {
+function updateEventFn(event: Partial<AnyEvent>) {
+  switch (event.event_type) {
+    case "game":
+      return api.patch(`/api/data/game/${event.uuid}/`, event);
+    case "dt_mtrade":
+    case "dt_catchingup":
+    case "dt_sbookupd":
+    default:
+      return Promise.resolve(null);
+  }
+}
+
+function deleteEventFn(event: AnyEvent, characterUUID: UUID) {
   switch (event.event_type) {
     case "dt_mtrade":
       return api.delete(`/api/data/mundanetrade/${event.uuid}`);
@@ -105,8 +117,15 @@ export function useEvents(characterUUID: UUID) {
     },
   });
 
+  const updateEvent = useMutation({
+    mutationFn: (event: Partial<AnyEvent>) => updateEventFn(event),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   const deleteEvent = useMutation({
-    mutationFn: (event: AnyEvent) => deleteEventfn(event, characterUUID),
+    mutationFn: (event: AnyEvent) => deleteEventFn(event, characterUUID),
     onMutate: async (deletedEvent: AnyEvent) => {
       // Cancel any outgoing refetches to avoid overwriting optimistic update
       await queryClient.cancelQueries({ queryKey: queryKey });
@@ -123,6 +142,7 @@ export function useEvents(characterUUID: UUID) {
   return {
     ...fetchData,
     createEvent: createEvent.mutateAsync,
+    updateEvent: updateEvent.mutateAsync,
     deleteEvent: deleteEvent.mutateAsync,
   };
 }

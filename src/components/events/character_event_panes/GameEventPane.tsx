@@ -88,17 +88,17 @@ export function GameEventPane(props: PropsType) {
       levels: level ? 1 : 0,
       items: items,
       notes: notes,
-    } as Partial<GameEvent>;
+    };
 
     if (existingGame) {
-      updateEvent(gameEvent)
+      updateEvent({ ...existingGame, ...gameEvent } as GameEvent)
         .then((_response) => {
           displayMessage("Updated game", "info");
           onClose();
         })
         .catch(() => displayMessage("Error updating game", "error"));
     } else
-      createEvent(gameEvent)
+      createEvent(gameEvent as Partial<GameEvent>)
         .then((_response) => {
           displayMessage("Game added to log", "success");
           onClose && onClose();
