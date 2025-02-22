@@ -43,7 +43,7 @@ function deleteEventfn(event: AnyEvent, characterUUID: UUID) {
       return api.delete(`/api/data/spellbook/${event.uuid}`);
     case "game":
       // remove the specified character from the game
-      return api.post(`/api/data/game/${event.uuid}/remove_character/`, {
+      return api.post(`/api/data/game/${event.uuid}/remove_character`, {
         character_uuid: characterUUID,
       });
     default:
