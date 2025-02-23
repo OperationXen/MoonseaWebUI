@@ -1,4 +1,3 @@
-import type { EventType } from "@/types/events";
 import type { ItemOrigin } from "@/types/items";
 import type { PlayerClass } from "@/types/character";
 
