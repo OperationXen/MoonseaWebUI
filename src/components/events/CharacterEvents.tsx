@@ -46,7 +46,10 @@ export default function CharacterEvents(props: PropsType) {
     if (!event) return;
     setDeleteConfirmEvent(undefined);
     deleteEvent(event).then(() => {
-      displayMessage(`Event ${event.name} deleted`, "info");
+      displayMessage(
+        `${getEventTypeName(event.event_type)} event deleted`,
+        "info",
+      );
     });
   };
 
