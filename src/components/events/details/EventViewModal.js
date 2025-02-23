@@ -1,11 +1,12 @@
 import { Dialog, Typography, Divider, Box } from "@mui/material";
 
-import { getEventName, getDateString } from "../../../utils/format";
 import { EventDetailsSpellbookUpdate } from "./EventDetailsSpellbookUpdate";
 import { EventDetailsMundaneTrade } from "./EventDetailsMundaneTrade";
 import { EventDetailsCatchingUp } from "./EventDetailsCatchingUp";
 import { EventDetailsDMReward } from "./EventDetailsDMReward";
 import { EventDetailsGame } from "./EventDetailsGame";
+import { getDateString } from "@/utils/format";
+import { getEventTypeName } from "@/utils/events";
 
 export function EventViewModal(props) {
   const { data, setData } = props;
@@ -49,7 +50,7 @@ export function EventViewModal(props) {
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h5" marginLeft="0.4em">
-          {getEventName(data?.event_type)}
+          {getEventTypeName(data?.event_type)}
         </Typography>
         <Typography variant="h5" marginRight="0.4em">
           {getDateString(data?.datetime)}

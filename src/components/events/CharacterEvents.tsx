@@ -13,7 +13,8 @@ import { useEvents } from "@/data/fetch/events/character";
 import useSnackbar from "@/datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
-import { getDateString, getEventName } from "@/utils/format";
+import { getDateString } from "@/utils/format";
+import { getEventTypeName } from "@/utils/events";
 import ConfirmEventDelete from "./ConfirmEventDelete";
 import EditEvent from "./EditEvent";
 
@@ -79,7 +80,7 @@ export default function CharacterEvents(props: PropsType) {
     );
   };
   const rowEventType = (_et: EventType, value: AnyEvent) => {
-    return getEventName(value.event_type);
+    return getEventTypeName(value.event_type);
   };
   const rowDate = (dt: string) => {
     return getDateString(new Date(dt));
