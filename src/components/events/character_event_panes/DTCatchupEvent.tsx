@@ -10,7 +10,6 @@ import { Box, Typography, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
-import { getEventName } from "@/utils/events";
 
 import type { UUID } from "@/types/uuid";
 

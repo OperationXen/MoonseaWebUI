@@ -19,6 +19,7 @@ function getEventsFn(characterUUID: UUID) {
 function createEventFn(char: UUID, event: Partial<AnyEvent>) {
   event.character_uuid = char;
 
+  debugger;
   switch (event.event_type) {
     case "dt_mtrade":
       return api.post("/api/data/mundanetrade", event);
