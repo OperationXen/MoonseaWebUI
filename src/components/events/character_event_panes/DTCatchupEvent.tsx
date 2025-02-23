@@ -16,7 +16,7 @@ type PropsType = {
   downtime: number;
 };
 
-export function DTCatchupEventPane(props: PropsType) {
+export function DTCatchupEvent(props: PropsType) {
   const { onClose, downtime, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -57,4 +57,4 @@ export function DTCatchupEventPane(props: PropsType) {
   );
 }
 
-export default DTCatchupEventPane;
+export default DTCatchupEvent;

@@ -18,7 +18,7 @@ import ConfirmEventDelete from "./ConfirmEventDelete";
 import EditEvent from "./EditEvent";
 
 import type { UUID } from "@/types/uuid";
-import type { AnyEvent, EventType, GameEvent } from "@/types/events";
+import type { AnyEvent, EventType } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
