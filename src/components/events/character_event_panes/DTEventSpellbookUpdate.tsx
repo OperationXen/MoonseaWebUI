@@ -23,7 +23,7 @@ type PropsType = {
   downtime: number;
 };
 
-export function CreateDTSpellbookUpdate(props: PropsType) {
+export function DTEventSpellBookUpdate(props: PropsType) {
   const { onClose, downtime: dtAvailable, characterUUID } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent } = useEvents(characterUUID);
@@ -152,4 +152,4 @@ export function CreateDTSpellbookUpdate(props: PropsType) {
   );
 }
 
-export default CreateDTSpellbookUpdate;
+export default DTEventSpellBookUpdate;

@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 
-import { Box, Typography, Button } from "@mui/material";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { TextField, Divider } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 import useSnackbar from "@/datastore/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
@@ -16,16 +19,21 @@ type PropsType = {
   downtime: number;
 };
 
-export default function CreateDTCatchup(props: PropsType) {
+export function DTCatchupEvent(props: PropsType) {
   const { onClose, downtime, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent } = useEvents(characterUUID);
 
   const [details, setDetails] = useState("");
+  const [datetime, setDatetime] = useState<Date | null>(new Date());
 
   const handleSubmit = () => {
-    createEvent({ event_type: "dt_catchingup", details: details })
+    createEvent({
+      event_type: "dt_catchingup",
+      details: details,
+      datetime: datetime,
+    })
       .then((_response) => {
         displayMessage("Catching up added to log", "success");
         onClose && onClose();
@@ -39,10 +47,22 @@ export default function CreateDTCatchup(props: PropsType) {
         <Typography>Event Details</Typography>
       </Divider>
 
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DesktopDatePicker
+          label="Date"
+          format="yyyy/MM/dd"
+          value={datetime}
+          onChange={setDatetime}
+        />
+      </LocalizationProvider>
+
       <TextField
         value={details}
         onChange={(e) => setDetails(e.target.value.substring(0, 256))}
         label="Details(optional)"
+        multiline
+        minRows={3}
+        maxRows={6}
       />
 
       <Button
@@ -56,3 +76,5 @@ export default function CreateDTCatchup(props: PropsType) {
     </Box>
   );
 }
+
+export default DTCatchupEvent;

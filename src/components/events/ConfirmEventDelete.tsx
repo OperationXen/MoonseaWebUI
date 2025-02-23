@@ -1,5 +1,7 @@
 import { Typography, Button, Box, Divider, Dialog } from "@mui/material";
 
+import { getEventName } from "@/utils/events";
+
 import type { AnyEvent } from "@/types/events";
 
 type PropsType = {
@@ -31,7 +33,7 @@ function ConfirmEventDelete(props: PropsType) {
       <Typography variant="h4">Confirm Delete</Typography>
       <Divider sx={{ width: "95%" }} />
       <Typography variant="body1" sx={{ padding: "0.6em" }}>
-        Are you sure you want to delete {event?.name}?
+        Are you sure you want to delete {getEventName(event)}?
       </Typography>
       <Box
         sx={{

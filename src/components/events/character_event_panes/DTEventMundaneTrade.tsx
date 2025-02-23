@@ -21,7 +21,7 @@ type PropsType = {
   characterUUID: UUID;
 };
 
-export default function CreateDTMundaneTrade(props: PropsType) {
+export function DTEventMundaneTrade(props: PropsType) {
   const { onClose, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -129,3 +129,5 @@ export default function CreateDTMundaneTrade(props: PropsType) {
     </Stack>
   );
 }
+
+export default DTEventMundaneTrade;

@@ -13,12 +13,13 @@ import { useEvents } from "@/data/fetch/events/character";
 import useSnackbar from "@/datastore/snackbar.js";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
-import { getDateString, getEventName } from "@/utils/format";
+import { getDateString } from "@/utils/format";
+import { getEventTypeName } from "@/utils/events";
 import ConfirmEventDelete from "./ConfirmEventDelete";
 import EditEvent from "./EditEvent";
 
 import type { UUID } from "@/types/uuid";
-import type { AnyEvent, EventType, GameEvent } from "@/types/events";
+import type { AnyEvent, EventType } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
@@ -45,7 +46,10 @@ export default function CharacterEvents(props: PropsType) {
     if (!event) return;
     setDeleteConfirmEvent(undefined);
     deleteEvent(event).then(() => {
-      displayMessage(`Event ${event.name} deleted`, "info");
+      displayMessage(
+        `${getEventTypeName(event.event_type)} event deleted`,
+        "info",
+      );
     });
   };
 
@@ -79,7 +83,7 @@ export default function CharacterEvents(props: PropsType) {
     );
   };
   const rowEventType = (_et: EventType, value: AnyEvent) => {
-    return getEventName(value.event_type);
+    return getEventTypeName(value.event_type);
   };
   const rowDate = (dt: string) => {
     return getDateString(new Date(dt));

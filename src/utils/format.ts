@@ -46,21 +46,3 @@ export function getSourceText(source: ItemOrigin | undefined): string {
   else if (source === "manual") return "Manually added";
   else return "Divine intervention";
 }
-
-// Get human readable event type information
-export function getEventName(event: EventType): string {
-  switch (event) {
-    case "game":
-      return "Game played";
-    case "dm_reward":
-      return "DM reward";
-    case "dt_sbookupd":
-      return "Spellbook update";
-    case "dt_mtrade":
-      return "Merchant visit";
-    case "dt_catchingup":
-      return "Catching up";
-    default:
-      return "Unknown event";
-  }
-}
