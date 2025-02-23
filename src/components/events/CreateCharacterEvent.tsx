@@ -12,7 +12,7 @@ import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import GameEventPane from "./character_event_panes/GameEventPane";
 import CreateDTSpellbookUpdate from "./character_event_panes/CreateDTSpellbookUpdate";
 import CreateDTMundaneTrade from "./character_event_panes/CreateDTMundaneTrade";
-import CreateDTCatchup from "./character_event_panes/CreateDTCatchup";
+import DTCatchupEventPane from "./character_event_panes/DTCatchupEventPane";
 
 import type { UUID } from "@/types/uuid";
 import type { EventType } from "@/types/events";
@@ -100,7 +100,7 @@ export default function CreateCharacterEvent(props: PropsType) {
         />
       )}
       {event === "dt_catchingup" && (
-        <CreateDTCatchup
+        <DTCatchupEventPane
           characterUUID={characterUUID}
           onClose={handleClose}
           downtime={downtime}

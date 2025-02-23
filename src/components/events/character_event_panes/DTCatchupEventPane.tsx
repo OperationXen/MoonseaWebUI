@@ -16,7 +16,7 @@ type PropsType = {
   downtime: number;
 };
 
-export default function CreateDTCatchup(props: PropsType) {
+export function DTCatchupEventPane(props: PropsType) {
   const { onClose, downtime, characterUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -56,3 +56,5 @@ export default function CreateDTCatchup(props: PropsType) {
     </Box>
   );
 }
+
+export default DTCatchupEventPane;
