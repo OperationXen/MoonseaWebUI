@@ -6,7 +6,7 @@ import { Dialog, Typography, Divider, Box, FormControl } from "@mui/material";
 import { Select, SelectChangeEvent, MenuItem, InputLabel } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useConsumables } from "@/data/fetch/items/consumables";
 import { getRarityColour } from "@/utils/items";
 

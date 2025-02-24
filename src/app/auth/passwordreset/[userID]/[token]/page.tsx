@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Container, Paper, Typography, Divider } from "@mui/material";
 import { Box, Stack, Button, TextField } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 import { validatePassword } from "@/utils/user";
 import { useUserStatus } from "@/data/fetch/auth";

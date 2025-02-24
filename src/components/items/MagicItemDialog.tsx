@@ -11,7 +11,7 @@ import { AccordionSummary, AccordionDetails, Accordion } from "@mui/material";
 import { TextField, Button, Checkbox } from "@mui/material";
 import { InputAdornment, Tooltip } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getRarityColour } from "@/utils/items";
 

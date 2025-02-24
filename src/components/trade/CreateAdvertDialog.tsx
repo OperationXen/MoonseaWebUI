@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Box, Stack, Divider, Dialog } from "@mui/material";
 import { Typography, Button, TextField } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { getRarityColour, getRarityText } from "@/utils/items";
 import { createTradeAdvert } from "@/api/trade";
 

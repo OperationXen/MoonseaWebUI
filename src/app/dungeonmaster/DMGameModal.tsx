@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import { useDMEvents } from "@/data/fetch/events/dmEvents";
-import useSnackbar from "../../datastore/snackbar";
+import useSnackbar from "../../data/store/snackbar";
 
 import type { DMGameEvent } from "@/types/events";
 

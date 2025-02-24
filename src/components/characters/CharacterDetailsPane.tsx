@@ -17,7 +17,7 @@ import DMNotesControlButton from "./biography/DMNotesControlButton";
 import CharacterLevelsPane from "./CharacterLevelsPane";
 import BiographyModal from "./biography/BiographyModal";
 import DMNotesModal from "./biography/DMNotesModal";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import VisionWidget from "./VisionWidget";
 import StatsWidget from "./StatsWidget";
 

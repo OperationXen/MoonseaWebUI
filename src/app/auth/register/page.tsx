@@ -7,7 +7,7 @@ import NextLink from "next/link";
 import { Container, Box, Paper, Link, Divider } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { validatePassword, checkDiscordID } from "@/utils/user";
 import { useUserStatus } from "@/data/fetch/auth";
 

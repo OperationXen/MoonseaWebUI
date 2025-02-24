@@ -2,7 +2,7 @@
 
 import { Alert, Snackbar as MUISnackbar } from "@mui/material";
 
-import useSnackbar from "../../datastore/snackbar";
+import useSnackbar from "../../data/store/snackbar";
 
 export function Snackbar() {
   const [open, setOpen, message, severity] = useSnackbar((s) => [

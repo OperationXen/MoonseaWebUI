@@ -10,7 +10,7 @@ import HealthIcon from "@mui/icons-material/LocalHospital";
 import PerceptionIcon from "@mui/icons-material/Visibility";
 import SaveDCIcon from "@mui/icons-material/AutoFixNormal";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useCharacters } from "@/data/fetch/character";
 import StatsWidget from "./StatsWidget";
 import ClassLevelPickerWidget from "./ClassLevelPickerWidget";

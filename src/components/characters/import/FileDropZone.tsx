@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 
 import { Box, Typography } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 type PropsType = {
   onFileChosen: (fileContents: string) => void;

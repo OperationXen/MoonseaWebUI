@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { Typography, Button, Box, Divider, Dialog } from "@mui/material";
 
 import { useCharacter } from "@/data/fetch/character";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
-import type { UUID } from "@/types/uuid"
+import type { UUID } from "@/types/uuid";
 
 type PropsType = {
   open: boolean;
@@ -25,11 +25,13 @@ export function CharacterDeleteConfirmation(props: PropsType) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const handleDelete = () => {
-    deleteCharacter().then(() => {
-      displayMessage(`Character ${name} deleted`, "info");
-    }).catch((_) => {
-      displayMessage("Failed to delete character", "error");
-    });
+    deleteCharacter()
+      .then(() => {
+        displayMessage(`Character ${name} deleted`, "info");
+      })
+      .catch((_) => {
+        displayMessage("Failed to delete character", "error");
+      });
     router.push("/characters");
     onClose();
   };

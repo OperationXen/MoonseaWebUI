@@ -13,7 +13,7 @@ import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 import CommonItemsGridFooter from "./CommonItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";

@@ -12,8 +12,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 import { getTradeOffers } from "@/api/trade";
 import { getDateString } from "@/utils/format";
-import useTradeStore from "@/datastore/trade";
-import useSnackbar from "@/datastore/snackbar";
+import useTradeStore from "@/data/store/trade";
+import useSnackbar from "@/data/store/snackbar";
 import OfferAcceptConfirm from "./widgets/OfferAcceptConfirm";
 import OfferCancelConfirm from "./widgets/OfferCancelConfirm";
 import OfferRejectConfirm from "./widgets/OfferRejectConfirm";

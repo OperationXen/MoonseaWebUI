@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Container, Paper, Typography } from "@mui/material";
 import { Button, TextField, Link, Divider } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function ForgotPassword() {

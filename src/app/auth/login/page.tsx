@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { Container, Box, Paper, Link, Divider } from "@mui/material";
 import { TextField, Typography, Button } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useUserStatus } from "@/data/fetch/auth";
 
 export default function LoginWindow() {
@@ -66,15 +66,16 @@ export default function LoginWindow() {
           </Button>
         </NextLink>
 
-        <Divider className="w-80 my-4 opacity-70">
-          OR
-        </Divider>
+        <Divider className="w-80 my-4 opacity-70">OR</Divider>
 
-        <Accordion className="w-full" sx={{
-          '&:before': {
-            display: 'none',
-          }
-        }}>
+        <Accordion
+          className="w-full"
+          sx={{
+            "&:before": {
+              display: "none",
+            },
+          }}
+        >
           <AccordionSummary
             expandIcon={<ArrowDownwardIcon />}
             className="opacity-70"
@@ -125,6 +126,6 @@ export default function LoginWindow() {
           </AccordionDetails>
         </Accordion>
       </Paper>
-    </Container >
+    </Container>
   );
 }

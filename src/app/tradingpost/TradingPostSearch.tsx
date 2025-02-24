@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 
 import { searchAdverts } from "@/api/trade";
 import TradeAdvert from "./TradeAdvert";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 
 import type { Advert } from "@/types/trade";

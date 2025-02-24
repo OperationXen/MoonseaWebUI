@@ -5,7 +5,7 @@ import { Select, MenuItem, Button, TextField } from "@mui/material";
 
 import { getRarityText, getRarityColour } from "../../utils/items";
 import { getUserAdverts, createTradeOffer } from "../../api/trade";
-import useSnackbar from "../../datastore/snackbar";
+import useSnackbar from "../../data/store/snackbar";
 
 export default function TradeOfferDialog(props) {
   const { open, onClose, name, rarity, uuid } = props;
