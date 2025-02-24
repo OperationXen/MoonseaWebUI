@@ -8,7 +8,7 @@ import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { Character } from "@/types/character";
 
 import { DM_TEXT_PLACEHOLDER } from "@/config/strings";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 type PropsType = {
   character: Character;

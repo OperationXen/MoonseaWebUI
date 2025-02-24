@@ -7,7 +7,7 @@ import { Tooltip, Avatar, Divider } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "@/components/characters/summary/ItemSummaryWidget";
 import { getCharClassShort } from "@/utils/format";

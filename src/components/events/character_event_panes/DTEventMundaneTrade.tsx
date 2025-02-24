@@ -11,7 +11,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import { GiTwoCoins } from "react-icons/gi";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";

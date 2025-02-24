@@ -6,7 +6,7 @@ import { Dialog, Typography, Divider, Box } from "@mui/material";
 import { Button, TextField, Stack } from "@mui/material";
 
 import { useUserStatus } from "@/data/fetch/auth";
-import useSnackBar from "@/datastore/snackbar";
+import useSnackBar from "@/data/store/snackbar";
 import { checkDiscordID } from "@/utils/user";
 
 type PropsType = {

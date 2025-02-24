@@ -11,7 +11,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import { updateMagicItem } from "@/api/items";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { getRarityColour } from "@/utils/items";
 
 import type { MagicItem } from "@/types/items";

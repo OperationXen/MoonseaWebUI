@@ -9,7 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { IconButton, Tooltip } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { exportCharacter } from "@/utils/export";
 import CharacterControlsEditDialog from "./CharacterControlsEditDialog";
 import CharacterDeleteConfirmation from "./CharacterDeleteConfirmation";

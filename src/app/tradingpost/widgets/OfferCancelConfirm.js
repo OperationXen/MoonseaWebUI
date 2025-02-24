@@ -1,8 +1,8 @@
 import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
 
 import { deleteTradeOffer } from "../../../api/trade";
-import useSnackbar from "../../../datastore/snackbar";
-import useTradeStore from "../../../datastore/trade";
+import useSnackbar from "../../../data/store/snackbar";
+import useTradeStore from "../../../data/store/trade";
 
 export default function OfferCancelConfirm(props) {
   const displayMessage = useSnackbar((s) => s.displayMessage);

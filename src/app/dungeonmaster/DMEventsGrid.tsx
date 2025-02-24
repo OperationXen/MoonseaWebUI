@@ -14,7 +14,7 @@ import {
   GridRowParams,
 } from "@mui/x-data-grid";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { getDateString } from "@/utils/format";
 import { useDMEvents } from "@/data/fetch/events/dmEvents";
 import { useDMRewards } from "@/data/fetch/events/dmRewards";

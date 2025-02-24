@@ -12,7 +12,7 @@ import { Box, Typography, Button, FormGroup, Tooltip } from "@mui/material";
 import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import StatsWidget from "@/components/characters/StatsWidget";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
 import { useEvents } from "@/data/fetch/events/character";

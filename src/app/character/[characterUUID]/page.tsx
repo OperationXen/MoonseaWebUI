@@ -4,7 +4,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useRouter } from "next/navigation";
 
 import CharacterDetails from "@/components/characters/CharacterDetails";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 import type { UUID } from "@/types/uuid";
 

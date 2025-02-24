@@ -8,7 +8,7 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { useMagicItem } from "@/data/fetch/items/magicitems";
 
 import type { UUID } from "@/types/uuid";

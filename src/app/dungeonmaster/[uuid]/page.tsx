@@ -9,7 +9,7 @@ import { Typography, Tooltip } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";

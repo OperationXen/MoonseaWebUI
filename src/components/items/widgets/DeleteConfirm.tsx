@@ -4,7 +4,7 @@ import { Dialog, Typography, Button, Box, Divider } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 import { deleteMagicItem } from "../../../api/items";
-import useSnackbar from "../../../datastore/snackbar";
+import useSnackbar from "../../../data/store/snackbar";
 
 type PropsType = {
   uuid: string;

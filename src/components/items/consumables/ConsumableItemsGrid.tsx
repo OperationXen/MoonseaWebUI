@@ -13,7 +13,7 @@ import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useConsumables } from "@/data/fetch/items/consumables";
 import { getNumberEquipped } from "@/utils/items";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
 import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";

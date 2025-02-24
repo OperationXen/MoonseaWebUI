@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import DeleteConfirm from "@/components/items/widgets/DeleteConfirm";
 

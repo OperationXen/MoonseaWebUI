@@ -8,7 +8,7 @@ import { Divider, Typography } from "@mui/material";
 import { doCharacterImport } from "@/data/fetch/import";
 import { useCharacters } from "@/data/fetch/character";
 import ProcessingSpinner from "./ProcessingSpinner";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 import FileDropZone from "./FileDropZone";
 

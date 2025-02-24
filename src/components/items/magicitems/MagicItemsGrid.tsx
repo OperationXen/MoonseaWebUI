@@ -15,7 +15,7 @@ import { GridRenderCellParams, GridRowParams } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 import ItemMarketWidget from "../widgets/ItemMarketWidget";
 import MagicItemsGridFooter from "./MagicItemsGridFooter";

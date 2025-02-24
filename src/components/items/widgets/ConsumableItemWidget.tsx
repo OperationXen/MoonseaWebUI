@@ -4,7 +4,7 @@ import { Card, Typography, Tooltip, IconButton } from "@mui/material";
 
 import { Delete } from "@mui/icons-material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import { getRarityColour } from "@/utils/items";
 
 import type { Consumable } from "@/types/items";

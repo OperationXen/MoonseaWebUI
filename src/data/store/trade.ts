@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+type;
+
 const useTradeStore = create((set) => ({
   adverts: [],
   setAdverts: (newVal) => set((state) => ({ adverts: newVal })),

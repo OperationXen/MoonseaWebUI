@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Box, Button, Typography, Divider } from "@mui/material";
 
-import useSnackbar from "@/datastore/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
 import ClassChipWidget from "./ClassChipWidget";
 
