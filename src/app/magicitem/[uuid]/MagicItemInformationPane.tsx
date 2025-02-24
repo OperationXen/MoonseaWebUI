@@ -26,22 +26,15 @@ const cellStyle = { padding: "0 1em" };
 export default function MagicItemInformationPane(props: PropsType) {
   const { item, editMode } = props;
 
-  const [name, setName] = useState("Loading...");
+  const { equipped, market } = item;
+
+  const [name, setName] = useState(item?.name || "");
+  const [rpName, setRPName] = useState(item?.rp_name || "");
   const [rarity, setRarity] = useState<Rarity>("uncommon");
-  const [attunement, setAttunement] = useState(false);
-  const [description, setDescription] = useState("Loading...");
-  const [flavour, setFlavour] = useState("Loading...");
-
-  // set state from props
-  useEffect(() => {
-    if (!item) return;
-    setName(item.name);
-    setRarity(item.rarity);
-    setAttunement(item.attunement);
-    setDescription(item.description ?? "");
-    setFlavour(item.flavour ?? "");
-  }, [item]);
-
+  const [attunement, setAttunement] = useState(item?.attunement || false);
+  const [description, setDescription] = useState(item?.description || "");
+  const [flavour, setFlavour] = useState(item?.flavour || "");
+  const [url, setURL] = useState(item?.url || "");
 
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;
