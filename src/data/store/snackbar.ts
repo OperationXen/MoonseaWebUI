@@ -9,7 +9,7 @@ type SnackBarStore = {
   setMessage: (x: string) => void;
   severity: Severity;
   setSeverity: (x: Severity) => void;
-  displayMessage: (x: string, y: Severity) => void;
+  displayMessage: (x: string, y?: Severity) => void;
 };
 
 const useSnackbar = create<SnackBarStore>((set) => ({
