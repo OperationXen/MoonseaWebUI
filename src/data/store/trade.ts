@@ -1,10 +1,18 @@
 import { create } from "zustand";
 
-type;
+import type { Advert } from "@/types/trade";
 
-const useTradeStore = create((set) => ({
+type TradeStore = {
+  adverts: Advert[];
+  setAdverts: (x: Advert[]) => void;
+
+  refresh: number;
+  requestRefresh: () => void;
+};
+
+const useTradeStore = create<TradeStore>((set) => ({
   adverts: [],
-  setAdverts: (newVal) => set((state) => ({ adverts: newVal })),
+  setAdverts: (newVal) => set((_state) => ({ adverts: newVal })),
 
   refresh: 0,
   requestRefresh: () => set((state) => ({ refresh: state.refresh + 1 })),
