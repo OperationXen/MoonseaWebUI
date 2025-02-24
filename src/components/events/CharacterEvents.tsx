@@ -10,7 +10,7 @@ import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import { useEvents } from "@/data/fetch/events/character";
-import useSnackbar from "@/data/store/snackbar.js";
+import useSnackbar from "@/data/store/snackbar";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
 import { getDateString } from "@/utils/format";
