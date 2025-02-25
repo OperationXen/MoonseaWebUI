@@ -1,35 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Box } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+import { useMagicItemHistory } from "@/data/fetch/items/magicitems";
 
 import type { ItemEvent } from "@/types/events";
 import type { MagicItem } from "@/types/items";
 
 type PropsType = {
-  item: MagicItem
+  item: MagicItem;
 };
 
 export default function MagicItemHistoryPane(props: PropsType) {
-  const { item: _ } = props;
+  const { item } = props;
 
-  const [events, _setEvents] = useState<ItemEvent[]>([]);
-
-  // useEffect(() => {
-  //   if (!uuid) return;
-
-  //   getMagicItemHistory(uuid)
-  //     .then((r) => {
-  //       let allEvents = [r.data.origin];
-  //       allEvents = allEvents.concat(r.data.trades);
-  //       allEvents = allEvents.concat(r.data.edits);
-  //       setEvents(allEvents);
-  //     })
-  // }, [uuid]);
+  const { data: events, isLoading } = useMagicItemHistory(item.uuid);
 
   // format the date information
   const rowDate = (data: ItemEvent) => {
-    if (data.datetime) {
+    if (data?.datetime) {
       return data.datetime.slice(0, 10).replaceAll("-", " / ");
     }
     return "No date information";
@@ -90,7 +80,7 @@ export default function MagicItemHistoryPane(props: PropsType) {
         disableColumnMenu
         columns={columns}
         rows={events}
-        loading={false}
+        loading={isLoading}
         rowHeight={36}
         pageSizeOptions={[15, 25, 50, 100]}
         sx={{

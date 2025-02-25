@@ -4,6 +4,7 @@ import api from "../base";
 
 import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
+import { ItemEvent } from "@/types/events";
 
 type CharUUID = { character_uuid: UUID };
 
@@ -33,6 +34,30 @@ function updateMagicItemFn(item: Partial<MagicItem>) {
 
 function deleteMagicItemFn(item: Partial<MagicItem>) {
   return api.delete(`/api/data/magicitem/${item.uuid}`);
+}
+
+/**********************************************************************************/
+
+type ItemHistoryResponseType = {
+  origin: ItemEvent;
+  trades: ItemEvent[];
+  edits: ItemEvent[];
+};
+
+function getMagicItemHistoryFn(uuid: UUID) {
+  return api.get(`/api/data/magicitem/events/${uuid}`).then((response) => {
+    const data = response.data as ItemHistoryResponseType;
+    return [data.origin, ...data.trades, ...data.edits] as ItemEvent[];
+  });
+}
+
+export function useMagicItemHistory(itemUUID: UUID) {
+  const queryKey = ["items", "history", "individual", itemUUID];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => getMagicItemHistoryFn(itemUUID),
+  });
 }
 
 /**********************************************************************************/
