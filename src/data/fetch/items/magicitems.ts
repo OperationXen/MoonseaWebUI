@@ -47,6 +47,7 @@ type ItemHistoryResponseType = {
 function getMagicItemHistoryFn(uuid: UUID) {
   return api.get(`/api/data/magicitem/events/${uuid}`).then((response) => {
     const data = response.data as ItemHistoryResponseType;
+
     return [data.origin, ...data.trades, ...data.edits] as ItemEvent[];
   });
 }

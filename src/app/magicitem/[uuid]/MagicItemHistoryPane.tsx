@@ -18,14 +18,14 @@ export default function MagicItemHistoryPane(props: PropsType) {
   const { data: events, isLoading } = useMagicItemHistory(item.uuid);
 
   // format the date information
-  const rowDate = (data: ItemEvent) => {
+  const rowDate = (_: never, data: ItemEvent) => {
     if (data?.datetime) {
       return data.datetime.slice(0, 10).replaceAll("-", " / ");
     }
     return "No date information";
   };
 
-  const formatEventType = (data: ItemEvent) => {
+  const formatEventType = (_: never, data: ItemEvent) => {
     if (!data) return "";
 
     if (data.event_type === "trade") return "Item traded";
@@ -36,7 +36,7 @@ export default function MagicItemHistoryPane(props: PropsType) {
     return "Divine intervention";
   };
 
-  const formatDetails = (data: ItemEvent) => {
+  const formatDetails = (_: never, data: ItemEvent) => {
     if (!data) return "";
 
     if (data.event_type === "manual") {
