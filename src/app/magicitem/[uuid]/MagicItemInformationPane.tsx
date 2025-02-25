@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 
-import {
-  Paper,
-  Table,
-  Typography,
-  InputBase,
-  SelectChangeEvent,
-} from "@mui/material";
-import { TableBody, TableCell, TableRow } from "@mui/material";
-import { Checkbox, Select, MenuItem, FormControl } from "@mui/material";
-
-import { getRarityText } from "@/utils/items";
+import { Box, Paper, Typography, Divider } from "@mui/material";
 
 import { Rarity, type MagicItem } from "@/types/items";
+import RarityWidget from "@/components/items/widgets/RarityWidget";
 
 type PropsType = {
   item: MagicItem;
@@ -20,17 +12,13 @@ type PropsType = {
   setEditMode: (x: boolean) => void;
 };
 
-const rowStyle = { height: "52px" };
-const cellStyle = { padding: "0 1em" };
-
 export default function MagicItemInformationPane(props: PropsType) {
   const { item, editMode } = props;
 
-  const { equipped, market } = item;
-
   const [name, setName] = useState(item?.name || "");
   const [rpName, setRPName] = useState(item?.rp_name || "");
-  const [rarity, setRarity] = useState<Rarity>("uncommon");
+  const [rarity, setRarity] = useState<Rarity>(item?.rarity || "uncommon");
+  const [minorProps, setMinorProps] = useState(item?.minor_properties || "");
   const [attunement, setAttunement] = useState(item?.attunement || false);
   const [description, setDescription] = useState(item?.description || "");
   const [flavour, setFlavour] = useState(item?.flavour || "");
@@ -39,102 +27,59 @@ export default function MagicItemInformationPane(props: PropsType) {
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;
 
+  const getNameText = () => {
+    if (rpName) return `${rpName} - (${name})`;
+    return name;
+  };
+
+  const getStatusText = () => {
+    if (item.equipped) return "Item is currently equipped";
+    else if (item.market) return "Item is available for trade";
+    else return "Item is unused";
+  };
+
   return (
-    <Paper sx={{ width: "100%", borderRadius: "8px 8px 0px 0px" }}>
-      <Table>
-        <TableBody>
-          <TableRow sx={rowStyle}>
-            <TableCell sx={cellStyle}>
-              <Typography>Name</Typography>
-            </TableCell>
+    <Paper className="w-full flex flex-col rounded-md px-2">
+      <Box className="flex gap-2">
+        <Typography fontWeight={600}>Name:</Typography>
+        <Typography>{getNameText()}</Typography>
+      </Box>
+      <Box className="flex gap-2">
+        <Typography fontWeight={600}>Rarity:</Typography>
+        <RarityWidget rarity={rarity} text />
+      </Box>
+      {minorProps !== "" && (
+        <Box className="flex gap-2">
+          <Typography fontWeight={600}>Additional Properties:</Typography>
+          <Typography>{minorProps}</Typography>
+        </Box>
+      )}
+      <Box className="flex gap-2">
+        <Typography fontWeight={600}>Status:</Typography>
+        <Typography>{getStatusText()}</Typography>
+      </Box>
+      <Box className="flex gap-2">
+        <Typography fontWeight={600}>Owner:</Typography>
+        <Link href={`/character/${item.owner_uuid}`}>{item.owner_name}</Link>
+      </Box>
+      <Box className="flex gap-2">
+        <Typography fontWeight={600}>Reference URL:</Typography>
+        <Link href={url}>{url}</Link>
+      </Box>
 
-            <TableCell sx={cellStyle}>
-              <InputBase
-                disabled={!editMode}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </TableCell>
-          </TableRow>
+      <Divider className="py-1" />
 
-          <TableRow sx={rowStyle}>
-            <TableCell sx={cellStyle}>
-              <Typography>Rarity</Typography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              {(editMode && (
-                <FormControl size="small" sx={{ minWidth: "12em" }}>
-                  <Select
-                    value={rarity}
-                    onChange={(e: SelectChangeEvent) =>
-                      setRarity(e.target.value as Rarity)
-                    }
-                  >
-                    <MenuItem value="uncommon">Uncommon</MenuItem>
-                    <MenuItem value="rare">Rare</MenuItem>
-                    <MenuItem value="veryrare">Very Rare</MenuItem>
-                    <MenuItem value="legendary">Legendary</MenuItem>
-                  </Select>
-                </FormControl>
-              )) || <Typography>{getRarityText(rarity)}</Typography>}
-            </TableCell>
-          </TableRow>
+      <Box className="flex flex-col gap-2">
+        <Typography fontWeight={600}>Item Description:</Typography>
+        <Typography fontStyle={"italic"} variant="body2">
+          {description}
+        </Typography>
 
-          <TableRow sx={rowStyle}>
-            <TableCell sx={cellStyle}>
-              <Typography>Attunement</Typography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              {(editMode && (
-                <Checkbox
-                  checked={attunement}
-                  onChange={(e) => setAttunement(e.target.checked)}
-                  sx={{ padding: "0px" }}
-                />
-              )) || <Typography>{attunement ? "Yes" : "No"}</Typography>}
-            </TableCell>
-          </TableRow>
-
-          <TableRow sx={rowStyle}>
-            <TableCell sx={cellStyle}>
-              <Typography>Description</Typography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <InputBase
-                disabled={!editMode}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                sx={{ width: "100%" }}
-                multiline
-              />
-            </TableCell>
-          </TableRow>
-
-          <TableRow sx={rowStyle}>
-            <TableCell sx={cellStyle}>
-              <Typography>Flavour</Typography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <InputBase
-                disabled={!editMode}
-                value={flavour}
-                onChange={(e) => setFlavour(e.target.value)}
-                sx={{ width: "100%" }}
-                multiline
-              />
-            </TableCell>
-          </TableRow>
-
-          <TableRow sx={rowStyle}>
-            <TableCell sx={cellStyle}>
-              <Typography>Owner</Typography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <Typography>{item.owner_name ?? "Unknown owner"}</Typography>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+        <Typography fontWeight={600}>Flavour text:</Typography>
+        <Typography variant="body2" fontStyle={"italic"}>
+          {flavour}
+        </Typography>
+      </Box>
     </Paper>
   );
 }
