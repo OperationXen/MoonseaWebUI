@@ -36,7 +36,7 @@ export default function RarityWidget(props: PropsType) {
     return (
       <Typography
         color={getRarityColour(rarity)}
-        fontSize={size === "medium" ? 14 : 8}
+        fontSize={size === "medium" ? 16 : 8}
       >
         {getRarityText(rarity)}
       </Typography>
