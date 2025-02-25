@@ -13,16 +13,16 @@ type PropsType = {
 };
 
 export default function MagicItemInformationPane(props: PropsType) {
-  const { item, editMode } = props;
+  const { item } = props;
 
-  const [name, setName] = useState(item?.name || "");
-  const [rpName, setRPName] = useState(item?.rp_name || "");
-  const [rarity, setRarity] = useState<Rarity>(item?.rarity || "uncommon");
-  const [minorProps, setMinorProps] = useState(item?.minor_properties || "");
-  const [attunement, setAttunement] = useState(item?.attunement || false);
-  const [description, setDescription] = useState(item?.description || "");
-  const [flavour, setFlavour] = useState(item?.flavour || "");
-  const [url, setURL] = useState(item?.url || "");
+  const [name, _setName] = useState(item?.name || "");
+  const [rpName, _setRPName] = useState(item?.rp_name || "");
+  const [rarity, _setRarity] = useState<Rarity>(item?.rarity || "uncommon");
+  const [minorProps, _setMinorProps] = useState(item?.minor_properties || "");
+  const [_attunement, _setAttunement] = useState(item?.attunement || false);
+  const [description, _setDescription] = useState(item?.description || "");
+  const [flavour, _setFlavour] = useState(item?.flavour || "");
+  const [url, _setURL] = useState(item?.url || "");
 
   // display nothing if item is invalid
   if (!item.uuid || !item.name) return null;
