@@ -7,10 +7,12 @@ import { Tooltip, Avatar, Divider } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-import useSnackbar from "@/data/store/snackbar";
-import StatSummaryWidget from "./StatSummaryWidget";
 import ItemSummaryWidget from "@/components/characters/summary/ItemSummaryWidget";
+import StatSummaryWidget from "./StatSummaryWidget";
 import { getCharClassShort } from "@/utils/format";
+import useSnackbar from "@/data/store/snackbar";
+import TierWidget from "../TierWidget";
+
 import type { Character } from "@/types/character";
 
 type PropsType = {
@@ -44,6 +46,7 @@ export default function CharacterSummaryCard(props: PropsType) {
 
   return (
     <Card className="p-1 border-solid rounded-lg border w-96">
+      <TierWidget level={character.level} className="absolute scale-75" />
       <Tooltip
         title={character.token ? "Character token" : "Character token not set!"}
       >
@@ -108,7 +111,6 @@ export default function CharacterSummaryCard(props: PropsType) {
               sx={{
                 width: 40,
                 height: 40,
-                opacity: 0.9,
                 cursor: "pointer",
               }}
               onClick={() => window.open(character.sheet)}
