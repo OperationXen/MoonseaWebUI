@@ -24,22 +24,19 @@ export function StatsWidget(props: PropsType) {
   const [active, setActive] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let raw = e.target.value;
-    if (locked || isNaN(parseInt(raw))) return;
+    if (locked) return;
 
-    if (raw) {
-      let val = parseInt(raw);
-      setValue(val);
+    if (e.target.value) {
+      setValue(parseInt(e.target.value));
     } else setValue(0);
   };
 
   const handleIncrement = () => {
-    let val = value;
-    setValue(val + 1);
+    if (value) setValue(value + 1);
+    else setValue(1);
   };
   const handleDecrement = () => {
-    let val = value;
-    if (val > 0) setValue(val - 1);
+    if (value) setValue(value - 1);
   };
 
   return (
