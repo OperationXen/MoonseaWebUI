@@ -20,6 +20,7 @@ import DMNotesModal from "./biography/DMNotesModal";
 import useSnackbar from "@/data/store/snackbar";
 import VisionWidget from "./VisionWidget";
 import StatsWidget from "./StatsWidget";
+import TierWidget from "./TierWidget";
 
 import type { Character } from "@/types/character";
 
@@ -52,13 +53,7 @@ export function CharacterDetailsPane(props: PropsType) {
         display: "flex",
       }}
     >
-      <Box
-        sx={{
-          marginX: "1em",
-          flexGrow: 1,
-          flexShrink: 1,
-        }}
-      >
+      <Box className="flex-grow flex-shrink mx-1">
         <Box
           sx={{
             display: "flex",
@@ -66,19 +61,22 @@ export function CharacterDetailsPane(props: PropsType) {
             justifyContent: "space-between",
           }}
         >
-          <Tooltip title="Open character sheet in a new window">
-            <Link
-              href={character.sheet}
-              target="_blank"
-              rel="noopener"
-              variant="h5"
-              underline="hover"
-              color="inherit"
-            >
-              {character.name}
-            </Link>
-          </Tooltip>
+          <Box className="flex items-center gap-2 my-1">
+            <TierWidget level={character.level} className="scale-75" />
 
+            <Tooltip title="Open character sheet in a new window">
+              <Link
+                href={character.sheet}
+                target="_blank"
+                rel="noopener"
+                variant="h5"
+                underline="hover"
+                color="inherit"
+              >
+                {character.name}
+              </Link>
+            </Tooltip>
+          </Box>
           <Box
             sx={{
               display: "flex",
