@@ -43,9 +43,18 @@ export default function MenuButton() {
             setMenuOpen(false);
           }}
         >
-          Dashboard
+          Characters
         </MenuItem>
         <Divider />
+        <MenuItem
+          disabled={pathname.includes("/modules")}
+          onClick={() => {
+            router.push(`/modules/`);
+            setMenuOpen(false);
+          }}
+        >
+          Module list
+        </MenuItem>
         <MenuItem
           disabled={pathname.includes("/itemvault")}
           onClick={() => {

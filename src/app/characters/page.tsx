@@ -43,7 +43,10 @@ export default function Dashboard() {
         }}
       >
         {characters?.length === 0 && (
-          <NoCharactersOverlay onClick={() => setCreateOpen(true)} />
+          <NoCharactersOverlay
+            onCreateClick={() => setCreateOpen(true)}
+            onImportClick={() => setImportOpen(true)}
+          />
         )}
         {characters?.map((character: any) => (
           <CharacterSummaryCard key={character.uuid} character={character} />

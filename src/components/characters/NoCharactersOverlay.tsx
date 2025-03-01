@@ -1,11 +1,12 @@
 import { Container, Typography, Box, Button } from "@mui/material";
 
 type PropsType = {
-  onClick: () => void;
+  onCreateClick: () => void;
+  onImportClick: () => void;
 };
 
 export function NoCharactersOverlay(props: PropsType) {
-  const { onClick } = props;
+  const { onCreateClick, onImportClick } = props;
 
   return (
     <Container
@@ -23,13 +24,25 @@ export function NoCharactersOverlay(props: PropsType) {
           padding: "4em",
           border: "4px dashed #42424232",
           borderRadius: "16px",
+          alignItems: "center",
         }}
       >
         <Typography variant="h3" sx={{ color: "#42424242" }}>
           No characters yet
         </Typography>
-        <Button sx={{ marginTop: "2em", opacity: 0.8 }} onClick={onClick}>
-          Create
+        <Button
+          variant="outlined"
+          sx={{ marginTop: "2em", opacity: 0.8 }}
+          onClick={onCreateClick}
+        >
+          Create new character
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ marginTop: "2em", opacity: 0.8 }}
+          onClick={onImportClick}
+        >
+          Import existing Adventurer's League Logs file
         </Button>
       </Box>
     </Container>

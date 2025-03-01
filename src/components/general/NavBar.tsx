@@ -50,7 +50,7 @@ export function NavBar() {
                 disabled={!userStatus?.authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname.startsWith("/character") ? 1 : 0.2,
+                  opacity: pathname.startsWith("/character") ? 1 : 0.6,
                 }}
               >
                 Characters
@@ -63,7 +63,7 @@ export function NavBar() {
                 disabled={!userStatus?.authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname.startsWith("/modules") ? 1 : 0.2,
+                  opacity: pathname.startsWith("/modules") ? 1 : 0.6,
                 }}
               >
                 Modules
@@ -74,7 +74,7 @@ export function NavBar() {
                 disabled={!userStatus?.authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname === "/itemvault" ? 1 : 0.2,
+                  opacity: pathname === "/itemvault" ? 1 : 0.6,
                 }}
               >
                 Item Vault
@@ -87,7 +87,7 @@ export function NavBar() {
                 disabled={!userStatus?.authenticated}
                 sx={{
                   color: theme.palette.common.white,
-                  opacity: pathname.startsWith("/tradingpost") ? 1 : 0.2,
+                  opacity: pathname.startsWith("/tradingpost") ? 1 : 0.6,
                 }}
               >
                 Trading Post
@@ -101,7 +101,7 @@ export function NavBar() {
                   opacity:
                     pathname === `/dungeonmaster/${userStatus?.dmUUID}`
                       ? 1
-                      : 0.2,
+                      : 0.6,
                 }}
               >
                 DM Records
