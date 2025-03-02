@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Paper, Tabs, Tab } from "@mui/material";
 import { TabContext } from "@mui/lab";
 
+import AdventuringGearGrid from "./adventuringgear/AdventuringGearGrid";
 import ConsumableItemsGrid from "./consumables/ConsumableItemsGrid";
 import CommonItemsGrid from "./commonitems/CommonItemsGrid";
 import MagicItemsGrid from "./magicitems/MagicItemsGrid";
@@ -35,6 +36,7 @@ export function ItemPane(props: PropsType) {
           <Tab label="Magic Items" value={"magicitems"} />
           <Tab label="Common Items" value={"commonitems"} />
           <Tab label="Consumables" value={"consumables"} />
+          <Tab label="Adventuring Gear" value={"adventuringgear"} />
         </Tabs>
 
         {itemTab === "magicitems" && (
@@ -51,6 +53,12 @@ export function ItemPane(props: PropsType) {
         )}
         {itemTab === "consumables" && (
           <ConsumableItemsGrid
+            characterUUID={character.uuid}
+            editable={character.editable}
+          />
+        )}
+        {itemTab === "adventuringgear" && (
+          <AdventuringGearGrid
             characterUUID={character.uuid}
             editable={character.editable}
           />

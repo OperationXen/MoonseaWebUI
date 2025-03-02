@@ -42,3 +42,12 @@ export type MagicItem = {
   flavour?: string;
   url?: string;
 };
+
+export type AdventuringGear = {
+  uuid: UUID;
+  name: string;
+  description?: string;
+  count?: number;
+  cost?: number;
+  weight?: number;
+};
