@@ -228,249 +228,231 @@
     "cost": 0.05
   },
   {
-    "item": "Jug",
+    "item": "jug",
     "description": "Jug",
     "weight": 4,
     "cost": 0.05
   },
   {
-    "item": "Ladder",
+    "item": "ladder",
     "description": "Ladder",
     "weight": 25,
     "cost": 0.1
   },
   {
-    "item": "Lamp",
+    "item": "lamp",
     "description": "Lamp",
     "weight": 1,
     "cost": 0.5
   },
   {
-    "item": "Lantern, Bullseye",
+    "item": "lantern, bullseye",
     "description": "Lantern, Bullseye",
     "weight": 2,
     "cost": 10
   },
   {
-    "item": "Lock",
+    "item": "lantern, hooded",
+    "description": "Lantern, Hooded",
+    "weight": 2,
+    "cost": 5
+  },
+  {
+    "item": "lock",
     "description": "Lock",
     "weight": 1,
     "cost": 10
   },
   {
-    "item": "Magnifying Glass",
+    "item": "magnifying glass",
     "description": "Magnifying Glass",
     "weight": 0,
     "cost": 100
   },
   {
-    "item": "Manacles",
+    "item": "manacles",
     "description": "Manacles",
     "weight": 6,
     "cost": 2
   },
   {
-    "item": "Mess Kit",
-    "description": "Mess Kit",
-    "weight": 1,
-    "cost": 0.2
+    "item": "map",
+    "description": "Map",
+    "weight": 0,
+    "cost": 1
   },
   {
-    "item": "Mirror, Steel",
-    "description": "Mirror, Steel",
+    "item": "mirror",
+    "description": "Mirror",
     "weight": 0.5,
     "cost": 5
   },
   {
-    "item": "Oil (flask)",
-    "description": "Oil (flask)",
+    "item": "net",
+    "description": "Net",
+    "weight": 3,
+    "cost": 1
+  },
+  {
+    "item": "oil",
+    "description": "Oil",
     "weight": 1,
     "cost": 0.1
   },
   {
-    "item": "Paper (one sheet)",
-    "description": "Paper (one sheet)",
+    "item": "paper",
+    "description": "Paper",
     "weight": 0,
     "cost": 0.2
   },
   {
-    "item": "Parchment (one sheet)",
-    "description": "Parchment (one sheet)",
+    "item": "parchment",
+    "description": "Parchment",
     "weight": 0,
     "cost": 0.1
   },
   {
-    "item": "Perfume (vial)",
-    "description": "Perfume (vial)",
+    "item": "perfume",
+    "description": "Perfume",
     "weight": 0,
     "cost": 5
   },
   {
-    "item": "Pick, Miner’s",
-    "description": "Pick, Miner’s",
-    "weight": 10,
-    "cost": 2
-  },
-  {
-    "item": "Piton",
-    "description": "Piton",
-    "weight": 0.25,
-    "cost": 0.05
-  },
-  {
-    "item": "Pole (10-foot)",
-    "description": "Pole (10-foot)",
+    "item": "pole",
+    "description": "Pole",
     "weight": 7,
     "cost": 0.05
   },
   {
-    "item": "Pot, Iron",
-    "description": "Pot, Iron",
-    "weight": 10,
-    "cost": 2
+    "item": "potion of healing",
+    "description": "Potion of Healing",
+    "weight": 0.5,
+    "cost": 50
   },
   {
-    "item": "Pouch",
+    "item": "pouch",
     "description": "Pouch",
     "weight": 1,
     "cost": 0.5
   },
   {
-    "item": "Quiver",
+    "item": "priest’s pack",
+    "description": "Priest’s Pack",
+    "weight": 29,
+    "cost": 33
+  },
+  {
+    "item": "quiver",
     "description": "Quiver",
     "weight": 1,
     "cost": 1
   },
   {
-    "item": "Ram, Portable",
+    "item": "ram, portable",
     "description": "Ram, Portable",
     "weight": 35,
     "cost": 4
   },
   {
-    "item": "Rations (1 day)",
-    "description": "Rations (1 day)",
+    "item": "rations",
+    "description": "Rations",
     "weight": 2,
     "cost": 0.5
   },
   {
-    "item": "Robes",
-    "description": "Robes",
+    "item": "robe",
+    "description": "Robe",
     "weight": 4,
     "cost": 1
   },
   {
-    "item": "Rope, Hempen (50 feet)",
-    "description": "Rope, Hempen (50 feet)",
-    "weight": 10,
+    "item": "rope",
+    "description": "Rope",
+    "weight": 5,
     "cost": 1
   },
   {
-    "item": "Rope, Silk (50 feet)",
-    "description": "Rope, Silk (50 feet)",
-    "weight": 5,
-    "cost": 10
-  },
-  {
-    "item": "Sack",
+    "item": "sack",
     "description": "Sack",
     "weight": 0.5,
-    "cost": 0.1
+    "cost": 0.01
   },
   {
-    "item": "Scale, Merchant’s",
-    "description": "Scale, Merchant’s",
-    "weight": 3,
-    "cost": 5
+    "item": "scholar’s pack",
+    "description": "Scholar’s Pack",
+    "weight": 22,
+    "cost": 40
   },
   {
-    "item": "Sealing Wax",
-    "description": "Sealing Wax",
-    "weight": 0,
-    "cost": 0.5
-  },
-  {
-    "item": "Shovel",
+    "item": "shovel",
     "description": "Shovel",
     "weight": 5,
     "cost": 2
   },
   {
-    "item": "Signal Whistle",
+    "item": "signal whistle",
     "description": "Signal Whistle",
     "weight": 0,
     "cost": 0.05
   },
   {
-    "item": "Signet Ring",
-    "description": "Signet Ring",
+    "item": "spell scroll (cantrip)",
+    "description": "Spell Scroll (Cantrip)",
     "weight": 0,
-    "cost": 5
+    "cost": 30
   },
   {
-    "item": "Soap",
-    "description": "Soap",
+    "item": "spell scroll (level 1)",
+    "description": "Spell Scroll (Level 1)",
     "weight": 0,
-    "cost": 0.02
-  },
-  {
-    "item": "Spellbook",
-    "description": "Spellbook",
-    "weight": 3,
     "cost": 50
   },
   {
-    "item": "Spikes, Iron (10)",
-    "description": "Spikes, Iron (10)",
+    "item": "spikes, iron",
+    "description": "Spikes, Iron",
     "weight": 5,
     "cost": 1
   },
   {
-    "item": "Sprig of Mistletoe",
-    "description": "Sprig of Mistletoe",
-    "weight": 0,
-    "cost": 1
-  },
-  {
-    "item": "Spyglass",
+    "item": "spyglass",
     "description": "Spyglass",
     "weight": 1,
     "cost": 1000
   },
   {
-    "item": "Tent, Two-Person",
-    "description": "Tent, Two-Person",
+    "item": "string",
+    "description": "String",
+    "weight": 0,
+    "cost": 0.1
+  },
+  {
+    "item": "tent",
+    "description": "Tent",
     "weight": 20,
     "cost": 2
   },
   {
-    "item": "Tinderbox",
+    "item": "tinderbox",
     "description": "Tinderbox",
     "weight": 1,
     "cost": 0.5
   },
   {
-    "item": "Torch",
+    "item": "torch",
     "description": "Torch",
     "weight": 1,
     "cost": 0.01
   },
   {
-    "item": "Vial",
+    "item": "vial",
     "description": "Vial",
     "weight": 0,
     "cost": 1
   },
   {
-    "item": "Waterskin",
+    "item": "waterskin",
     "description": "Waterskin",
     "weight": 5,
     "cost": 0.2
-  },
-  {
-    "item": "Whetstone",
-    "description": "Whetstone",
-    "weight": 1,
-    "cost": 0.01
   }
 ]
