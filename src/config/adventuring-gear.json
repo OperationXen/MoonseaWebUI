@@ -1,0 +1,458 @@
+[
+  {
+    "Item": "Amulet (worn or held)",
+    "Description": "Amulet (worn or held)",
+    "Weight": 1,
+    "Cost": 5
+  },
+  {
+    "Item": "Arrows",
+    "Description": "Arrows",
+    "Weight": 1,
+    "Cost": 1
+  },
+  {
+    "Item": "Ball Bearings",
+    "Description": "Ball Bearings",
+    "Weight": 2,
+    "Cost": 1
+  },
+  {
+    "Item": "Backpack",
+    "Description": "Backpack",
+    "Weight": 5,
+    "Cost": 2
+  },
+  {
+    "Item": "Barrel",
+    "Description": "Barrel",
+    "Weight": 70,
+    "Cost": 2
+  },
+  {
+    "Item": "Basket",
+    "Description": "Basket",
+    "Weight": 2,
+    "Cost": 0.4
+  },
+  {
+    "Item": "Bedroll",
+    "Description": "Bedroll",
+    "Weight": 7,
+    "Cost": 1
+  },
+  {
+    "Item": "Bell",
+    "Description": "Bell",
+    "Weight": 0,
+    "Cost": 1
+  },
+  {
+    "Item": "Blanket",
+    "Description": "Blanket",
+    "Weight": 3,
+    "Cost": 0.5
+  },
+  {
+    "Item": "Blowgun needles",
+    "Description": "Blowgun needles",
+    "Weight": 1,
+    "Cost": 1
+  },
+  {
+    "Item": "Book",
+    "Description": "Book",
+    "Weight": 5,
+    "Cost": 25
+  },
+  {
+    "Item": "Bottle, Glass",
+    "Description": "Bottle, Glass",
+    "Weight": 2,
+    "Cost": 2
+  },
+  {
+    "Item": "Bucket",
+    "Description": "Bucket",
+    "Weight": 2,
+    "Cost": 0.05
+  },
+  {
+    "Item": "Burglar’s Pack",
+    "Description": "Burglar’s Pack",
+    "Weight": 42,
+    "Cost": 16
+  },
+  {
+    "Item": "Caltrops",
+    "Description": "Caltrops",
+    "Weight": 2,
+    "Cost": 1
+  },
+  {
+    "Item": "Candle",
+    "Description": "Candle",
+    "Weight": 0,
+    "Cost": 0.01
+  },
+  {
+    "Item": "Case, Crossbow Bolt",
+    "Description": "Case, Crossbow Bolt",
+    "Weight": 1,
+    "Cost": 1
+  },
+  {
+    "Item": "Case, Map or Scroll",
+    "Description": "Case, Map or Scroll",
+    "Weight": 1,
+    "Cost": 1
+  },
+  {
+    "Item": "Chain",
+    "Description": "Chain",
+    "Weight": 10,
+    "Cost": 5
+  },
+  {
+    "Item": "Chest",
+    "Description": "Chest",
+    "Weight": 25,
+    "Cost": 5
+  },
+  {
+    "Item": "Climber’s Kit",
+    "Description": "Climber’s Kit",
+    "Weight": 12,
+    "Cost": 25
+  },
+  {
+    "Item": "Clothes, Fine",
+    "Description": "Clothes, Fine",
+    "Weight": 6,
+    "Cost": 15
+  },
+  {
+    "Item": "Clothes, Traveler’s",
+    "Description": "Clothes, Traveler’s",
+    "Weight": 4,
+    "Cost": 2
+  },
+  {
+    "Item": "Component Pouch",
+    "Description": "Component Pouch",
+    "Weight": 2,
+    "Cost": 25
+  },
+  {
+    "Item": "Costume",
+    "Description": "Costume",
+    "Weight": 4,
+    "Cost": 5
+  },
+  {
+    "Item": "Crowbar",
+    "Description": "Crowbar",
+    "Weight": 5,
+    "Cost": 2
+  },
+  {
+    "Item": "Crystal",
+    "Description": "Crystal",
+    "Weight": 1,
+    "Cost": 10
+  },
+  {
+    "Item": "Diplomat’s Pack",
+    "Description": "Diplomat’s Pack",
+    "Weight": 39,
+    "Cost": 39
+  },
+  {
+    "Item": "Dungeoneer’s Pack",
+    "Description": "Dungeoneer’s Pack",
+    "Weight": 55,
+    "Cost": 12
+  },
+  {
+    "Item": "Entertainer’s Pack",
+    "Description": "Entertainer’s Pack",
+    "Weight": 58.5,
+    "Cost": 40
+  },
+  {
+    "Item": "Explorer’s Pack",
+    "Description": "Explorer’s Pack",
+    "Weight": 55,
+    "Cost": 10
+  },
+  {
+    "Item": "Flask",
+    "Description": "Flask",
+    "Weight": 1,
+    "Cost": 0.05
+  },
+  {
+    "Item": "Grappling Hook",
+    "Description": "Grappling Hook",
+    "Weight": 4,
+    "Cost": 2
+  },
+  {
+    "Item": "Healer’s Kit",
+    "Description": "Healer’s Kit",
+    "Weight": 3,
+    "Cost": 5
+  },
+  {
+    "Item": "Holy Water",
+    "Description": "Holy Water",
+    "Weight": 1,
+    "Cost": 25
+  },
+  {
+    "Item": "Hunting Trap",
+    "Description": "Hunting Trap",
+    "Weight": 25,
+    "Cost": 5
+  },
+  {
+    "Item": "Ink",
+    "Description": "Ink",
+    "Weight": 0,
+    "Cost": 10
+  },
+  {
+    "Item": "Ink Pen",
+    "Description": "Ink Pen",
+    "Weight": 0,
+    "Cost": 0.05
+  },
+  {
+    "Item": "Jug",
+    "Description": "Jug",
+    "Weight": 4,
+    "Cost": 0.05
+  },
+  {
+    "Item": "Ladder",
+    "Description": "Ladder",
+    "Weight": 25,
+    "Cost": 0.1
+  },
+  {
+    "Item": "Lamp",
+    "Description": "Lamp",
+    "Weight": 1,
+    "Cost": 0.5
+  },
+  {
+    "Item": "Lantern, Bullseye",
+    "Description": "Lantern, Bullseye",
+    "Weight": 2,
+    "Cost": 10
+  },
+  {
+    "Item": "Lantern, Hooded",
+    "Description": "Lantern, Hooded",
+    "Weight": 2,
+    "Cost": 5
+  },
+  {
+    "Item": "Lock",
+    "Description": "Lock",
+    "Weight": 1,
+    "Cost": 10
+  },
+  {
+    "Item": "Magnifying Glass",
+    "Description": "Magnifying Glass",
+    "Weight": 0,
+    "Cost": 100
+  },
+  {
+    "Item": "Manacles",
+    "Description": "Manacles",
+    "Weight": 6,
+    "Cost": 2
+  },
+  {
+    "Item": "Map",
+    "Description": "Map",
+    "Weight": 0,
+    "Cost": 1
+  },
+  {
+    "Item": "Mirror",
+    "Description": "Mirror",
+    "Weight": 0.5,
+    "Cost": 5
+  },
+  {
+    "Item": "Net",
+    "Description": "Net",
+    "Weight": 3,
+    "Cost": 1
+  },
+  {
+    "Item": "Oil",
+    "Description": "Oil",
+    "Weight": 1,
+    "Cost": 0.1
+  },
+  {
+    "Item": "Paper",
+    "Description": "Paper",
+    "Weight": 0,
+    "Cost": 0.2
+  },
+  {
+    "Item": "Parchment",
+    "Description": "Parchment",
+    "Weight": 0,
+    "Cost": 0.1
+  },
+  {
+    "Item": "Perfume",
+    "Description": "Perfume",
+    "Weight": 0,
+    "Cost": 5
+  },
+  {
+    "Item": "Pole",
+    "Description": "Pole",
+    "Weight": 7,
+    "Cost": 0.05
+  },
+  {
+    "Item": "Potion of Healing",
+    "Description": "Potion of Healing",
+    "Weight": 0.5,
+    "Cost": 50
+  },
+  {
+    "Item": "Pouch",
+    "Description": "Pouch",
+    "Weight": 1,
+    "Cost": 0.5
+  },
+  {
+    "Item": "Priest’s Pack",
+    "Description": "Priest’s Pack",
+    "Weight": 29,
+    "Cost": 33
+  },
+  {
+    "Item": "Quiver",
+    "Description": "Quiver",
+    "Weight": 1,
+    "Cost": 1
+  },
+  {
+    "Item": "Ram, Portable",
+    "Description": "Ram, Portable",
+    "Weight": 35,
+    "Cost": 4
+  },
+  {
+    "Item": "Rations",
+    "Description": "Rations",
+    "Weight": 2,
+    "Cost": 0.5
+  },
+  {
+    "Item": "Robe",
+    "Description": "Robe",
+    "Weight": 4,
+    "Cost": 1
+  },
+  {
+    "Item": "Rope",
+    "Description": "Rope",
+    "Weight": 5,
+    "Cost": 1
+  },
+  {
+    "Item": "Sack",
+    "Description": "Sack",
+    "Weight": 0.5,
+    "Cost": 0.01
+  },
+  {
+    "Item": "Scholar’s Pack",
+    "Description": "Scholar’s Pack",
+    "Weight": 22,
+    "Cost": 40
+  },
+  {
+    "Item": "Shovel",
+    "Description": "Shovel",
+    "Weight": 5,
+    "Cost": 2
+  },
+  {
+    "Item": "Signal Whistle",
+    "Description": "Signal Whistle",
+    "Weight": 0,
+    "Cost": 0.05
+  },
+  {
+    "Item": "Spell Scroll (Cantrip)",
+    "Description": "Spell Scroll (Cantrip)",
+    "Weight": 0,
+    "Cost": 30
+  },
+  {
+    "Item": "Spell Scroll (Level 1)",
+    "Description": "Spell Scroll (Level 1)",
+    "Weight": 0,
+    "Cost": 50
+  },
+  {
+    "Item": "Spikes, Iron",
+    "Description": "Spikes, Iron",
+    "Weight": 5,
+    "Cost": 1
+  },
+  {
+    "Item": "Spyglass",
+    "Description": "Spyglass",
+    "Weight": 1,
+    "Cost": 1000
+  },
+  {
+    "Item": "String",
+    "Description": "String",
+    "Weight": 0,
+    "Cost": 0.1
+  },
+  {
+    "Item": "Tent",
+    "Description": "Tent",
+    "Weight": 20,
+    "Cost": 2
+  },
+  {
+    "Item": "Tinderbox",
+    "Description": "Tinderbox",
+    "Weight": 1,
+    "Cost": 0.5
+  },
+  {
+    "Item": "Torch",
+    "Description": "Torch",
+    "Weight": 1,
+    "Cost": 0.01
+  },
+  {
+    "Item": "Vial",
+    "Description": "Vial",
+    "Weight": 0,
+    "Cost": 1
+  },
+  {
+    "Item": "Waterskin",
+    "Description": "Waterskin",
+    "Weight": 5,
+    "Cost": 0.2
+  }
+]
