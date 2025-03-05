@@ -11,13 +11,13 @@ import { Box, IconButton, Typography, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import AdventuringGearGridFooter from "./AdventuringGearGridFooter";
-import { useConsumables } from "@/data/fetch/items/consumables";
+import { useAdventuringGear } from "@/data/fetch/items/adventuringgear";
 import AdventuringGearDialog from "./AdventuringGearDialog";
 import useSnackbar from "@/data/store/snackbar";
 import NoGearOverlay from "./NoGearOverlay";
 
 import type { UUID } from "@/types/uuid";
-import type { Consumable } from "@/types/items";
+import type { AdventuringGear } from "@/types/items";
 
 type PropsType = {
   characterUUID: UUID;
@@ -29,22 +29,21 @@ export function AdventuringGearGrid(props: PropsType) {
 
   const { displayMessage } = useSnackbar();
   const {
-    data: consumableItems,
-    updateConsumable,
-    deleteConsumable,
-  } = useConsumables(characterUUID);
+    data: adventuringGear,
+    updateAdventuringGear,
+    deleteAdventuringGear,
+  } = useAdventuringGear(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editConsumable, setEditConsumable] = useState<Consumable | null>(null);
 
-  const getRowActions = (p: GridRenderCellParams<Consumable>) => {
+  const getRowActions = (p: GridRenderCellParams<AdventuringGear>) => {
     //if (!p.row.editable) return null;
 
     return (
       <Box className="flex items-center justify-end">
         <IconButton
           onClick={() => {
-            deleteConsumable(p.row).then(() =>
+            deleteAdventuringGear(p.row).then(() =>
               displayMessage(`Removed ${p.row.name}`, "info"),
             );
           }}
@@ -55,7 +54,7 @@ export function AdventuringGearGrid(props: PropsType) {
     );
   };
 
-  const columns: GridColDef<Consumable>[] = [
+  const columns: GridColDef<AdventuringGear>[] = [
     {
       field: "name",
       headerName: "Name",
@@ -92,20 +91,20 @@ export function AdventuringGearGrid(props: PropsType) {
           <Box className="flex items-center justify-between">
             <IconButton
               onClick={() => {
-                updateConsumable({
+                updateAdventuringGear({
                   uuid: p.row.uuid,
-                  charges: (p.row.charges ?? 0) - 1,
+                  count: (p.row.count ?? 0) - 1,
                 });
               }}
             >
               <RemoveIcon fontSize="small" />
             </IconButton>
-            <Typography variant="body1">{p.row.charges}</Typography>
+            <Typography variant="body1">{p.row.count}</Typography>
             <IconButton
               onClick={() => {
-                updateConsumable({
+                updateAdventuringGear({
                   uuid: p.row.uuid,
-                  charges: (p.row.charges ?? 0) + 1,
+                  count: (p.row.count ?? 0) + 1,
                 });
               }}
             >
@@ -131,7 +130,7 @@ export function AdventuringGearGrid(props: PropsType) {
         autoPageSize
         getRowId={(x) => x.uuid}
         columns={columns}
-        rows={consumableItems}
+        rows={adventuringGear}
         initialState={{
           sorting: {
             sortModel: [{ field: "equipped", sort: "desc" }],
@@ -154,13 +153,11 @@ export function AdventuringGearGrid(props: PropsType) {
         density="compact"
       />
       <AdventuringGearDialog
-        open={dialogOpen || !!editConsumable}
+        open={dialogOpen}
         onClose={() => {
           setDialogOpen(false);
-          setEditConsumable(null);
         }}
         characterUUID={characterUUID}
-        consumable={editConsumable}
       />
     </React.Fragment>
   );
