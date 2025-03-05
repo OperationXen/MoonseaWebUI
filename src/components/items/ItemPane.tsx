@@ -36,7 +36,7 @@ export function ItemPane(props: PropsType) {
           <Tab label="Magic Items" value={"magicitems"} />
           <Tab label="Common Items" value={"commonitems"} />
           <Tab label="Consumables" value={"consumables"} />
-          <Tab label="Adventuring Gear" value={"adventuringgear"} />
+          {/* <Tab label="Adventuring Gear" value={"adventuringgear"} /> */}
         </Tabs>
 
         {itemTab === "magicitems" && (
