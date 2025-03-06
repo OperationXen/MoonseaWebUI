@@ -36,7 +36,7 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
 function updateEventFn(event: Partial<AnyEvent>) {
   switch (event.event_type) {
     case "game":
-      return api.patch(`/api/data/game/${event.uuid}/`, event);
+      return api.patch(`/api/data/game/${event.uuid}`, event);
     case "dt_mtrade":
     case "dt_catchingup":
     case "dt_sbookupd":
