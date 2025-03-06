@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import { Box, Dialog, Typography, Divider } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 
-import useSnackbar from "@/data/store/snackbar";
-import { useAdventuringGear } from "@/data/fetch/items/adventuringgear";
+// import useSnackbar from "@/data/store/snackbar";
+// import { useAdventuringGear } from "@/data/fetch/items/adventuringgear";
 import { StandardAdventuringGear } from "./StandardAdventuringGear";
 import CustomAdventuringGear from "./CustomAdventuringGear";
 
@@ -21,12 +21,12 @@ type PropsType = {
 };
 
 export function AdventuringGearDialog(props: PropsType) {
-  const { open, onClose, characterUUID } = props;
+  const { open, onClose } = props;
 
-  const { createAdventuringGear } = useAdventuringGear(characterUUID);
-  const displayMessage = useSnackbar((s) => s.displayMessage);
+  // const { createAdventuringGear } = useAdventuringGear(characterUUID);
+  // const displayMessage = useSnackbar((s) => s.displayMessage);
 
-  const [showCustom, setShowCustom] = useState(false);
+  // const [showCustom, setShowCustom] = useState(false);
 
   return (
     <Dialog
