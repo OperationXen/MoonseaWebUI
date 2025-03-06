@@ -25,11 +25,11 @@ function getConsumableDetails(uuid: string) {
 }
 
 function updateConsumableFn(data: Partial<Consumable>) {
-  return api.patch(`/api/data/consumable/${data.uuid}/`, data);
+  return api.patch(`/api/data/consumable/${data.uuid}`, data);
 }
 
 function deleteConsumableFn(data: Consumable) {
-  return api.delete(`/api/data/consumable/${data.uuid}/`);
+  return api.delete(`/api/data/consumable/${data.uuid}`);
 }
 /******************************************************************/
 // Functions for doing optimistic updates to state
