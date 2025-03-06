@@ -5,8 +5,8 @@ import { Box, TextField } from "@mui/material";
 export function CustomAdventuringGear() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [weight, setWeight] = useState(0);
-  const [cost, setCost] = useState(0);
+  // const [weight, setWeight] = useState(0);
+  // const [cost, setCost] = useState(0);
   const [count, setCount] = useState(1);
 
   return (
