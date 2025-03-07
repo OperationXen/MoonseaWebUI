@@ -17,6 +17,7 @@ import useSnackbar from "@/data/store/snackbar";
 
 import CommonItemsGridFooter from "./CommonItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
+import ConfirmItemDelete from "../ConfirmItemDelete";
 import RarityWidget from "../widgets/RarityWidget";
 import MagicItemDialog from "../MagicItemDialog";
 
@@ -37,11 +38,20 @@ export function CommonItemsGrid(props: PropsType) {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editConsumable, setEditConsumable] = useState<MagicItem | null>(null);
+  const [deleteConfirmItem, setDeleteConfirmItem] = useState<MagicItem>();
 
   // filter items down to just the common
   const magicItems = data?.filter((item: MagicItem) => {
     return item.rarity === "common";
   });
+
+  const handleItemDelete = (item: MagicItem | undefined) => {
+    if (!item) return;
+    deleteItem(item).then(() => {
+      displayMessage(`Removed ${item.name}`, "info");
+      setDeleteConfirmItem(undefined);
+    });
+  };
 
   const renderEquipped = (p: GridRenderCellParams<MagicItem>) => {
     return (
@@ -69,13 +79,7 @@ export function CommonItemsGrid(props: PropsType) {
         <IconButton onClick={() => setEditConsumable(p.row)}>
           <EditIcon fontSize="small" />
         </IconButton>
-        <IconButton
-          onClick={() => {
-            deleteItem(p.row).then(() =>
-              displayMessage(`Removed ${p.row.name}`, "info"),
-            );
-          }}
-        >
+        <IconButton onClick={() => setDeleteConfirmItem(p.row)}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Box>
@@ -183,6 +187,11 @@ export function CommonItemsGrid(props: PropsType) {
         characterUUID={characterUUID}
         item={editConsumable}
         defaultRarity="common"
+      />
+      <ConfirmItemDelete
+        item={deleteConfirmItem}
+        onClose={() => setDeleteConfirmItem(undefined)}
+        onConfirm={() => handleItemDelete(deleteConfirmItem)}
       />
     </React.Fragment>
   );
