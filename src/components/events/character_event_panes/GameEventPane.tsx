@@ -45,7 +45,7 @@ export function GameEventPane(props: PropsType) {
   const [name, setName] = useState(existingGame?.name || "");
   const [dmName, setDMName] = useState(existingGame?.dm_name || "");
   const [location, setLocation] = useState(existingGame?.location || "");
-  const [level, setLevel] = useState<boolean>(!!existingGame?.levels || true);
+  const [level, setLevel] = useState<boolean>(!!existingGame?.levels);
   const [gold, setGold] = useState(existingGame?.gold);
   const [downtime, setDowntime] = useState(existingGame?.downtime);
   const [items, setItems] = useState<Partial<MagicItem>[]>([]);
