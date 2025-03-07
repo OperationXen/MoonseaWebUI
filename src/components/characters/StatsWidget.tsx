@@ -25,7 +25,7 @@ export function StatsWidget(props: PropsType) {
   const { onMouseOut, setValue, value, sx, className } = props;
 
   const [active, setActive] = useState(false);
-  const [text, setText] = useState(value.toString());
+  const [text, setText] = useState(value?.toString());
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (locked) return;
@@ -44,8 +44,9 @@ export function StatsWidget(props: PropsType) {
   };
 
   const handleMouseOut = () => {
-    let num = parseInt(text) || 0;
-    if (num < 0 && !allowNegative) {
+    let num = parseInt(text);
+
+    if (Number.isNaN(num) || (num < 0 && !allowNegative)) {
       num = 0;
       setText("0");
     }
@@ -65,7 +66,7 @@ export function StatsWidget(props: PropsType) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "8em",
+        width: "150px",
         border: "1px solid lightgrey",
         borderRadius: "8px",
         paddingTop: "4px",
