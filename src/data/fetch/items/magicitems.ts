@@ -44,7 +44,9 @@ type ItemHistoryResponseType = {
   edits: ItemEvent[];
 };
 
-function getMagicItemHistoryFn(uuid: UUID) {
+function getMagicItemHistoryFn(uuid: UUID | null) {
+  if (!uuid) return [];
+
   return api.get(`/api/data/magicitem/events/${uuid}`).then((response) => {
     const data = response.data as ItemHistoryResponseType;
 
@@ -52,12 +54,13 @@ function getMagicItemHistoryFn(uuid: UUID) {
   });
 }
 
-export function useMagicItemHistory(itemUUID: UUID) {
+export function useMagicItemHistory(itemUUID: UUID | null) {
   const queryKey = ["items", "history", "individual", itemUUID];
 
   return useQuery({
     queryKey,
     queryFn: () => getMagicItemHistoryFn(itemUUID),
+    enabled: !!itemUUID,
   });
 }
 

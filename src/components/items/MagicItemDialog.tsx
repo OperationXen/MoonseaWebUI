@@ -13,6 +13,7 @@ import { InputAdornment, Tooltip } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import { useMagicItems } from "@/data/fetch/items/magicitems";
+import { useMagicItemHistory } from "@/data/fetch/items/magicitems";
 import { getRarityColour } from "@/utils/items";
 
 import type { UUID } from "@/types/uuid";
@@ -29,8 +30,9 @@ type PropsType = {
 export function MagicItemDialog(props: PropsType) {
   const { open, onClose, characterUUID, item, defaultRarity } = props;
 
-  const { createItem, updateItem } = useMagicItems(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
+  const { createItem, updateItem } = useMagicItems(characterUUID);
+  const { data: itemHistory } = useMagicItemHistory(item?.uuid || null);
 
   const [name, setName] = useState<string>("");
   const [rpName, setRPName] = useState<string>("");
@@ -41,6 +43,8 @@ export function MagicItemDialog(props: PropsType) {
   const [flavour, setFlavour] = useState("");
   const [attunement, setAttunement] = useState(false);
   const [highlight, setHighlight] = useState(false);
+
+  const nameChanged = item?.name && item.name !== name;
 
   useEffect(() => {
     setName(item?.name || "");
@@ -98,6 +102,23 @@ export function MagicItemDialog(props: PropsType) {
           console.error(error);
         });
     }
+  };
+
+  const itemOriginText = () => {
+    const itemOrigin = itemHistory?.[0];
+
+    if (itemOrigin?.event_type === "dm_reward") {
+      return (
+        <Typography variant="caption">{`Item was a DM reward`}</Typography>
+      );
+    }
+
+    if (itemOrigin?.event_type === "game") {
+      return (
+        <Typography variant="caption">{`Item found in module: ${itemOrigin.name}`}</Typography>
+      );
+    }
+    return <Typography variant="caption">Item origin unknown</Typography>;
   };
 
   return (
@@ -263,7 +284,7 @@ export function MagicItemDialog(props: PropsType) {
 
           <TextField
             fullWidth
-            label="Link to item source"
+            label="Link to further item details (eg a DNDBeyond link)"
             value={url}
             onChange={(e) => setURL(e.target.value)}
             placeholder="https://www.dndbeyond.com/magic-items/9228421-deck-of-many-things"
@@ -282,25 +303,37 @@ export function MagicItemDialog(props: PropsType) {
               },
             }}
           />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {itemOriginText()}
+          </Box>
         </AccordionDetails>
       </Accordion>
 
       <Box
-        display="flex"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
         onMouseOver={() => setHighlight(true)}
         onMouseOut={() => setHighlight(false)}
       >
         <Button
           onClick={handleSubmit}
           variant="contained"
+          color={nameChanged ? "error" : "primary"}
           sx={{
             width: "60%",
-            margin: "auto",
           }}
           disabled={!name}
         >
           {item ? "Update item" : "Create Item"}
         </Button>
+        {nameChanged && (
+          <Typography variant="body2" color="error" mt="8px">
+            Change to item name will be recorded on the item's history
+          </Typography>
+        )}
       </Box>
     </Dialog>
   );
