@@ -84,9 +84,9 @@ export default function CharacterSummaryCard(props: PropsType) {
       </Box>
       <Divider className="m-1" />
       <Box className="flex justify-between items-center">
-        <Tooltip title="Add an event, such as a game or a DM reward">
+        <Tooltip title="Quick select game">
           <AddBoxIcon
-            sx={{ width: 40, height: 40, cursor: "pointer" }}
+            sx={{ width: 40, height: 40, opacity: 0.3, cursor: "pointer" }}
             onClick={() => {}}
           />
         </Tooltip>
@@ -111,6 +111,7 @@ export default function CharacterSummaryCard(props: PropsType) {
               sx={{
                 width: 40,
                 height: 40,
+                opacity: 1,
                 cursor: "pointer",
               }}
               onClick={() => window.open(character.sheet)}
