@@ -20,6 +20,7 @@ import useSnackbar from "@/data/store/snackbar";
 import ItemMarketWidget from "../widgets/ItemMarketWidget";
 import MagicItemsGridFooter from "./MagicItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
+import ConfirmItemDelete from "../ConfirmItemDelete";
 import RarityWidget from "../widgets/RarityWidget";
 import MagicItemDialog from "../MagicItemDialog";
 
@@ -41,6 +42,7 @@ export function MagicItemsGrid(props: PropsType) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [hideMarket, setHideMarket] = useState(true);
   const [editItem, setEditItem] = useState<MagicItem | null>(null);
+  const [deleteConfirmItem, setDeleteConfirmItem] = useState<MagicItem>();
 
   // filter out common items, and anything in the trading post
   const magicItems = data?.filter((item: MagicItem) => {
@@ -51,6 +53,14 @@ export function MagicItemsGrid(props: PropsType) {
   const getRowFormat = (p: GridRowParams) => {
     if (p.row.market) return "bg-gray-400 opacity-70";
     return "";
+  };
+
+  const handleItemDelete = (item: MagicItem | undefined) => {
+    if (!item) return;
+    deleteItem(item).then(() => {
+      displayMessage(`Removed ${item.name}`, "info");
+      setDeleteConfirmItem(undefined);
+    });
   };
 
   const renderEquipped = (p: GridRenderCellParams<MagicItem>) => {
@@ -91,13 +101,7 @@ export function MagicItemsGrid(props: PropsType) {
         <IconButton onClick={() => setEditItem(p.row)}>
           <EditIcon fontSize="small" />
         </IconButton>
-        <IconButton
-          onClick={() => {
-            deleteItem(p.row).then(() =>
-              displayMessage(`Removed ${p.row.name}`, "info"),
-            );
-          }}
-        >
+        <IconButton onClick={() => setDeleteConfirmItem(p.row)}>
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Box>
@@ -227,6 +231,11 @@ export function MagicItemsGrid(props: PropsType) {
         characterUUID={characterUUID}
         item={editItem}
         defaultRarity="uncommon"
+      />
+      <ConfirmItemDelete
+        item={deleteConfirmItem}
+        onClose={() => setDeleteConfirmItem(undefined)}
+        onConfirm={() => handleItemDelete(deleteConfirmItem)}
       />
     </React.Fragment>
   );
