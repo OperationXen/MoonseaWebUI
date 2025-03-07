@@ -192,6 +192,7 @@ export function GameEventPane(props: PropsType) {
       <Box sx={{ ...row, justifyContent: "space-around" }}>
         <StatsWidget
           locked={false}
+          allowNegative
           name="Gold"
           icon={<GiTwoCoins />}
           value={gold}
@@ -209,6 +210,7 @@ export function GameEventPane(props: PropsType) {
 
         <StatsWidget
           locked={false}
+          allowNegative
           name="Downtime"
           icon={<DowntimeIcon fontSize="small" />}
           value={downtime}

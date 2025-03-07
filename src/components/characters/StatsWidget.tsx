@@ -11,47 +11,62 @@ import RemoveIcon from "@mui/icons-material/Remove";
 type PropsType = {
   locked?: boolean;
   value: number;
-  setValue: (x: number) => void;
   name: string;
   icon: any;
+  allowNegative?: boolean;
+  sx?: object;
+  className?: string;
+  setValue: (x: number) => void;
   onMouseOut?: () => void;
-  sx: object;
 };
 
 export function StatsWidget(props: PropsType) {
-  const { locked = false, value, setValue, name, icon, onMouseOut } = props;
+  const { locked = false, allowNegative = false, name, icon } = props;
+  const { onMouseOut, setValue, value, sx, className } = props;
 
   const [active, setActive] = useState(false);
+  const [text, setText] = useState(value?.toString());
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (locked) return;
 
-    if (e.target.value) {
-      setValue(parseInt(e.target.value));
-    } else setValue(0);
+    setText(e.target.value);
   };
 
   const handleIncrement = () => {
-    if (value) setValue(value + 1);
-    else setValue(1);
+    const num = parseInt(text) || 0;
+    setText((num + 1).toString());
   };
   const handleDecrement = () => {
-    if (value) setValue(value - 1);
+    const num = parseInt(text) || 0;
+
+    if (num > 0 || allowNegative) setText((num - 1).toString());
+  };
+
+  const handleMouseOut = () => {
+    let num = parseInt(text);
+
+    if (Number.isNaN(num) || (num < 0 && !allowNegative)) {
+      num = 0;
+      setText("0");
+    }
+
+    setActive(false);
+    if (num != value) setValue(num);
+    if (onMouseOut) onMouseOut();
   };
 
   return (
     <Box
       onMouseOver={() => setActive(true)}
-      onMouseOut={() => {
-        setActive(false);
-        if (onMouseOut) onMouseOut();
-      }}
+      onMouseLeave={handleMouseOut}
+      className={className}
       sx={{
-        ...props.sx,
+        ...sx,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "8em",
+        width: "150px",
         border: "1px solid lightgrey",
         borderRadius: "8px",
         paddingTop: "4px",
@@ -83,7 +98,7 @@ export function StatsWidget(props: PropsType) {
         )}
         <InputBase
           disabled={locked}
-          value={value}
+          value={text}
           inputProps={{ sx: { textAlign: "center" } }}
           onChange={handleChange}
         />
