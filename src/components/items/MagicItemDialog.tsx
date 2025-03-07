@@ -303,7 +303,9 @@ export function MagicItemDialog(props: PropsType) {
               },
             }}
           />
-          {itemOriginText()}
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {itemOriginText()}
+          </Box>
         </AccordionDetails>
       </Accordion>
 
