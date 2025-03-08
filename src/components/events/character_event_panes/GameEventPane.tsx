@@ -45,13 +45,17 @@ export function GameEventPane(props: PropsType) {
   const [name, setName] = useState(existingGame?.name || "");
   const [dmName, setDMName] = useState(existingGame?.dm_name || "");
   const [location, setLocation] = useState(existingGame?.location || "");
-  const [level, setLevel] = useState<boolean>(!!existingGame?.levels);
-  const [gold, setGold] = useState(existingGame?.gold);
-  const [downtime, setDowntime] = useState(existingGame?.downtime);
   const [items, setItems] = useState<Partial<MagicItem>[]>([]);
   const [notes, setNotes] = useState(existingGame?.notes || "");
   const [date, setDate] = useState<Date | null>(
     existingGame?.datetime ? new Date(existingGame.datetime) : new Date(),
+  );
+  const [gold, setGold] = useState(existingGame ? existingGame.gold : 250);
+  const [downtime, setDowntime] = useState(
+    existingGame ? existingGame.downtime : 10,
+  );
+  const [level, setLevel] = useState<boolean>(
+    existingGame ? !!existingGame.levels : true,
   );
 
   const [highlight, setHighlight] = useState(false);
@@ -195,7 +199,7 @@ export function GameEventPane(props: PropsType) {
           allowNegative
           name="Gold"
           icon={<GiTwoCoins />}
-          value={gold ?? 250}
+          value={gold}
           setValue={setGold}
           sx={{ width: "25%" }}
         />
@@ -213,7 +217,7 @@ export function GameEventPane(props: PropsType) {
           allowNegative
           name="Downtime"
           icon={<DowntimeIcon fontSize="small" />}
-          value={downtime ?? 10}
+          value={downtime}
           setValue={setDowntime}
           sx={{ width: "25%" }}
         />
