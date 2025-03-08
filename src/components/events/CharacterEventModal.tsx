@@ -50,28 +50,28 @@ export function CharacterEventModal(props: PropsType) {
         )}
         {event?.event_type === "dt_freeform" && (
           <DTEventFreeForm
-            existingEvent={event as FreeFormEvent}
+            event={event as FreeFormEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />
         )}
         {event?.event_type === "dt_mtrade" && (
           <DTEventMundaneTrade
-            existingEvent={event as MundaneTradeEvent}
+            event={event as MundaneTradeEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />
         )}
         {event?.event_type === "dt_catchingup" && (
           <DTEventCatchup
-            existingEvent={event as CatchingUpEvent}
+            event={event as CatchingUpEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />
         )}
         {event?.event_type === "dt_sbookupd" && (
           <DTEventSpellBookUpdate
-            existingEvent={event as SpellBookUpdateEvent}
+            event={event as SpellBookUpdateEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />

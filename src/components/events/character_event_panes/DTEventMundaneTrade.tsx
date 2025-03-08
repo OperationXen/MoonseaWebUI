@@ -4,10 +4,9 @@ import { useState } from "react";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
-import { Box, Typography, Button, Stack } from "@mui/material";
-import { Switch, TextField, Divider, InputAdornment } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Box, Typography, Button } from "@mui/material";
+import { Switch, TextField, InputAdornment } from "@mui/material";
 
 import { GiTwoCoins } from "react-icons/gi";
 
@@ -15,23 +14,29 @@ import useSnackbar from "@/data/store/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";
+import type { MundaneTradeEvent } from "@/types/events";
 
 type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
+  event?: MundaneTradeEvent;
 };
 
 export function DTEventMundaneTrade(props: PropsType) {
-  const { onClose, characterUUID } = props;
+  const { onClose, characterUUID, event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent } = useEvents(characterUUID);
 
-  const [date, setDate] = useState<Date | null>(new Date());
-  const [gold, setGold] = useState(0);
-  const [profit, setProfit] = useState(false);
-  const [sold, setSold] = useState("");
-  const [purchased, setPurchased] = useState("");
+  const [gold, setGold] = useState(event ? event.gold_change : 0);
+  const [profit, setProfit] = useState(event ? event.gold_change > 0 : false);
+  const [sold, setSold] = useState(event ? event.sold : "");
+  const [purchased, setPurchased] = useState(event ? event.purchased : "");
+  const [datetime, setDatetime] = useState<Date | null>(
+    event ? new Date(event.datetime) : new Date(),
+  );
+
+  const editable = event ? event.editable : true;
 
   const handleSubmit = () => {
     let goldChange = gold * (profit ? 1 : -1);
@@ -50,7 +55,14 @@ export function DTEventMundaneTrade(props: PropsType) {
   };
 
   return (
-    <Stack sx={{ gap: "0.4em" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.4em",
+        marginTop: "8px",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -64,6 +76,7 @@ export function DTEventMundaneTrade(props: PropsType) {
           value={gold}
           onChange={(e) => setGold(parseInt(e.target.value))}
           type="number"
+          disabled={!editable}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -81,6 +94,7 @@ export function DTEventMundaneTrade(props: PropsType) {
         >
           <Typography sx={{ opacity: profit ? 0.3 : 1 }}>Spent</Typography>
           <Switch
+            disabled={!editable}
             checked={profit}
             onChange={(e) => setProfit(e.target.checked)}
           />
@@ -90,8 +104,9 @@ export function DTEventMundaneTrade(props: PropsType) {
           <DesktopDatePicker
             label="Event date"
             format="yyyy/MM/dd"
-            value={date}
-            onChange={setDate}
+            value={datetime}
+            disabled={!editable}
+            onChange={setDatetime}
           />
         </LocalizationProvider>
       </Box>
@@ -99,6 +114,7 @@ export function DTEventMundaneTrade(props: PropsType) {
         fullWidth
         label="Items sold"
         value={sold}
+        disabled={!editable}
         onChange={(e) => setSold(e.target.value)}
         multiline
         minRows={2}
@@ -108,6 +124,7 @@ export function DTEventMundaneTrade(props: PropsType) {
         fullWidth
         label="Items purchased"
         value={purchased}
+        disabled={!editable}
         onChange={(e) => setPurchased(e.target.value)}
         multiline
         minRows={2}
@@ -117,12 +134,12 @@ export function DTEventMundaneTrade(props: PropsType) {
       <Button
         variant="contained"
         sx={{ width: "60%", margin: "auto" }}
-        disabled={!sold && !purchased}
+        disabled={(!sold && !purchased) || !editable}
         onClick={handleSubmit}
       >
         Add merchant visit
       </Button>
-    </Stack>
+    </Box>
   );
 }
 

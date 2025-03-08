@@ -96,7 +96,7 @@ export default function CreateCharacterEvent(props: PropsType) {
       )}
       {event === "dt_freeform" && (
         <React.Fragment>
-          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
             <Typography>Event details</Typography>
           </Divider>
           <DTEventFreeForm
@@ -107,7 +107,7 @@ export default function CreateCharacterEvent(props: PropsType) {
       )}
       {event === "dt_mtrade" && (
         <React.Fragment>
-          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
             <Typography>Merchant Visit Details</Typography>
           </Divider>
           <DTEventMundaneTrade
@@ -118,7 +118,7 @@ export default function CreateCharacterEvent(props: PropsType) {
       )}
       {event === "dt_catchingup" && (
         <React.Fragment>
-          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
             <Typography>Event Details</Typography>
           </Divider>
           <DTEventCatchup
@@ -130,7 +130,7 @@ export default function CreateCharacterEvent(props: PropsType) {
       )}
       {event === "dt_sbookupd" && (
         <React.Fragment>
-          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
             <Typography>Spellbook Update</Typography>
           </Divider>
           <DTEventSpellBookUpdatePname
