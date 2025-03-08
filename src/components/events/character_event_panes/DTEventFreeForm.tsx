@@ -23,7 +23,7 @@ export function DTEventFreeForm(props: PropsType) {
   const { onClose, characterUUID, event: event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createEvent } = useEvents(characterUUID);
+  const { createEvent, updateEvent } = useEvents(characterUUID);
 
   const [title, setTitle] = useState(event ? event.title : "");
   const [details, setDetails] = useState(event ? event.details : "");
@@ -32,19 +32,31 @@ export function DTEventFreeForm(props: PropsType) {
   );
 
   const editable = event ? event.editable : true;
+  const isNewEvent = !event;
 
   const handleSubmit = () => {
-    createEvent({
+    const data = {
       event_type: "dt_freeform",
       title: title,
       details: details,
       datetime: datetime ?? undefined,
-    })
-      .then((_response) => {
-        displayMessage("Generic event added to log", "success");
-        onClose && onClose();
-      })
-      .catch((error) => displayMessage(error.response.data.message, "error"));
+    } as FreeFormEvent;
+
+    if (isNewEvent) {
+      createEvent(data)
+        .then(() => {
+          displayMessage("Generic event added to log", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    } else {
+      updateEvent({ ...event, ...data })
+        .then(() => {
+          displayMessage(`Updated event "${title}"`, "success"),
+            onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    }
   };
 
   return (
@@ -86,14 +98,16 @@ export function DTEventFreeForm(props: PropsType) {
         maxRows={12}
       />
 
-      <Button
-        variant="contained"
-        disabled={!editable || !title}
-        sx={{ width: "60%", margin: "auto" }}
-        onClick={handleSubmit}
-      >
-        Submit
-      </Button>
+      {editable && (
+        <Button
+          variant="contained"
+          disabled={!title}
+          sx={{ width: "60%", margin: "auto" }}
+          onClick={handleSubmit}
+        >
+          {isNewEvent ? "Create event" : "Update event"}
+        </Button>
+      )}
     </Box>
   );
 }

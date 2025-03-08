@@ -27,7 +27,7 @@ export function DTEventSpellBookUpdate(props: PropsType) {
   const { onClose, downtime: dtAvailable, characterUUID, event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createEvent } = useEvents(characterUUID);
+  const { createEvent, updateEvent } = useEvents(characterUUID);
 
   const [gold, setGold] = useState(event ? event.gold_change : 0);
   const [downtime, setDowntime] = useState(event ? event.downtime : 0);
@@ -39,26 +39,33 @@ export function DTEventSpellBookUpdate(props: PropsType) {
   );
 
   const editable = event ? event.editable : true;
+  const isNewEvent = !event;
 
   const handleSubmit = () => {
-    createEvent({
+    const data = {
       event_type: "dt_sbookupd",
       gold_change: gold,
       downtime: downtime,
       dm_name: dmName,
       source: sourceChar,
       spellsText: text,
-    } as SpellBookUpdateEvent)
-      .then((_response) => {
-        displayMessage("Spellbook update added to log", "success");
-        onClose && onClose();
-      })
-      .catch((error) => {
-        displayMessage(
-          error.response.data.message ?? "Error creating event",
-          "error",
-        );
-      });
+    } as SpellBookUpdateEvent;
+
+    if (isNewEvent) {
+      createEvent(data)
+        .then((_response) => {
+          displayMessage("Spellbook update added to log", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    } else {
+      updateEvent({ ...event, ...data })
+        .then((_response) => {
+          displayMessage("Updated spellbook event", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    }
   };
 
   return (
@@ -150,25 +157,21 @@ export function DTEventSpellBookUpdate(props: PropsType) {
         disabled={!editable}
         onChange={(e) => setText(e.target.value)}
         multiline
+        required
         minRows={4}
         maxRows={6}
       />
 
-      <Button
-        variant="contained"
-        sx={{ width: "60%", margin: "auto" }}
-        disabled={
-          !editable ||
-          !text ||
-          gold <= 0 ||
-          downtime <= 0 ||
-          !dtAvailable ||
-          downtime > dtAvailable
-        }
-        onClick={handleSubmit}
-      >
-        Add Spellbook Update
-      </Button>
+      {editable && (
+        <Button
+          variant="contained"
+          sx={{ width: "60%", margin: "auto" }}
+          disabled={!text}
+          onClick={handleSubmit}
+        >
+          {isNewEvent ? "Add Spellbook Update" : "Update event"}
+        </Button>
+      )}
     </Box>
   );
 }

@@ -36,9 +36,7 @@ export function CharacterEventModal(props: PropsType) {
         },
       }}
     >
-      <DialogTitle>
-        <Typography variant="h5">{getEventName(event)}</Typography>
-      </DialogTitle>
+      <DialogTitle>{getEventName(event)}</DialogTitle>
 
       <DialogContent>
         {event?.event_type === "game" && (

@@ -24,7 +24,7 @@ export function DTEventCatchup(props: PropsType) {
   const { onClose, downtime, characterUUID, event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createEvent } = useEvents(characterUUID);
+  const { createEvent, updateEvent } = useEvents(characterUUID);
 
   const [details, setDetails] = useState(event ? event.details : "");
   const [datetime, setDatetime] = useState<Date | null>(
@@ -32,19 +32,30 @@ export function DTEventCatchup(props: PropsType) {
   );
 
   const editable = event ? event.editable : true;
-  debugger;
+  const isNewEvent = !event;
 
   const handleSubmit = () => {
-    createEvent({
+    const data = {
       event_type: "dt_catchingup",
       details: details,
       datetime: datetime ?? undefined,
-    })
-      .then((_response) => {
-        displayMessage("Catching up added to log", "success");
-        onClose && onClose();
-      })
-      .catch((error) => displayMessage(error.response.data.message, "error"));
+    } as CatchingUpEvent;
+
+    if (isNewEvent) {
+      createEvent(data)
+        .then(() => {
+          displayMessage("Catching up event added to log", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    } else {
+      updateEvent({ ...event, ...data })
+        .then(() => {
+          displayMessage("Catching up event updated", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    }
   };
 
   return (
@@ -76,14 +87,16 @@ export function DTEventCatchup(props: PropsType) {
         maxRows={6}
       />
 
-      <Button
-        variant="contained"
-        sx={{ width: "60%", margin: "auto" }}
-        onClick={handleSubmit}
-        disabled={(downtime !== undefined && downtime < 10) || !editable}
-      >
-        Gain a level (10 downtime days)
-      </Button>
+      {editable && (
+        <Button
+          variant="contained"
+          sx={{ width: "60%", margin: "auto" }}
+          onClick={handleSubmit}
+          disabled={downtime !== undefined && downtime < 10}
+        >
+          {isNewEvent ? "Gain a level (10 downtime days)" : "Update event"}
+        </Button>
+      )}
     </Box>
   );
 }
