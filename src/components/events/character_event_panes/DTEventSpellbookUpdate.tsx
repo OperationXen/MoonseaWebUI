@@ -58,10 +58,6 @@ export function DTEventSpellBookUpdate(props: PropsType) {
 
   return (
     <Stack sx={{ gap: "0.4em" }}>
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Spellbook Update</Typography>
-      </Divider>
-
       <Box
         sx={{
           display: "flex",

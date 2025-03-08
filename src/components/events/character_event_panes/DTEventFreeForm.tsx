@@ -52,10 +52,6 @@ export function DTEventFreeForm(props: PropsType) {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "0.4em" }}>
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Event details</Typography>
-      </Divider>
-
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
           label="Date"

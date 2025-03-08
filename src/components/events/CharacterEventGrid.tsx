@@ -12,11 +12,10 @@ import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { useEvents } from "@/data/fetch/events/character";
 import useSnackbar from "@/data/store/snackbar";
 import CreateCharacterEvent from "./CreateCharacterEvent";
-import { EventViewModal } from "./details/EventViewModal";
 import ConfirmEventDelete from "./ConfirmEventDelete";
 import { getDateString } from "@/utils/format";
 import { getEventName } from "@/utils/events";
-import EditEvent from "./EditEvent";
+import CharacterEventModal from "./CharacterEventModal";
 
 import type { UUID } from "@/types/uuid";
 import type { AnyEvent, EventType } from "@/types/events";
@@ -34,13 +33,8 @@ export default function CharacterEventGrid(props: PropsType) {
   const { data: events, deleteEvent } = useEvents(characterUUID);
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [eventDetails, setEventDetails] = useState<AnyEvent | null>(null); // event visible in modal window
   const [deleteConfirmEvent, setDeleteConfirmEvent] = useState<AnyEvent>();
   const [editEvent, setEditEvent] = useState<AnyEvent>();
-
-  const handleOpenEventDetails = (data: any) => {
-    setEventDetails(data.row);
-  };
 
   const handleDeleteEvent = (event: AnyEvent | undefined) => {
     if (!event) return;
@@ -57,12 +51,11 @@ export default function CharacterEventGrid(props: PropsType) {
       return (
         <Box className="flex justify-end w-full">
           <IconButton onClick={() => setEditEvent(event)}>
-            {(event.editable && <EditIcon />) || <VisibilityIcon />}
+            <EditIcon />
           </IconButton>
           <IconButton
-            disabled={p.row.event_type === "dm_reward"}
             onClick={() => {
-              setDeleteConfirmEvent(p.row);
+              setDeleteConfirmEvent(event);
             }}
           >
             <DeleteIcon />
@@ -162,7 +155,7 @@ export default function CharacterEventGrid(props: PropsType) {
         }}
         columns={columns}
         rows={events}
-        onRowDoubleClick={handleOpenEventDetails}
+        onRowDoubleClick={(p) => setEditEvent(p.row)}
         density="compact"
         sx={{
           border: "1px solid black",
@@ -212,13 +205,12 @@ export default function CharacterEventGrid(props: PropsType) {
           setCreateOpen(false);
         }}
       />
-      <EventViewModal data={eventDetails} setData={setEventDetails} />
       <ConfirmEventDelete
         event={deleteConfirmEvent}
         onClose={() => setDeleteConfirmEvent(undefined)}
         onConfirm={() => handleDeleteEvent(deleteConfirmEvent)}
       />
-      <EditEvent
+      <CharacterEventModal
         event={editEvent}
         characterUUID={characterUUID}
         onClose={() => setEditEvent(undefined)}

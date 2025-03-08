@@ -51,10 +51,6 @@ export function DTEventMundaneTrade(props: PropsType) {
 
   return (
     <Stack sx={{ gap: "0.4em" }}>
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Merchant Visit Details</Typography>
-      </Divider>
-
       <Box
         sx={{
           display: "flex",

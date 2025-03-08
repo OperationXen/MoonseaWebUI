@@ -43,10 +43,6 @@ export function DTCatchupEvent(props: PropsType) {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "0.4em" }}>
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Event Details</Typography>
-      </Divider>
-
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
           label="Date"

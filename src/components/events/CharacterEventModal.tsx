@@ -13,7 +13,7 @@ type PropsType = {
   onClose: () => void;
 };
 
-export function EditEvent(props: PropsType) {
+export function CharacterEventModal(props: PropsType) {
   const { characterUUID, event, onClose } = props;
 
   return (
@@ -48,4 +48,4 @@ export function EditEvent(props: PropsType) {
   );
 }
 
-export default EditEvent;
+export default CharacterEventModal;

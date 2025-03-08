@@ -71,7 +71,7 @@ export default function CreateCharacterEvent(props: PropsType) {
             <MenuItem value="game">Played a game</MenuItem>
             <MenuItem value="dt_freeform">Add generic event</MenuItem>
             <Divider>Common downtime activities</Divider>
-            <MenuItem value="dt_mtrade">Visited merchant</MenuItem>
+            <MenuItem value="dt_mtrade">Visit NPC merchant</MenuItem>
             <MenuItem value="dt_catchingup" disabled={downtime < 10}>
               Catching up (gain a level)
             </MenuItem>
@@ -79,44 +79,66 @@ export default function CreateCharacterEvent(props: PropsType) {
             <MenuItem value="dt_trade" disabled>
               Trade magical items
             </MenuItem>
-
-            <MenuItem value="dt_scribe" disabled>
-              Scribe scrolls
-            </MenuItem>
-            <MenuItem value="dt_brew" disabled>
-              Brew potions
-            </MenuItem>
-            <MenuItem value="rebuild" disabled>
-              Rebuild character
+            <Divider>Bastion activities</Divider>
+            <MenuItem value="dt_bastion" disabled>
+              Take bastion turn
             </MenuItem>
           </Select>
         </FormControl>
       </Box>
       {event === "game" && (
-        <GameEventPane characterUUID={characterUUID} onClose={handleClose} />
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
+            <Typography>Game Details</Typography>
+          </Divider>
+          <GameEventPane characterUUID={characterUUID} onClose={handleClose} />
+        </React.Fragment>
       )}
       {event === "dt_freeform" && (
-        <DTEventFreeForm characterUUID={characterUUID} onClose={handleClose} />
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+            <Typography>Event details</Typography>
+          </Divider>
+          <DTEventFreeForm
+            characterUUID={characterUUID}
+            onClose={handleClose}
+          />
+        </React.Fragment>
       )}
       {event === "dt_mtrade" && (
-        <DTEventMundaneTrade
-          characterUUID={characterUUID}
-          onClose={handleClose}
-        />
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+            <Typography>Merchant Visit Details</Typography>
+          </Divider>
+          <DTEventMundaneTrade
+            characterUUID={characterUUID}
+            onClose={handleClose}
+          />
+        </React.Fragment>
       )}
       {event === "dt_catchingup" && (
-        <DTCatchupEvent
-          characterUUID={characterUUID}
-          onClose={handleClose}
-          downtime={downtime}
-        />
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+            <Typography>Event Details</Typography>
+          </Divider>
+          <DTCatchupEvent
+            characterUUID={characterUUID}
+            onClose={handleClose}
+            downtime={downtime}
+          />
+        </React.Fragment>
       )}
       {event === "dt_sbookupd" && (
-        <DTEventSpellBookUpdatePname
-          characterUUID={characterUUID}
-          onClose={handleClose}
-          downtime={downtime}
-        />
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto", marginBottom: "8px" }}>
+            <Typography>Spellbook Update</Typography>
+          </Divider>
+          <DTEventSpellBookUpdatePname
+            characterUUID={characterUUID}
+            onClose={handleClose}
+            downtime={downtime}
+          />
+        </React.Fragment>
       )}
     </Dialog>
   );
