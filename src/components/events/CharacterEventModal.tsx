@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Dialog, DialogTitle, Typography, DialogContent } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
 import DTEventMundaneTrade from "./character_event_panes/DTEventMundaneTrade";
