@@ -32,7 +32,7 @@ export function DTCatchupEvent(props: PropsType) {
     createEvent({
       event_type: "dt_catchingup",
       details: details,
-      datetime: datetime,
+      datetime: datetime ?? undefined,
     })
       .then((_response) => {
         displayMessage("Catching up added to log", "success");
