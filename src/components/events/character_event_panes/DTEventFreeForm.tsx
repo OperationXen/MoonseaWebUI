@@ -17,24 +17,22 @@ import type { FreeFormEvent } from "@/types/events";
 type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
-  existingEvent?: FreeFormEvent;
+  event?: FreeFormEvent;
 };
 
 export function DTEventFreeForm(props: PropsType) {
-  const { onClose, characterUUID, existingEvent } = props;
+  const { onClose, characterUUID, event: event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent } = useEvents(characterUUID);
 
-  const [title, setTitle] = useState(existingEvent ? existingEvent.title : "");
-  const [details, setDetails] = useState(
-    existingEvent ? existingEvent.details : "",
-  );
+  const [title, setTitle] = useState(event ? event.title : "");
+  const [details, setDetails] = useState(event ? event.details : "");
   const [datetime, setDatetime] = useState<Date | null>(
-    existingEvent ? existingEvent.datetime : new Date(),
+    event ? new Date(event.datetime) : new Date(),
   );
 
-  const editable = existingEvent ? existingEvent.editable : true;
+  const editable = event ? event.editable : true;
 
   const handleSubmit = () => {
     createEvent({
@@ -51,17 +49,21 @@ export function DTEventFreeForm(props: PropsType) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: "0.4em" }}>
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Event details</Typography>
-      </Divider>
-
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.4em",
+        marginTop: "8px",
+      }}
+    >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
           label="Date"
           format="yyyy/MM/dd"
           value={datetime}
           onChange={setDatetime}
+          disabled={!editable}
         />
       </LocalizationProvider>
 

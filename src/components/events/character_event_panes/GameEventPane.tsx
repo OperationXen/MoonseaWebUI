@@ -126,10 +126,6 @@ export function GameEventPane(props: PropsType) {
         },
       }}
     >
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Game Details</Typography>
-      </Divider>
-
       <Box sx={row}>
         <TextField
           sx={{ maxWidth: "30%" }}

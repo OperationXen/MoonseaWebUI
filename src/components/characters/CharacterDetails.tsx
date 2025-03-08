@@ -3,7 +3,7 @@ import { Container, Box, Paper } from "@mui/material";
 import { useCharacter } from "@/data/fetch/character";
 import CharacterDetailsPane from "@/components/characters/CharacterDetailsPane";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
-import CharacterEvents from "components/events/CharacterEvents";
+import CharacterEventGrid from "@/components/events/CharacterEventGrid";
 import CharacterArt from "@/components/characters/CharacterArt";
 import ItemPane from "components/items/ItemPane";
 
@@ -61,7 +61,7 @@ export function CharacterDetails(props: PropsType) {
       </Paper>
 
       <Box sx={{ minHeight: "50em", marginBottom: "1em" }}>
-        <CharacterEvents
+        <CharacterEventGrid
           characterUUID={characterUUID}
           characterName={characterData?.name || ""}
           downtime={characterData?.downtime || 0}

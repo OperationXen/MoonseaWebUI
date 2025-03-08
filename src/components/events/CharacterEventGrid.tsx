@@ -12,11 +12,10 @@ import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { useEvents } from "@/data/fetch/events/character";
 import useSnackbar from "@/data/store/snackbar";
 import CreateCharacterEvent from "./CreateCharacterEvent";
-import { EventViewModal } from "./details/EventViewModal";
 import ConfirmEventDelete from "./ConfirmEventDelete";
 import { getDateString } from "@/utils/format";
 import { getEventName } from "@/utils/events";
-import EditEvent from "./EditEvent";
+import CharacterEventModal from "./CharacterEventModal";
 
 import type { UUID } from "@/types/uuid";
 import type { AnyEvent, EventType } from "@/types/events";
@@ -28,19 +27,14 @@ type PropsType = {
   editable: boolean;
 };
 
-export default function CharacterEvents(props: PropsType) {
+export default function CharacterEventGrid(props: PropsType) {
   const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { data: events, deleteEvent } = useEvents(characterUUID);
 
   const [createOpen, setCreateOpen] = useState(false);
-  const [eventDetails, setEventDetails] = useState<AnyEvent | null>(null); // event visible in modal window
   const [deleteConfirmEvent, setDeleteConfirmEvent] = useState<AnyEvent>();
   const [editEvent, setEditEvent] = useState<AnyEvent>();
-
-  const handleOpenEventDetails = (data: any) => {
-    setEventDetails(data.row);
-  };
 
   const handleDeleteEvent = (event: AnyEvent | undefined) => {
     if (!event) return;
@@ -50,35 +44,35 @@ export default function CharacterEvents(props: PropsType) {
     });
   };
 
-  const getRowActions = (params: GridRenderCellParams<AnyEvent>) => {
-    if (!editable) return null;
+  const getRowActions = (p: GridRenderCellParams<AnyEvent>) => {
+    const event = p.row;
 
-    return (
-      <Box>
-        <IconButton
-          onClick={() => {
-            handleOpenEventDetails(params);
-          }}
-        >
-          <VisibilityIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => setEditEvent(params.row)}
-          disabled={params.row.event_type !== "game"}
-        >
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          disabled={params.row.event_type === "dm_reward"}
-          onClick={() => {
-            setDeleteConfirmEvent(params.row);
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </Box>
-    );
+    if (event.editable) {
+      return (
+        <Box className="flex justify-end w-full">
+          <IconButton onClick={() => setEditEvent(event)}>
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setDeleteConfirmEvent(event);
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      );
+    } else {
+      return (
+        <Box className="flex justify-end w-full">
+          <IconButton onClick={() => setEditEvent(event)}>
+            <VisibilityIcon />
+          </IconButton>
+        </Box>
+      );
+    }
   };
+
   const rowEventType = (_et: EventType, value: AnyEvent) => {
     return getEventName(value);
   };
@@ -161,7 +155,7 @@ export default function CharacterEvents(props: PropsType) {
         }}
         columns={columns}
         rows={events}
-        onRowDoubleClick={handleOpenEventDetails}
+        onRowDoubleClick={(p) => setEditEvent(p.row)}
         density="compact"
         sx={{
           border: "1px solid black",
@@ -211,13 +205,12 @@ export default function CharacterEvents(props: PropsType) {
           setCreateOpen(false);
         }}
       />
-      <EventViewModal data={eventDetails} setData={setEventDetails} />
       <ConfirmEventDelete
         event={deleteConfirmEvent}
         onClose={() => setDeleteConfirmEvent(undefined)}
         onConfirm={() => handleDeleteEvent(deleteConfirmEvent)}
       />
-      <EditEvent
+      <CharacterEventModal
         event={editEvent}
         characterUUID={characterUUID}
         onClose={() => setEditEvent(undefined)}
