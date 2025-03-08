@@ -41,6 +41,7 @@ export function GameEventPane(props: PropsType) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
 
+  const [highlight, setHighlight] = useState(false);
   const [code, setCode] = useState(existingGame?.module || "");
   const [name, setName] = useState(existingGame?.name || "");
   const [dmName, setDMName] = useState(existingGame?.dm_name || "");
@@ -58,7 +59,7 @@ export function GameEventPane(props: PropsType) {
     existingGame ? !!existingGame.levels : true,
   );
 
-  const [highlight, setHighlight] = useState(false);
+  const editable = existingGame ? existingGame.editable : true;
 
   const handleAddItem = () => {
     setItems([...items, { name: "", rarity: "uncommon" }]);
@@ -135,6 +136,7 @@ export function GameEventPane(props: PropsType) {
           placeholder="DDAL00-02A"
           required
           error={highlight && !code}
+          disabled={!editable}
         />
         <TextField
           sx={{ flexGrow: 10 }}
@@ -142,6 +144,7 @@ export function GameEventPane(props: PropsType) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="The Darkwood Webs"
+          disabled={!editable}
         />
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
@@ -149,6 +152,7 @@ export function GameEventPane(props: PropsType) {
             format="yyyy/MM/dd"
             value={date}
             onChange={setDate}
+            disabled={!editable}
           />
         </LocalizationProvider>
       </Box>
@@ -160,6 +164,7 @@ export function GameEventPane(props: PropsType) {
           onChange={(e) => setDMName(e.target.value)}
           required
           error={highlight && !dmName}
+          disabled={!editable}
         />
         <TextField
           sx={{ flexGrow: 1 }}
@@ -167,6 +172,7 @@ export function GameEventPane(props: PropsType) {
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           placeholder="Triden Games"
+          disabled={!editable}
         />
       </Box>
 
@@ -183,6 +189,7 @@ export function GameEventPane(props: PropsType) {
           maxRows={4}
           label="Game notes"
           placeholder="Enter any important additional information about this game"
+          disabled={!editable}
         />
       </Box>
       <Divider sx={{ width: "95%", margin: "auto" }}>
@@ -191,7 +198,7 @@ export function GameEventPane(props: PropsType) {
 
       <Box sx={{ ...row, justifyContent: "space-around" }}>
         <StatsWidget
-          locked={false}
+          locked={!editable}
           allowNegative
           name="Gold"
           icon={<GiTwoCoins />}
@@ -202,14 +209,18 @@ export function GameEventPane(props: PropsType) {
         <FormGroup>
           <FormControlLabel
             control={
-              <Checkbox checked={level} onChange={() => setLevel(!level)} />
+              <Checkbox
+                checked={level}
+                onChange={() => setLevel(!level)}
+                disabled={!editable}
+              />
             }
             label="Level Gained"
           />
         </FormGroup>
 
         <StatsWidget
-          locked={false}
+          locked={!editable}
           allowNegative
           name="Downtime"
           icon={<DowntimeIcon fontSize="small" />}
@@ -236,7 +247,7 @@ export function GameEventPane(props: PropsType) {
 
       <Button
         startIcon={<AddIcon />}
-        disabled={!!existingGame}
+        disabled={!!existingGame || !editable}
         variant="outlined"
         size="small"
         fullWidth
@@ -251,20 +262,22 @@ export function GameEventPane(props: PropsType) {
         </Tooltip>
       </Box>
 
-      <Box
-        display="flex"
-        onMouseOver={() => setHighlight(true)}
-        onMouseOut={() => setHighlight(false)}
-      >
-        <Button
-          variant="contained"
-          sx={{ width: "60%", margin: "auto" }}
-          disabled={!code || !dmName}
-          onClick={handleSubmit}
+      {editable && (
+        <Box
+          display="flex"
+          onMouseOver={() => setHighlight(true)}
+          onMouseOut={() => setHighlight(false)}
         >
-          {!!existingGame ? "Update" : "Create Game"}
-        </Button>
-      </Box>
+          <Button
+            variant="contained"
+            sx={{ width: "60%", margin: "auto" }}
+            disabled={!code || !dmName || !editable}
+            onClick={handleSubmit}
+          >
+            {!!existingGame ? "Update" : "Create Game"}
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
