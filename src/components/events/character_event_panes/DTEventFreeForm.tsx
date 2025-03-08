@@ -5,8 +5,7 @@ import { useState } from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { TextField, Divider } from "@mui/material";
-import { Box, Typography, Button } from "@mui/material";
+import { TextField, Box, Button } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
