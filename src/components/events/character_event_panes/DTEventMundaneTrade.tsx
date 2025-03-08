@@ -26,7 +26,7 @@ export function DTEventMundaneTrade(props: PropsType) {
   const { onClose, characterUUID, event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createEvent } = useEvents(characterUUID);
+  const { createEvent, updateEvent } = useEvents(characterUUID);
 
   const [gold, setGold] = useState(event ? event.gold_change : 0);
   const [profit, setProfit] = useState(event ? event.gold_change > 0 : false);
@@ -37,21 +37,32 @@ export function DTEventMundaneTrade(props: PropsType) {
   );
 
   const editable = event ? event.editable : true;
+  const isNewEvent = !event;
 
   const handleSubmit = () => {
     let goldChange = gold * (profit ? 1 : -1);
 
-    createEvent({
+    const data = {
       event_type: "dt_mtrade",
       gold_change: goldChange,
       sold: sold,
       purchased: purchased,
-    })
-      .then((_response) => {
-        displayMessage("Merchant trade added to log", "success");
-        onClose && onClose();
-      })
-      .catch(() => displayMessage("Error creating event", "error"));
+    } as MundaneTradeEvent;
+    if (isNewEvent) {
+      createEvent(data)
+        .then(() => {
+          displayMessage("Merchant trade added to log", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    } else {
+      updateEvent({ ...event, ...data })
+        .then(() => {
+          displayMessage("Updated merchant trade event", "success");
+          onClose && onClose();
+        })
+        .catch((error) => displayMessage(error.response.data.message, "error"));
+    }
   };
 
   return (
@@ -131,14 +142,16 @@ export function DTEventMundaneTrade(props: PropsType) {
         maxRows={5}
       />
 
-      <Button
-        variant="contained"
-        sx={{ width: "60%", margin: "auto" }}
-        disabled={(!sold && !purchased) || !editable}
-        onClick={handleSubmit}
-      >
-        Add merchant visit
-      </Button>
+      {editable && (
+        <Button
+          variant="contained"
+          disabled={!purchased && !sold}
+          sx={{ width: "60%", margin: "auto" }}
+          onClick={handleSubmit}
+        >
+          {isNewEvent ? "Add merchant visit" : "Update event"}
+        </Button>
+      )}
     </Box>
   );
 }

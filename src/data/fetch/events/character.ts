@@ -40,9 +40,13 @@ function updateEventFn(event: Partial<AnyEvent>) {
     case "game":
       return api.patch(`/api/data/game/${event.uuid}`, event);
     case "dt_mtrade":
+      return api.patch(`/api/data/mundanetrade/${event.uuid}`, event);
     case "dt_catchingup":
+      return api.patch(`/api/data/catchingup/${event.uuid}`, event);
     case "dt_sbookupd":
+      return api.patch(`/api/data/spellbook_update/${event.uuid}`, event);
     case "dt_freeform":
+      return api.patch(`/api/data/freeform/${event.uuid}`, event);
     default:
       return Promise.resolve(null);
   }
