@@ -24,7 +24,7 @@ type PropsType = {
 };
 
 export function DTEventSpellBookUpdate(props: PropsType) {
-  const { onClose, downtime: dtAvailable, characterUUID, event } = props;
+  const { onClose, characterUUID, event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
