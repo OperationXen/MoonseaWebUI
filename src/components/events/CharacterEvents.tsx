@@ -13,9 +13,9 @@ import { useEvents } from "@/data/fetch/events/character";
 import useSnackbar from "@/data/store/snackbar";
 import CreateCharacterEvent from "./CreateCharacterEvent";
 import { EventViewModal } from "./details/EventViewModal";
-import { getDateString } from "@/utils/format";
-import { getEventTypeName } from "@/utils/events";
 import ConfirmEventDelete from "./ConfirmEventDelete";
+import { getDateString } from "@/utils/format";
+import { getEventName } from "@/utils/events";
 import EditEvent from "./EditEvent";
 
 import type { UUID } from "@/types/uuid";
@@ -46,10 +46,7 @@ export default function CharacterEvents(props: PropsType) {
     if (!event) return;
     setDeleteConfirmEvent(undefined);
     deleteEvent(event).then(() => {
-      displayMessage(
-        `${getEventTypeName(event.event_type)} event deleted`,
-        "info",
-      );
+      displayMessage(`${getEventName(event)} event deleted`, "info");
     });
   };
 
@@ -83,7 +80,7 @@ export default function CharacterEvents(props: PropsType) {
     );
   };
   const rowEventType = (_et: EventType, value: AnyEvent) => {
-    return getEventTypeName(value.event_type);
+    return getEventName(value);
   };
   const rowDate = (dt: string) => {
     return getDateString(new Date(dt));
@@ -109,6 +106,8 @@ export default function CharacterEvents(props: PropsType) {
       if (value.source)
         return `Copied spells to spellbook from ${value.source}`;
       return "Updated Spellbook";
+    } else if (value.event_type === "dt_freeform") {
+      return value.details;
     }
   };
 
