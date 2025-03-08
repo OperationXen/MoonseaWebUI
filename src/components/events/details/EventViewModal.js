@@ -6,7 +6,7 @@ import { EventDetailsCatchingUp } from "./EventDetailsCatchingUp";
 import { EventDetailsDMReward } from "./EventDetailsDMReward";
 import { EventDetailsGame } from "./EventDetailsGame";
 import { getDateString } from "@/utils/format";
-import { getEventTypeName } from "@/utils/events";
+import { getEventName } from "@/utils/events";
 
 export function EventViewModal(props) {
   const { data, setData } = props;
@@ -50,7 +50,7 @@ export function EventViewModal(props) {
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h5" marginLeft="0.4em">
-          {getEventTypeName(data?.event_type)}
+          {getEventName(data)}
         </Typography>
         <Typography variant="h5" marginRight="0.4em">
           {getDateString(data?.datetime)}

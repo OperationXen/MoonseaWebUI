@@ -4,6 +4,7 @@ import type { UUID } from "./uuid";
 export type EventType =
   | "game"
   | "dm_reward"
+  | "dt_freeform"
   | "dt_sbookupd"
   | "dt_mtrade"
   | "dt_catchingup";
@@ -13,7 +14,13 @@ export type CharacterEvent = {
   uuid: UUID;
   character_uuid: UUID;
   event_type: EventType;
-  datetime: Date | null;
+  datetime: Date;
+  editable: boolean;
+};
+
+export type FreeFormEvent = CharacterEvent & {
+  title: string;
+  details: string;
 };
 
 export type CatchingUpEvent = CharacterEvent & {
@@ -47,6 +54,7 @@ export type GameEvent = CharacterEvent & {
 };
 
 export type AnyEvent = GameEvent &
+  FreeFormEvent &
   MundaneTradeEvent &
   SpellBookUpdateEvent &
   CatchingUpEvent;

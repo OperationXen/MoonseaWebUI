@@ -12,6 +12,7 @@ import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import GameEventPane from "./character_event_panes/GameEventPane";
 import DTEventSpellBookUpdatePname from "./character_event_panes/DTEventSpellbookUpdate";
 import DTEventMundaneTrade from "./character_event_panes/DTEventMundaneTrade";
+import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import DTCatchupEvent from "./character_event_panes/DTCatchupEvent";
 
 import type { UUID } from "@/types/uuid";
@@ -68,8 +69,9 @@ export default function CreateCharacterEvent(props: PropsType) {
           >
             <Divider>Quick select</Divider>
             <MenuItem value="game">Played a game</MenuItem>
+            <MenuItem value="dt_freeform">Add generic event</MenuItem>
+            <Divider>Common downtime activities</Divider>
             <MenuItem value="dt_mtrade">Visited merchant</MenuItem>
-            <Divider>Downtime activities</Divider>
             <MenuItem value="dt_catchingup" disabled={downtime < 10}>
               Catching up (gain a level)
             </MenuItem>
@@ -92,6 +94,9 @@ export default function CreateCharacterEvent(props: PropsType) {
       </Box>
       {event === "game" && (
         <GameEventPane characterUUID={characterUUID} onClose={handleClose} />
+      )}
+      {event === "dt_freeform" && (
+        <DTEventFreeForm characterUUID={characterUUID} onClose={handleClose} />
       )}
       {event === "dt_mtrade" && (
         <DTEventMundaneTrade

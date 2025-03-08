@@ -26,6 +26,8 @@ function createEventFn(char: UUID, event: Partial<AnyEvent>) {
       return api.post("/api/data/catchingup", event);
     case "dt_sbookupd":
       return api.post("/api/data/spellbook", event);
+    case "dt_freeform":
+      return api.post("/api/data/freeform", event);
     case "game":
       return api.post("/api/data/game", event);
     default:
@@ -40,6 +42,7 @@ function updateEventFn(event: Partial<AnyEvent>) {
     case "dt_mtrade":
     case "dt_catchingup":
     case "dt_sbookupd":
+    case "dt_freeform":
     default:
       return Promise.resolve(null);
   }
@@ -53,6 +56,8 @@ function deleteEventFn(event: AnyEvent, characterUUID: UUID) {
       return api.delete(`/api/data/catchingup/${event.uuid}`);
     case "dt_sbookupd":
       return api.delete(`/api/data/spellbook/${event.uuid}`);
+    case "dt_freeform":
+      return api.delete(`/api/data/freeform/${event.uuid}`);
     case "game":
       // remove the specified character from the game
       return api.post(`/api/data/game/${event.uuid}/remove_character`, {
