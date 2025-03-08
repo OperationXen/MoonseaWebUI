@@ -1,11 +1,18 @@
 import React from "react";
 
-import { Dialog, Box, Typography } from "@mui/material";
+import { Dialog, DialogTitle, Typography, DialogContent } from "@mui/material";
 
+import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
+import DTEventMundaneTrade from "./character_event_panes/DTEventMundaneTrade";
+import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
+import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 import GameEventPane from "./character_event_panes/GameEventPane";
+import { getEventName } from "@/utils/events";
 
 import type { UUID } from "@/types/uuid";
-import type { AnyEvent, GameEvent } from "@/types/events";
+import type { MundaneTradeEvent, FreeFormEvent } from "@/types/events";
+import type { SpellBookUpdateEvent } from "@/types/events";
+import type { AnyEvent, GameEvent, CatchingUpEvent } from "@/types/events";
 
 type PropsType = {
   characterUUID: UUID;
@@ -26,16 +33,14 @@ export function CharacterEventModal(props: PropsType) {
           border: "2px solid black",
           borderRadius: "16px",
           boxShadow: "2px 2px 60px black",
-          padding: "1.2em",
-          display: "flex",
-          flexDirection: "column",
         },
       }}
     >
-      <Typography variant="h4" marginLeft="0.4em">
-        {"Edit existing event"}
-      </Typography>
-      <Box>
+      <DialogTitle>
+        <Typography variant="h5">{getEventName(event)}</Typography>
+      </DialogTitle>
+
+      <DialogContent>
         {event?.event_type === "game" && (
           <GameEventPane
             existingGame={event as GameEvent}
@@ -43,7 +48,35 @@ export function CharacterEventModal(props: PropsType) {
             onClose={onClose}
           />
         )}
-      </Box>
+        {event?.event_type === "dt_freeform" && (
+          <DTEventFreeForm
+            existingEvent={event as FreeFormEvent}
+            characterUUID={characterUUID}
+            onClose={onClose}
+          />
+        )}
+        {event?.event_type === "dt_mtrade" && (
+          <DTEventMundaneTrade
+            existingEvent={event as MundaneTradeEvent}
+            characterUUID={characterUUID}
+            onClose={onClose}
+          />
+        )}
+        {event?.event_type === "dt_catchingup" && (
+          <DTEventCatchup
+            existingEvent={event as CatchingUpEvent}
+            characterUUID={characterUUID}
+            onClose={onClose}
+          />
+        )}
+        {event?.event_type === "dt_sbookupd" && (
+          <DTEventSpellBookUpdate
+            existingEvent={event as SpellBookUpdateEvent}
+            characterUUID={characterUUID}
+            onClose={onClose}
+          />
+        )}
+      </DialogContent>
     </Dialog>
   );
 }
