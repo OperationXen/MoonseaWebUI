@@ -28,7 +28,7 @@ type PropsType = {
   editable: boolean;
 };
 
-export default function CharacterEvents(props: PropsType) {
+export default function CharacterEventGrid(props: PropsType) {
   const { characterUUID, characterName, downtime, editable } = props;
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { data: events, deleteEvent } = useEvents(characterUUID);
@@ -50,35 +50,36 @@ export default function CharacterEvents(props: PropsType) {
     });
   };
 
-  const getRowActions = (params: GridRenderCellParams<AnyEvent>) => {
-    if (!editable) return null;
+  const getRowActions = (p: GridRenderCellParams<AnyEvent>) => {
+    const event = p.row;
 
-    return (
-      <Box>
-        <IconButton
-          onClick={() => {
-            handleOpenEventDetails(params);
-          }}
-        >
-          <VisibilityIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => setEditEvent(params.row)}
-          disabled={params.row.event_type !== "game"}
-        >
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          disabled={params.row.event_type === "dm_reward"}
-          onClick={() => {
-            setDeleteConfirmEvent(params.row);
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </Box>
-    );
+    if (event.editable) {
+      return (
+        <Box className="flex justify-end w-full">
+          <IconButton onClick={() => setEditEvent(event)}>
+            {(event.editable && <EditIcon />) || <VisibilityIcon />}
+          </IconButton>
+          <IconButton
+            disabled={p.row.event_type === "dm_reward"}
+            onClick={() => {
+              setDeleteConfirmEvent(p.row);
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      );
+    } else {
+      return (
+        <Box className="flex justify-end w-full">
+          <IconButton onClick={() => setEditEvent(event)}>
+            <VisibilityIcon />
+          </IconButton>
+        </Box>
+      );
+    }
   };
+
   const rowEventType = (_et: EventType, value: AnyEvent) => {
     return getEventName(value);
   };
