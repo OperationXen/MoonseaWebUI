@@ -21,6 +21,9 @@ export type CharacterEvent = {
 export type FreeFormEvent = CharacterEvent & {
   title: string;
   details: string;
+  gold_change: number;
+  downtime_change: number;
+  auto_apply?: boolean;
 };
 
 export type CatchingUpEvent = CharacterEvent & {
