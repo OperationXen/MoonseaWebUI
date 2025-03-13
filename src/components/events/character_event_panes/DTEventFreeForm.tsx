@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 
+import { GiTwoCoins, GiBed } from "react-icons/gi";
+
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { TextField, Box, Button } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
+import { useCharacter } from "@/data/fetch/character";
+import StatsWidget from "@/components/characters/StatsWidget";
 
 import type { UUID } from "@/types/uuid";
 import type { FreeFormEvent } from "@/types/events";
@@ -24,9 +29,13 @@ export function DTEventFreeForm(props: PropsType) {
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
+  const { refreshCharacter } = useCharacter(characterUUID);
 
+  const [autoApply, setAutoApply] = useState(false);
   const [title, setTitle] = useState(event ? event.title : "");
   const [details, setDetails] = useState(event ? event.details : "");
+  const [gold, setGold] = useState(event ? event.gold_change : 0);
+  const [downtime, setDowntime] = useState(event ? event.downtime_change : 0);
   const [datetime, setDatetime] = useState<Date | null>(
     event ? new Date(event.datetime) : new Date(),
   );
@@ -39,16 +48,22 @@ export function DTEventFreeForm(props: PropsType) {
       event_type: "dt_freeform",
       title: title,
       details: details,
+      gold_change: gold,
+      downtime_change: downtime,
+      auto_apply: autoApply,
       datetime: datetime ?? undefined,
     } as FreeFormEvent;
 
     if (isNewEvent) {
       createEvent(data)
         .then(() => {
+          if (autoApply) refreshCharacter();
           displayMessage("Generic event added to log", "success");
           onClose && onClose();
         })
-        .catch((error) => displayMessage(error.response.data.message, "error"));
+        .catch((error) => {
+          displayMessage(error.response.data.message, "error");
+        });
     } else {
       updateEvent({ ...event, ...data })
         .then(() => {
@@ -86,6 +101,36 @@ export function DTEventFreeForm(props: PropsType) {
         placeholder="Generic event"
         required
       />
+
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <StatsWidget
+          value={gold}
+          setValue={setGold}
+          name="Gold"
+          icon={<GiTwoCoins />}
+          allowNegative
+        />
+        <Box>
+          <FormControlLabel
+            label="Apply changes to character"
+            labelPlacement="top"
+            control={
+              <Checkbox
+                checked={autoApply}
+                onChange={() => setAutoApply(!autoApply)}
+                disabled={!isNewEvent}
+              />
+            }
+          />
+        </Box>
+        <StatsWidget
+          value={downtime}
+          setValue={setDowntime}
+          name="Downtime"
+          icon={<GiBed />}
+          allowNegative
+        />
+      </Box>
 
       <TextField
         value={details}
