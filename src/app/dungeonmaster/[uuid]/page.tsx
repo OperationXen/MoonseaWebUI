@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
 import { Grid, Box, ButtonGroup, Button } from "@mui/material";
@@ -24,10 +24,14 @@ export default function DMPage() {
   const { data: userStatus, isLoading } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
-  const [serviceHours, setServiceHours] = useState(0);
+  const [serviceHours, setServiceHours] = useState(userStatus?.dmHours || 0);
   const [hoursChanged, setHoursChanged] = useState(false);
 
   const allowUpdates = !!(uuid && uuid === userStatus?.dmUUID);
+
+  useEffect(() => {
+    if (userStatus?.dmHours) setServiceHours(userStatus?.dmHours);
+  }, [userStatus]);
 
   const updateServiceHours = (val: number) => {
     setHoursChanged(true);
@@ -41,6 +45,10 @@ export default function DMPage() {
         displayMessage("DM Log updated", "success");
       });
     }
+  };
+
+  const handleChange = (hours: number) => {
+    setServiceHours(serviceHours - hours);
   };
 
   return (
@@ -134,6 +142,7 @@ export default function DMPage() {
             allowUpdates={allowUpdates}
             dmUUID={uuid as UUID}
             hours={serviceHours}
+            onChange={handleChange}
           />
         </Grid>
 
