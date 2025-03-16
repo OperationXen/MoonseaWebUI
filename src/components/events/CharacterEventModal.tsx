@@ -3,14 +3,14 @@ import React from "react";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
-import DTEventMundaneTrade from "./character_event_panes/DTEventMerchantVisit";
+import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 import GameEventPane from "./character_event_panes/GameEventPane";
 import { getEventName } from "@/utils/events";
 
 import type { UUID } from "@/types/uuid";
-import type { MundaneTradeEvent, FreeFormEvent } from "@/types/events";
+import type { FreeFormEvent } from "@/types/events";
 import type { SpellBookUpdateEvent } from "@/types/events";
 import type { AnyEvent, GameEvent, CatchingUpEvent } from "@/types/events";
 
@@ -54,8 +54,8 @@ export function CharacterEventModal(props: PropsType) {
           />
         )}
         {event?.event_type === "dt_mtrade" && (
-          <DTEventMundaneTrade
-            event={event as MundaneTradeEvent}
+          <DTEventMerchantVisit
+            event={event as FreeFormEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />
