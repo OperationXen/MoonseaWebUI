@@ -15,6 +15,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import useSnackbar from "@/data/store/snackbar";
 import StatsWidget from "@/components/characters/StatsWidget";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
+import { PartyMember } from "./PartyMember";
 import { useEvents } from "@/data/fetch/events/character";
 
 import type { UUID } from "@/types/uuid";
@@ -175,6 +176,22 @@ export function GameEventPane(props: PropsType) {
           disabled={!editable}
         />
       </Box>
+
+      {existingGame?.characters && (
+        <Box sx={{ flexFlow: "row wrap", gap: "4px" }}>
+          <Divider>Party</Divider>
+          {existingGame?.characters?.map((partyMember) => {
+            return (
+              <PartyMember
+                data={partyMember}
+                onClick={() => {
+                  onClose();
+                }}
+              />
+            );
+          })}
+        </Box>
+      )}
 
       <Divider sx={{ width: "95%", margin: "auto" }}>
         <Typography>Notes</Typography>

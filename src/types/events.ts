@@ -44,6 +44,11 @@ export type MundaneTradeEvent = CharacterEvent & {
   purchased?: string;
 };
 
+export type PartyMember = {
+  name: string;
+  uuid: UUID;
+};
+
 export type GameEvent = CharacterEvent & {
   name: string;
   dm_name: string;
@@ -54,6 +59,7 @@ export type GameEvent = CharacterEvent & {
   levels: number;
   items: Partial<MagicItem>[];
   notes: string;
+  characters?: PartyMember[];
 };
 
 export type AnyEvent = GameEvent &
