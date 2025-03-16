@@ -19,10 +19,11 @@ type PropsType = {
   allowUpdates: boolean;
   dmUUID: UUID;
   hours: number;
+  onChange: (hours: number) => void;
 };
 
 export default function SeasonRewards(props: PropsType) {
-  const { allowUpdates, dmUUID, hours } = props;
+  const { allowUpdates, dmUUID, hours, onChange } = props;
 
   const [rewards, setRewards] = useState<DMServiceReward[]>(
     rewardData12e as DMServiceReward[],
@@ -30,10 +31,6 @@ export default function SeasonRewards(props: PropsType) {
   const [selectedReward, setSelectedReward] = useState<DMServiceReward>();
   const [selectRewardOpen, setSelectRewardOpen] = useState(false);
   const [season, setSeason] = useState("12e");
-
-  const onChange = () => {
-    //TODO: invalidate state
-  };
 
   useEffect(() => {
     if (season === "11a") setRewards(rewardData11a as DMServiceReward[]);
@@ -87,7 +84,7 @@ export default function SeasonRewards(props: PropsType) {
         onClose={() => setSelectRewardOpen(false)}
         dmUUID={dmUUID}
         data={selectedReward}
-        onChange={onChange}
+        onChange={() => onChange(selectedReward?.cost || 0)}
       />
     </React.Fragment>
   );
