@@ -13,6 +13,8 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import useSnackbar from "@/data/store/snackbar";
 import { useEvents } from "@/data/fetch/events/character";
 import { useCharacter } from "@/data/fetch/character";
+import { useConsumables } from "@/data/fetch/items/consumables";
+
 import ConsumableItem from "@/components/items/consumables/ConsumableItem";
 import StatsWidget from "@/components/characters/StatsWidget";
 import MerchantQuickPicks from "./MerchantQuickPicks";
@@ -33,8 +35,9 @@ export function DTEventMerchantVisit(props: PropsType) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
   const { refreshCharacter } = useCharacter(characterUUID);
+  const { createConsumable } = useConsumables(characterUUID);
 
-  const [autoApply, setAutoApply] = useState(false);
+  const [autoApply, setAutoApply] = useState(true);
   const [title, setTitle] = useState(event ? event.title : "Visited Merchant");
   const [details, setDetails] = useState(event ? event.details : "");
   const [gold, setGold] = useState(event ? event.gold_change : 0);
@@ -70,6 +73,9 @@ export function DTEventMerchantVisit(props: PropsType) {
         .catch((error) => {
           displayMessage(error.response.data.message, "error");
         });
+      consumables.map((c) => {
+        createConsumable(c);
+      });
     } else {
       updateEvent({ ...event, ...data })
         .then(() => {
@@ -88,6 +94,7 @@ export function DTEventMerchantVisit(props: PropsType) {
     setGold(gold - c.cost);
     setDetails([details, c.name].join(details ? ", " : ""));
     setConsumables([...consumables, makeConsumable(c)]);
+    setConsumablesOpen(false);
   };
 
   return (
@@ -170,7 +177,7 @@ export function DTEventMerchantVisit(props: PropsType) {
         label="Other Details (Optional)"
         disabled={!editable}
         onChange={(e) => setDetails(e.target.value)}
-        placeholder="Add details of your event here"
+        placeholder="Add any other details here"
         multiline
         minRows={2}
         maxRows={6}

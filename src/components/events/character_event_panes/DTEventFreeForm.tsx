@@ -31,7 +31,7 @@ export function DTEventFreeForm(props: PropsType) {
   const { createEvent, updateEvent } = useEvents(characterUUID);
   const { refreshCharacter } = useCharacter(characterUUID);
 
-  const [autoApply, setAutoApply] = useState(false);
+  const [autoApply, setAutoApply] = useState(true);
   const [title, setTitle] = useState(event ? event.title : "");
   const [details, setDetails] = useState(event ? event.details : "");
   const [gold, setGold] = useState(event ? event.gold_change : 0);
