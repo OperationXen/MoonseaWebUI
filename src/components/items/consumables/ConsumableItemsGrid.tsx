@@ -11,6 +11,7 @@ import TextsmsIcon from "@mui/icons-material/Textsms";
 import { Box, Checkbox, IconButton, Typography, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
+import { useCharacter } from "@/data/fetch/character";
 import { useConsumables } from "@/data/fetch/items/consumables";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/data/store/snackbar";
@@ -33,14 +34,12 @@ export function ConsumableItemsGrid(props: PropsType) {
   const { characterUUID } = props;
 
   const { displayMessage } = useSnackbar();
-  const {
-    data: consumableItems,
-    updateConsumable,
-    deleteConsumable,
-  } = useConsumables(characterUUID);
+  const { data: characterData } = useCharacter(characterUUID);
+  const { updateConsumable, deleteConsumable } = useConsumables(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editConsumable, setEditConsumable] = useState<Consumable | null>(null);
+  const consumableItems = characterData?.consumables;
 
   const renderEquipped = (p: GridRenderCellParams<Consumable>) => {
     return (
