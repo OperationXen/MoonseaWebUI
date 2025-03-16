@@ -121,6 +121,9 @@ export function useConsumables(characterUUID: UUID) {
       queryClient.invalidateQueries({
         queryKey: queryKey,
       });
+      queryClient.invalidateQueries({
+        queryKey: ["character", characterUUID],
+      });
     },
   });
   const deleteConsumable = useMutation({
@@ -129,6 +132,9 @@ export function useConsumables(characterUUID: UUID) {
     onSettled: (_newConsumable) => {
       queryClient.invalidateQueries({
         queryKey: queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["character", characterUUID],
       });
     },
     // optimistic update
@@ -163,6 +169,9 @@ export function useConsumables(characterUUID: UUID) {
     onSettled: (_newConsumable) => {
       queryClient.invalidateQueries({
         queryKey: queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["character", characterUUID],
       });
     },
     // If the mutation fails, use the context we returned above
