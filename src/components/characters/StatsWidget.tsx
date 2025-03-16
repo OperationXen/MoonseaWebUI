@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { InputBase, Divider, Typography, IconButton } from "@mui/material";
 import { Box, Grid } from "@mui/material";
@@ -26,6 +26,10 @@ export function StatsWidget(props: PropsType) {
 
   const [active, setActive] = useState(false);
   const [text, setText] = useState(value?.toString());
+
+  useEffect(() => {
+    setText(value?.toString());
+  }, [value, setText]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (locked) return;
