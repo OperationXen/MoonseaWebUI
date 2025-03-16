@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 
-import {
-  Dialog,
-  Box,
-  Divider,
-  FormControl,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Dialog, Box, Divider } from "@mui/material";
+import { FormControl, SelectChangeEvent } from "@mui/material";
 import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import GameEventPane from "./character_event_panes/GameEventPane";
 import DTEventSpellBookUpdatePname from "./character_event_panes/DTEventSpellbookUpdate";
-import DTEventMundaneTrade from "./character_event_panes/DTEventMundaneTrade";
+import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 
@@ -42,13 +37,14 @@ export default function CreateCharacterEvent(props: PropsType) {
       onClose={handleClose}
       PaperProps={{
         sx: {
-          width: "40em",
+          minWidth: "42em",
           border: "2px solid black",
           borderRadius: "16px",
           boxShadow: "2px 2px 60px black",
           padding: "1.2em",
           display: "flex",
           flexDirection: "column",
+          overflow: "hidden",
         },
       }}
     >
@@ -110,7 +106,7 @@ export default function CreateCharacterEvent(props: PropsType) {
           <Divider sx={{ width: "95%", margin: "auto" }}>
             <Typography>Merchant Visit Details</Typography>
           </Divider>
-          <DTEventMundaneTrade
+          <DTEventMerchantVisit
             characterUUID={characterUUID}
             onClose={handleClose}
           />

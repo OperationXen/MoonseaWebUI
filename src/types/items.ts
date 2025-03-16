@@ -51,3 +51,12 @@ export type AdventuringGear = {
   cost?: number;
   weight?: number;
 };
+
+export type PredefConsumable = {
+  name: string;
+  type: ConsumableType;
+  rarity: Rarity;
+  charges: number;
+  description: string;
+  cost: number;
+};

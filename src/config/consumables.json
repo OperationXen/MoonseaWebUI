@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Potion of Healing",
+    "type": "potion",
+    "rarity": "common",
+    "description": "Drink to recover 2d4 + 2 HP",
+    "charges": 1,
+    "cost": 25
+  },
+  {
+    "name": "Potion of Healing (Greater)",
+    "type": "potion",
+    "rarity": "uncommon",
+    "description": "Drink to recover 4d4 + 4 HP",
+    "charges": 1,
+    "cost": 100
+  },
+  {
+    "name": "Potion of Healing (Superior)",
+    "type": "potion",
+    "rarity": "rare",
+    "description": "Drink to recover 8d4 + 8 HP",
+    "charges": 1,
+    "cost": 1000
+  },
+  {
+    "name": "Potion of Healing (Supreme)",
+    "type": "potion",
+    "rarity": "veryrare",
+    "description": "Drink to recover 10d4 + 20 HP",
+    "charges": 1,
+    "cost": 10000
+  },
+  {
+    "name": "Potion of Invisibility",
+    "type": "potion",
+    "rarity": "rare",
+    "description": "Become ... invisible",
+    "charges": 1,
+    "cost": 1000
+  },
+  {
+    "name": "Potion of Invulnerability",
+    "type": "potion",
+    "rarity": "rare",
+    "description": "Gain resistance to all damage",
+    "charges": 1,
+    "cost": 1000
+  },
+  {
+    "name": "Revivify",
+    "type": "scroll",
+    "rarity": "uncommon",
+    "description": "Restore a creature that has died in the last minute to life with 1HP",
+    "charges": 1,
+    "cost": 300
+  },
+  {
+    "name": "Death Ward",
+    "type": "scroll",
+    "rarity": "rare",
+    "description": "Prevents a creature from falling below 1HP",
+    "charges": 1,
+    "cost": 2000
+  },
+  {
+    "name": "Haste",
+    "type": "scroll",
+    "rarity": "rare",
+    "description": "Hugely accelerates a creature, granting bonuses to attack",
+    "charges": 1,
+    "cost": 300
+  },
+  {
+    "name": "Find Steed",
+    "type": "scroll",
+    "rarity": "uncommon",
+    "description": "Summons a loyal mount",
+    "charges": 1,
+    "cost": 200
+  },
+  {
+    "name": "Greater Restoration",
+    "type": "scroll",
+    "rarity": "rare",
+    "description": "Removes conditions and effects",
+    "charges": 1,
+    "cost": 3000
+  }
+]
