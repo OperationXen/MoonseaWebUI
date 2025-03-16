@@ -3,7 +3,7 @@ import React from "react";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
-import DTEventMundaneTrade from "./character_event_panes/DTEventMundaneTrade";
+import DTEventMundaneTrade from "./character_event_panes/DTEventMerchantVisit";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 import GameEventPane from "./character_event_panes/GameEventPane";
