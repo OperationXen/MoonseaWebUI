@@ -3,7 +3,7 @@ import { SyntheticEvent } from "react";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { Box, Button, Typography, Divider, Tooltip } from "@mui/material";
 
-import type { Consumable, PredefConsumable } from "@/types/items";
+import type { PredefConsumable } from "@/types/items";
 
 import rawConsumables from "@/config/consumables.json";
 
