@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
 
-import { usePlayerGames } from "@/data/fetch/player-games";
+import { usePlayerGames } from "@/data/fetch/games";
 import { getDateString } from "@/utils/format";
 
 import type { CharacterGames } from "@/types/games";
