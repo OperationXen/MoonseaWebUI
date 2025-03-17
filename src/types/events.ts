@@ -78,6 +78,7 @@ export type ItemEvent = {
   recipient_name?: string;
   exchanged_item?: string;
   dm_name?: string;
+  module?: string;
 };
 
 export type DMEventType = "game" | "dm_reward";

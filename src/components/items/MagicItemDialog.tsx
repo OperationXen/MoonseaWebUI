@@ -15,6 +15,7 @@ import useSnackbar from "@/data/store/snackbar";
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { useMagicItemHistory } from "@/data/fetch/items/magicitems";
 import { getRarityColour } from "@/utils/items";
+import MagicItemOriginSelector from "./MagicItemOriginSelector";
 
 import type { UUID } from "@/types/uuid";
 import type { MagicItem, Rarity } from "@/types/items";
@@ -25,6 +26,11 @@ type PropsType = {
   characterUUID: UUID;
   item: MagicItem | null;
   defaultRarity?: Rarity;
+};
+
+type ItemSource = {
+  item_source_type: string;
+  item_source: string;
 };
 
 export function MagicItemDialog(props: PropsType) {
@@ -43,7 +49,9 @@ export function MagicItemDialog(props: PropsType) {
   const [flavour, setFlavour] = useState("");
   const [attunement, setAttunement] = useState(false);
   const [highlight, setHighlight] = useState(false);
+  const [originGame, setOriginGame] = useState("");
 
+  const isNewItem = !item;
   const nameChanged = item?.name && item.name !== name;
 
   useEffect(() => {
@@ -70,7 +78,7 @@ export function MagicItemDialog(props: PropsType) {
   };
 
   const handleSubmit = () => {
-    let data: Partial<MagicItem> = {
+    let data: Partial<MagicItem & ItemSource> = {
       uuid: item?.uuid || undefined,
       name,
       rarity,
@@ -81,6 +89,12 @@ export function MagicItemDialog(props: PropsType) {
       rp_name: rpName,
       minor_properties: minorProperties,
     };
+
+    if (isNewItem && originGame) {
+      data.item_source_type = "game";
+      data.item_source = originGame;
+    }
+
     if (item) {
       updateItem(data)
         .then(() => {
@@ -114,9 +128,14 @@ export function MagicItemDialog(props: PropsType) {
     }
 
     if (itemOrigin?.event_type === "game") {
-      return (
-        <Typography variant="caption">{`Item found in module: ${itemOrigin.name}`}</Typography>
-      );
+      if (itemOrigin.name) {
+        return (
+          <Typography variant="caption">{`Item found in module: ${itemOrigin.name}`}</Typography>
+        );
+      } else if (itemOrigin.module)
+        return (
+          <Typography variant="caption">{`Item found in module: ${itemOrigin.module}`}</Typography>
+        );
     }
     return <Typography variant="caption">Item origin unknown</Typography>;
   };
@@ -303,9 +322,17 @@ export function MagicItemDialog(props: PropsType) {
               },
             }}
           />
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            {itemOriginText()}
-          </Box>
+          {(isNewItem && (
+            <MagicItemOriginSelector
+              characterUUID={characterUUID}
+              originGame={originGame}
+              setOriginGame={setOriginGame}
+            />
+          )) || (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              {itemOriginText()}
+            </Box>
+          )}
         </AccordionDetails>
       </Accordion>
 
