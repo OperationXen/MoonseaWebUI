@@ -143,7 +143,7 @@ export default function CharacterEventGrid(props: PropsType) {
   return (
     <Paper
       sx={{
-        minHeight: "520px",
+        height: "calc(100vh - 2em)",
         display: "flex",
         flexDirection: "column",
       }}

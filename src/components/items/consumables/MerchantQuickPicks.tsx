@@ -1,6 +1,3 @@
-import { SyntheticEvent } from "react";
-
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { Box, Button, Typography, Divider, Tooltip } from "@mui/material";
 
 import type { PredefConsumable } from "@/types/items";
@@ -8,13 +5,11 @@ import type { PredefConsumable } from "@/types/items";
 import rawConsumables from "@/config/consumables.json";
 
 type PropsType = {
-  open: boolean;
-  onClose: (e: SyntheticEvent) => void;
   addItem: (c: PredefConsumable) => void;
 };
 
 export function MerchantQuickPicks(props: PropsType) {
-  const { open, onClose, addItem } = props;
+  const { addItem } = props;
 
   const consumables = rawConsumables as PredefConsumable[];
   const potions = consumables.filter((c) => c.type === "potion");
@@ -52,23 +47,20 @@ export function MerchantQuickPicks(props: PropsType) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Popular consumables</DialogTitle>
-      <DialogContent>
-        <Divider>Potions</Divider>
-        <Box sx={sectionStyle}>
-          {potions.map((c, index) => {
-            return consumableButton(c, `potion-${index}`);
-          })}
-        </Box>
-        <Divider>Scrolls</Divider>
-        <Box sx={sectionStyle}>
-          {scrolls.map((c, index) => {
-            return consumableButton(c, `scroll-${index}`);
-          })}
-        </Box>
-      </DialogContent>
-    </Dialog>
+    <Box>
+      <Divider>Potions</Divider>
+      <Box sx={sectionStyle}>
+        {potions.map((c, index) => {
+          return consumableButton(c, `potion-${index}`);
+        })}
+      </Box>
+      <Divider>Scrolls</Divider>
+      <Box sx={sectionStyle}>
+        {scrolls.map((c, index) => {
+          return consumableButton(c, `scroll-${index}`);
+        })}
+      </Box>
+    </Box>
   );
 }
 
