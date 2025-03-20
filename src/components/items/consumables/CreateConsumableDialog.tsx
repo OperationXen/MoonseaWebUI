@@ -1,3 +1,7 @@
+"use client";
+
+import { SyntheticEvent } from "react";
+
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { Typography, Divider } from "@mui/material";
 
@@ -8,7 +12,7 @@ import { CustomConsumable } from "./CustomConsumable";
 
 type PropsType = {
   open: boolean;
-  onClose: () => void;
+  onClose: (e: SyntheticEvent) => void;
   addItem: (c: PredefConsumable) => void;
 };
 
