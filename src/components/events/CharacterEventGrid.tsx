@@ -101,7 +101,7 @@ export default function CharacterEventGrid(props: PropsType) {
         return `Copied spells to spellbook from ${value.source}`;
       return "Updated Spellbook";
     } else if (value.event_type === "dt_freeform") {
-      return value.details;
+      return value.details.split("\n")[0];
     }
   };
 
