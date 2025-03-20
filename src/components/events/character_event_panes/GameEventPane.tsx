@@ -121,7 +121,7 @@ export function GameEventPane(props: PropsType) {
           boxShadow: `0 0 4px inset black`,
           display: "flex",
           width: "42em",
-          gap: "0.4em",
+          gap: "8px",
           flexDirection: "column",
           alignItems: "center",
           padding: "1em 2em",

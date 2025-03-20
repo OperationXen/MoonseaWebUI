@@ -7,7 +7,8 @@ export type EventType =
   | "dt_freeform"
   | "dt_sbookupd"
   | "dt_mtrade"
-  | "dt_catchingup";
+  | "dt_catchingup"
+  | "dt_bastion";
 export type ItemEventType = "trade" | "manual" | "edit" | "game" | "dm_reward";
 
 export type CharacterEvent = {

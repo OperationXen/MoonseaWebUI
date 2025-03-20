@@ -13,6 +13,7 @@ import type { UUID } from "@/types/uuid";
 import type { FreeFormEvent } from "@/types/events";
 import type { SpellBookUpdateEvent } from "@/types/events";
 import type { AnyEvent, GameEvent, CatchingUpEvent } from "@/types/events";
+import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
 
 type PropsType = {
   characterUUID: UUID;
@@ -70,6 +71,13 @@ export function CharacterEventModal(props: PropsType) {
         {event?.event_type === "dt_sbookupd" && (
           <DTEventSpellBookUpdate
             event={event as SpellBookUpdateEvent}
+            characterUUID={characterUUID}
+            onClose={onClose}
+          />
+        )}
+        {event?.event_type === "dt_bastion" && (
+          <DTEventBastionTurn
+            event={event as FreeFormEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />

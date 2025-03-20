@@ -73,7 +73,7 @@ export function DTEventSpellBookUpdate(props: PropsType) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: "0.4em",
+        gap: "8px",
         marginTop: "8px",
       }}
     >

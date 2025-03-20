@@ -102,7 +102,7 @@ export function DTEventMerchantVisit(props: PropsType) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: "0.4em",
+        gap: "8px",
         marginTop: "8px",
       }}
     >
@@ -113,6 +113,7 @@ export function DTEventMerchantVisit(props: PropsType) {
           value={datetime}
           onChange={setDatetime}
           disabled={!editable}
+          slotProps={{ textField: { size: "small" } }}
         />
       </LocalizationProvider>
 

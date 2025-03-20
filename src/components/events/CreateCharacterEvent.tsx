@@ -7,6 +7,7 @@ import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 import GameEventPane from "./character_event_panes/GameEventPane";
 import DTEventSpellBookUpdatePname from "./character_event_panes/DTEventSpellbookUpdate";
 import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
+import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 
@@ -76,9 +77,7 @@ export default function CreateCharacterEvent(props: PropsType) {
               Trade magical items
             </MenuItem>
             <Divider>Bastion activities</Divider>
-            <MenuItem value="dt_bastion" disabled>
-              Take bastion turn
-            </MenuItem>
+            <MenuItem value="dt_bastion">Take bastion turn</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -133,6 +132,17 @@ export default function CreateCharacterEvent(props: PropsType) {
             characterUUID={characterUUID}
             onClose={handleClose}
             downtime={downtime}
+          />
+        </React.Fragment>
+      )}
+      {event === "dt_bastion" && (
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
+            <Typography>Bastion turn</Typography>
+          </Divider>
+          <DTEventBastionTurn
+            characterUUID={characterUUID}
+            onClose={handleClose}
           />
         </React.Fragment>
       )}
