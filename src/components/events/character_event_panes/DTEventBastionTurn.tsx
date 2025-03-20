@@ -24,7 +24,7 @@ type PropsType = {
   event?: FreeFormEvent;
 };
 
-export function DTEventFreeForm(props: PropsType) {
+export function DTEventBastionTurn(props: PropsType) {
   const { onClose, characterUUID, event: event } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
@@ -32,10 +32,10 @@ export function DTEventFreeForm(props: PropsType) {
   const { refreshCharacter } = useCharacter(characterUUID);
 
   const [autoApply, setAutoApply] = useState(true);
-  const [title, setTitle] = useState(event ? event.title : "");
+  const [title, setTitle] = useState(event ? event.title : "Bastion turn");
   const [details, setDetails] = useState(event ? event.details : "");
   const [gold, setGold] = useState(event ? event.gold_change : 0);
-  const [downtime, setDowntime] = useState(event ? event.downtime_change : 0);
+  const [downtime, setDowntime] = useState(event ? event.downtime_change : -7);
   const [datetime, setDatetime] = useState<Date | null>(
     event ? new Date(event.datetime) : new Date(),
   );
@@ -58,7 +58,7 @@ export function DTEventFreeForm(props: PropsType) {
       createEvent(data)
         .then(() => {
           if (autoApply) refreshCharacter();
-          displayMessage("Generic event added to log", "success");
+          displayMessage("Bastion event added to log", "success");
           onClose && onClose();
         })
         .catch((error) => {
@@ -97,11 +97,11 @@ export function DTEventFreeForm(props: PropsType) {
       <TextField
         value={title}
         label="Title"
+        size="small"
         disabled={!editable}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Generic event"
         required
-        size="small"
       />
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -159,4 +159,4 @@ export function DTEventFreeForm(props: PropsType) {
   );
 }
 
-export default DTEventFreeForm;
+export default DTEventBastionTurn;

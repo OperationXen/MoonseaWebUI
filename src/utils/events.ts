@@ -15,5 +15,7 @@ export function getEventName(event: AnyEvent | undefined) {
       return "Merchant visit";
     case "dt_catchingup":
       return "Catching up";
+    case "dt_bastion":
+      return "Bastion turn";
   }
 }
