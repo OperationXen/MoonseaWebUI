@@ -20,7 +20,7 @@ type PropsType = {
   consumable: Consumable | null;
 };
 
-export function ConsumableDialog(props: PropsType) {
+export function ConsumableDetailsDialog(props: PropsType) {
   const { open, onClose, characterUUID, consumable } = props;
 
   const { createConsumable, updateConsumable } = useConsumables(characterUUID);
@@ -199,4 +199,4 @@ export function ConsumableDialog(props: PropsType) {
   );
 }
 
-export default ConsumableDialog;
+export default ConsumableDetailsDialog;

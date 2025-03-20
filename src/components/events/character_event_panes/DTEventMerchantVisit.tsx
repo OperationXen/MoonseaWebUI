@@ -17,7 +17,7 @@ import { useConsumables } from "@/data/fetch/items/consumables";
 
 import ConsumableItem from "@/components/items/consumables/ConsumableItem";
 import StatsWidget from "@/components/characters/StatsWidget";
-import MerchantQuickPicks from "./MerchantQuickPicks";
+import CreateConsumableDialog from "../../items/consumables/CreateConsumableDialog";
 
 import type { UUID } from "@/types/uuid";
 import type { FreeFormEvent } from "@/types/events";
@@ -194,7 +194,7 @@ export function DTEventMerchantVisit(props: PropsType) {
         </Button>
       )}
 
-      <MerchantQuickPicks
+      <CreateConsumableDialog
         open={consumablesOpen}
         onClose={(e) => {
           setConsumablesOpen(false);

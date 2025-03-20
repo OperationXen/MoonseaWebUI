@@ -20,7 +20,7 @@ import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
 import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
-import ConsumableDialog from "./ConsumableDialog";
+import ConsumableDetailsDialog from "./ConsumableDetailsDialog";
 
 import type { UUID } from "@/types/uuid";
 import type { Consumable } from "@/types/items";
@@ -197,7 +197,7 @@ export function ConsumableItemsGrid(props: PropsType) {
         }}
         density="compact"
       />
-      <ConsumableDialog
+      <ConsumableDetailsDialog
         open={dialogOpen || !!editConsumable}
         onClose={() => {
           setDialogOpen(false);
