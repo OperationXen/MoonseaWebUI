@@ -178,7 +178,7 @@ export function DTEventMerchantVisit(props: PropsType) {
         label="Other Details (Optional)"
         disabled={!editable}
         onChange={(e) => setDetails(e.target.value)}
-        placeholder="Add any other details here"
+        placeholder="Add details of your event here, only the first line will appear on the grid display"
         multiline
         minRows={2}
         maxRows={6}
