@@ -8,14 +8,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TextsmsIcon from "@mui/icons-material/Textsms";
 import DescriptionIcon from "@mui/icons-material/Description";
 
-import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { Box, Checkbox, IconButton, Button } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridPagination } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/data/store/snackbar";
 
-import CommonItemsGridFooter from "./CommonItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import ConfirmItemDelete from "../ConfirmItemDelete";
 import RarityWidget from "../widgets/RarityWidget";
@@ -30,7 +31,7 @@ type PropsType = {
 };
 
 export function CommonItemsGrid(props: PropsType) {
-  const { characterUUID } = props;
+  const { characterUUID, editable } = props;
 
   const router = useRouter();
   const { displayMessage } = useSnackbar();
@@ -166,15 +167,23 @@ export function CommonItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: CommonItemsGridFooter,
+          footer: () => (
+            <Box
+              className="flex px-1 py-1 h-11 items-center"
+              sx={{ borderTop: "1px solid black" }}
+            >
+              <Button
+                disabled={!editable}
+                sx={{ pointerEvents: "auto" }}
+                variant="outlined"
+                onClick={() => setDialogOpen(true)}
+              >
+                Add common item
+              </Button>
+              <GridPagination className="flex items-center justify-end no-scrollbar overflow-hidden" />
+            </Box>
+          ),
           noRowsOverlay: NoItemsOverlay as any,
-        }}
-        slotProps={{
-          footer: {
-            onClick: () => {
-              setDialogOpen(true);
-            },
-          },
         }}
         density="compact"
       />
