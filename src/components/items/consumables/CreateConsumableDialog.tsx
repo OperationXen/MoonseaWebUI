@@ -21,7 +21,9 @@ export function CreateConsumableDialog(props: PropsType) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add consumable item</DialogTitle>
+      <DialogTitle>
+        <Typography fontSize={22}>Add consumable item</Typography>
+      </DialogTitle>
       <DialogContent>
         <Typography>Quick select</Typography>
         <MerchantQuickPicks addItem={addItem} />

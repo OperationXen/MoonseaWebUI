@@ -18,9 +18,10 @@ import useSnackbar from "@/data/store/snackbar";
 
 import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
 import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
+import ConsumableDetailsDialog from "./ConsumableDetailsDialog";
+import CreateConsumableDialog from "./CreateConsumableDialog";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import RarityWidget from "../widgets/RarityWidget";
-import ConsumableDetailsDialog from "./ConsumableDetailsDialog";
 
 import type { UUID } from "@/types/uuid";
 import type { Consumable } from "@/types/items";
@@ -35,7 +36,8 @@ export function ConsumableItemsGrid(props: PropsType) {
 
   const { displayMessage } = useSnackbar();
   const { data: characterData } = useCharacter(characterUUID);
-  const { updateConsumable, deleteConsumable } = useConsumables(characterUUID);
+  const { updateConsumable, deleteConsumable, createConsumable } =
+    useConsumables(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editConsumable, setEditConsumable] = useState<Consumable | null>(null);
@@ -55,6 +57,16 @@ export function ConsumableItemsGrid(props: PropsType) {
         />
       </Box>
     );
+  };
+
+  const addConsumable = (newConsumable: Partial<Consumable>) => {
+    createConsumable(newConsumable)
+      .then((response) => {
+        displayMessage(`Added ${response.data.name}`, "success");
+      })
+      .catch((_error) => {
+        displayMessage("Error adding consumable to character", "error");
+      });
   };
 
   const getRowActions = (p: GridRenderCellParams<Consumable>) => {
@@ -198,13 +210,21 @@ export function ConsumableItemsGrid(props: PropsType) {
         density="compact"
       />
       <ConsumableDetailsDialog
-        open={dialogOpen || !!editConsumable}
+        open={!!editConsumable}
         onClose={() => {
           setDialogOpen(false);
           setEditConsumable(null);
         }}
         characterUUID={characterUUID}
         consumable={editConsumable}
+      />
+      <CreateConsumableDialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        addItem={(newVal) => {
+          addConsumable(newVal);
+          setDialogOpen(false);
+        }}
       />
     </React.Fragment>
   );
