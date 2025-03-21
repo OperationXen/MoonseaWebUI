@@ -1,5 +1,3 @@
-import React, { useCallback } from "react";
-
 import { IconButton, Typography, Divider, Box } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
@@ -12,6 +10,7 @@ import _classes from "@/config/classes.json";
 
 import type { ClassOptions } from "@/types/classes";
 import type { PlayerClass } from "@/types/character";
+import { SubclassPicker } from "./SubclassPicker";
 
 type PropsType = {
   update: (x: PlayerClass) => void;
@@ -21,19 +20,10 @@ type PropsType = {
   highlight?: boolean;
 };
 
-export default function ClassLevelPickerWidget(props: PropsType) {
+export function ClassLevelPicker(props: PropsType) {
   const { update, deletable, onDelete, data, highlight } = props;
 
   const classOptions = _classes as ClassOptions[];
-
-  const getValidSubclasses = useCallback((className: string) => {
-    if (!className) return [];
-
-    let temp = classOptions.filter((item) => {
-      return item.name === className;
-    });
-    return temp[0].subclasses;
-  }, []);
 
   const setName = (newVal: string) => {
     update({ name: newVal, subclass: "", value: data.value || 1 });
@@ -96,26 +86,12 @@ export default function ClassLevelPickerWidget(props: PropsType) {
         </Select>
       </FormControl>
 
-      <FormControl sx={{ flexBasis: "400px" }}>
-        <InputLabel>Subclass</InputLabel>
-        <Select
-          label="Subclass"
-          sx={{ width: "100%" }}
-          disabled={!data.name}
-          value={data.subclass}
-          onChange={(e) => setSubclass(e.target.value)}
-        >
-          {getValidSubclasses(data.name).map((item, index) => {
-            return (
-              <MenuItem value={item} key={index}>
-                {item}
-              </MenuItem>
-            );
-          })}
-          <Divider />
-          <MenuItem value="">No subclass</MenuItem>
-        </Select>
-      </FormControl>
+      <SubclassPicker
+        sx={{ flexBasis: "400px" }}
+        value={data.subclass}
+        onChange={setSubclass}
+        mainClass={data.name}
+      />
       <Box
         sx={{
           flexBasis: "100px",
@@ -153,3 +129,5 @@ export default function ClassLevelPickerWidget(props: PropsType) {
     </Box>
   );
 }
+
+export default ClassLevelPicker;

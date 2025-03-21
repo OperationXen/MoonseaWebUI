@@ -53,10 +53,7 @@ export type GameEvent = CharacterEvent & {
   characters?: PartyMember[];
 };
 
-export type AnyEvent = GameEvent &
-  FreeFormEvent &
-  MundaneTradeEvent &
-  SpellBookUpdateEvent;
+export type AnyEvent = GameEvent & FreeFormEvent & SpellBookUpdateEvent;
 
 export type ItemEvent = {
   uuid: UUID;

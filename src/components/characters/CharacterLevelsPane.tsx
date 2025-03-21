@@ -4,7 +4,7 @@ import { Box, Button, Typography, Divider } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
-import ClassChipWidget from "./ClassChipWidget";
+import ClassChip from "./classes/ClassChip";
 
 import { useCharacter } from "@/data/fetch/character";
 
@@ -41,7 +41,7 @@ export default function CharacterLevelsPane(props: PropsType) {
     if (classes) {
       retVal = character.classes.map((item, index) => {
         return (
-          <ClassChipWidget
+          <ClassChip
             playerClass={item}
             key={index}
             onClick={() => {

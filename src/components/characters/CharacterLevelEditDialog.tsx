@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { DialogActions, Button, ButtonGroup } from "@mui/material";
-import { Tooltip, Divider, Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 
-import ClassLevelPickerWidget from "./ClassLevelPickerWidget";
+import ClassLevelPicker from "./classes/ClassLevelPicker";
 
 import type { PlayerClass } from "@/types/character";
 
@@ -89,7 +89,7 @@ export default function CharacterLevelEditDialog(props: PropsType) {
       <DialogContent sx={{ width: "100%", padding: "12px" }}>
         {classes.map((existing, index) => {
           return (
-            <ClassLevelPickerWidget
+            <ClassLevelPicker
               key={index}
               deletable={classes.length > 1 && index + 1 === classes.length}
               data={existing}
