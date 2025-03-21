@@ -185,13 +185,6 @@ export function CommonItemsGrid(props: PropsType) {
           ),
           noRowsOverlay: NoItemsOverlay as any,
         }}
-        slotProps={{
-          footer: {
-            onClick: () => {
-              setDialogOpen(true);
-            },
-          },
-        }}
         density="compact"
       />
       <MagicItemDialog
