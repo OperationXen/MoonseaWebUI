@@ -111,6 +111,7 @@ export function DTEventFreeForm(props: PropsType) {
           name="Gold"
           icon={<GiTwoCoins />}
           allowNegative
+          locked={!editable}
         />
         <Box>
           <FormControlLabel
@@ -131,6 +132,7 @@ export function DTEventFreeForm(props: PropsType) {
           name="Downtime"
           icon={<GiBed />}
           allowNegative
+          locked={!editable}
         />
       </Box>
 
