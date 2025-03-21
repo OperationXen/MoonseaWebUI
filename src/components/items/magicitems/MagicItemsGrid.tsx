@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
+
 import { useRouter } from "next/navigation";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -9,8 +10,9 @@ import TextsmsIcon from "@mui/icons-material/Textsms";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
-import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box, Checkbox, IconButton } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridPagination } from "@mui/x-data-grid";
 import { GridRenderCellParams, GridRowParams } from "@mui/x-data-grid";
 
 import { useMagicItems } from "@/data/fetch/items/magicitems";
@@ -18,7 +20,6 @@ import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/data/store/snackbar";
 
 import ItemMarketWidget from "../widgets/ItemMarketWidget";
-import MagicItemsGridFooter from "./MagicItemsGridFooter";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import ConfirmItemDelete from "../ConfirmItemDelete";
 import RarityWidget from "../widgets/RarityWidget";
@@ -33,7 +34,7 @@ type PropsType = {
 };
 
 export function MagicItemsGrid(props: PropsType) {
-  const { characterUUID } = props;
+  const { characterUUID, editable } = props;
 
   const router = useRouter();
   const { displayMessage } = useSnackbar();
@@ -205,17 +206,35 @@ export function MagicItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: MagicItemsGridFooter as any,
+          footer: () => (
+            <Box
+              className="flex px-1 h-11 items-center justify-between"
+              sx={{ borderTop: "1px solid black" }}
+            >
+              <Box>
+                <Button
+                  sx={{ pointerEvents: "auto" }}
+                  disabled={!editable}
+                  variant="outlined"
+                  onClick={() => setDialogOpen(true)}
+                >
+                  Add magic item
+                </Button>
+                <Checkbox
+                  className="ml-4"
+                  checked={hideMarket}
+                  onChange={() => setHideMarket(!hideMarket)}
+                />
+                <Typography className="opacity-70" variant="caption">
+                  Hide items in trading post
+                </Typography>
+              </Box>
+              <GridPagination className="flex items-center justify-end no-scrollbar overflow-hidden" />
+            </Box>
+          ),
           noRowsOverlay: NoItemsOverlay as any,
         }}
         slotProps={{
-          footer: {
-            onClick: () => {
-              setDialogOpen(true);
-            },
-            hideMarket,
-            setHideMarket,
-          } as any,
           noRowsOverlay: {
             additional: "By default items in the trading post are not shown",
           } as any,
