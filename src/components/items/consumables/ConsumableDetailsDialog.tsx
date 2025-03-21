@@ -23,7 +23,7 @@ type PropsType = {
 export function ConsumableDetailsDialog(props: PropsType) {
   const { open, onClose, characterUUID, consumable } = props;
 
-  const { createConsumable, updateConsumable } = useConsumables(characterUUID);
+  const { updateConsumable } = useConsumables(characterUUID);
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [name, setName] = useState<string>("");
@@ -59,27 +59,16 @@ export function ConsumableDetailsDialog(props: PropsType) {
       type: itemType as ConsumableType,
       charges: charges,
     };
-    if (consumable) {
-      updateConsumable(data)
-        .then(() => {
-          displayMessage("Updated", "info");
-          handleClose();
-        })
-        .catch((error) => {
-          displayMessage("Error updating consumable item", "error");
-          console.error(error);
-        });
-    } else {
-      createConsumable(data)
-        .then((response) => {
-          displayMessage(`Added ${response.data.name}`, "success");
-          handleClose();
-        })
-        .catch((error) => {
-          displayMessage("Error adding consumable to character", "error");
-          console.error(error);
-        });
-    }
+
+    updateConsumable(data)
+      .then(() => {
+        displayMessage("Updated", "info");
+        handleClose();
+      })
+      .catch((error) => {
+        displayMessage("Error updating consumable item", "error");
+        console.error(error);
+      });
   };
 
   return (
