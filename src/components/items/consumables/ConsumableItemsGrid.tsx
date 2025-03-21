@@ -9,7 +9,9 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import TextsmsIcon from "@mui/icons-material/Textsms";
 
 import { Box, Checkbox, IconButton, Typography, Tooltip } from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridRenderCellParams, GridPagination } from "@mui/x-data-grid";
 
 import { useCharacter } from "@/data/fetch/character";
 import { useConsumables } from "@/data/fetch/items/consumables";
@@ -17,7 +19,6 @@ import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/data/store/snackbar";
 
 import { ConsumableTypeWidget } from "../widgets/ConsumableTypeWidget";
-import ConsumableItemsGridFooter from "./ConsumableItemsGridFooter";
 import ConsumableDetailsDialog from "./ConsumableDetailsDialog";
 import CreateConsumableDialog from "./CreateConsumableDialog";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
@@ -32,7 +33,7 @@ type PropsType = {
 };
 
 export function ConsumableItemsGrid(props: PropsType) {
-  const { characterUUID } = props;
+  const { characterUUID, editable } = props;
 
   const { displayMessage } = useSnackbar();
   const { data: characterData } = useCharacter(characterUUID);
@@ -197,15 +198,23 @@ export function ConsumableItemsGrid(props: PropsType) {
           },
         }}
         slots={{
-          footer: ConsumableItemsGridFooter,
+          footer: () => (
+            <Box
+              className="flex px-1 py-1 h-11 items-center"
+              sx={{ borderTop: "1px solid black" }}
+            >
+              <Button
+                sx={{ pointerEvents: "auto" }}
+                variant="outlined"
+                disabled={!editable}
+                onClick={() => setDialogOpen(true)}
+              >
+                Add consumable
+              </Button>
+              <GridPagination className="flex items-center justify-end no-scrollbar overflow-hidden" />
+            </Box>
+          ),
           noRowsOverlay: NoItemsOverlay as any,
-        }}
-        slotProps={{
-          footer: {
-            onClick: () => {
-              setDialogOpen(true);
-            },
-          },
         }}
         density="compact"
       />
