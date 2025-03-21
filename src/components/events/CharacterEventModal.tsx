@@ -4,15 +4,15 @@ import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
 import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
+import DTEventCatchingUp from "./character_event_panes/DTEventCatchingUp";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
-import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 import GameEventPane from "./character_event_panes/GameEventPane";
 import { getEventName } from "@/utils/events";
 
 import type { UUID } from "@/types/uuid";
 import type { FreeFormEvent } from "@/types/events";
 import type { SpellBookUpdateEvent } from "@/types/events";
-import type { AnyEvent, GameEvent, CatchingUpEvent } from "@/types/events";
+import type { AnyEvent, GameEvent } from "@/types/events";
 import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
 
 type PropsType = {
@@ -62,8 +62,8 @@ export function CharacterEventModal(props: PropsType) {
           />
         )}
         {event?.event_type === "dt_catchingup" && (
-          <DTEventCatchup
-            event={event as CatchingUpEvent}
+          <DTEventCatchingUp
+            event={event as FreeFormEvent}
             characterUUID={characterUUID}
             onClose={onClose}
           />
