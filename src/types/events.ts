@@ -35,12 +35,6 @@ export type SpellBookUpdateEvent = CharacterEvent & {
   spellsText: string;
 };
 
-export type MundaneTradeEvent = CharacterEvent & {
-  gold_change: number;
-  sold?: string;
-  purchased?: string;
-};
-
 export type PartyMember = {
   name: string;
   uuid: UUID;
