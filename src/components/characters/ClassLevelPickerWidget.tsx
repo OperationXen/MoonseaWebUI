@@ -73,7 +73,7 @@ export default function ClassLevelPickerWidget(props: PropsType) {
         gap: "4px",
       }}
     >
-      <FormControl sx={{ flexGrow: 2 }}>
+      <FormControl sx={{ flexBasis: "300px" }}>
         <InputLabel>Character Class</InputLabel>
         <Select
           label="Character Class"
@@ -96,7 +96,7 @@ export default function ClassLevelPickerWidget(props: PropsType) {
         </Select>
       </FormControl>
 
-      <FormControl sx={{ flexGrow: 2 }}>
+      <FormControl sx={{ flexBasis: "400px" }}>
         <InputLabel>Subclass</InputLabel>
         <Select
           label="Subclass"
@@ -118,12 +118,16 @@ export default function ClassLevelPickerWidget(props: PropsType) {
       </FormControl>
       <Box
         sx={{
-          flexGrow: 1,
+          flexBasis: "100px",
+          flexShrink: 0,
+
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
           padding: "0",
+          border: "1px solid lightgrey",
+          borderRadius: "4px",
         }}
       >
         <Typography variant="caption" sx={{ opacity: "0.8" }}>

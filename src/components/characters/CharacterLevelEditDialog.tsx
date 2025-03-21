@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { Typography, Dialog, Divider } from "@mui/material";
-import { Button, ButtonGroup, Tooltip } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { DialogActions, Button, ButtonGroup } from "@mui/material";
+import { Tooltip, Divider, Typography } from "@mui/material";
 
 import ClassLevelPickerWidget from "./ClassLevelPickerWidget";
 
@@ -68,48 +69,56 @@ export default function CharacterLevelEditDialog(props: PropsType) {
         sx: {
           borderRadius: "8px",
           border: "1px solid black",
-          boxShadow: `0 0 4px inset black`,
+          boxShadow: `0 0 2px inset black`,
           display: "flex",
-          width: "42em",
+          width: "48em",
           flexDirection: "column",
           alignItems: "center",
-          padding: "1em 2em",
         },
       }}
     >
-      <Typography variant="h4" sx={{ alignSelf: "flex-start" }}>
-        Configure class levels
-      </Typography>
-      <Divider sx={{ width: "95%", margin: "0.6em 0" }} />
-      {classes.map((existing, index) => {
-        return (
-          <ClassLevelPickerWidget
-            key={index}
-            deletable={classes.length > 1 && index + 1 === classes.length}
-            data={existing}
-            update={(newVal) => handleUpdate(newVal, index)}
-            onDelete={() => handleDelete(index)}
-            highlight={highlight}
-          />
-        );
-      })}
-      <Tooltip
-        title={blankClasses ? "Cannot have blank classes" : ""}
-        placement="bottom"
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          width: "100%",
+        }}
       >
-        <ButtonGroup>
-          <Button
-            variant="outlined"
-            onClick={handleAddClass}
-            disabled={!!blankClasses}
-          >
-            Add new class
-          </Button>
-          <Button onClick={handleClose} disabled={!!blankClasses}>
-            Save changes
-          </Button>
-        </ButtonGroup>
-      </Tooltip>
+        <Typography variant="h5">Configure class levels</Typography>
+      </DialogTitle>
+      <DialogContent sx={{ width: "100%", padding: "12px" }}>
+        {classes.map((existing, index) => {
+          return (
+            <ClassLevelPickerWidget
+              key={index}
+              deletable={classes.length > 1 && index + 1 === classes.length}
+              data={existing}
+              update={(newVal) => handleUpdate(newVal, index)}
+              onDelete={() => handleDelete(index)}
+              highlight={highlight}
+            />
+          );
+        })}
+      </DialogContent>
+      <DialogActions>
+        <Tooltip
+          title={blankClasses ? "Cannot have blank classes" : ""}
+          placement="bottom"
+        >
+          <ButtonGroup>
+            <Button
+              variant="outlined"
+              onClick={handleAddClass}
+              disabled={!!blankClasses}
+            >
+              Add new class
+            </Button>
+            <Button onClick={handleClose} disabled={!!blankClasses}>
+              Save changes
+            </Button>
+          </ButtonGroup>
+        </Tooltip>
+      </DialogActions>
     </Dialog>
   );
 }
