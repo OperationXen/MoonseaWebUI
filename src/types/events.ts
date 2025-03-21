@@ -27,10 +27,6 @@ export type FreeFormEvent = CharacterEvent & {
   auto_apply?: boolean;
 };
 
-export type CatchingUpEvent = CharacterEvent & {
-  details: string;
-};
-
 export type SpellBookUpdateEvent = CharacterEvent & {
   gold_change: number;
   dm_name: string;
@@ -66,8 +62,7 @@ export type GameEvent = CharacterEvent & {
 export type AnyEvent = GameEvent &
   FreeFormEvent &
   MundaneTradeEvent &
-  SpellBookUpdateEvent &
-  CatchingUpEvent;
+  SpellBookUpdateEvent;
 
 export type ItemEvent = {
   uuid: UUID;

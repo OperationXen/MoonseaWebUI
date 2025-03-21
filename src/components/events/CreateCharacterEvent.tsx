@@ -8,8 +8,8 @@ import GameEventPane from "./character_event_panes/GameEventPane";
 import DTEventSpellBookUpdatePname from "./character_event_panes/DTEventSpellbookUpdate";
 import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
 import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
+import DTEventCatchingUp from "./character_event_panes/DTEventCatchingUp";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
-import DTEventCatchup from "./character_event_panes/DTEventCatchup";
 
 import type { UUID } from "@/types/uuid";
 import type { EventType } from "@/types/events";
@@ -116,10 +116,9 @@ export default function CreateCharacterEvent(props: PropsType) {
           <Divider sx={{ width: "95%", margin: "auto" }}>
             <Typography>Event Details</Typography>
           </Divider>
-          <DTEventCatchup
+          <DTEventCatchingUp
             characterUUID={characterUUID}
             onClose={handleClose}
-            downtime={downtime}
           />
         </React.Fragment>
       )}
