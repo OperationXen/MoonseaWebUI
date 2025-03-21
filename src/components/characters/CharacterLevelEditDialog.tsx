@@ -84,7 +84,7 @@ export default function CharacterLevelEditDialog(props: PropsType) {
           width: "100%",
         }}
       >
-        <Typography variant="h5">Configure class levels</Typography>
+        <Typography fontSize={22}>Configure class levels</Typography>
       </DialogTitle>
       <DialogContent sx={{ width: "100%", padding: "12px" }}>
         {classes.map((existing, index) => {

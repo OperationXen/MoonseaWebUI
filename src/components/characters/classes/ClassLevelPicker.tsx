@@ -6,11 +6,11 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import SubclassPicker from "./SubclassPicker";
 import _classes from "@/config/classes.json";
 
 import type { ClassOptions } from "@/types/classes";
 import type { PlayerClass } from "@/types/character";
-import { SubclassPicker } from "./SubclassPicker";
 
 type PropsType = {
   update: (x: PlayerClass) => void;

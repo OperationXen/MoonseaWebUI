@@ -24,6 +24,8 @@ export default function CharacterLevelsPane(props: PropsType) {
   const [levelOpen, setLevelOpen] = useState(false);
 
   const handleUpdate = (newVal: PlayerClass[]) => {
+    if (classes === newVal) return;
+
     updateCharacter({ classes: newVal })
       .then((_charData) => {
         displayMessage("Updated character classes and levels", "info");

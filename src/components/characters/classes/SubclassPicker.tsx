@@ -38,3 +38,5 @@ export function SubclassPicker(props: PropsType) {
     />
   );
 }
+
+export default SubclassPicker;
