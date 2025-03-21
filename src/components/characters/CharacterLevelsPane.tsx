@@ -79,7 +79,7 @@ export default function CharacterLevelsPane(props: PropsType) {
                 color="primary"
                 sx={{ alignSelf: "center", cursor: "pointer" }}
               >
-                Manage classes
+                Manage classes and levels
               </Button>
             )}
           </Divider>
@@ -89,9 +89,7 @@ export default function CharacterLevelsPane(props: PropsType) {
           sx={{
             display: "flex",
             flexFlow: "row wrap",
-            alignItems: "center",
             justifyContent: "center",
-            gap: "0.4em",
             minHeight: "3em",
           }}
         >
