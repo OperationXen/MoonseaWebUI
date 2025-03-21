@@ -56,7 +56,7 @@ type PropsType = {
   onClick: () => void;
 };
 
-export default function ClassChipWidget(props: PropsType) {
+export function ClassChip(props: PropsType) {
   const { playerClass } = props;
 
   return (
@@ -72,3 +72,5 @@ export default function ClassChipWidget(props: PropsType) {
     />
   );
 }
+
+export default ClassChip;

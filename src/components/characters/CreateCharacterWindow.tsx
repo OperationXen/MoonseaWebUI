@@ -13,7 +13,7 @@ import SaveDCIcon from "@mui/icons-material/AutoFixNormal";
 import useSnackbar from "@/data/store/snackbar";
 import { useCharacters } from "@/data/fetch/character";
 import StatsWidget from "./StatsWidget";
-import ClassLevelPickerWidget from "./ClassLevelPickerWidget";
+import ClassLevelPicker from "./classes/ClassLevelPicker";
 
 import type { Character } from "@/types/character";
 import type { PlayerClass } from "@/types/character";
@@ -122,10 +122,7 @@ export default function CreateCharacterWindow(props: PropsType) {
         />
       </Box>
       <Box sx={{ ...row, margin: "0.6em 0" }}>
-        <ClassLevelPickerWidget
-          data={classes[0]}
-          update={handlePlayerClassChange}
-        />
+        <ClassLevelPicker data={classes[0]} update={handlePlayerClassChange} />
       </Box>
       <Box sx={row}>
         <TextField

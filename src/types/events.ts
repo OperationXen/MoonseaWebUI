@@ -35,12 +35,6 @@ export type SpellBookUpdateEvent = CharacterEvent & {
   spellsText: string;
 };
 
-export type MundaneTradeEvent = CharacterEvent & {
-  gold_change: number;
-  sold?: string;
-  purchased?: string;
-};
-
 export type PartyMember = {
   name: string;
   uuid: UUID;
@@ -59,10 +53,7 @@ export type GameEvent = CharacterEvent & {
   characters?: PartyMember[];
 };
 
-export type AnyEvent = GameEvent &
-  FreeFormEvent &
-  MundaneTradeEvent &
-  SpellBookUpdateEvent;
+export type AnyEvent = GameEvent & FreeFormEvent & SpellBookUpdateEvent;
 
 export type ItemEvent = {
   uuid: UUID;

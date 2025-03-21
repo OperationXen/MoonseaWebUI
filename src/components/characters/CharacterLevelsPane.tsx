@@ -4,7 +4,7 @@ import { Box, Button, Typography, Divider } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import CharacterLevelEditDialog from "./CharacterLevelEditDialog";
-import ClassChipWidget from "./ClassChipWidget";
+import ClassChip from "./classes/ClassChip";
 
 import { useCharacter } from "@/data/fetch/character";
 
@@ -24,6 +24,8 @@ export default function CharacterLevelsPane(props: PropsType) {
   const [levelOpen, setLevelOpen] = useState(false);
 
   const handleUpdate = (newVal: PlayerClass[]) => {
+    if (classes === newVal) return;
+
     updateCharacter({ classes: newVal })
       .then((_charData) => {
         displayMessage("Updated character classes and levels", "info");
@@ -41,7 +43,7 @@ export default function CharacterLevelsPane(props: PropsType) {
     if (classes) {
       retVal = character.classes.map((item, index) => {
         return (
-          <ClassChipWidget
+          <ClassChip
             playerClass={item}
             key={index}
             onClick={() => {
@@ -79,7 +81,7 @@ export default function CharacterLevelsPane(props: PropsType) {
                 color="primary"
                 sx={{ alignSelf: "center", cursor: "pointer" }}
               >
-                Manage classes
+                Manage classes and levels
               </Button>
             )}
           </Divider>
@@ -89,9 +91,7 @@ export default function CharacterLevelsPane(props: PropsType) {
           sx={{
             display: "flex",
             flexFlow: "row wrap",
-            alignItems: "center",
             justifyContent: "center",
-            gap: "0.4em",
             minHeight: "3em",
           }}
         >
