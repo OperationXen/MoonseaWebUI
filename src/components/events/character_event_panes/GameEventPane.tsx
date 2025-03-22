@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,26 +8,28 @@ import { GiTwoCoins } from "react-icons/gi";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Box, Typography, Button, FormGroup, Tooltip } from "@mui/material";
-import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Box, Typography, Button, FormGroup } from "@mui/material";
+import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import StatsWidget from "@/components/characters/StatsWidget";
+import CreateConsumableDialog from "@/components/items/consumables/CreateConsumableDialog";
+import ConsumableItem from "@/components/items/consumables/ConsumableItem";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
-import { PartyMember } from "./PartyMember";
 import { useEvents } from "@/data/fetch/events/character";
+import { PartyMember } from "./PartyMember";
 
 import type { UUID } from "@/types/uuid";
-import type { Rarity, MagicItem } from "@/types/items";
+import type { Rarity, MagicItem, Consumable } from "@/types/items";
 import type { GameEvent } from "@/types/events";
 
 const row = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  gap: "0.4em",
-  margin: "0.4em 0",
+  gap: "4px",
+  margin: "8px 0",
 };
 
 type PropsType = {
@@ -48,7 +50,9 @@ export function GameEventPane(props: PropsType) {
   const [dmName, setDMName] = useState(existingGame?.dm_name || "");
   const [location, setLocation] = useState(existingGame?.location || "");
   const [items, setItems] = useState<Partial<MagicItem>[]>([]);
+  const [consumables, setConsumables] = useState<Partial<Consumable>[]>([]);
   const [notes, setNotes] = useState(existingGame?.notes || "");
+  const [consumablesOpen, setConsumablesOpen] = useState(false);
   const [date, setDate] = useState<Date | null>(
     existingGame?.datetime ? new Date(existingGame.datetime) : new Date(),
   );
@@ -93,6 +97,7 @@ export function GameEventPane(props: PropsType) {
       downtime: downtime,
       levels: level ? 1 : 0,
       items: items,
+      consumables: consumables,
       notes: notes,
     };
 
@@ -113,189 +118,247 @@ export function GameEventPane(props: PropsType) {
   };
 
   return (
-    <Box
-      sx={{
-        sx: {
-          borderRadius: "8px",
-          border: "1px solid black",
-          boxShadow: `0 0 4px inset black`,
-          display: "flex",
-          width: "42em",
-          gap: "8px",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "1em 2em",
-        },
-      }}
-    >
-      <Box sx={row}>
-        <TextField
-          sx={{ maxWidth: "30%" }}
-          label="Module code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="DDAL00-02A"
-          required
-          error={highlight && !code}
-          disabled={!editable}
-        />
-        <TextField
-          sx={{ flexGrow: 10 }}
-          label="Module name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="The Darkwood Webs"
-          disabled={!editable}
-        />
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DesktopDatePicker
-            label="Game date"
-            format="yyyy/MM/dd"
-            value={date}
-            onChange={setDate}
+    <React.Fragment>
+      <Box
+        sx={{
+          sx: {
+            borderRadius: "8px",
+            border: "1px solid black",
+            boxShadow: `0 0 4px inset black`,
+            display: "flex",
+            width: "42em",
+            gap: "8px",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "1em 2em",
+          },
+        }}
+      >
+        <Box sx={row}>
+          <TextField
+            sx={{ maxWidth: "30%" }}
+            label="Module code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="DDAL00-02A"
+            required
+            error={highlight && !code}
             disabled={!editable}
+            size="small"
           />
-        </LocalizationProvider>
-      </Box>
-      <Box sx={row}>
-        <TextField
-          sx={{ flexGrow: 1 }}
-          label="DM Name"
-          value={dmName}
-          onChange={(e) => setDMName(e.target.value)}
-          required
-          error={highlight && !dmName}
-          disabled={!editable}
-        />
-        <TextField
-          sx={{ flexGrow: 1 }}
-          label="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Triden Games"
-          disabled={!editable}
-        />
-      </Box>
+          <TextField
+            sx={{ flexGrow: 10 }}
+            label="Module name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="The Darkwood Webs"
+            disabled={!editable}
+            size="small"
+          />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+              label="Game date"
+              format="yyyy/MM/dd"
+              value={date}
+              onChange={setDate}
+              disabled={!editable}
+              slotProps={{ textField: { size: "small" } }}
+            />
+          </LocalizationProvider>
+        </Box>
+        <Box sx={row}>
+          <TextField
+            sx={{ flexGrow: 1 }}
+            label="DM Name"
+            value={dmName}
+            onChange={(e) => setDMName(e.target.value)}
+            required
+            error={highlight && !dmName}
+            disabled={!editable}
+            size="small"
+          />
+          <TextField
+            sx={{ flexGrow: 1 }}
+            label="Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Triden Games"
+            disabled={!editable}
+            size="small"
+          />
+        </Box>
 
-      {existingGame?.characters && (
-        <Box sx={{ flexFlow: "row wrap", gap: "4px" }}>
-          <Divider>Party</Divider>
-          {existingGame?.characters?.map((partyMember) => {
+        {existingGame?.characters && (
+          <Box sx={{ flexFlow: "row wrap", gap: "4px" }}>
+            <Divider>Party</Divider>
+            {existingGame?.characters?.map((partyMember) => {
+              return (
+                <PartyMember
+                  data={partyMember}
+                  onClick={() => {
+                    onClose();
+                  }}
+                />
+              );
+            })}
+          </Box>
+        )}
+
+        <Divider sx={{ width: "95%", margin: "auto" }}>
+          <Typography>Notes</Typography>
+        </Divider>
+        <Box sx={row}>
+          <TextField
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            fullWidth
+            multiline
+            minRows={2}
+            maxRows={4}
+            label="Game notes"
+            placeholder="Enter any important additional information about this game"
+            disabled={!editable}
+            size="small"
+          />
+        </Box>
+        <Divider sx={{ width: "95%", margin: "auto" }}>
+          <Typography>Rewards</Typography>
+        </Divider>
+
+        <Box sx={{ ...row, justifyContent: "space-around" }}>
+          <StatsWidget
+            locked={!editable}
+            allowNegative
+            name="Gold"
+            icon={<GiTwoCoins />}
+            value={gold}
+            setValue={setGold}
+            sx={{ width: "25%" }}
+          />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={level}
+                  onChange={() => setLevel(!level)}
+                  disabled={!editable}
+                />
+              }
+              label="Level Gained"
+            />
+          </FormGroup>
+
+          <StatsWidget
+            locked={!editable}
+            allowNegative
+            name="Downtime"
+            icon={<DowntimeIcon fontSize="small" />}
+            value={downtime}
+            setValue={setDowntime}
+            sx={{ width: "25%" }}
+          />
+        </Box>
+
+        <Divider sx={{ margin: "0.4em" }} />
+
+        <Box
+          sx={{
+            display: items.length ? "flex" : "none",
+            flexFlow: "column",
+            gap: "6px",
+            marginTop: "8px",
+            border: "1px dashed lightgrey",
+            borderRadius: "8px",
+            padding: "8px 4px 4px 4px",
+          }}
+        >
+          {items.map((item, index) => {
             return (
-              <PartyMember
-                data={partyMember}
-                onClick={() => {
-                  onClose();
-                }}
+              <SimpleItemCreateWidget
+                id={index}
+                key={index}
+                name={item.name}
+                rarity={item.rarity}
+                setName={handleItemNameChange}
+                setRarity={handleItemRarityChange}
+                handleDelete={() => handleItemDelete(index)}
               />
             );
           })}
         </Box>
-      )}
 
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Notes</Typography>
-      </Divider>
-      <Box sx={row}>
-        <TextField
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+        <Button
+          sx={{ marginY: "4px" }}
+          startIcon={<AddIcon />}
+          disabled={!!existingGame || !editable}
+          variant="outlined"
+          size="small"
           fullWidth
-          multiline
-          minRows={1}
-          maxRows={4}
-          label="Game notes"
-          placeholder="Enter any important additional information about this game"
-          disabled={!editable}
-        />
-      </Box>
-      <Divider sx={{ width: "95%", margin: "auto" }}>
-        <Typography>Rewards</Typography>
-      </Divider>
-
-      <Box sx={{ ...row, justifyContent: "space-around" }}>
-        <StatsWidget
-          locked={!editable}
-          allowNegative
-          name="Gold"
-          icon={<GiTwoCoins />}
-          value={gold}
-          setValue={setGold}
-          sx={{ width: "25%" }}
-        />
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={level}
-                onChange={() => setLevel(!level)}
-                disabled={!editable}
-              />
-            }
-            label="Level Gained"
-          />
-        </FormGroup>
-
-        <StatsWidget
-          locked={!editable}
-          allowNegative
-          name="Downtime"
-          icon={<DowntimeIcon fontSize="small" />}
-          value={downtime}
-          setValue={setDowntime}
-          sx={{ width: "25%" }}
-        />
-      </Box>
-
-      <Divider sx={{ margin: "0.4em" }} />
-      {items.map((item, index) => {
-        return (
-          <SimpleItemCreateWidget
-            id={index}
-            key={index}
-            name={item.name}
-            rarity={item.rarity}
-            setName={handleItemNameChange}
-            setRarity={handleItemRarityChange}
-            handleDelete={() => handleItemDelete(index)}
-          />
-        );
-      })}
-
-      <Button
-        startIcon={<AddIcon />}
-        disabled={!!existingGame || !editable}
-        variant="outlined"
-        size="small"
-        fullWidth
-        onClick={handleAddItem}
-      >
-        {items.length >= 1 ? "Add Another item" : "Add an item"}
-      </Button>
-
-      <Box sx={row}>
-        <Tooltip title="Not implemented yet" placement="left">
-          <TextField fullWidth label="Consumables" disabled />
-        </Tooltip>
-      </Box>
-
-      {editable && (
-        <Box
-          display="flex"
-          onMouseOver={() => setHighlight(true)}
-          onMouseOut={() => setHighlight(false)}
+          onClick={handleAddItem}
         >
-          <Button
-            variant="contained"
-            sx={{ width: "60%", margin: "auto" }}
-            disabled={!code || !dmName || !editable}
-            onClick={handleSubmit}
-          >
-            {!!existingGame ? "Update" : "Create Game"}
-          </Button>
+          {items.length >= 1 ? "Add Another item" : "Add an item"}
+        </Button>
+
+        <Box
+          sx={{
+            display: consumables.length ? "flex" : "none",
+            flexFlow: "column",
+            gap: "6px",
+            border: "1px dashed lightgrey",
+            borderRadius: "8px",
+            padding: "8px 4px 4px 4px",
+          }}
+        >
+          {consumables.map((consumable, index) => (
+            <ConsumableItem
+              item={consumable as Consumable}
+              editable={editable}
+              onChange={() => {}}
+              onDelete={() => {}}
+              key={index}
+            />
+          ))}
         </Box>
-      )}
-    </Box>
+
+        <Button
+          sx={{ marginY: "4px" }}
+          startIcon={<AddIcon />}
+          disabled={!!existingGame || !editable}
+          variant="outlined"
+          size="small"
+          fullWidth
+          onClick={() => setConsumablesOpen(true)}
+        >
+          Add consumable item
+        </Button>
+
+        {editable && (
+          <Box
+            display="flex"
+            sx={{ padding: "4px" }}
+            onMouseOver={() => setHighlight(true)}
+            onMouseOut={() => setHighlight(false)}
+          >
+            <Button
+              variant="contained"
+              sx={{ width: "60%", margin: "auto" }}
+              disabled={!code || !dmName || !editable}
+              onClick={handleSubmit}
+            >
+              {!!existingGame ? "Update" : "Create Game"}
+            </Button>
+          </Box>
+        )}
+      </Box>
+      <CreateConsumableDialog
+        open={consumablesOpen}
+        onClose={() => setConsumablesOpen(false)}
+        addItem={(newItem) => {
+          setConsumables([...consumables, newItem]);
+          setConsumablesOpen(false);
+        }}
+      />
+    </React.Fragment>
   );
 }
 
