@@ -287,17 +287,19 @@ export function GameEventPane(props: PropsType) {
           })}
         </Box>
 
-        <Button
-          sx={{ marginY: "4px" }}
-          startIcon={<AddIcon />}
-          disabled={!!existingGame || !editable}
-          variant="outlined"
-          size="small"
-          fullWidth
-          onClick={handleAddItem}
-        >
-          {items.length >= 1 ? "Add Another item" : "Add an item"}
-        </Button>
+        {!existingGame && (
+          <Button
+            sx={{ marginY: "4px" }}
+            startIcon={<AddIcon />}
+            disabled={!!existingGame || !editable}
+            variant="outlined"
+            size="small"
+            fullWidth
+            onClick={handleAddItem}
+          >
+            {items.length >= 1 ? "Add Another item" : "Add an item"}
+          </Button>
+        )}
 
         <Box
           sx={{
@@ -320,17 +322,19 @@ export function GameEventPane(props: PropsType) {
           ))}
         </Box>
 
-        <Button
-          sx={{ marginY: "4px" }}
-          startIcon={<AddIcon />}
-          disabled={!!existingGame || !editable}
-          variant="outlined"
-          size="small"
-          fullWidth
-          onClick={() => setConsumablesOpen(true)}
-        >
-          Add consumable item
-        </Button>
+        {!existingGame && (
+          <Button
+            sx={{ marginY: "4px" }}
+            startIcon={<AddIcon />}
+            disabled={!editable}
+            variant="outlined"
+            size="small"
+            fullWidth
+            onClick={() => setConsumablesOpen(true)}
+          >
+            Add consumable item
+          </Button>
+        )}
 
         {editable && (
           <Box
