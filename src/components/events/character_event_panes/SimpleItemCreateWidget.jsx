@@ -7,8 +7,7 @@ const row = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  gap: "0.4em",
-  margin: "0.4em 0",
+  gap: "4px",
 };
 
 export function SimpleItemCreateWidget(props) {
@@ -21,9 +20,14 @@ export function SimpleItemCreateWidget(props) {
         label="Item Reward"
         value={name}
         onChange={(e) => setName(id, e.target.value)}
+        size="small"
       />
       <FormControl sx={{ minWidth: "12em" }}>
-        <Select value={rarity} onChange={(e) => setRarity(id, e.target.value)}>
+        <Select
+          value={rarity}
+          onChange={(e) => setRarity(id, e.target.value)}
+          size="small"
+        >
           <MenuItem value="common">Common</MenuItem>
           <MenuItem value="uncommon">Uncommon</MenuItem>
           <MenuItem value="rare">Rare</MenuItem>
