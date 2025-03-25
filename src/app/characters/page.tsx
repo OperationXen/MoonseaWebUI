@@ -48,9 +48,13 @@ export default function Dashboard() {
             onImportClick={() => setImportOpen(true)}
           />
         )}
-        {characters?.map((character: any) => (
-          <CharacterSummaryCard key={character.uuid} character={character} />
-        ))}
+        {characters
+          ?.sort((a, b) => {
+            return a.level - b.level;
+          })
+          ?.map((character: any) => (
+            <CharacterSummaryCard key={character.uuid} character={character} />
+          ))}
       </Box>
       <ButtonGroup className="fixed bottom-4 right-4">
         <Button
