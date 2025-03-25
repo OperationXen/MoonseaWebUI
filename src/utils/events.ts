@@ -1,6 +1,6 @@
-import type { AnyEvent } from "@/types/events";
+import type { AnyEvent, DMRewardEvent } from "@/types/events";
 
-export function getEventName(event: AnyEvent | undefined) {
+export function getEventName(event: AnyEvent | DMRewardEvent | undefined) {
   if (!event) return "Unknown event";
   if (event.event_type === "dt_freeform") return `${event.title}`;
 
