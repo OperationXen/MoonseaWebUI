@@ -144,10 +144,10 @@ export function DMEventsGrid(props: PropsType) {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.1,
       type: "actions",
-      align: "right",
+      minWidth: 80,
       headerAlign: "center",
+      align: "center",
       getActions: getRowActions,
     },
   ];

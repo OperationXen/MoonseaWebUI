@@ -4,20 +4,21 @@ import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
 import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
+import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
 import DTEventCatchingUp from "./character_event_panes/DTEventCatchingUp";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import GameEventPane from "./character_event_panes/GameEventPane";
+import DMEventReward from "./dm_event_panes/DMEventReward";
 import { getEventName } from "@/utils/events";
 
 import type { UUID } from "@/types/uuid";
-import type { FreeFormEvent } from "@/types/events";
+import type { DMRewardEvent, FreeFormEvent } from "@/types/events";
 import type { SpellBookUpdateEvent } from "@/types/events";
 import type { AnyEvent, GameEvent } from "@/types/events";
-import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
 
 type PropsType = {
   characterUUID: UUID;
-  event: AnyEvent | undefined;
+  event: AnyEvent | DMRewardEvent | undefined;
   onClose: () => void;
 };
 
@@ -47,6 +48,10 @@ export function CharacterEventModal(props: PropsType) {
             onClose={onClose}
           />
         )}
+        {event?.event_type === "dm_reward" && (
+          <DMEventReward event={event as DMRewardEvent} onClose={onClose} />
+        )}
+
         {event?.event_type === "dt_freeform" && (
           <DTEventFreeForm
             event={event as FreeFormEvent}
