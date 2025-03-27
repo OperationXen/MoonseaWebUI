@@ -74,6 +74,7 @@ export type DMRewardEvent = {
   uuid: UUID;
   event_type: DMEventType;
   datetime: string;
+  editable: boolean;
 
   dm: string;
   name: string;
