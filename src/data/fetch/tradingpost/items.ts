@@ -2,7 +2,7 @@
 
 import api from "../base";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
 import type { Advert } from "@/types/trade";
@@ -20,14 +20,29 @@ async function getAdvert(uuid: UUID): Promise<Advert> {
   });
 }
 
+async function deleteAdvertFn(uuid: UUID) {
+  return api.delete(`/api/data/magicitem/faesuggestion/${uuid}`);
+}
+
 /***************************************************************************/
 export function useTradingPostAdvert(uuid: UUID) {
   const queryKey = ["tradingpost", "advert", uuid];
+  const queryClient = useQueryClient();
 
-  return useQuery({
+  const fetchData = useQuery({
     queryKey,
     queryFn: () => getAdvert(uuid),
   });
+
+  const deleteAdvert = useMutation({
+    mutationFn: () => deleteAdvertFn(uuid),
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["tradingpost", "adverts", "own"],
+      }),
+  });
+
+  return { ...fetchData, deleteAdvert: deleteAdvert.mutateAsync };
 }
 
 /***************************************************************************/
@@ -41,5 +56,3 @@ export function useTradingPostAdverts() {
 
   return { ...fetchData };
 }
-
-export default useTradingPostAdverts;

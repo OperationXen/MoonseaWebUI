@@ -1,13 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
-
 import { Box } from "@mui/material";
 
-import { searchAdverts } from "@/api/trade";
 import TradeAdvert from "./TradeAdvert";
-import useSnackbar from "@/data/store/snackbar";
+import { useTradingPostSearch } from "@/data/fetch/tradingpost/search";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
-
-import type { Advert } from "@/types/trade";
 
 type PropsType = {
   filter: string;
@@ -16,26 +11,12 @@ type PropsType = {
 export default function TradingPostSearch(props: PropsType) {
   const { filter } = props;
 
-  const snackbar = useSnackbar((s) => s.displayMessage);
-
-  const [adverts, setAdverts] = useState<Advert[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const handleSearch = useCallback(() => {
-    searchAdverts(filter)
-      .then((response) => setAdverts(response.data))
-      .catch((error) => snackbar(error.response.data.message, "error"))
-      .finally(() => setLoading(false));
-  }, [filter, snackbar]);
-
-  useEffect(() => {
-    handleSearch();
-  }, [handleSearch]);
+  const { data: searchResults, isLoading } = useTradingPostSearch(filter);
 
   return (
     <Box className="flex flex-wrap flex-row p-2 gap-2 items-center justify-evenly h-full">
-      <LoadingOverlay open={loading} />
-      {adverts.map((advert) => {
+      <LoadingOverlay open={isLoading} />
+      {searchResults?.map((advert) => {
         return <TradeAdvert {...advert} key={advert.uuid} market={true} />;
       })}
     </Box>
