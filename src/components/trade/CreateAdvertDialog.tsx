@@ -10,19 +10,20 @@ import { createTradeAdvert } from "@/api/trade";
 import type { MagicItem } from "@/types/items";
 
 type PropsType = {
-  item: MagicItem;
+  item: MagicItem | null;
   open: boolean;
   onClose: () => void;
 };
 
-export default function CreateAdvertDialog(props: PropsType) {
+export function CreateAdvertDialog(props: PropsType) {
   const { item, open, onClose } = props;
+
   const snackbar = useSnackbar((s) => s.displayMessage);
 
   const [advertText, setAdvertText] = useState("");
 
   const handleSubmit = () => {
-    createTradeAdvert(item.uuid, advertText)
+    createTradeAdvert(item!.uuid, advertText)
       .then((_response) => {
         snackbar("Item moved to trading post", "info");
         onClose();
@@ -32,21 +33,25 @@ export default function CreateAdvertDialog(props: PropsType) {
       });
   };
 
+  if (!item) return null;
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          display: "flex",
-          flexDirection: "column",
-          padding: "1em 2em",
-          justifyContent: "space-around",
-          alignItems: "center",
-          borderRadius: "8px",
-          border: "2px solid black",
-          boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(item.rarity)}`,
-          width: "42em",
+      slotProps={{
+        paper: {
+          sx: {
+            display: "flex",
+            flexDirection: "column",
+            padding: "1em 2em",
+            justifyContent: "space-around",
+            alignItems: "center",
+            borderRadius: "8px",
+            border: "2px solid black",
+            boxShadow: `2px 2px 60px black, 0px 0px 16px inset ${getRarityColour(item.rarity)}`,
+            width: "42em",
+          },
         },
       }}
     >
@@ -99,3 +104,5 @@ export default function CreateAdvertDialog(props: PropsType) {
     </Dialog>
   );
 }
+
+export default CreateAdvertDialog;

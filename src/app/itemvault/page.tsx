@@ -30,9 +30,7 @@ export default function ItemVault() {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [filter, setFilter] = useState("");
-  const [showAdvertCreate, setShowAdvertCreate] = useState(false);
-  const [item, setItem] = useState<MagicItem | null>(null);
-
+  const [advertItem, setAdvertItem] = useState<MagicItem | null>(null);
   const getFilteredItems = (): MagicItem[] => {
     if (!items) return [];
 
@@ -77,8 +75,7 @@ export default function ItemVault() {
   };
 
   const handleTrade = (item: MagicItem) => {
-    setItem(item);
-    setShowAdvertCreate(true);
+    setAdvertItem(item);
   };
 
   const getRowActions = (params: any) => {
@@ -220,13 +217,12 @@ export default function ItemVault() {
               setCreateOpen(false);
             }}
           />
-          {item && (
-            <CreateAdvertDialog
-              open={showAdvertCreate}
-              onClose={() => setShowAdvertCreate(false)}
-              item={item}
-            />
-          )}
+
+          <CreateAdvertDialog
+            open={!!advertItem}
+            onClose={() => setAdvertItem(null)}
+            item={advertItem}
+          />
         </ErrorBoundary>
       </Paper>
     </AuthenticationRequired>

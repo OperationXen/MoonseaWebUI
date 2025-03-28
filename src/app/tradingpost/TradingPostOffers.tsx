@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Typography, Tooltip, Grid2 as Grid } from "@mui/material";
+import { Typography, Tooltip, Box } from "@mui/material";
 import { DataGrid, GridOverlay, GridActionsCellItem } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
@@ -168,13 +168,16 @@ export default function TradingPostOffers() {
 
   return (
     <React.Fragment>
-      <Grid container sx={{ margin: "0.4em", height: "100%" }} spacing={2}>
+      <Box
+        className="p-2"
+        sx={{ height: "calc(100vh - 9em)", minHeight: "500px" }}
+      >
         <DataGrid
+          autoPageSize
           rows={pendingOffers}
           getRowId={(r) => r.uuid}
           columns={columns}
           loading={loading}
-          sx={{ height: "calc(100% - 3em)" }}
           slots={{
             noRowsOverlay: () => (
               <GridOverlay>
@@ -185,7 +188,7 @@ export default function TradingPostOffers() {
             ),
           }}
         />
-      </Grid>
+      </Box>
       <OfferRejectConfirm
         open={showReject}
         onClose={() => setShowReject(false)}
