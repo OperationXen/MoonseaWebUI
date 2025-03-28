@@ -5,7 +5,7 @@ import { Typography, Button, TextField } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import { getRarityColour, getRarityText } from "@/utils/items";
-import { createTradeAdvert } from "@/api/trade";
+import { useTradingPostAdverts } from "@/data/fetch/tradingpost/items";
 
 import type { MagicItem } from "@/types/items";
 
@@ -19,11 +19,12 @@ export function CreateAdvertDialog(props: PropsType) {
   const { item, open, onClose } = props;
 
   const snackbar = useSnackbar((s) => s.displayMessage);
+  const { createAdvert } = useTradingPostAdverts();
 
   const [advertText, setAdvertText] = useState("");
 
   const handleSubmit = () => {
-    createTradeAdvert(item!.uuid, advertText)
+    createAdvert({ itemUUID: item!.uuid, text: advertText })
       .then((_response) => {
         snackbar("Item moved to trading post", "info");
         onClose();
