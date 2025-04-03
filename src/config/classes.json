@@ -10,8 +10,10 @@
       "Path of the Battlerager",
       "Path of the Beast",
       "Path of the Berserker",
+      "Path of the Giant",
       "Path of the Storm Herald",
-      "Path of the Totem Warrior",
+      "Path of the Wild Heart",
+      "Path of the World Tree",
       "Path of the Zealot",
       "Path of Wild Magic"
     ]
@@ -20,6 +22,7 @@
     "name": "Bard",
     "subclasses": [
       "College of Creation",
+      "College of Dance",
       "College of Eloquence",
       "College of Glamour",
       "College of Lore",
@@ -33,16 +36,12 @@
     "name": "Cleric",
     "subclasses": [
       "Arcana Domain",
-      "Death Domain",
       "Forge Domain",
       "Grave Domain",
-      "Knowledge Domain",
       "Life Domain",
       "Light Domain",
-      "Nature Domain",
       "Order Domain",
       "Peace Domain",
-      "Tempest Domain",
       "Trickery Domain",
       "Twilight Domain",
       "War Domain"
@@ -53,10 +52,11 @@
     "subclasses": [
       "Circle of Dreams",
       "Circle of Spores",
-      "Circle of Stars",
       "Circle of the Land",
       "Circle of the Moon",
+      "Circle of the Sea",
       "Circle of the Shepherd",
+      "Circle of the Stars",
       "Circle of Wildfire"
     ]
   },
@@ -77,16 +77,15 @@
   {
     "name": "Monk",
     "subclasses": [
-      "Way of Mercy",
-      "Way of Shadow",
+      "Warrior of Elements",
+      "Warrior of Mercy",
+      "Warrior of Shadow",
+      "Warrior of the Open Hand",
       "Way of the Ascendant Dragon",
       "Way of the Astral Self",
-      "Way of the Cobalt Soul",
       "Way of the Drunken Master",
-      "Way of the Four Elements",
       "Way of the Kensei",
       "Way of the Long Death",
-      "Way of the Open Hand",
       "Way of the Sun Soul"
     ]
   },
@@ -99,10 +98,8 @@
       "Oath of Redemption",
       "Oath of the Ancients",
       "Oath of the Crown",
-      "Oath of the Open Sea",
       "Oath of the Watchers",
-      "Oath of Vengeance",
-      "Oathbreaker"
+      "Oath of Vengeance"
     ]
   },
   {
@@ -135,25 +132,25 @@
   {
     "name": "Sorcerer",
     "subclasses": [
-      "Aberrant Mind",
-      "Clockwork Soul",
+      "Aberrant Sorcery",
+      "Clockwork Sorcery",
       "Divine Soul",
-      "Draconic Bloodline",
+      "Draconic Sorcery",
       "Shadow Magic",
       "Storm Sorcery",
-      "Wild Magic"
+      "Wild Magic Sorcery"
     ]
   },
 
   {
     "name": "Warlock",
     "subclasses": [
-      "The Archfey",
-      "The Celestial",
+      "Archfey Patron",
+      "Celestial Patron",
+      "Fiend Patron",
+      "Great Old One Patron",
       "The Fathomless",
-      "The Fiend",
       "The Genie",
-      "The Great Old One",
       "The Hexblade",
       "The Undead",
       "The Undying"
@@ -163,16 +160,12 @@
   {
     "name": "Wizard",
     "subclasses": [
+      "Abjurer",
       "Bladesinger",
+      "Diviner",
+      "Evoker",
+      "Illusionist",
       "Order of Scribes",
-      "School of Abjuration",
-      "School of Conjuration",
-      "School of Divination",
-      "School of Enchantment",
-      "School of Evocation",
-      "School of Illusion",
-      "School of Necromancy",
-      "School of Transmutation",
       "War Magic"
     ]
   }
