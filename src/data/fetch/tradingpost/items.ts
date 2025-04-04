@@ -34,7 +34,6 @@ async function createAdvertFn(itemUUID: UUID, text: string) {
 /***************************************************************************/
 export function useTradingPostAdvert(uuid: UUID) {
   const queryKey = ["tradingpost", "advert", uuid];
-  const queryClient = useQueryClient();
 
   const fetchData = useQuery({
     queryKey,
@@ -43,10 +42,6 @@ export function useTradingPostAdvert(uuid: UUID) {
 
   const deleteAdvert = useMutation({
     mutationFn: () => deleteAdvertFn(uuid),
-    onSettled: () =>
-      queryClient.invalidateQueries({
-        queryKey: ["tradingpost", "adverts", "own"],
-      }),
   });
 
   return { ...fetchData, deleteAdvert: deleteAdvert.mutateAsync };
@@ -62,11 +57,15 @@ export function useTradingPostAdverts() {
     queryFn: getUserAdverts,
   });
 
+  const refreshItems = () => {
+    queryClient.invalidateQueries({ queryKey });
+  };
+
   const createAdvert = useMutation({
     mutationFn: (data: { itemUUID: UUID; text: string }) =>
       createAdvertFn(data.itemUUID, data.text),
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+    onSettled: () => refreshItems(),
   });
 
-  return { ...fetchData, createAdvert: createAdvert.mutateAsync };
+  return { ...fetchData, createAdvert: createAdvert.mutateAsync, refreshItems };
 }

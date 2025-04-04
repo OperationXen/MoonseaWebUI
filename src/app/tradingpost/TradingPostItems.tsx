@@ -10,7 +10,11 @@ import { useTradingPostAdverts } from "@/data/fetch/tradingpost/items";
 import type { Advert } from "@/types/trade";
 
 export default function TradingPostItems() {
-  const { data: tradeAdverts, isLoading } = useTradingPostAdverts();
+  const {
+    data: tradeAdverts,
+    isLoading,
+    refreshItems,
+  } = useTradingPostAdverts();
 
   if (isLoading) {
     return <LoadingOverlay open={true} />;
@@ -18,7 +22,13 @@ export default function TradingPostItems() {
     return (
       <Box className="flex flex-wrap flex-row p-2 gap-2 items-center justify-evenly h-full">
         {tradeAdverts.map((advert: Advert) => {
-          return <TradeAdvert {...advert} key={advert.uuid} />;
+          return (
+            <TradeAdvert
+              {...advert}
+              key={advert.uuid}
+              onRemove={() => refreshItems()}
+            />
+          );
         })}
       </Box>
     );

@@ -24,10 +24,12 @@ type PropsType = {
   uuid: UUID;
   item: MagicItem;
   market?: boolean;
+  onRemove: () => void;
 };
 
 export default function TradeAdvert(props: PropsType) {
   const { description, offers, uuid, item, market = false } = props;
+  const { onRemove } = props;
 
   const router = useRouter();
   const { deleteAdvert } = useTradingPostAdvert(uuid);
@@ -107,14 +109,15 @@ export default function TradeAdvert(props: PropsType) {
         {item.editable && (
           <Tooltip title="Remove this item from the trading post and return it to the owner">
             <IconButton
-              onClick={() =>
+              onClick={() => {
+                onRemove();
                 deleteAdvert().then(() =>
                   displayMessage(
                     `${item.name} returned to ${item.owner_name}`,
                     "info",
                   ),
-                )
-              }
+                );
+              }}
             >
               <RemoveShoppingCartIcon
                 sx={{

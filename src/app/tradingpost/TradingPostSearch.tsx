@@ -11,13 +11,24 @@ type PropsType = {
 export default function TradingPostSearch(props: PropsType) {
   const { filter } = props;
 
-  const { data: searchResults, isLoading } = useTradingPostSearch(filter);
+  const {
+    data: searchResults,
+    isLoading,
+    refreshSearch,
+  } = useTradingPostSearch(filter);
 
   return (
     <Box className="flex flex-wrap flex-row p-2 gap-2 items-center justify-evenly h-full">
       <LoadingOverlay open={isLoading} />
       {searchResults?.map((advert) => {
-        return <TradeAdvert {...advert} key={advert.uuid} market={true} />;
+        return (
+          <TradeAdvert
+            {...advert}
+            key={advert.uuid}
+            market={true}
+            onRemove={() => refreshSearch()}
+          />
+        );
       })}
     </Box>
   );
