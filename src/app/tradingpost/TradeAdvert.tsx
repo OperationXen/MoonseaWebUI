@@ -134,6 +134,7 @@ export default function TradeAdvert(props: PropsType) {
       <TradeOfferDialog
         open={showOffer}
         onClose={() => setShowOffer(false)}
+        advertUUID={uuid}
         item={item}
       />
     </Card>

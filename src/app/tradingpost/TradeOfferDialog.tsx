@@ -9,17 +9,19 @@ import { createTradeOffer } from "../../api/trade";
 import { useTradingPostAdverts } from "@/data/fetch/tradingpost/items";
 import useSnackbar from "@/data/store/snackbar";
 
+import type { UUID } from "@/types/uuid";
 import type { Advert } from "@/types/trade";
 import type { MagicItem } from "@/types/items";
 
 type PropsType = {
   open: boolean;
   onClose: () => void;
+  advertUUID: UUID;
   item: MagicItem;
 };
 
 export default function TradeOfferDialog(props: PropsType) {
-  const { open, onClose, item } = props;
+  const { open, onClose, item, advertUUID } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { data: allItems, isLoading } = useTradingPostAdverts();
@@ -28,7 +30,7 @@ export default function TradeOfferDialog(props: PropsType) {
   const [freeText, setFreeText] = useState("");
 
   const handleOffer = () => {
-    createTradeOffer(item.uuid, itemSelected, freeText)
+    createTradeOffer(advertUUID, itemSelected, freeText)
       .then((_response) => {
         displayMessage("Created offer", "info");
       })
