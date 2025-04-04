@@ -30,7 +30,7 @@ export default function ItemVault() {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [filter, setFilter] = useState("");
-  const [advertItem, setAdvertItem] = useState<MagicItem | null>(null);
+  const [advertItem, setAdvertItem] = useState<MagicItem>();
   const getFilteredItems = (): MagicItem[] => {
     if (!items) return [];
 
@@ -220,7 +220,8 @@ export default function ItemVault() {
 
           <CreateAdvertDialog
             open={!!advertItem}
-            onClose={() => setAdvertItem(null)}
+            onClose={() => setAdvertItem(undefined)}
+            onCreate={() => {}}
             item={advertItem}
           />
         </ErrorBoundary>

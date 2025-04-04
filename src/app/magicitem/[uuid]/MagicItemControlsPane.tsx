@@ -106,6 +106,7 @@ export default function MagicItemControlPane(props: PropsType) {
       <CreateAdvertDialog
         open={showAdvertCreate}
         onClose={() => setShowAdvertCreate(false)}
+        onCreate={() => {}}
         item={props.item}
       />
     </Box>
