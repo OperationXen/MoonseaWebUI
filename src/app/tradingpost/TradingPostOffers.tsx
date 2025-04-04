@@ -29,7 +29,7 @@ export default function TradingPostOffers() {
 
   const [pendingOffers, setPendingOffers] = useState<TradeOffer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAccept, setShowAccept] = useState(false);
+  const [showAcceptOffer, setShowAcceptOffer] = useState<TradeOffer>();
   const [showRejectOffer, setShowRejectOffer] = useState<TradeOffer>();
   const [showCancel, setShowCancel] = useState(false);
   const [offer, setOffer] = useState<TradeOffer | null>(null);
@@ -81,11 +81,6 @@ export default function TradingPostOffers() {
     return null;
   };
 
-  const acceptOffer = (offer: TradeOffer) => {
-    setOffer(offer);
-    setShowAccept(true);
-  };
-
   const cancelOffer = (offer: TradeOffer) => {
     setOffer(offer);
     setShowCancel(true);
@@ -94,14 +89,14 @@ export default function TradingPostOffers() {
   const getRowActions = (p: GridRenderCellParams) => {
     if (p.row.direction === "in") {
       return [
-        <Tooltip title="Accept offer" placement="left">
+        <Tooltip title="Accept offer" placement="left" key={1}>
           <GridActionsCellItem
             label="Accept Offer"
-            onClick={() => acceptOffer(p.row.data)}
+            onClick={() => setShowAcceptOffer(p.row)}
             icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
           />
         </Tooltip>,
-        <Tooltip title="Reject offer" placement="right">
+        <Tooltip title="Reject offer" placement="right" key={2}>
           <GridActionsCellItem
             label="Reject Offer"
             onClick={() => setShowRejectOffer(p.row)}
@@ -111,7 +106,7 @@ export default function TradingPostOffers() {
       ];
     } else if (p.row.direction === "out") {
       return [
-        <Tooltip title="Rescind offer" placement="right">
+        <Tooltip title="Rescind offer" placement="right" key={3}>
           <GridActionsCellItem
             label="Rescind offer"
             onClick={() => cancelOffer(p.row.data)}
@@ -194,9 +189,9 @@ export default function TradingPostOffers() {
         offer={showRejectOffer}
       />
       <OfferAcceptConfirm
-        open={showAccept}
-        onClose={() => setShowAccept(false)}
-        {...offer}
+        open={!!showAcceptOffer}
+        onClose={() => setShowAcceptOffer(undefined)}
+        offer={showAcceptOffer}
       />
       <OfferCancelConfirm
         open={showCancel}
