@@ -4,47 +4,61 @@ import { rejectTradeOffer } from "../../../api/trade";
 import useSnackbar from "../../../data/store/snackbar";
 import useTradeStore from "../../../data/store/trade";
 
-export default function OfferRejectConfirm(props) {
+import type { TradeOffer } from "@/types/trade";
+
+type PropsType = {
+  open: boolean;
+  onClose: () => void;
+  offer?: TradeOffer;
+};
+
+export function OfferRejectConfirm(props: PropsType) {
+  const { open, onClose, offer } = props;
+
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const requestOfferRefresh = useTradeStore((s) => s.requestRefresh);
 
   const handleReject = () => {
-    rejectTradeOffer(props.uuid)
-      .then((response) => {
+    rejectTradeOffer(offer?.uuid)
+      .then((_response) => {
         displayMessage("Offer rejected", "info");
         requestOfferRefresh();
-        props.onClose();
+        onClose();
       })
       .catch((error) => {
         displayMessage(error.response.data.message, "error");
-        props.onClose();
+        onClose();
       });
   };
 
+  debugger;
+
   return (
     <Dialog
-      open={props.open}
-      onClose={props.onClose}
-      PaperProps={{
-        sx: {
-          borderRadius: "8px",
-          border: "1px solid darkred",
-          boxShadow: `0 0 8px inset darkred`,
-          display: "flex",
-          width: "32em",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "1em 2em",
+      open={open}
+      onClose={onClose}
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: "8px",
+            border: "1px solid darkred",
+            boxShadow: `0 0 8px inset darkred`,
+            display: "flex",
+            width: "32em",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "1em 2em",
+          },
         },
       }}
     >
       <Typography variant="h4">Confirm offer rejection</Typography>
-      <Divider width="95%" />
-      <Typography variant="body" sx={{ padding: "0.2em" }}>
+      <Divider />
+      <Typography variant="body1" sx={{ padding: "0.2em" }}>
         Are you sure you want to reject
       </Typography>
       <Typography sx={{ padding: "0.4em 0 0.8em" }}>
-        {props.item?.name}
+        {offer?.item?.name}
       </Typography>
       <Box
         sx={{
@@ -69,7 +83,7 @@ export default function OfferRejectConfirm(props) {
           color="inherit"
           variant="contained"
           sx={{ width: "35%" }}
-          onClick={props.onClose}
+          onClick={onClose}
         >
           Cancel
         </Button>
@@ -77,3 +91,5 @@ export default function OfferRejectConfirm(props) {
     </Dialog>
   );
 }
+
+export default OfferRejectConfirm;

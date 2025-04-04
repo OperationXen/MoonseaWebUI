@@ -30,7 +30,7 @@ export default function TradingPostOffers() {
   const [pendingOffers, setPendingOffers] = useState<TradeOffer[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAccept, setShowAccept] = useState(false);
-  const [showReject, setShowReject] = useState(false);
+  const [showRejectOffer, setShowRejectOffer] = useState<TradeOffer>();
   const [showCancel, setShowCancel] = useState(false);
   const [offer, setOffer] = useState<TradeOffer | null>(null);
 
@@ -46,9 +46,8 @@ export default function TradingPostOffers() {
   const getRowRarityWidget = (params: GridRenderCellParams<any, Rarity>) => {
     return <RarityWidget rarity={params.row.item.rarity} />;
   };
-  const formatDateString = (data: any) => {
-    debugger; //wtf is this type?
-    let val = getDateString(new Date(data.value));
+  const formatDateString = (data: string) => {
+    let val = getDateString(new Date(data));
     return val;
   };
   const getOfferDirectionText = (value: TradeOffer) => {
@@ -59,13 +58,15 @@ export default function TradingPostOffers() {
 
   const getItem = (x: any) => {
     return (
-      <Typography
-        variant="body2"
-        sx={{ cursor: "pointer" }}
-        onClick={() => router.push(`/magicitem/${x.uuid}`)}
-      >
-        {`${x.name} (${x.owner_name})`}
-      </Typography>
+      <Box className="flex items-center h-full">
+        <Typography
+          variant="body2"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push(`/magicitem/${x.uuid}`)}
+        >
+          {`${x.name} (${x.owner_name})`}
+        </Typography>
+      </Box>
     );
   };
 
@@ -84,10 +85,7 @@ export default function TradingPostOffers() {
     setOffer(offer);
     setShowAccept(true);
   };
-  const rejectOffer = (offer: TradeOffer) => {
-    setOffer(offer);
-    setShowReject(true);
-  };
+
   const cancelOffer = (offer: TradeOffer) => {
     setOffer(offer);
     setShowCancel(true);
@@ -106,7 +104,7 @@ export default function TradingPostOffers() {
         <Tooltip title="Reject offer" placement="right">
           <GridActionsCellItem
             label="Reject Offer"
-            onClick={() => rejectOffer(p.row.data)}
+            onClick={() => setShowRejectOffer(p.row)}
             icon={<CancelIcon sx={{ color: "darkred" }} />}
           />
         </Tooltip>,
@@ -178,6 +176,7 @@ export default function TradingPostOffers() {
           getRowId={(r) => r.uuid}
           columns={columns}
           loading={loading}
+          density="compact"
           slots={{
             noRowsOverlay: () => (
               <GridOverlay>
@@ -190,9 +189,9 @@ export default function TradingPostOffers() {
         />
       </Box>
       <OfferRejectConfirm
-        open={showReject}
-        onClose={() => setShowReject(false)}
-        {...offer}
+        open={!!showRejectOffer}
+        onClose={() => setShowRejectOffer(undefined)}
+        offer={showRejectOffer}
       />
       <OfferAcceptConfirm
         open={showAccept}
