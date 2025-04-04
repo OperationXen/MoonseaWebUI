@@ -110,13 +110,13 @@ export default function TradeAdvert(props: PropsType) {
           <Tooltip title="Remove this item from the trading post and return it to the owner">
             <IconButton
               onClick={() => {
-                onRemove();
-                deleteAdvert().then(() =>
+                deleteAdvert().then(() => {
+                  onRemove();
                   displayMessage(
                     `${item.name} returned to ${item.owner_name}`,
                     "info",
-                  ),
-                );
+                  );
+                });
               }}
             >
               <RemoveShoppingCartIcon
