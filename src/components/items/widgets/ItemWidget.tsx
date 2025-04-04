@@ -144,6 +144,7 @@ export default function ItemWidget(props: PropsType) {
       <CreateAdvertDialog
         open={showAdvertCreate}
         onClose={() => handleTradeDone()}
+        onCreate={() => {}}
         item={props.item}
       />
     </Card>
