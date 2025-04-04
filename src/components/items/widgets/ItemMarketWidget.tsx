@@ -17,10 +17,12 @@ import type { MagicItem } from "@/types/items";
 type PropsType = {
   item: MagicItem;
   charUUID?: UUID;
+  onAdd: () => void;
+  onRemove: () => void;
 };
 
 export function ItemMarketWidget(props: PropsType) {
-  const { item, charUUID } = props;
+  const { item, charUUID, onAdd, onRemove } = props;
 
   const { updateItem } = useMagicItem(item.uuid, charUUID);
   const { displayMessage } = useSnackbar();
@@ -57,12 +59,14 @@ export function ItemMarketWidget(props: PropsType) {
     >
       <IconButton
         onClick={() => {
-          updateItem({ uuid: item.uuid, market: !item.market }).then(() => {
-            displayMessage(
-              `${item.name} ${item.market ? "removed from trading post" : "sent to trading post"}`,
-              "info",
-            );
-          });
+          if (item.market) {
+            onRemove();
+            updateItem({ uuid: item.uuid, market: false }).then(() => {
+              displayMessage(`${item.name} removed from trading post`, "info");
+            });
+          } else {
+            onAdd();
+          }
         }}
       >
         {getIcon()}

@@ -74,10 +74,15 @@ export function useMagicItems(characterUUID: UUID) {
     queryKey,
     queryFn: () => getMagicItemsFn(characterUUID),
   });
+
+  const refreshItems = () => {
+    queryClient.invalidateQueries({ queryKey });
+  };
+
   const updateItem = useMutation({
     mutationFn: updateMagicItemFn,
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
+      refreshItems();
     },
   });
 
@@ -85,14 +90,14 @@ export function useMagicItems(characterUUID: UUID) {
     mutationFn: (item: Partial<MagicItem>) =>
       createMagicItemFn(item, characterUUID),
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
+      refreshItems();
     },
   });
 
   const deleteItem = useMutation({
     mutationFn: deleteMagicItemFn,
     onSettled: (_item) => {
-      queryClient.invalidateQueries({ queryKey });
+      refreshItems();
     },
   });
 
@@ -101,6 +106,7 @@ export function useMagicItems(characterUUID: UUID) {
     createItem: createItem.mutateAsync,
     updateItem: updateItem.mutateAsync,
     deleteItem: deleteItem.mutateAsync,
+    refreshItems,
   };
 }
 

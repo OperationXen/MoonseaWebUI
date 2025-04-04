@@ -10,13 +10,14 @@ import { useTradingPostAdverts } from "@/data/fetch/tradingpost/items";
 import type { MagicItem } from "@/types/items";
 
 type PropsType = {
-  item: MagicItem | null;
+  item?: MagicItem;
   open: boolean;
   onClose: () => void;
+  onCreate: () => void;
 };
 
 export function CreateAdvertDialog(props: PropsType) {
-  const { item, open, onClose } = props;
+  const { item, open, onClose, onCreate } = props;
 
   const snackbar = useSnackbar((s) => s.displayMessage);
   const { createAdvert } = useTradingPostAdverts();
@@ -27,6 +28,7 @@ export function CreateAdvertDialog(props: PropsType) {
     createAdvert({ itemUUID: item!.uuid, text: advertText })
       .then((_response) => {
         snackbar("Item moved to trading post", "info");
+        onCreate();
         onClose();
       })
       .catch((error) => {
@@ -67,11 +69,10 @@ export function CreateAdvertDialog(props: PropsType) {
         <Typography variant="h3">Trade Item</Typography>
       </Box>
       <Typography variant="caption" sx={{ textAlign: "center" }}>
-        This will create an advert for the item and move it to the trading post.
-        Whilst the item is in the trading post it will be unavailable for use by
-        this character, but other users can propose their items for exchange
-        using AL rules. Item trades consume 5 downtime days and must be 1 for 1
-        of the same rarity.
+        Create an advert for the item and move it to the trading post. Whilst
+        the item is in the trading post it will be unavailable for use by this
+        character, but visible to other Moonsea Codex users who may propose a
+        trade.
       </Typography>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Item Details</Divider>
       <Stack sx={{ alignItems: "center", gap: "0.4em" }}>
@@ -84,6 +85,10 @@ export function CreateAdvertDialog(props: PropsType) {
       </Stack>
       <Divider sx={{ width: "95%", margin: "0.4em" }}>Trade Advert</Divider>
       <Stack sx={{ width: "100%" }} spacing={"0.4em"}>
+        <Typography variant="caption" sx={{ textAlign: "center" }}>
+          To ensure a workable trade, use the advert text to indicate what items
+          you would accept.
+        </Typography>
         <TextField
           fullWidth
           multiline
@@ -92,9 +97,7 @@ export function CreateAdvertDialog(props: PropsType) {
           label="Free text (Optional)"
           value={advertText}
           onChange={(e) => setAdvertText(e.target.value)}
-          placeholder={
-            "What items are you especially interested in seeing offered?\nIs there anything special about this item?"
-          }
+          placeholder={"LF: Winged Boots, Broom of Flying or Portable Hole"}
         />
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button variant="contained" onClick={handleSubmit}>

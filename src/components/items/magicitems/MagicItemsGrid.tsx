@@ -19,6 +19,7 @@ import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { getNumberEquipped } from "@/utils/items";
 import useSnackbar from "@/data/store/snackbar";
 
+import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import ItemMarketWidget from "../widgets/ItemMarketWidget";
 import NoItemsOverlay from "../widgets/NoItemsOverlay";
 import ConfirmItemDelete from "../ConfirmItemDelete";
@@ -38,12 +39,14 @@ export function MagicItemsGrid(props: PropsType) {
 
   const router = useRouter();
   const { displayMessage } = useSnackbar();
-  const { data, updateItem, deleteItem } = useMagicItems(characterUUID);
+  const { data, updateItem, deleteItem, refreshItems } =
+    useMagicItems(characterUUID);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [hideMarket, setHideMarket] = useState(true);
   const [editItem, setEditItem] = useState<MagicItem | null>(null);
   const [deleteConfirmItem, setDeleteConfirmItem] = useState<MagicItem>();
+  const [advertItem, setAdvertItem] = useState<MagicItem>();
 
   // filter out common items, and anything in the trading post
   const magicItems = data?.filter((item: MagicItem) => {
@@ -94,7 +97,14 @@ export function MagicItemsGrid(props: PropsType) {
     if (!p.row.editable) return null;
     return (
       <Box className="flex items-center justify-end">
-        <ItemMarketWidget item={p.row} charUUID={characterUUID} />
+        <ItemMarketWidget
+          item={p.row}
+          charUUID={characterUUID}
+          onAdd={() => {
+            setAdvertItem(p.row);
+          }}
+          onRemove={() => {}}
+        />
 
         <IconButton onClick={() => router.push(`/magicitem/${p.row.uuid}`)}>
           <DescriptionIcon fontSize="small" />
@@ -255,6 +265,12 @@ export function MagicItemsGrid(props: PropsType) {
         item={deleteConfirmItem}
         onClose={() => setDeleteConfirmItem(undefined)}
         onConfirm={() => handleItemDelete(deleteConfirmItem)}
+      />
+      <CreateAdvertDialog
+        item={advertItem}
+        onCreate={() => refreshItems()}
+        onClose={() => setAdvertItem(undefined)}
+        open={!!advertItem}
       />
     </React.Fragment>
   );
