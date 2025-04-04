@@ -13,6 +13,7 @@ export type TradeOfferDirection = "in" | "out";
 
 export type TradeOffer = {
   uuid: UUID;
+  advert: Advert;
   datetime: Date;
   direction: TradeOfferDirection;
   rarity: Rarity;

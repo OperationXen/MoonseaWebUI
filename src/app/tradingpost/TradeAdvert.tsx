@@ -10,8 +10,10 @@ import LabelIcon from "@mui/icons-material/Label";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
+import { useTradingPostAdvert } from "@/data/fetch/tradingpost/items";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
 import TradeOfferDialog from "./TradeOfferDialog";
+import useSnackbar from "@/data/store/snackbar";
 
 import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
@@ -22,16 +24,19 @@ type PropsType = {
   uuid: UUID;
   item: MagicItem;
   market?: boolean;
+  onRemove: () => void;
 };
 
 export default function TradeAdvert(props: PropsType) {
   const { description, offers, uuid, item, market = false } = props;
+  const { onRemove } = props;
 
   const router = useRouter();
+  const { deleteAdvert } = useTradingPostAdvert(uuid);
+  const { displayMessage } = useSnackbar();
 
   const numOffers = offers?.length ?? 0;
   const [highlight, setHighlight] = useState(false);
-  const [_showReturn, setShowReturn] = useState(false);
   const [showOffer, setShowOffer] = useState(false);
 
   const getActionIcon = () => {
@@ -103,7 +108,17 @@ export default function TradeAdvert(props: PropsType) {
       <Box className="flex flex-row w-full items-end justify-end">
         {item.editable && (
           <Tooltip title="Remove this item from the trading post and return it to the owner">
-            <IconButton onClick={() => setShowReturn(true)}>
+            <IconButton
+              onClick={() => {
+                deleteAdvert().then(() => {
+                  onRemove();
+                  displayMessage(
+                    `${item.name} returned to ${item.owner_name}`,
+                    "info",
+                  );
+                });
+              }}
+            >
               <RemoveShoppingCartIcon
                 sx={{
                   opacity: highlight ? "0.9" : "0.3",
@@ -119,9 +134,8 @@ export default function TradeAdvert(props: PropsType) {
       <TradeOfferDialog
         open={showOffer}
         onClose={() => setShowOffer(false)}
-        name={item.name}
-        uuid={uuid}
-        rarity={item.rarity}
+        advertUUID={uuid}
+        item={item}
       />
     </Card>
   );

@@ -1,6 +1,6 @@
 import { Container, Typography, Box } from "@mui/material";
 
-export default function EmptyAdvertsWidget(props) {
+export default function EmptyAdvertsWidget() {
   return (
     <Container
       sx={{

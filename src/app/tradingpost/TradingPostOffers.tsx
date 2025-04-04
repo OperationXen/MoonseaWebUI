@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Typography, Tooltip, Grid2 as Grid } from "@mui/material";
+import { Typography, Tooltip, Box } from "@mui/material";
 import { DataGrid, GridOverlay, GridActionsCellItem } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
@@ -29,8 +29,8 @@ export default function TradingPostOffers() {
 
   const [pendingOffers, setPendingOffers] = useState<TradeOffer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAccept, setShowAccept] = useState(false);
-  const [showReject, setShowReject] = useState(false);
+  const [showAcceptOffer, setShowAcceptOffer] = useState<TradeOffer>();
+  const [showRejectOffer, setShowRejectOffer] = useState<TradeOffer>();
   const [showCancel, setShowCancel] = useState(false);
   const [offer, setOffer] = useState<TradeOffer | null>(null);
 
@@ -46,9 +46,8 @@ export default function TradingPostOffers() {
   const getRowRarityWidget = (params: GridRenderCellParams<any, Rarity>) => {
     return <RarityWidget rarity={params.row.item.rarity} />;
   };
-  const formatDateString = (data: any) => {
-    debugger; //wtf is this type?
-    let val = getDateString(new Date(data.value));
+  const formatDateString = (data: string) => {
+    let val = getDateString(new Date(data));
     return val;
   };
   const getOfferDirectionText = (value: TradeOffer) => {
@@ -59,13 +58,15 @@ export default function TradingPostOffers() {
 
   const getItem = (x: any) => {
     return (
-      <Typography
-        variant="body2"
-        sx={{ cursor: "pointer" }}
-        onClick={() => router.push(`/magicitem/${x.uuid}`)}
-      >
-        {`${x.name} (${x.owner_name})`}
-      </Typography>
+      <Box className="flex items-center h-full">
+        <Typography
+          variant="body2"
+          sx={{ cursor: "pointer" }}
+          onClick={() => router.push(`/magicitem/${x.uuid}`)}
+        >
+          {`${x.name} (${x.owner_name})`}
+        </Typography>
+      </Box>
     );
   };
 
@@ -80,14 +81,6 @@ export default function TradingPostOffers() {
     return null;
   };
 
-  const acceptOffer = (offer: TradeOffer) => {
-    setOffer(offer);
-    setShowAccept(true);
-  };
-  const rejectOffer = (offer: TradeOffer) => {
-    setOffer(offer);
-    setShowReject(true);
-  };
   const cancelOffer = (offer: TradeOffer) => {
     setOffer(offer);
     setShowCancel(true);
@@ -96,24 +89,24 @@ export default function TradingPostOffers() {
   const getRowActions = (p: GridRenderCellParams) => {
     if (p.row.direction === "in") {
       return [
-        <Tooltip title="Accept offer" placement="left">
+        <Tooltip title="Accept offer" placement="left" key={1}>
           <GridActionsCellItem
             label="Accept Offer"
-            onClick={() => acceptOffer(p.row.data)}
+            onClick={() => setShowAcceptOffer(p.row)}
             icon={<CheckCircleIcon sx={{ color: "darkgreen" }} />}
           />
         </Tooltip>,
-        <Tooltip title="Reject offer" placement="right">
+        <Tooltip title="Reject offer" placement="right" key={2}>
           <GridActionsCellItem
             label="Reject Offer"
-            onClick={() => rejectOffer(p.row.data)}
+            onClick={() => setShowRejectOffer(p.row)}
             icon={<CancelIcon sx={{ color: "darkred" }} />}
           />
         </Tooltip>,
       ];
     } else if (p.row.direction === "out") {
       return [
-        <Tooltip title="Rescind offer" placement="right">
+        <Tooltip title="Rescind offer" placement="right" key={3}>
           <GridActionsCellItem
             label="Rescind offer"
             onClick={() => cancelOffer(p.row.data)}
@@ -168,13 +161,17 @@ export default function TradingPostOffers() {
 
   return (
     <React.Fragment>
-      <Grid container sx={{ margin: "0.4em", height: "100%" }} spacing={2}>
+      <Box
+        className="p-2"
+        sx={{ height: "calc(100vh - 9em)", minHeight: "500px" }}
+      >
         <DataGrid
+          autoPageSize
           rows={pendingOffers}
           getRowId={(r) => r.uuid}
           columns={columns}
           loading={loading}
-          sx={{ height: "calc(100% - 3em)" }}
+          density="compact"
           slots={{
             noRowsOverlay: () => (
               <GridOverlay>
@@ -185,16 +182,16 @@ export default function TradingPostOffers() {
             ),
           }}
         />
-      </Grid>
+      </Box>
       <OfferRejectConfirm
-        open={showReject}
-        onClose={() => setShowReject(false)}
-        {...offer}
+        open={!!showRejectOffer}
+        onClose={() => setShowRejectOffer(undefined)}
+        offer={showRejectOffer}
       />
       <OfferAcceptConfirm
-        open={showAccept}
-        onClose={() => setShowAccept(false)}
-        {...offer}
+        open={!!showAcceptOffer}
+        onClose={() => setShowAcceptOffer(undefined)}
+        offer={showAcceptOffer}
       />
       <OfferCancelConfirm
         open={showCancel}

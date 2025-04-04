@@ -5,19 +5,10 @@ export function createTradeAdvert(itemUUID, description) {
   let data = { item_uuid: itemUUID, description: description };
   return api.post("/api/data/magicitem/faesuggestion", data);
 }
-export function deleteTradeAdvert(advertUUID) {
-  return api.delete(`/api/data/magicitem/faesuggestion/${advertUUID}/`);
-}
 
 export function getUserAdverts(rarity = null) {
   return api.get("/api/data/magicitem/faesuggestion", {
     params: { own: true, rarity: rarity },
-  });
-}
-
-export function searchAdverts(search) {
-  return api.get("/api/data/magicitem/faesuggestion", {
-    params: { search: search },
   });
 }
 
