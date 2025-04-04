@@ -40,7 +40,7 @@ export default function TradeOfferDialog(props: PropsType) {
 
   // Tradable items can never include the item we're making the offer on
   const validItems = allItems?.filter((x: Advert) => {
-    x.uuid !== item.uuid && x.item.owner_uuid !== item.owner_uuid;
+    return x.uuid !== item.uuid && x.item.owner_uuid !== item.owner_uuid;
   });
 
   return (
