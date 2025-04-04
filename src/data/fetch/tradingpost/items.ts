@@ -16,7 +16,7 @@ async function getUserAdverts(): Promise<Advert[]> {
 
 async function getAdvert(uuid: UUID): Promise<Advert> {
   return api.get(`/api/data/magicitem/faesuggestion/${uuid}`).then((r) => {
-    return r.data.results as Advert;
+    return r.data as Advert;
   });
 }
 
