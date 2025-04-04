@@ -20,12 +20,12 @@ export function useTradingPostSearch(searchTerm: string) {
   const queryClient = useQueryClient();
   const queryKey = ["tradingpost", "adverts", "search", searchTerm];
 
-  const invalidateCached = queryClient.invalidateQueries({ queryKey });
+  const refreshSearch = () => queryClient.invalidateQueries({ queryKey });
 
   const fetchData = useQuery({
     queryKey,
     queryFn: () => searchAdverts(searchTerm),
   });
 
-  return { ...fetchData, refreshData: invalidateCached };
+  return { ...fetchData, refreshSearch };
 }
