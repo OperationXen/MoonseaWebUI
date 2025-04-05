@@ -42,7 +42,11 @@ export default function TradeOfferDialog(props: PropsType) {
 
   // Tradable items can never include the item we're making the offer on
   const validItems = allItems?.filter((x: Advert) => {
-    return x.uuid !== item.uuid && x.item.owner_uuid !== item.owner_uuid;
+    return (
+      x.uuid !== item.uuid &&
+      x.item.owner_uuid !== item.owner_uuid &&
+      x.item.rarity === item.rarity
+    );
   });
 
   return (
@@ -92,7 +96,7 @@ export default function TradeOfferDialog(props: PropsType) {
           value={itemSelected}
           onChange={(e) => setItemSelected(e.target.value)}
         >
-          <MenuItem key="placeholder" value="default">
+          <MenuItem key="placeholder" value="default" disabled>
             {(isLoading && "Loading...") ||
               (validItems?.length && "Pick an item to offer as trade") ||
               "You have no valid items for trade"}

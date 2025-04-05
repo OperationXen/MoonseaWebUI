@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TextsmsIcon from "@mui/icons-material/Textsms";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
@@ -147,7 +146,7 @@ export function MagicItemsGrid(props: PropsType) {
         return (
           <Box className="flex w-full items-center h-full justify-center">
             <Tooltip arrow placement="bottom" title={p.row.description}>
-              <TextsmsIcon
+              <DescriptionIcon
                 fontSize="small"
                 className={p.row.description ? "" : "opacity-20"}
               />
