@@ -16,6 +16,7 @@ export type TradeOffer = {
   advert: Advert;
   datetime: Date;
   direction: TradeOfferDirection;
+  description?: string;
   rarity: Rarity;
   item: MagicItem;
 };

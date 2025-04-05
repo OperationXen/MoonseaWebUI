@@ -8,6 +8,7 @@ import { DataGrid, GridOverlay, GridActionsCellItem } from "@mui/x-data-grid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import TextsmsIcon from "@mui/icons-material/Textsms";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 import { getTradeOffers } from "@/api/trade";
@@ -44,16 +45,33 @@ export default function TradingPostOffers() {
   }, [refresh, snackbar]);
 
   const getRowRarityWidget = (params: GridRenderCellParams<any, Rarity>) => {
-    return <RarityWidget rarity={params.row.item.rarity} />;
+    return (
+      <Box className="w-full flex justify-center">
+        <RarityWidget rarity={params.row.item.rarity} />
+      </Box>
+    );
   };
+
   const formatDateString = (data: string) => {
     let val = getDateString(new Date(data));
     return val;
   };
-  const getOfferDirectionText = (value: TradeOffer) => {
-    if (value.direction === "in") return "Offer";
-    else if (value.direction === "out") return "My Proposal";
-    return "";
+
+  const getOfferText = (p: GridRenderCellParams<TradeOffer>) => {
+    return (
+      <Box className="h-full w-full flex items-center justify-between">
+        <Typography>
+          {p.row.direction === "in" ? "Incoming offer" : "My proposed trade"}
+        </Typography>
+
+        <Tooltip
+          title={p.row.description}
+          className={p.row.description ? "opacity-90" : "opacity-30"}
+        >
+          <TextsmsIcon fontSize="small" />
+        </Tooltip>
+      </Box>
+    );
   };
 
   const getItem = (x: any) => {
@@ -70,12 +88,12 @@ export default function TradingPostOffers() {
     );
   };
 
-  const getMyItem = (p: any) => {
+  const getMyItem = (p: GridRenderCellParams<TradeOffer>) => {
     if (p.row.direction === "in") return getItem(p.row.advert.item);
     else if (p.row.direction === "out") return getItem(p.row.item);
     return null;
   };
-  const getTheirItem = (p: any) => {
+  const getTheirItem = (p: GridRenderCellParams<TradeOffer>) => {
     if (p.row.direction === "in") return getItem(p.row.item);
     else if (p.row.direction === "out") return getItem(p.row.advert.item);
     return null;
@@ -122,34 +140,32 @@ export default function TradingPostOffers() {
       headerName: "Date",
       field: "datetime",
       valueFormatter: formatDateString,
-      align: "center",
-      flex: 0.1,
+      flex: 1,
     },
     {
       field: "rarity",
       headerName: "Rarity",
       align: "center",
       renderCell: getRowRarityWidget,
-      flex: 0.1,
+      flex: 0.4,
     },
     {
       field: "direction",
       headerName: "Offer Type",
-      align: "center",
-      valueGetter: getOfferDirectionText,
-      flex: 0.1,
+      renderCell: getOfferText,
+      flex: 1,
     },
     {
       headerName: "My item",
       field: "item",
       renderCell: getMyItem,
-      flex: 0.3,
+      flex: 2,
     },
     {
       headerName: "Their item",
       field: "item.name",
       renderCell: getTheirItem,
-      flex: 0.3,
+      flex: 2,
     },
     {
       field: "actions",

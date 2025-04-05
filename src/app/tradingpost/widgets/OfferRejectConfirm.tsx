@@ -31,8 +31,6 @@ export function OfferRejectConfirm(props: PropsType) {
       });
   };
 
-  debugger;
-
   return (
     <Dialog
       open={open}
