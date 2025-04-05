@@ -30,7 +30,7 @@ export function OfferAcceptConfirm(props: PropsType) {
         onClose();
       });
   };
-  debugger;
+
   return (
     <Dialog
       open={open}
