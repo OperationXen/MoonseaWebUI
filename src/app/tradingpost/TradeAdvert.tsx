@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Card, CardContent, CardHeader, Box } from "@mui/material";
-import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
+import { Card, CardContent, CardHeader, CardActionArea } from "@mui/material";
+import { Box, Typography, IconButton, Tooltip, Badge } from "@mui/material";
 
 import LabelIcon from "@mui/icons-material/Label";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
@@ -17,13 +17,14 @@ import useSnackbar from "@/data/store/snackbar";
 
 import type { UUID } from "@/types/uuid";
 import type { MagicItem } from "@/types/items";
+import { TradeOffer } from "@/types/trade";
 
 type PropsType = {
   description: string;
-  offers: any;
   uuid: UUID;
   item: MagicItem;
   market?: boolean;
+  offers?: TradeOffer[];
   onRemove: () => void;
 };
 
@@ -51,7 +52,10 @@ export default function TradeAdvert(props: PropsType) {
     } else {
       return (
         <Tooltip title={numOffers ? "View offers" : "No pending offers"}>
-          <IconButton sx={{ opacity: numOffers ? 1 : 0.2 }}>
+          <IconButton
+            sx={{ opacity: numOffers ? 1 : 0.2 }}
+            onClick={() => router.push("/tradingpost/offers")}
+          >
             <Badge invisible={!numOffers} badgeContent={numOffers} color="info">
               <LabelIcon />
             </Badge>
@@ -63,8 +67,7 @@ export default function TradeAdvert(props: PropsType) {
 
   return (
     <Card
-      className="flex-grow-0 h-40 rounded-md"
-      sx={{ minWidth: "14em" }}
+      className="flex-grow-0 rounded-md min-w-72"
       onMouseOver={() => setHighlight(true)}
       onMouseOut={() => setHighlight(false)}
       elevation={6}
@@ -94,7 +97,7 @@ export default function TradeAdvert(props: PropsType) {
         }
       />
       <CardContent
-        className="h-16 flex items-center justify-center mx-1"
+        className="h-24 flex items-center justify-center mx-1"
         sx={{ border: "1px dotted lightgrey" }}
       >
         <Typography
@@ -105,7 +108,7 @@ export default function TradeAdvert(props: PropsType) {
             (description.length > 80 ? "..." : "") || "No advert text"}
         </Typography>
       </CardContent>
-      <Box className="flex flex-row w-full items-end justify-end">
+      <CardActionArea className="w-full flex justify-end pr-2 pt-2">
         {item.editable && (
           <Tooltip title="Remove this item from the trading post and return it to the owner">
             <IconButton
@@ -129,7 +132,7 @@ export default function TradeAdvert(props: PropsType) {
           </Tooltip>
         )}
         {getActionIcon()}
-      </Box>
+      </CardActionArea>
 
       <TradeOfferDialog
         open={showOffer}
