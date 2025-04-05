@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardActionArea } from "@mui/material";
-import { Box, Typography, IconButton, Tooltip, Badge } from "@mui/material";
+import { Typography, IconButton, Tooltip, Badge } from "@mui/material";
 
 import LabelIcon from "@mui/icons-material/Label";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
