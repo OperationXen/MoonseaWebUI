@@ -20,7 +20,7 @@ import OfferRejectConfirm from "./widgets/OfferRejectConfirm";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
 
 import type { Rarity } from "@/types/items";
-import type { TradeOffer } from "@/types/trade";
+import type { TradeOffer, TradeOfferDirection } from "@/types/trade";
 
 export default function TradingPostOffers() {
   const router = useRouter();
@@ -44,15 +44,19 @@ export default function TradingPostOffers() {
   }, [refresh, snackbar]);
 
   const getRowRarityWidget = (params: GridRenderCellParams<any, Rarity>) => {
-    return <RarityWidget rarity={params.row.item.rarity} />;
+    return (
+      <Box className="w-full flex justify-center">
+        <RarityWidget rarity={params.row.item.rarity} />
+      </Box>
+    );
   };
   const formatDateString = (data: string) => {
     let val = getDateString(new Date(data));
     return val;
   };
-  const getOfferDirectionText = (value: TradeOffer) => {
-    if (value.direction === "in") return "Offer";
-    else if (value.direction === "out") return "My Proposal";
+  const getOfferDirectionText = (direction: TradeOfferDirection) => {
+    if (direction === "in") return "Offer";
+    else if (direction === "out") return "My Proposal";
     return "";
   };
 
@@ -122,34 +126,32 @@ export default function TradingPostOffers() {
       headerName: "Date",
       field: "datetime",
       valueFormatter: formatDateString,
-      align: "center",
-      flex: 0.1,
+      flex: 1,
     },
     {
       field: "rarity",
       headerName: "Rarity",
       align: "center",
       renderCell: getRowRarityWidget,
-      flex: 0.1,
+      flex: 0.4,
     },
     {
       field: "direction",
       headerName: "Offer Type",
-      align: "center",
       valueGetter: getOfferDirectionText,
-      flex: 0.1,
+      flex: 1,
     },
     {
       headerName: "My item",
       field: "item",
       renderCell: getMyItem,
-      flex: 0.3,
+      flex: 2,
     },
     {
       headerName: "Their item",
       field: "item.name",
       renderCell: getTheirItem,
-      flex: 0.3,
+      flex: 2,
     },
     {
       field: "actions",
