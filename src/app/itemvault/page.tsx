@@ -221,7 +221,9 @@ export default function ItemVault() {
           <CreateAdvertDialog
             open={!!advertItem}
             onClose={() => setAdvertItem(undefined)}
-            onCreate={() => {}}
+            onCreate={() => {
+              refreshItems();
+            }}
             item={advertItem}
           />
         </ErrorBoundary>
