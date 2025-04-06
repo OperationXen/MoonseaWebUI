@@ -60,8 +60,8 @@ export function ItemMarketWidget(props: PropsType) {
       <IconButton
         onClick={() => {
           if (item.market) {
-            onRemove();
             updateItem({ uuid: item.uuid, market: false }).then(() => {
+              onRemove();
               displayMessage(`${item.name} removed from trading post`, "info");
             });
           } else {

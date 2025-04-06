@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import api from "../base";
 
@@ -11,10 +11,15 @@ function getUserMagicItemsFn() {
 }
 
 export function useUserMagicItems() {
+  const queryKey = ["items", "magic", "user"];
+  const queryClient = useQueryClient();
+
   const fetchData = useQuery({
-    queryKey: ["items", "magic", "user"],
+    queryKey,
     queryFn: getUserMagicItemsFn,
   });
 
-  return { ...fetchData };
+  const refreshItems = () => queryClient.invalidateQueries({ queryKey });
+
+  return { ...fetchData, refreshItems };
 }
