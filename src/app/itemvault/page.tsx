@@ -24,7 +24,7 @@ import { raritySortComparitor } from "@/utils/sort";
 
 import type { MagicItem } from "types/items";
 
-export function ItemVault() {
+export default function ItemVault() {
   const router = useRouter();
   const { data: items, isLoading, refreshItems } = useUserMagicItems();
 
@@ -229,5 +229,3 @@ export function ItemVault() {
     </AuthenticationRequired>
   );
 }
-
-export default ItemVault;
