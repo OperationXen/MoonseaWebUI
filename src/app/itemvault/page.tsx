@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { ErrorBoundary } from "react-error-boundary";
 import SearchIcon from "@mui/icons-material/Search";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
 import { GridColDef, DataGrid } from "@mui/x-data-grid";
 import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
@@ -14,6 +13,7 @@ import { Box, Paper, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
 
 import AuthenticationRequired from "@/components/user/AuthenticationRequired";
+import ItemMarketWidget from "@/components/items/widgets/ItemMarketWidget";
 import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import { useUserMagicItems } from "@/data/fetch/items/usermagicitems";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
@@ -24,9 +24,9 @@ import { raritySortComparitor } from "@/utils/sort";
 
 import type { MagicItem } from "types/items";
 
-export default function ItemVault() {
+export function ItemVault() {
   const router = useRouter();
-  const { data: items, isLoading } = useUserMagicItems();
+  const { data: items, isLoading, refreshItems } = useUserMagicItems();
 
   const [createOpen, setCreateOpen] = useState(false);
   const [filter, setFilter] = useState("");
@@ -74,28 +74,29 @@ export default function ItemVault() {
     }
   };
 
-  const handleTrade = (item: MagicItem) => {
-    setAdvertItem(item);
-  };
-
   const getRowActions = (params: any) => {
-    if (params.row.market) {
-      return [
-        <Tooltip title="View in trading post" placement="right">
-          <IconButton onClick={() => router.push("/tradingpost/items/")}>
-            <ExitToAppIcon />
-          </IconButton>
-        </Tooltip>,
-      ];
-    } else {
-      return [
-        <Tooltip title="Send to trading post" placement="right">
-          <IconButton onClick={() => handleTrade(params.row)}>
-            <LocalGroceryStoreIcon />
-          </IconButton>
-        </Tooltip>,
-      ];
-    }
+    const item = params.row as MagicItem;
+
+    return (
+      <React.Fragment>
+        <ItemMarketWidget
+          item={item}
+          onAdd={() => {
+            setAdvertItem(item);
+          }}
+          onRemove={() => {
+            refreshItems();
+          }}
+        />
+        {item.market && (
+          <Tooltip title="View in trading post" placement="left">
+            <IconButton onClick={() => router.push("/tradingpost/items/")}>
+              <ExitToAppIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </React.Fragment>
+    );
   };
 
   const columns: GridColDef[] = [
@@ -148,7 +149,6 @@ export default function ItemVault() {
     {
       field: "status",
       headerName: "Status",
-      align: "center",
       flex: 0.1,
       valueGetter: rowStatusText,
     },
@@ -229,3 +229,5 @@ export default function ItemVault() {
     </AuthenticationRequired>
   );
 }
+
+export default ItemVault;
