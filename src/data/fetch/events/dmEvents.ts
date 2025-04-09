@@ -9,17 +9,17 @@ import type { DMEvent } from "@/types/events";
 import { generateUUID } from "@/utils/uuid";
 
 /******************************************************************/
-function getEventsFn(dmUUID: UUID) {
+async function getEventsFn(dmUUID: UUID) {
   return api.get(`/api/data/dm_events/${dmUUID}`).then((r) => {
     return r.data as DMEvent[];
   });
 }
 
-function createEventFn(event: Partial<DMEvent>) {
+async function createEventFn(event: Partial<DMEvent>) {
   return api.post("/api/data/dm_reward", { event });
 }
 
-function updateEventFn(event: Partial<DMEvent>) {
+async function updateEventFn(event: Partial<DMEvent>) {
   return api.patch(`/api/data/dm_reward/${event.uuid}`, event);
 }
 
