@@ -15,7 +15,7 @@ async function getGamesFn() {
 }
 
 async function createGameFn(event: Partial<DMGameEvent>) {
-  return api.post("/api/data/dm_game", { event });
+  return api.post("/api/data/dm_game", event);
 }
 
 async function updateGameFn(event: Partial<DMGameEvent>) {

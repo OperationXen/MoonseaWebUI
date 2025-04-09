@@ -26,11 +26,12 @@ type PropsType = {
   uuid: UUID;
   open: boolean;
   onClose: () => void;
+  onSuccess: () => void;
   data: DMGameEvent | null;
 };
 
 export default function DMGameModal(props: PropsType) {
-  const { open, onClose, data, uuid } = props;
+  const { open, onClose, onSuccess, data, uuid } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createGame, updateGame } = useDMGames(uuid);
@@ -103,6 +104,7 @@ export default function DMGameModal(props: PropsType) {
       updateGame(gameData as DMGameEvent)
         .then((_r) => {
           displayMessage("Game updated", "info");
+          onSuccess();
           onClose();
         })
         .catch((e) =>
@@ -116,6 +118,7 @@ export default function DMGameModal(props: PropsType) {
         .then((_response) => {
           clearValues();
           displayMessage("Game added successfully", "success");
+          onSuccess();
           onClose();
         })
         .catch((_error) => {
