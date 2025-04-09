@@ -9,9 +9,10 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { useDMEvents } from "@/data/fetch/events/dmEvents";
-import useSnackbar from "../../data/store/snackbar";
+import { useDMGames } from "@/data/fetch/events/dmGames";
+import useSnackbar from "@/data/store/snackbar";
 
+import type { UUID } from "@/types/uuid";
 import type { DMGameEvent } from "@/types/events";
 
 const row = {
@@ -22,16 +23,17 @@ const row = {
 };
 
 type PropsType = {
+  uuid: UUID;
   open: boolean;
   onClose: () => void;
   data: DMGameEvent | null;
 };
 
 export default function DMGameModal(props: PropsType) {
-  const { open, onClose, data } = props;
+  const { open, onClose, data, uuid } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createEvent, updateEvent } = useDMEvents(null);
+  const { createGame, updateGame } = useDMGames(uuid);
 
   const [highlight, setHighlight] = useState(false);
 
@@ -95,10 +97,10 @@ export default function DMGameModal(props: PropsType) {
       hours_notes: breakdown,
       location: location,
       notes: notes,
-    } as DMGameEvent;
+    } as Partial<DMGameEvent>;
 
     if (editMode) {
-      updateEvent(gameData)
+      updateGame(gameData as DMGameEvent)
         .then((_r) => {
           displayMessage("Game updated", "info");
           onClose();
@@ -110,7 +112,7 @@ export default function DMGameModal(props: PropsType) {
           ),
         );
     } else {
-      createEvent(gameData)
+      createGame(gameData)
         .then((_response) => {
           clearValues();
           displayMessage("Game added successfully", "success");
@@ -127,17 +129,19 @@ export default function DMGameModal(props: PropsType) {
       <Dialog
         open={open}
         onClose={onClose}
-        PaperProps={{
-          sx: {
-            display: "flex",
-            flexDirection: "column",
-            padding: "1em 2em",
-            justifyContent: "space-around",
-            alignItems: "center",
-            borderRadius: "8px",
-            border: "2px solid black",
-            boxShadow: `0 0 8px inset black`,
-            width: "42em",
+        slotProps={{
+          paper: {
+            sx: {
+              display: "flex",
+              flexDirection: "column",
+              padding: "1em 2em",
+              justifyContent: "space-around",
+              alignItems: "center",
+              borderRadius: "8px",
+              border: "2px solid black",
+              boxShadow: `0 0 8px inset black`,
+              width: "42em",
+            },
           },
         }}
       >

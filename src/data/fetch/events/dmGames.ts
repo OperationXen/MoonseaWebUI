@@ -6,24 +6,23 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
 import type { DMGameEvent } from "@/types/events";
-import { generateUUID } from "@/utils/uuid";
 
 /******************************************************************/
-function getGamesFn() {
+async function getGamesFn() {
   return api.get("/api/data/dm_game/").then((r) => {
     return r.data as DMGameEvent[];
   });
 }
 
-function createGameFn(event: Partial<DMGameEvent>) {
+async function createGameFn(event: Partial<DMGameEvent>) {
   return api.post("/api/data/dm_game", { event });
 }
 
-function updateGameFn(event: Partial<DMGameEvent>) {
+async function updateGameFn(event: Partial<DMGameEvent>) {
   return api.patch(`/api/data/dm_game/${event.uuid}`, event);
 }
 
-function deleteGamefn(event: DMGameEvent) {
+async function deleteGamefn(event: DMGameEvent) {
   return api.delete(`/api/data/dm_game/${event.uuid}/`);
 }
 
@@ -42,13 +41,19 @@ export function useDMGames(dmUUID: UUID | null) {
 
     onMutate: async (event: Partial<DMGameEvent>) => {
       // generate a temporary UUID to use with the optimistic update
-      const newEvent = { ...event };
-      newEvent.uuid = generateUUID();
-      // Cancel any outgoing refetches to avoid overwriting optimistic update
-      await queryClient.cancelQueries({ queryKey: queryKey });
-      const oldEvents = queryClient.getQueryData(queryKey) as any[];
-      queryClient.setQueryData(queryKey, [...oldEvents, newEvent]);
-      return { oldEvents };
+      try {
+        const newEvent = { ...event, uuid: "0-0-0-0-0" };
+        // Cancel any outgoing refetches to avoid overwriting optimistic update
+        await queryClient.cancelQueries({ queryKey: queryKey });
+        const oldEvents = queryClient.getQueryData(queryKey) as any;
+        queryClient.setQueryData(queryKey, [
+          ...(oldEvents.results as DMGameEvent[]),
+          newEvent,
+        ]);
+        return { oldEvents };
+      } catch (e) {
+        console.log(e);
+      }
     },
     // If the mutation fails, use the context we returned above
     onError: (_err, _newData: Partial<DMGameEvent>, context) => {

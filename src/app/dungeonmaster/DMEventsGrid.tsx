@@ -204,6 +204,7 @@ export function DMEventsGrid(props: PropsType) {
         }}
       />
       <DMGameModal
+        uuid={uuid}
         open={createEditOpen}
         data={initialGameData ?? null}
         onClose={() => setCreateEditOpen(false)}

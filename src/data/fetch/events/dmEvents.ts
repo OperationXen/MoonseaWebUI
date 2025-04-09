@@ -40,7 +40,6 @@ export function useDMEvents(dmUUID: UUID | null) {
 
   const createEvent = useMutation({
     mutationFn: (data: Partial<DMEvent>) => createEventFn(data),
-
     onMutate: async (event: Partial<DMEvent>) => {
       // generate a temporary UUID to use with the optimistic update
       const newEvent = { ...event };
