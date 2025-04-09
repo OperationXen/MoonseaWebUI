@@ -41,19 +41,16 @@ export function useDMGames(dmUUID: UUID | null) {
 
     onMutate: async (event: Partial<DMGameEvent>) => {
       // generate a temporary UUID to use with the optimistic update
-      try {
-        const newEvent = { ...event, uuid: "0-0-0-0-0" };
-        // Cancel any outgoing refetches to avoid overwriting optimistic update
-        await queryClient.cancelQueries({ queryKey: queryKey });
-        const oldEvents = queryClient.getQueryData(queryKey) as any;
-        queryClient.setQueryData(queryKey, [
-          ...(oldEvents.results as DMGameEvent[]),
-          newEvent,
-        ]);
-        return { oldEvents };
-      } catch (e) {
-        console.log(e);
-      }
+
+      const newEvent = { ...event, uuid: "0-0-0-0-0" };
+      // Cancel any outgoing refetches to avoid overwriting optimistic update
+      await queryClient.cancelQueries({ queryKey: queryKey });
+      const oldEvents = queryClient.getQueryData(queryKey) as any;
+      queryClient.setQueryData(queryKey, [
+        ...(oldEvents.results as DMGameEvent[]),
+        newEvent,
+      ]);
+      return { oldEvents };
     },
     // If the mutation fails, use the context we returned above
     onError: (_err, _newData: Partial<DMGameEvent>, context) => {
