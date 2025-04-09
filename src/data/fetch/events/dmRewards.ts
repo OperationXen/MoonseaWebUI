@@ -10,7 +10,7 @@ import { generateUUID } from "@/utils/uuid";
 
 /******************************************************************/
 function getRewardsFn() {
-  return api.get("/api/data/dm_reward/").then((r) => {
+  return api.get("/api/data/dm_reward").then((r) => {
     return r.data as DMRewardEvent[];
   });
 }

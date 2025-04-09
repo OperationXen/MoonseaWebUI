@@ -9,7 +9,7 @@ import type { DMGameEvent } from "@/types/events";
 
 /******************************************************************/
 async function getGamesFn() {
-  return api.get("/api/data/dm_game/").then((r) => {
+  return api.get("/api/data/dm_game").then((r) => {
     return r.data as DMGameEvent[];
   });
 }
