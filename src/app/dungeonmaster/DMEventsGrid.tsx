@@ -204,8 +204,10 @@ export function DMEventsGrid(props: PropsType) {
         }}
       />
       <DMGameModal
+        uuid={uuid}
         open={createEditOpen}
         data={initialGameData ?? null}
+        onSuccess={() => refreshDMEvents()}
         onClose={() => setCreateEditOpen(false)}
       />
     </React.Fragment>
