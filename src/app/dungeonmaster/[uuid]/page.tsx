@@ -10,7 +10,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import useSnackbar from "@/data/store/snackbar";
-import { updateDMLogData } from "@/api/dungeonmaster";
 
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import SeasonRewards from "../rewards/SeasonRewards";
@@ -20,8 +19,8 @@ import { useUserStatus } from "@/data/fetch/auth";
 import type { UUID } from "@/types/uuid";
 
 export default function DMPage() {
-  const { uuid } = useParams();
-  const { data: userStatus, isLoading } = useUserStatus();
+  const { uuid } = useParams<{ uuid: UUID }>();
+  const { data: userStatus, isLoading, setDMHours } = useUserStatus();
   const displayMessage = useSnackbar((s) => s.displayMessage);
 
   const [serviceHours, setServiceHours] = useState(userStatus?.dmHours || 0);
@@ -40,7 +39,7 @@ export default function DMPage() {
 
   const handleServiceHoursUpdate = () => {
     if (hoursChanged) {
-      updateDMLogData(uuid, serviceHours).then((_response) => {
+      setDMHours({ dmUUID: uuid, hours: serviceHours }).then((_response) => {
         setHoursChanged(false);
         displayMessage("DM Log updated", "success");
       });

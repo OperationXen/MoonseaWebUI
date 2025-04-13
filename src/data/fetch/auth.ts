@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./base";
 
 import type { UserStatus, NewAccount, Credentials } from "@/types/user";
+import type { UUID } from "@/types/uuid";
 
 type PasswordResetParams = { user_id: string; token: string; password: string };
 type PasswordChangeParams = {
@@ -69,6 +70,10 @@ async function doUpdate(data: Partial<UpdateProfileParams>) {
   return api.patch("/api/auth/user_details", profileChanges);
 }
 
+async function setDMHoursFn(data: { dmUUID: UUID; hours: number }) {
+  return api.patch(`/api/data/dm_log/${data.dmUUID}`, { hours: data.hours });
+}
+
 /****************************************************************************************/
 /*               hook, bundles everything up nicely for ease of use                     */
 /****************************************************************************************/
@@ -131,6 +136,10 @@ export function useUserStatus() {
     mutationFn: doUpdate,
   });
 
+  const setDMHours = useMutation({
+    mutationFn: setDMHoursFn,
+  });
+
   return {
     login: login.mutateAsync,
     logout: logout.mutateAsync,
@@ -139,6 +148,7 @@ export function useUserStatus() {
     completePasswordReset: resetPassword.mutateAsync,
     changePassword: changePassword.mutateAsync,
     updateProfile: updateProfile.mutateAsync,
+    setDMHours: setDMHours.mutateAsync,
     ...fetchData,
   };
 }
