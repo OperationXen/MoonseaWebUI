@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Dialog, Button, TextField, Box } from "@mui/material";
+import { Dialog, Button, TextField } from "@mui/material";
 import { DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 import { itemSourceSearchFn } from "@/data/fetch/items/itemsource";
