@@ -11,6 +11,7 @@ import { GridColDef, DataGrid } from "@mui/x-data-grid";
 import { GridRenderCellParams as GRCellParams } from "@mui/x-data-grid";
 import { Box, Paper, Dialog, IconButton, Tooltip } from "@mui/material";
 import { TextField, Typography, InputAdornment } from "@mui/material";
+import { Button } from "@mui/material";
 
 import AuthenticationRequired from "@/components/user/AuthenticationRequired";
 import ItemMarketWidget from "@/components/items/widgets/ItemMarketWidget";
@@ -18,8 +19,10 @@ import CreateAdvertDialog from "@/components/trade/CreateAdvertDialog";
 import { useUserMagicItems } from "@/data/fetch/items/usermagicitems";
 import RarityWidget from "@/components/items/widgets/RarityWidget";
 import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
-import { getDateString, getSourceText } from "@/utils/format";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
+import ItemSourceDialog from "./ItemSourceDialog";
+
+import { getDateString, getSourceText } from "@/utils/format";
 import { raritySortComparitor } from "@/utils/sort";
 
 import type { MagicItem } from "types/items";
@@ -28,6 +31,7 @@ export default function ItemVault() {
   const router = useRouter();
   const { data: items, isLoading, refreshItems } = useUserMagicItems();
 
+  const [itemSourceOpen, setItemSourceOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [filter, setFilter] = useState("");
   const [advertItem, setAdvertItem] = useState<MagicItem>();
@@ -170,6 +174,15 @@ export default function ItemVault() {
           className="mt-2 mb-1"
         >
           <Typography variant="h5">Item Vault</Typography>
+          <Tooltip title="Search over MSC's crowdsourced data for a module containing a specific item">
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setItemSourceOpen(true)}
+            >
+              Munchkin search
+            </Button>
+          </Tooltip>
           <TextField
             label="Search my items"
             size="small"
@@ -225,6 +238,10 @@ export default function ItemVault() {
               refreshItems();
             }}
             item={advertItem}
+          />
+          <ItemSourceDialog
+            open={itemSourceOpen}
+            onClose={() => setItemSourceOpen(false)}
           />
         </ErrorBoundary>
       </Paper>
