@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Baba Yaga’s Dancing Broom",
+    "downtime": 10,
+    "rewards": ["Baba Yaga’s Dancing Broom"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Eyes of Minute Seeing",
+    "downtime": 10,
+    "rewards": ["Eyes of Minute Seeing"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Helm of Comprehending Languages",
+    "downtime": 10,
+    "rewards": ["Helm of Comprehending Languages"],
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Uncommon Adventure Reward",
+    "gold": 250,
+    "rewards": "Any common or uncommon item from a published adventure",
+    "rarity": "uncommon",
+    "level": 1,
+    "cost": 5
+  },
+  {
+    "name": "Boots of Speed",
+    "downtime": 20,
+    "rewards": ["Boots of Speed"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rod of the Pact Keeper +2",
+    "downtime": 20,
+    "rewards": ["Rod of the Pact Keeper +2"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Wand of the War Mage +2",
+    "downtime": 20,
+    "rewards": ["Wand of the War Mage +2"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Rare Adventure Reward",
+    "gold": 2500,
+    "rewards": "Any rare item from a published adventure",
+    "rarity": "rare",
+    "level": 1,
+    "cost": 10
+  },
+  {
+    "name": "Ring of Regeneration",
+    "downtime": 30,
+    "rewards": ["Ring of Regeneration"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Staff of Fire",
+    "downtime": 30,
+    "rewards": ["Staff of Fire"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Energy Bow",
+    "downtime": 30,
+    "rewards": ["Energy Bow"],
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Very Rare Adventure Reward",
+    "gold": 10000,
+    "rewards": "Any very rare item from a published adventure",
+    "rarity": "veryrare",
+    "level": 1,
+    "cost": 20
+  },
+  {
+    "name": "Ring of Invisibility",
+    "downtime": 40,
+    "rewards": ["Ring of Invisibility"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Sword of Answering",
+    "downtime": 40,
+    "rewards": ["Sword of Answering"],
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Legendary Adventure Reward",
+    "downtime": 40,
+    "rewards": "Any legendary item from a published adventure",
+    "rarity": "legendary",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Repeatable Reward",
+    "gold": 50000,
+    "rewards": ["+2 Weapon", "+1 Armor", "5 Rare Potions"],
+    "rarity": "rare",
+    "level": 1,
+    "cost": 40
+  },
+  {
+    "name": "Gain rewards as a player",
+    "gold": 0,
+    "rewards": ["Same as players"],
+    "rarity": "",
+    "level": 1,
+    "cost": 0
+  }
+]
