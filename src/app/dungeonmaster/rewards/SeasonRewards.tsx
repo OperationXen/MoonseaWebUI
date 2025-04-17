@@ -11,6 +11,7 @@ import rewardData12b from "@/config/dm-rewards/season12b.json";
 import rewardData12c from "@/config/dm-rewards/season12c.json";
 import rewardData12d from "@/config/dm-rewards/season12d.json";
 import rewardData12e from "@/config/dm-rewards/season12e.json";
+import rewardData12f from "@/config/dm-rewards/season12f.json";
 
 import type { UUID } from "@/types/uuid";
 import type { DMServiceReward } from "@/types/dm";
@@ -30,7 +31,7 @@ export default function SeasonRewards(props: PropsType) {
   );
   const [selectedReward, setSelectedReward] = useState<DMServiceReward>();
   const [selectRewardOpen, setSelectRewardOpen] = useState(false);
-  const [season, setSeason] = useState("12e");
+  const [season, setSeason] = useState("12f");
 
   useEffect(() => {
     if (season === "11a") setRewards(rewardData11a as DMServiceReward[]);
@@ -40,6 +41,7 @@ export default function SeasonRewards(props: PropsType) {
     if (season === "12c") setRewards(rewardData12c as DMServiceReward[]);
     if (season === "12d") setRewards(rewardData12d as DMServiceReward[]);
     if (season === "12e") setRewards(rewardData12e as DMServiceReward[]);
+    if (season === "12f") setRewards(rewardData12f as DMServiceReward[]);
   }, [season]);
 
   const handleSelect = (reward: DMServiceReward) => {
@@ -60,6 +62,7 @@ export default function SeasonRewards(props: PropsType) {
           <MenuItem value={"12c"}>Season 12C</MenuItem>
           <MenuItem value={"12d"}>Season S50A</MenuItem>
           <MenuItem value={"12e"}>Season S50B</MenuItem>
+          <MenuItem value={"12f"}>April 16th 2025</MenuItem>
         </Select>
       </FormControl>
       <Box
