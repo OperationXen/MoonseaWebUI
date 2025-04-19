@@ -91,7 +91,7 @@ export function GameEventPane(props: PropsType) {
       module: code,
       event_type: "game",
       name: name,
-      datetime: date,
+      datetime: date?.toISOString(),
       dm_name: dmName,
       location: location,
       gold: gold,

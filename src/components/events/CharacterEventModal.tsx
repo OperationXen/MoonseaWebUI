@@ -3,9 +3,7 @@ import React from "react";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import DTEventSpellBookUpdate from "./character_event_panes/DTEventSpellbookUpdate";
-import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
 import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
-import DTEventCatchingUp from "./character_event_panes/DTEventCatchingUp";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 import GameEventPane from "./character_event_panes/GameEventPane";
 import DMEventReward from "./dm_event_panes/DMEventReward";
@@ -54,20 +52,6 @@ export function CharacterEventModal(props: PropsType) {
 
         {event?.event_type === "dt_freeform" && (
           <DTEventFreeForm
-            event={event as FreeFormEvent}
-            characterUUID={characterUUID}
-            onClose={onClose}
-          />
-        )}
-        {event?.event_type === "dt_mtrade" && (
-          <DTEventMerchantVisit
-            event={event as FreeFormEvent}
-            characterUUID={characterUUID}
-            onClose={onClose}
-          />
-        )}
-        {event?.event_type === "dt_catchingup" && (
-          <DTEventCatchingUp
             event={event as FreeFormEvent}
             characterUUID={characterUUID}
             onClose={onClose}

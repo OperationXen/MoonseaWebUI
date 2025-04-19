@@ -17,11 +17,10 @@ import type { UUID } from "@/types/uuid";
 
 type PropsType = {
   uuid: UUID;
-  characterUUID?: UUID;
 };
 
 export function JoinExistingGame(props: PropsType) {
-  const { uuid, characterUUID } = props;
+  const { uuid } = props;
 
   const { data: game, isLoading: gameLoading, joinGame } = useGame(uuid);
   const { data: characters } = useCharacters();

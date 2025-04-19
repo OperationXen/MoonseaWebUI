@@ -51,7 +51,7 @@ export function DTEventBastionTurn(props: PropsType) {
       gold_change: gold,
       downtime_change: downtime,
       auto_apply: autoApply,
-      datetime: datetime ?? undefined,
+      datetime: datetime?.toISOString() ?? undefined,
     } as FreeFormEvent;
 
     if (isNewEvent) {

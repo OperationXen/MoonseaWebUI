@@ -13,7 +13,7 @@ type CharGameRow = {
   gameUUID: UUID;
   character: string;
   characterUUID: UUID;
-  datetime: Date | null;
+  datetime?: string;
 };
 
 type PropsType = {
