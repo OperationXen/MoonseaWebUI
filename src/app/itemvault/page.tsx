@@ -22,7 +22,7 @@ import CharacterLinkWidget from "./widgets/CharacterLinkWidget";
 import ItemLinkWidget from "./widgets/ItemLinkWidget";
 import ItemSourceDialog from "./ItemSourceDialog";
 
-import { getDateString, getSourceText } from "@/utils/format";
+import { getSourceText } from "@/utils/format";
 import { raritySortComparitor } from "@/utils/sort";
 
 import type { MagicItem } from "types/items";
