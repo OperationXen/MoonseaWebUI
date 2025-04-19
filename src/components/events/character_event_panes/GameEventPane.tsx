@@ -3,13 +3,14 @@
 import React, { useState } from "react";
 
 import { default as DowntimeIcon } from "@mui/icons-material/Hotel";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import AddIcon from "@mui/icons-material/Add";
 import { GiTwoCoins } from "react-icons/gi";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { Box, Typography, Button, FormGroup } from "@mui/material";
+import { Box, Typography, Button, IconButton, FormGroup } from "@mui/material";
 import { Checkbox, TextField, Divider, FormControlLabel } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
@@ -117,6 +118,13 @@ export function GameEventPane(props: PropsType) {
         .catch(() => displayMessage("Error creating game", "error"));
   };
 
+  const handleAddPlayerClicked = () => {
+    navigator.clipboard.writeText(
+      `${window.location.host}/game/join/${existingGame?.uuid}`,
+    );
+    displayMessage("Copied invite link to clipboard", "info");
+  };
+
   return (
     <React.Fragment>
       <Box
@@ -189,18 +197,31 @@ export function GameEventPane(props: PropsType) {
         </Box>
 
         {existingGame?.characters && (
-          <Box sx={{ flexFlow: "row wrap", gap: "4px" }}>
+          <Box>
             <Divider>Party</Divider>
-            {existingGame?.characters?.map((partyMember) => {
-              return (
-                <PartyMember
-                  data={partyMember}
-                  onClick={() => {
-                    onClose();
-                  }}
-                />
-              );
-            })}
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box>
+                {existingGame?.characters?.map((partyMember) => {
+                  return (
+                    <PartyMember
+                      data={partyMember}
+                      onClick={() => {
+                        onClose();
+                      }}
+                    />
+                  );
+                })}
+              </Box>
+              <IconButton size="small" onClick={handleAddPlayerClicked}>
+                <GroupAddIcon />
+              </IconButton>
+            </Box>
           </Box>
         )}
 

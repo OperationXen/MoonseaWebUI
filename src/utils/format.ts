@@ -16,6 +16,13 @@ export function getDateString(datetime: Date) {
   return dateString;
 }
 
+export function formatDateTimeString(input: string | undefined) {
+  if (!input) return "Unknown date";
+  const dt = new Date(input);
+
+  return `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, "0")}-${dt.getDay().toString().padStart(2, "0")} ${dt.getHours().toString().padStart(2, "0")}:${dt.getMinutes().toString().padStart(2, "0")}`;
+}
+
 // Comparison function for class sort by level
 function levelCompare(a: PlayerClass, b: PlayerClass) {
   if (a.value > b.value) return -1;

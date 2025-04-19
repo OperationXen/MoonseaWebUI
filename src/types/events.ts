@@ -15,7 +15,7 @@ export type CharacterEvent = {
   uuid: UUID;
   character_uuid: UUID;
   event_type: EventType;
-  datetime: Date;
+  datetime: string;
   editable: boolean;
 };
 
