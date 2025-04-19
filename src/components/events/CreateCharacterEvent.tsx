@@ -6,9 +6,7 @@ import { Typography, Select, MenuItem, InputLabel } from "@mui/material";
 
 import GameEventPane from "./character_event_panes/GameEventPane";
 import DTEventSpellBookUpdatePname from "./character_event_panes/DTEventSpellbookUpdate";
-import DTEventMerchantVisit from "./character_event_panes/DTEventMerchantVisit";
 import DTEventBastionTurn from "./character_event_panes/DTEventBastionTurn";
-import DTEventCatchingUp from "./character_event_panes/DTEventCatchingUp";
 import DTEventFreeForm from "./character_event_panes/DTEventFreeForm";
 
 import type { UUID } from "@/types/uuid";
@@ -95,28 +93,6 @@ export default function CreateCharacterEvent(props: PropsType) {
             <Typography>Event details</Typography>
           </Divider>
           <DTEventFreeForm
-            characterUUID={characterUUID}
-            onClose={handleClose}
-          />
-        </React.Fragment>
-      )}
-      {event === "dt_mtrade" && (
-        <React.Fragment>
-          <Divider sx={{ width: "95%", margin: "auto" }}>
-            <Typography>Merchant Visit Details</Typography>
-          </Divider>
-          <DTEventMerchantVisit
-            characterUUID={characterUUID}
-            onClose={handleClose}
-          />
-        </React.Fragment>
-      )}
-      {event === "dt_catchingup" && (
-        <React.Fragment>
-          <Divider sx={{ width: "95%", margin: "auto" }}>
-            <Typography>Event Details</Typography>
-          </Divider>
-          <DTEventCatchingUp
             characterUUID={characterUUID}
             onClose={handleClose}
           />

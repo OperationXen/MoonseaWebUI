@@ -44,20 +44,6 @@ export default function ItemVault() {
     return filtered;
   };
 
-  const rowDate = (item: MagicItem | undefined) => {
-    try {
-      if (!item) {
-        return "";
-      }
-
-      let datetime = new Date(item.datetime_obtained);
-      return getDateString(datetime);
-    } catch (_error) {
-      console.error(_error);
-      return "";
-    }
-  };
-
   const rowSourceText = (item: MagicItem | undefined) => {
     try {
       if (item?.source_event_type) return getSourceText(item.source_event_type);
@@ -104,12 +90,6 @@ export default function ItemVault() {
   };
 
   const columns: GridColDef[] = [
-    {
-      field: "datetime_obtained",
-      headerName: "Date obtained",
-      flex: 0.1,
-      valueGetter: rowDate,
-    },
     {
       field: "rarity",
       headerName: "Rarity",
