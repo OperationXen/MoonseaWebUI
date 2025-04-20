@@ -8,26 +8,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import { Button } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
-import {
-  GridActionsCellItem,
-  GridColDef,
-  GridRowParams,
-} from "@mui/x-data-grid";
+import { GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import useSnackbar from "@/data/store/snackbar";
 import { getDateString } from "@/utils/format";
 import { useDMEvents } from "@/data/fetch/events/dmEvents";
 import { useDMRewards } from "@/data/fetch/events/dmRewards";
-import { useDMGames } from "@/data/fetch/events/dmGames";
+import { useGames } from "@/data/fetch/games";
 
 import DMGameModal from "./DMGameModal";
 
-import type {
-  DMGameEvent,
-  DMEvent,
-  DMEventType,
-  DMRewardEvent,
-} from "@/types/events";
+import type { GameEvent } from "@/types/events";
+import type { DMEvent, DMEventType, DMRewardEvent } from "@/types/events";
 import type { UUID } from "@/types/uuid";
 
 type PropsType = {
@@ -41,21 +34,21 @@ export function DMEventsGrid(props: PropsType) {
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { data: allDMEvents, refresh: refreshDMEvents } = useDMEvents(uuid);
   const { deleteReward } = useDMRewards(uuid);
-  const { deleteGame } = useDMGames(uuid);
+  const { delete: deleteGame } = useGames();
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
-  const [initialGameData, setInitialGameData] = useState<DMGameEvent | null>();
+  const [initialGameData, setInitialGameData] = useState<GameEvent>();
 
   const editItem = (event: DMEvent) => {
     if (event.event_type === "game") {
-      setInitialGameData(event as DMGameEvent);
+      setInitialGameData(event as GameEvent);
       setCreateEditOpen(true);
     }
   };
 
   const deleteItem = (event: DMEvent) => {
     if (event.event_type === "game") {
-      deleteGame(event as DMGameEvent).then(() => {
+      deleteGame(event as GameEvent).then(() => {
         displayMessage("Removed DMed game", "info");
         refreshDMEvents();
       });
@@ -99,7 +92,7 @@ export function DMEventsGrid(props: PropsType) {
   };
   const rowDetails = (_val: string, event: DMEvent) => {
     if (event.event_type === "game") {
-      event = event as DMGameEvent;
+      event = event as GameEvent;
       return `${event.name} (${event.module})`;
     }
     if (event.event_type === "dm_reward") {
@@ -186,7 +179,7 @@ export function DMEventsGrid(props: PropsType) {
                   variant="outlined"
                   startIcon={<AddIcon />}
                   onClick={() => {
-                    setInitialGameData(null);
+                    setInitialGameData(undefined);
                     setCreateEditOpen(true);
                   }}
                 >

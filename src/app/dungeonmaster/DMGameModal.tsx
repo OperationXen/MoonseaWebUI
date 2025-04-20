@@ -9,11 +9,11 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { useDMGames } from "@/data/fetch/events/dmGames";
+import { useGames } from "@/data/fetch/games";
 import useSnackbar from "@/data/store/snackbar";
 
+import type { GameEvent } from "@/types/events";
 import type { UUID } from "@/types/uuid";
-import type { DMGameEvent } from "@/types/events";
 
 const row = {
   display: "flex",
@@ -27,14 +27,14 @@ type PropsType = {
   open: boolean;
   onClose: () => void;
   onSuccess: () => void;
-  data: DMGameEvent | null;
+  data: GameEvent | null;
 };
 
 export default function DMGameModal(props: PropsType) {
   const { open, onClose, onSuccess, data, uuid } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { createGame, updateGame } = useDMGames(uuid);
+  const { create: createGame, update: updateGame } = useGames();
 
   const [highlight, setHighlight] = useState(false);
 
@@ -98,10 +98,10 @@ export default function DMGameModal(props: PropsType) {
       hours_notes: breakdown,
       location: location,
       notes: notes,
-    } as Partial<DMGameEvent>;
+    } as Partial<GameEvent>;
 
     if (editMode) {
-      updateGame(gameData as DMGameEvent)
+      updateGame(gameData as GameEvent)
         .then((_r) => {
           displayMessage("Game updated", "info");
           onSuccess();
