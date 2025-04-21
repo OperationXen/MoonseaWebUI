@@ -42,6 +42,8 @@ export type PartyMember = {
 
 export type GameEvent = CharacterEvent & {
   name: string;
+  event_type: EventType;
+  dm_uuid?: UUID;
   dm_name: string;
   module: string;
   hours: number;
@@ -70,14 +72,11 @@ export type ItemEvent = {
   module?: string;
 };
 
-export type DMEventType = "game" | "dm_reward";
-
 export type DMRewardEvent = {
   uuid: UUID;
-  event_type: DMEventType;
+  event_type: EventType;
   datetime: string;
   editable: boolean;
-
   dm: string;
   name: string;
   gold: number;

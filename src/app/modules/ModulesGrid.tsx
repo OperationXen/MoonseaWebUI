@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
 
-import { usePlayerGames } from "@/data/fetch/games";
+import { useGames } from "@/data/fetch/games";
 import { getDateString } from "@/utils/format";
 
 import type { CharacterGames } from "@/types/games";
@@ -23,7 +23,7 @@ type PropsType = {
 export function ModulesGrid(props: PropsType) {
   const { search } = props;
 
-  const { data } = usePlayerGames();
+  const { data } = useGames();
 
   const flattenGames = (raw: CharacterGames[]): CharGameRow[] => {
     const retval: CharGameRow[] = [];

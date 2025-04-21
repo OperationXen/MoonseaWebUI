@@ -13,14 +13,13 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import useSnackbar from "@/data/store/snackbar";
 import { getDateString } from "@/utils/format";
-import { useDMEvents } from "@/data/fetch/events/dmEvents";
-import { useDMRewards } from "@/data/fetch/events/dmRewards";
+import { useDMRewards } from "@/data/fetch/dmRewards";
 import { useGames } from "@/data/fetch/games";
 
 import DMGameModal from "./DMGameModal";
 
 import type { GameEvent } from "@/types/events";
-import type { DMEvent, DMEventType, DMRewardEvent } from "@/types/events";
+import type { DMEvent, EventType, DMRewardEvent } from "@/types/events";
 import type { UUID } from "@/types/uuid";
 
 type PropsType = {
@@ -32,9 +31,13 @@ export function DMEventsGrid(props: PropsType) {
   const { uuid, allowUpdates } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { data: allDMEvents, refresh: refreshDMEvents } = useDMEvents(uuid);
-  const { deleteReward } = useDMRewards(uuid);
-  const { delete: deleteGame } = useGames();
+  const { data: dmRewards, deleteReward } = useDMRewards(uuid);
+  const { data: dmGames, delete: deleteGame } = useGames({ dmUUID: uuid });
+
+  let allDMEvents: DMEvent[] = [];
+  allDMEvents = allDMEvents.concat(dmGames || []);
+  allDMEvents = allDMEvents.concat(dmRewards || []);
+  debugger;
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
   const [initialGameData, setInitialGameData] = useState<GameEvent>();
@@ -50,12 +53,10 @@ export function DMEventsGrid(props: PropsType) {
     if (event.event_type === "game") {
       deleteGame(event as GameEvent).then(() => {
         displayMessage("Removed DMed game", "info");
-        refreshDMEvents();
       });
     } else if (event.event_type === "dm_reward") {
       deleteReward(event as DMRewardEvent).then(() => {
         displayMessage("Removed service reward", "info");
-        refreshDMEvents();
       });
     }
   };
@@ -77,7 +78,7 @@ export function DMEventsGrid(props: PropsType) {
     ];
   };
 
-  const rowType = (_val: DMEventType, event: DMEvent) => {
+  const rowType = (_val: EventType, event: DMEvent) => {
     if (event.event_type === "game") return "DMed game";
     if (event.event_type === "dm_reward") return "Service reward";
   };
@@ -150,10 +151,10 @@ export function DMEventsGrid(props: PropsType) {
       <DataGrid
         disableColumnMenu
         columns={columns}
+        getRowId={(row) => row.uuid}
         rows={allDMEvents}
         rowHeight={36}
         sx={{ border: "1px solid black", borderRadius: "8px" }}
-        getRowId={(row) => row.uuid}
         initialState={{
           sorting: {
             sortModel: [{ field: "datetime", sort: "desc" }],
@@ -200,7 +201,7 @@ export function DMEventsGrid(props: PropsType) {
         uuid={uuid}
         open={createEditOpen}
         data={initialGameData ?? null}
-        onSuccess={() => refreshDMEvents()}
+        onSuccess={() => {}}
         onClose={() => setCreateEditOpen(false)}
       />
     </React.Fragment>

@@ -34,7 +34,7 @@ export default function DMGameModal(props: PropsType) {
   const { open, onClose, onSuccess, data, uuid } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
-  const { create: createGame, update: updateGame } = useGames();
+  const { create: createGame, update: updateGame } = useGames({ dmUUID: uuid });
 
   const [highlight, setHighlight] = useState(false);
 

@@ -7,8 +7,9 @@ import { Divider, Button } from "@mui/material";
 import useSnackBar from "@/data/store/snackbar";
 
 import { useCharacters } from "@/data/fetch/character";
+import { useDMRewards } from "@/data/fetch/dmRewards";
 import { getRarityColour } from "@/utils/items";
-import { createDMReward } from "@/api/events";
+
 import RewardSelectWidget from "./RewardSelectWidget";
 
 import type { UUID } from "@/types/uuid";
@@ -24,10 +25,11 @@ type PropsType = {
 };
 
 export function SelectDMServiceReward(props: PropsType) {
-  const { data, open, onClose, onChange } = props;
+  const { data, open, onClose, onChange, dmUUID } = props;
+
   const displayMessage = useSnackBar((s) => s.displayMessage);
   const { data: characters } = useCharacters();
-  //const { createEvent } = useDMEvents(dmUUID);
+  const { create: createDMReward } = useDMRewards(dmUUID);
 
   const [levelChar, setLevelChar] = useState(0);
   const [rewardChar, setRewardChar] = useState(1);
@@ -71,16 +73,18 @@ export function SelectDMServiceReward(props: PropsType) {
     <Dialog
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          borderRadius: "8px",
-          border: `2px solid ${getRarityColour(data?.rarity || "common")}`,
-          boxShadow: `0 0 64px ${getRarityColour(data?.rarity || "common")}`,
-          display: "flex",
-          minWidth: "42em",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "1em 2em",
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: "8px",
+            border: `2px solid ${getRarityColour(data?.rarity || "common")}`,
+            boxShadow: `0 0 64px ${getRarityColour(data?.rarity || "common")}`,
+            display: "flex",
+            minWidth: "42em",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "1em 2em",
+          },
         },
       }}
     >
