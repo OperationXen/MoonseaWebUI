@@ -3,7 +3,7 @@
 import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { FormControl, InputLabel } from "@mui/material";
 
-import { useCharacterGames } from "@/data/fetch/games";
+import { useGames } from "@/data/fetch/games";
 import { getDateString } from "@/utils/format";
 
 import type { GameEvent } from "@/types/events";
@@ -18,7 +18,7 @@ type PropsType = {
 export function MagicItemOriginSelector(props: PropsType) {
   const { characterUUID, originGame, setOriginGame } = props;
 
-  const { data: games } = useCharacterGames(characterUUID);
+  const { data: games } = useGames({ charUUID: characterUUID });
 
   const getGameName = (game: GameEvent) => {
     const date = new Date(game.datetime);

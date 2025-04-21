@@ -9,7 +9,7 @@ import { Paper, Divider } from "@mui/material";
 
 import useSnackbar from "@/data/store/snackbar";
 import { useCharacters } from "@/data/fetch/character";
-import { useGame } from "@/data/fetch/events/games";
+import { useGame } from "@/data/fetch/games";
 import { getCharClassShort } from "@/utils/format";
 import { formatDateTimeString } from "@/utils/format";
 

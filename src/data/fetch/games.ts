@@ -1,42 +1,107 @@
 "use client";
 
-import api from "./base";
+import api from "@/data/fetch/base";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { UUID } from "@/types/uuid";
-import type { CharacterGames } from "@/types/games";
 import type { GameEvent } from "@/types/events";
 
-function getPlayerGames() {
-  return api.get("/api/data/games").then((r) => {
-    return r.data as CharacterGames[];
+type GameFilterType = {
+  charUUID?: UUID;
+  dmUUID?: UUID;
+};
+
+/***************** Game CRUD functions *********************/
+
+async function getGameFn(uuid: UUID) {
+  return api.get(`/api/data/game/${uuid}`).then((r) => {
+    return r.data as GameEvent;
   });
 }
 
-function getCharacterGames(characterUUID: UUID) {
-  return api.get(`/api/data/game?character_uuid=${characterUUID}`).then((r) => {
-    return r.data.results as GameEvent[];
+async function getGamesFn(filter?: GameFilterType) {
+  return api
+    .get("/api/data/game", {
+      params: { character_uuid: filter?.charUUID, dm_uuid: filter?.dmUUID },
+    })
+    .then((r) => {
+      return r.data as GameEvent[];
+    });
+}
+
+async function createGameFn(event: Partial<GameEvent>) {
+  return api.post("/api/data/game", event);
+}
+
+async function updateGameFn(event: Partial<GameEvent>) {
+  return api.patch(`/api/data/game/${event.uuid}`, event);
+}
+
+async function deleteGamefn(event: GameEvent) {
+  return api.delete(`/api/data/game/${event.uuid}/`);
+}
+
+/****************** Game action functions *********************/
+
+async function joinGameFn(gameUUID: UUID, characterUUID: UUID) {
+  return api.post(`/api/data/game/${gameUUID}/add_character`, {
+    character_uuid: characterUUID,
   });
 }
 
-/*********************************************************************/
+/***************** Hooks ************************/
 
-export function usePlayerGames() {
-  const queryKey = ["player", "games"];
+export function useGame(uuid: UUID) {
+  const queryKey = ["game", uuid];
 
-  return useQuery({
+  const fetchData = useQuery({
     queryKey,
-    queryFn: getPlayerGames,
+    queryFn: () => getGameFn(uuid),
   });
+  const joinGame = useMutation({
+    mutationFn: (charUUID: UUID) => joinGameFn(uuid, charUUID),
+  });
+
+  return { ...fetchData, joinGame: joinGame.mutateAsync };
 }
 
-export function useCharacterGames(characterUUID: UUID) {
-  const queryKey = ["character", "games", characterUUID];
+export function useGames(filter: GameFilterType = {}) {
+  const { charUUID, dmUUID } = filter;
+  const queryClient = useQueryClient();
 
-  return useQuery({
+  let queryKey = ["game", "user"];
+  if (dmUUID) queryKey = ["game", "dm", dmUUID];
+  else if (charUUID) queryKey = ["game", "char", charUUID];
+
+  const fetchData = useQuery({
     queryKey,
-    queryFn: () => getCharacterGames(characterUUID),
-    initialData: [],
+    queryFn: () => getGamesFn({ charUUID, dmUUID }),
   });
+
+  const createGame = useMutation({
+    mutationFn: (event: Partial<GameEvent>) => {
+      if (dmUUID) event["dm_name"] = "self";
+      return createGameFn(event);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    },
+  });
+  const updateGame = useMutation({
+    mutationFn: (reward: GameEvent) => updateGameFn(reward),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
+  });
+
+  const deleteGame = useMutation({
+    mutationFn: (reward: GameEvent) => deleteGamefn(reward),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: queryKey }),
+  });
+
+  return {
+    ...fetchData,
+    create: createGame.mutateAsync,
+    update: updateGame.mutateAsync,
+    delete: deleteGame.mutateAsync,
+  };
 }
