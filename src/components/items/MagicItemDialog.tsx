@@ -126,16 +126,10 @@ export function MagicItemDialog(props: PropsType) {
         <Typography variant="caption">{`Item was a DM reward`}</Typography>
       );
     }
-
     if (itemOrigin?.event_type === "game") {
-      if (itemOrigin.name) {
-        return (
-          <Typography variant="caption">{`Item found in module: ${itemOrigin.name}`}</Typography>
-        );
-      } else if (itemOrigin.module)
-        return (
-          <Typography variant="caption">{`Item found in module: ${itemOrigin.module}`}</Typography>
-        );
+      return (
+        <Typography variant="caption">{`Item found in module: ${itemOrigin.name || "Unknown module"} (${itemOrigin.module || "?"})`}</Typography>
+      );
     }
     return <Typography variant="caption">Item origin unknown</Typography>;
   };
