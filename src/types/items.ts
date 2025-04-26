@@ -60,3 +60,8 @@ export type PredefConsumable = {
   description: string;
   cost: number;
 };
+
+export type ItemSource = {
+  item_source_type: string;
+  item_source: string;
+};
