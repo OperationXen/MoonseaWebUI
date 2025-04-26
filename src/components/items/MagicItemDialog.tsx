@@ -18,7 +18,7 @@ import { getRarityColour } from "@/utils/items";
 import MagicItemOriginSelector from "./MagicItemOriginSelector";
 
 import type { UUID } from "@/types/uuid";
-import type { MagicItem, Rarity } from "@/types/items";
+import type { MagicItem, Rarity, ItemSource } from "@/types/items";
 
 type PropsType = {
   open: boolean;
@@ -26,11 +26,6 @@ type PropsType = {
   characterUUID: UUID;
   item: MagicItem | null;
   defaultRarity?: Rarity;
-};
-
-type ItemSource = {
-  item_source_type: string;
-  item_source: string;
 };
 
 export function MagicItemDialog(props: PropsType) {
@@ -49,7 +44,7 @@ export function MagicItemDialog(props: PropsType) {
   const [flavour, setFlavour] = useState("");
   const [attunement, setAttunement] = useState(false);
   const [highlight, setHighlight] = useState(false);
-  const [originGame, setOriginGame] = useState("");
+  const [origin, setOrigin] = useState<ItemSource>();
 
   const isNewItem = !item;
   const nameChanged = item?.name && item.name !== name;
@@ -90,9 +85,9 @@ export function MagicItemDialog(props: PropsType) {
       minor_properties: minorProperties,
     };
 
-    if (isNewItem && originGame) {
-      data.item_source_type = "game";
-      data.item_source = originGame;
+    if (isNewItem && origin) {
+      data.item_source_type = origin.item_source_type;
+      data.item_source = origin.item_source;
     }
 
     if (item) {
@@ -131,6 +126,11 @@ export function MagicItemDialog(props: PropsType) {
         <Typography variant="caption">{`Item found in module: ${itemOrigin.name || "Unknown module"} (${itemOrigin.module || "?"})`}</Typography>
       );
     }
+    if (itemOrigin?.event_type === "manual") {
+      return (
+        <Typography variant="caption">{`Misc item origin: ${itemOrigin.name}`}</Typography>
+      );
+    }
     return <Typography variant="caption">Item origin unknown</Typography>;
   };
 
@@ -138,16 +138,18 @@ export function MagicItemDialog(props: PropsType) {
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{
-        sx: {
-          width: "40em",
-          border: `2px solid ${getRarityColour(rarity)}`,
-          borderRadius: "16px",
-          boxShadow: `2px 2px 60px black, 1px 1px 8px inset ${getRarityColour(rarity)}`,
-          padding: "1.2em",
-          display: "flex",
-          gap: "0.6em",
-          flexDirection: "column",
+      slotProps={{
+        paper: {
+          sx: {
+            width: "40em",
+            border: `2px solid ${getRarityColour(rarity)}`,
+            borderRadius: "16px",
+            boxShadow: `2px 2px 60px black, 1px 1px 8px inset ${getRarityColour(rarity)}`,
+            padding: "1.2em",
+            display: "flex",
+            gap: "0.6em",
+            flexDirection: "column",
+          },
         },
       }}
     >
@@ -319,8 +321,8 @@ export function MagicItemDialog(props: PropsType) {
           {(isNewItem && (
             <MagicItemOriginSelector
               characterUUID={characterUUID}
-              originGame={originGame}
-              setOriginGame={setOriginGame}
+              origin={origin}
+              setOrigin={setOrigin}
             />
           )) || (
             <Box sx={{ display: "flex", justifyContent: "center" }}>
