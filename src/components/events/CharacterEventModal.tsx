@@ -27,12 +27,14 @@ export function CharacterEventModal(props: PropsType) {
     <Dialog
       open={!!event}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: "40em",
-          border: "2px solid black",
-          borderRadius: "16px",
-          boxShadow: "2px 2px 60px black",
+      slotProps={{
+        paper: {
+          sx: {
+            width: "40em",
+            border: "2px solid black",
+            borderRadius: "16px",
+            boxShadow: "2px 2px 60px black",
+          },
         },
       }}
     >

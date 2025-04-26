@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { Button } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { DataGrid, GridPagination } from "@mui/x-data-grid";
 import { GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -21,6 +21,7 @@ import DMGameModal from "./DMGameModal";
 import type { GameEvent } from "@/types/events";
 import type { DMEvent, EventType, DMRewardEvent } from "@/types/events";
 import type { UUID } from "@/types/uuid";
+import DMEventReward from "@/components/events/dm_event_panes/DMEventReward";
 
 type PropsType = {
   uuid: UUID;
@@ -37,15 +38,17 @@ export function DMEventsGrid(props: PropsType) {
   let allDMEvents: DMEvent[] = [];
   allDMEvents = allDMEvents.concat(dmGames || []);
   allDMEvents = allDMEvents.concat(dmRewards || []);
-  debugger;
 
   const [createEditOpen, setCreateEditOpen] = useState(false);
   const [initialGameData, setInitialGameData] = useState<GameEvent>();
+  const [editReward, setEditReward] = useState<DMRewardEvent>();
 
   const editItem = (event: DMEvent) => {
     if (event.event_type === "game") {
       setInitialGameData(event as GameEvent);
       setCreateEditOpen(true);
+    } else if (event.event_type === "dm_reward") {
+      setEditReward(event as DMRewardEvent);
     }
   };
 
@@ -204,6 +207,29 @@ export function DMEventsGrid(props: PropsType) {
         onSuccess={() => {}}
         onClose={() => setCreateEditOpen(false)}
       />
+
+      <Dialog
+        open={!!editReward}
+        onClose={() => setEditReward(undefined)}
+        slotProps={{
+          paper: {
+            sx: {
+              width: "40em",
+              border: "2px solid black",
+              borderRadius: "16px",
+              boxShadow: "2px 2px 60px black",
+            },
+          },
+        }}
+      >
+        <DialogTitle>Service Reward</DialogTitle>
+        <DialogContent>
+          <DMEventReward
+            event={editReward}
+            onClose={() => setEditReward(undefined)}
+          />
+        </DialogContent>
+      </Dialog>
     </React.Fragment>
   );
 }

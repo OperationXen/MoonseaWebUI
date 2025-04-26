@@ -12,7 +12,7 @@ import StatsWidget from "@/components/characters/StatsWidget";
 import type { DMRewardEvent } from "@/types/events";
 
 type PropsType = {
-  event: DMRewardEvent;
+  event?: DMRewardEvent;
   onClose: () => void;
 };
 
@@ -26,7 +26,7 @@ export function DMEventReward(props: PropsType) {
     event ? new Date(event.datetime) : null,
   );
 
-  const editable = event.editable;
+  const editable = event?.editable;
 
   const handleSubmit = () => {
     onClose && onClose();
