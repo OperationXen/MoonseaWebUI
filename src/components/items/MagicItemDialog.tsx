@@ -126,6 +126,11 @@ export function MagicItemDialog(props: PropsType) {
         <Typography variant="caption">{`Item found in module: ${itemOrigin.name || "Unknown module"} (${itemOrigin.module || "?"})`}</Typography>
       );
     }
+    if (itemOrigin?.event_type === "manual") {
+      return (
+        <Typography variant="caption">{`Misc item origin: ${itemOrigin.name}`}</Typography>
+      );
+    }
     return <Typography variant="caption">Item origin unknown</Typography>;
   };
 
