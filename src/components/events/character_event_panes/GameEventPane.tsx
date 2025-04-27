@@ -50,8 +50,12 @@ export function GameEventPane(props: PropsType) {
   const [name, setName] = useState(existingGame?.name || "");
   const [dmName, setDMName] = useState(existingGame?.dm_name || "");
   const [location, setLocation] = useState(existingGame?.location || "");
-  const [items, setItems] = useState<Partial<MagicItem>[]>([]);
-  const [consumables, setConsumables] = useState<Partial<Consumable>[]>([]);
+  const [items, setItems] = useState<Partial<MagicItem>[]>(
+    existingGame?.magicitems || [],
+  );
+  const [consumables, setConsumables] = useState<Partial<Consumable>[]>(
+    existingGame?.consumables || [],
+  );
   const [notes, setNotes] = useState(existingGame?.notes || "");
   const [consumablesOpen, setConsumablesOpen] = useState(false);
   const [date, setDate] = useState<Date | null>(
@@ -308,19 +312,17 @@ export function GameEventPane(props: PropsType) {
           })}
         </Box>
 
-        {!existingGame && (
-          <Button
-            sx={{ marginY: "4px" }}
-            startIcon={<AddIcon />}
-            disabled={!!existingGame || !editable}
-            variant="outlined"
-            size="small"
-            fullWidth
-            onClick={handleAddItem}
-          >
-            {items.length >= 1 ? "Add Another item" : "Add an item"}
-          </Button>
-        )}
+        <Button
+          sx={{ marginY: "4px" }}
+          startIcon={<AddIcon />}
+          disabled={!editable}
+          variant="outlined"
+          size="small"
+          fullWidth
+          onClick={handleAddItem}
+        >
+          {items.length >= 1 ? "Add Another item" : "Add an item"}
+        </Button>
 
         <Box
           sx={{
@@ -343,19 +345,17 @@ export function GameEventPane(props: PropsType) {
           ))}
         </Box>
 
-        {!existingGame && (
-          <Button
-            sx={{ marginY: "4px" }}
-            startIcon={<AddIcon />}
-            disabled={!editable}
-            variant="outlined"
-            size="small"
-            fullWidth
-            onClick={() => setConsumablesOpen(true)}
-          >
-            Add consumable item
-          </Button>
-        )}
+        <Button
+          sx={{ marginY: "4px" }}
+          startIcon={<AddIcon />}
+          disabled={!editable}
+          variant="outlined"
+          size="small"
+          fullWidth
+          onClick={() => setConsumablesOpen(true)}
+        >
+          Add consumable item
+        </Button>
 
         {editable && (
           <Box
