@@ -1,4 +1,4 @@
-import { MagicItem } from "./items";
+import { MagicItem, Consumable } from "./items";
 import type { UUID } from "./uuid";
 
 export type EventType =
@@ -52,7 +52,8 @@ export type GameEvent = CharacterEvent & {
   downtime: number;
   gold: number;
   levels: number;
-  items: Partial<MagicItem>[];
+  magicitems: Partial<MagicItem>[];
+  consumables: Partial<Consumable>[];
   notes: string;
   characters?: PartyMember[];
 };

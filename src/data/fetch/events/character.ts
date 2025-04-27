@@ -123,6 +123,9 @@ export function useEvents(characterUUID: UUID) {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKey });
       queryClient.invalidateQueries({ queryKey: ["character", characterUUID] });
+      queryClient.invalidateQueries({
+        queryKey: ["items", "magic", "character", characterUUID],
+      });
     },
   });
 
