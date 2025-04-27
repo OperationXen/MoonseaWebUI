@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
-import { Box, Dialog, Typography, TextField } from "@mui/material";
+import { Box, Dialog, Typography, TextField, ButtonGroup } from "@mui/material";
 import { Button, IconButton, Divider } from "@mui/material";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
@@ -53,6 +53,13 @@ export default function DMGameModal(props: PropsType) {
   const [notes, setNotes] = useState("");
 
   const editMode = !!data?.uuid;
+
+  const handleAddPlayerClicked = () => {
+    navigator.clipboard.writeText(
+      `${window.location.host}/game/join/${data?.uuid}`,
+    );
+    displayMessage("Copied invite link to clipboard", "info");
+  };
 
   // Helper function to clear out all game state to a set of defaults
   const clearValues = () => {
@@ -254,18 +261,22 @@ export default function DMGameModal(props: PropsType) {
           onChange={(e) => setNotes(e.target.value)}
         ></TextField>
         <Box
-          width="60%"
+          sx={{ marginTop: "1em" }}
           onMouseOver={() => setHighlight(true)}
           onMouseOut={() => setHighlight(false)}
         >
-          <Button
-            variant="contained"
-            sx={{ width: "100%", marginTop: "0.6em" }}
-            onClick={handleSubmit}
-            disabled={!code || !name}
-          >
-            {editMode ? "Update game" : "Add Game"}
-          </Button>
+          <ButtonGroup>
+            <Button
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={!code || !name}
+            >
+              {editMode ? "Update game" : "Add Game"}
+            </Button>
+            <Button disabled={!data?.uuid} onClick={handleAddPlayerClicked}>
+              Join game
+            </Button>
+          </ButtonGroup>
         </Box>
       </Dialog>
     </LocalizationProvider>
