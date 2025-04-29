@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Dialog, Box, Typography } from "@mui/material";
+import { Dialog, Box, Typography, SelectChangeEvent } from "@mui/material";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { Divider, Button } from "@mui/material";
 
@@ -31,8 +31,8 @@ export function SelectDMServiceReward(props: PropsType) {
   const { data: characters } = useCharacters();
   const { create: createDMReward } = useDMRewards(dmUUID);
 
-  const [levelChar, setLevelChar] = useState(0);
-  const [rewardChar, setRewardChar] = useState(1);
+  const [levelChar, setLevelChar] = useState<UUID>();
+  const [rewardChar, setRewardChar] = useState<UUID>();
   const [rewardItem, setRewardItem] = useState(0);
   const [rewardText, setRewardText] = useState("");
 
@@ -53,12 +53,18 @@ export function SelectDMServiceReward(props: PropsType) {
     } else {
       temp["item"] = data?.rewards[rewardItem] || "";
     }
-
-    createDMReward(temp).then(() => {
-      displayMessage(`Purchased DM reward for ${data?.cost} hours`, "success");
-      onChange();
-      onClose();
-    });
+    createDMReward(temp)
+      .then(() => {
+        displayMessage(
+          `Purchased DM reward for ${data?.cost} hours`,
+          "success",
+        );
+        onChange();
+        onClose();
+      })
+      .catch((_err) => {
+        displayMessage(`Failed to claim DM reward`, "error");
+      });
   };
 
   const getRewardText = () => {
@@ -113,7 +119,9 @@ export function SelectDMServiceReward(props: PropsType) {
                 }}
                 label="Character to level up"
                 value={levelChar}
-                onChange={(e) => setLevelChar(e.target.value as number)}
+                onChange={(e: SelectChangeEvent<UUID>) =>
+                  setLevelChar(e.target.value as UUID)
+                }
               >
                 <MenuItem value={0} divider>
                   None - skip level up
@@ -157,7 +165,9 @@ export function SelectDMServiceReward(props: PropsType) {
             sx={{ width: "16em", justifySelf: "flex-start" }}
             label="Character to recieve items"
             value={rewardChar}
-            onChange={(e) => setRewardChar(e.target.value as number)}
+            onChange={(e: SelectChangeEvent<UUID>) =>
+              setRewardChar(e.target.value as UUID)
+            }
           >
             <MenuItem value={0} divider disabled>
               None - skip item rewards
@@ -193,6 +203,7 @@ export function SelectDMServiceReward(props: PropsType) {
         variant="contained"
         sx={{ marginBottom: "1em", width: "50%" }}
         onClick={handleSubmit}
+        disabled={!rewardChar}
       >{`Claim reward (${data?.cost} hours)`}</Button>
     </Dialog>
   );
