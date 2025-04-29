@@ -16,7 +16,7 @@ async function getRewardsFn() {
 }
 
 async function createRewardFn(event: Partial<DMRewardEvent>) {
-  return api.post("/api/data/dm_reward", { event });
+  return api.post("/api/data/dm_reward", { ...event });
 }
 
 async function updateRewardFn(event: Partial<DMRewardEvent>) {
