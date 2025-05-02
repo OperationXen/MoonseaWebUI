@@ -2,15 +2,10 @@
 
 import { Alert, Snackbar as MUISnackbar } from "@mui/material";
 
-import useSnackbar from "../../data/store/snackbar";
+import useSnackbar from "@/data/store/snackbar";
 
 export function Snackbar() {
-  const [open, setOpen, message, severity] = useSnackbar((s) => [
-    s.open,
-    s.setOpen,
-    s.message,
-    s.severity,
-  ]);
+  const { open, setOpen, message, severity } = useSnackbar();
 
   const handleClose = () => {
     setOpen(false);

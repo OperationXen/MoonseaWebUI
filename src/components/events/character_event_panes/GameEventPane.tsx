@@ -18,6 +18,8 @@ import StatsWidget from "@/components/characters/StatsWidget";
 import CreateConsumableDialog from "@/components/items/consumables/CreateConsumableDialog";
 import ConsumableItem from "@/components/items/consumables/ConsumableItem";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
+import { useConsumables } from "@/data/fetch/items/consumables";
+import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { useEvents } from "@/data/fetch/events/character";
 import { PartyMember } from "./PartyMember";
 
@@ -44,14 +46,20 @@ export function GameEventPane(props: PropsType) {
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
+  const { refreshItems } = useMagicItems(characterUUID);
+  const { refreshConsumables } = useConsumables(characterUUID);
 
   const [highlight, setHighlight] = useState(false);
   const [code, setCode] = useState(existingGame?.module || "");
   const [name, setName] = useState(existingGame?.name || "");
   const [dmName, setDMName] = useState(existingGame?.dm_name || "");
   const [location, setLocation] = useState(existingGame?.location || "");
-  const [items, setItems] = useState<Partial<MagicItem>[]>([]);
-  const [consumables, setConsumables] = useState<Partial<Consumable>[]>([]);
+  const [items, setItems] = useState<Partial<MagicItem>[]>(
+    existingGame?.magicitems || [],
+  );
+  const [consumables, setConsumables] = useState<Partial<Consumable>[]>(
+    existingGame?.consumables || [],
+  );
   const [notes, setNotes] = useState(existingGame?.notes || "");
   const [consumablesOpen, setConsumablesOpen] = useState(false);
   const [date, setDate] = useState<Date | null>(
@@ -66,6 +74,11 @@ export function GameEventPane(props: PropsType) {
   );
 
   const editable = existingGame ? existingGame.editable : true;
+
+  const refreshAllItemsForCharacter = () => {
+    refreshItems();
+    refreshConsumables();
+  };
 
   const handleAddItem = () => {
     setItems([...items, { name: "", rarity: "uncommon" }]);
@@ -97,7 +110,7 @@ export function GameEventPane(props: PropsType) {
       gold: gold,
       downtime: downtime,
       levels: level ? 1 : 0,
-      items: items,
+      magicitems: items.filter((item) => !!item.name),
       consumables: consumables,
       notes: notes,
     };
@@ -105,6 +118,7 @@ export function GameEventPane(props: PropsType) {
     if (existingGame) {
       updateEvent({ ...existingGame, ...gameEvent } as GameEvent)
         .then((_response) => {
+          refreshAllItemsForCharacter();
           displayMessage("Updated game", "info");
           onClose();
         })
@@ -112,6 +126,7 @@ export function GameEventPane(props: PropsType) {
     } else
       createEvent(gameEvent as Partial<GameEvent>)
         .then((_response) => {
+          refreshAllItemsForCharacter();
           displayMessage("Game added to log", "success");
           onClose && onClose();
         })
@@ -308,19 +323,17 @@ export function GameEventPane(props: PropsType) {
           })}
         </Box>
 
-        {!existingGame && (
-          <Button
-            sx={{ marginY: "4px" }}
-            startIcon={<AddIcon />}
-            disabled={!!existingGame || !editable}
-            variant="outlined"
-            size="small"
-            fullWidth
-            onClick={handleAddItem}
-          >
-            {items.length >= 1 ? "Add Another item" : "Add an item"}
-          </Button>
-        )}
+        <Button
+          sx={{ marginY: "4px" }}
+          startIcon={<AddIcon />}
+          disabled={!editable}
+          variant="outlined"
+          size="small"
+          fullWidth
+          onClick={handleAddItem}
+        >
+          {items.length >= 1 ? "Add Another item" : "Add an item"}
+        </Button>
 
         <Box
           sx={{
@@ -343,19 +356,17 @@ export function GameEventPane(props: PropsType) {
           ))}
         </Box>
 
-        {!existingGame && (
-          <Button
-            sx={{ marginY: "4px" }}
-            startIcon={<AddIcon />}
-            disabled={!editable}
-            variant="outlined"
-            size="small"
-            fullWidth
-            onClick={() => setConsumablesOpen(true)}
-          >
-            Add consumable item
-          </Button>
-        )}
+        <Button
+          sx={{ marginY: "4px" }}
+          startIcon={<AddIcon />}
+          disabled={!editable}
+          variant="outlined"
+          size="small"
+          fullWidth
+          onClick={() => setConsumablesOpen(true)}
+        >
+          Add consumable item
+        </Button>
 
         {editable && (
           <Box
