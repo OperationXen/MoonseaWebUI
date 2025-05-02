@@ -97,7 +97,7 @@ export function GameEventPane(props: PropsType) {
       gold: gold,
       downtime: downtime,
       levels: level ? 1 : 0,
-      items: items,
+      magicitems: items,
       consumables: consumables,
       notes: notes,
     };
