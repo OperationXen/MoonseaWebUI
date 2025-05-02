@@ -18,6 +18,8 @@ import StatsWidget from "@/components/characters/StatsWidget";
 import CreateConsumableDialog from "@/components/items/consumables/CreateConsumableDialog";
 import ConsumableItem from "@/components/items/consumables/ConsumableItem";
 import SimpleItemCreateWidget from "./SimpleItemCreateWidget";
+import { useConsumables } from "@/data/fetch/items/consumables";
+import { useMagicItems } from "@/data/fetch/items/magicitems";
 import { useEvents } from "@/data/fetch/events/character";
 import { PartyMember } from "./PartyMember";
 
@@ -44,6 +46,8 @@ export function GameEventPane(props: PropsType) {
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
+  const { refreshItems } = useMagicItems(characterUUID);
+  const { refreshConsumables } = useConsumables(characterUUID);
 
   const [highlight, setHighlight] = useState(false);
   const [code, setCode] = useState(existingGame?.module || "");
@@ -70,6 +74,11 @@ export function GameEventPane(props: PropsType) {
   );
 
   const editable = existingGame ? existingGame.editable : true;
+
+  const refreshAllItemsForCharacter = () => {
+    refreshItems();
+    refreshConsumables();
+  };
 
   const handleAddItem = () => {
     setItems([...items, { name: "", rarity: "uncommon" }]);
@@ -101,7 +110,7 @@ export function GameEventPane(props: PropsType) {
       gold: gold,
       downtime: downtime,
       levels: level ? 1 : 0,
-      magicitems: items,
+      magicitems: items.filter((item) => !!item.name),
       consumables: consumables,
       notes: notes,
     };
@@ -109,6 +118,7 @@ export function GameEventPane(props: PropsType) {
     if (existingGame) {
       updateEvent({ ...existingGame, ...gameEvent } as GameEvent)
         .then((_response) => {
+          refreshAllItemsForCharacter();
           displayMessage("Updated game", "info");
           onClose();
         })
@@ -116,6 +126,7 @@ export function GameEventPane(props: PropsType) {
     } else
       createEvent(gameEvent as Partial<GameEvent>)
         .then((_response) => {
+          refreshAllItemsForCharacter();
           displayMessage("Game added to log", "success");
           onClose && onClose();
         })

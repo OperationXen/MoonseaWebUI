@@ -113,6 +113,10 @@ export function useConsumables(characterUUID: UUID) {
     queryFn: getConsumables,
   });
 
+  const refreshConsumables = () => {
+    queryClient.invalidateQueries({ queryKey });
+  };
+
   const createConsumable = useMutation({
     mutationFn: (itemData: Partial<Consumable>) =>
       createConsumableFn({ character_uuid: characterUUID, ...itemData }),
@@ -185,6 +189,7 @@ export function useConsumables(characterUUID: UUID) {
 
   return {
     ...dataFetch,
+    refreshConsumables: refreshConsumables,
     createConsumable: createConsumable.mutateAsync,
     deleteConsumable: deleteConsumable.mutateAsync,
     updateConsumable: updateConsumable.mutateAsync,
