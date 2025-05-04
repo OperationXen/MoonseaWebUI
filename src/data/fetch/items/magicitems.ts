@@ -9,9 +9,11 @@ import { ItemEvent } from "@/types/events";
 type CharUUID = { character_uuid: UUID };
 
 function getMagicItemsFn(charUUID: UUID) {
-  return api.get(`/api/data/character/${charUUID}`).then((response) => {
-    return response.data.items as MagicItem[];
-  });
+  return api
+    .get(`/api/data/magicitem`, { params: { character: charUUID } })
+    .then((response) => {
+      return response.data as MagicItem[];
+    });
 }
 
 function getMagicItemFn(itemUUID: UUID) {
