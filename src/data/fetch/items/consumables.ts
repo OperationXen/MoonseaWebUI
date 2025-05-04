@@ -14,10 +14,12 @@ function createConsumableFn(itemData: Partial<Consumable> & CharacterUUID) {
   return api.post("/api/data/consumable", itemData);
 }
 
-function getConsumables() {
-  return api.get("/api/data/consumable").then((response) => {
-    return response.data as Consumable[];
-  });
+function getCharacterConsumables(characterUUID: UUID) {
+  return api
+    .get(`/api/data/consumable`, { params: { character: characterUUID } })
+    .then((response) => {
+      return response.data as Consumable[];
+    });
 }
 
 function getConsumableDetails(uuid: string) {
@@ -110,7 +112,7 @@ export function useConsumables(characterUUID: UUID) {
 
   const dataFetch = useQuery({
     queryKey: queryKey,
-    queryFn: getConsumables,
+    queryFn: () => getCharacterConsumables(characterUUID),
   });
 
   const refreshConsumables = () => {
