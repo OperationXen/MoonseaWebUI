@@ -21,6 +21,9 @@ export type Character = {
   sheet: string;
 
   season: string;
+  bastion: string;
+  campaign: string;
+  faction: string;
   race: string;
   level: number;
   classes: PlayerClass[];
