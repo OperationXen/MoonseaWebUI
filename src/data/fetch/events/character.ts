@@ -47,6 +47,8 @@ function updateEventFn(event: Partial<AnyEvent>) {
       return api.patch(`/api/data/spellbook_update/${event.uuid}`, event);
     case "dt_freeform":
       return api.patch(`/api/data/freeform/${event.uuid}`, event);
+    case "dm_reward":
+      return api.patch(`/api/data/dm_reward/${event.uuid}`, event);
     default:
       return Promise.resolve(null);
   }

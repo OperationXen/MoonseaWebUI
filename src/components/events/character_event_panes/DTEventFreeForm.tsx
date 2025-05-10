@@ -22,17 +22,20 @@ type PropsType = {
   onClose: () => void;
   characterUUID: UUID;
   event?: FreeFormEvent;
+  initialTitle?: string;
 };
 
 export function DTEventFreeForm(props: PropsType) {
-  const { onClose, characterUUID, event: event } = props;
+  const { onClose, characterUUID, event: event, initialTitle } = props;
 
   const displayMessage = useSnackbar((s) => s.displayMessage);
   const { createEvent, updateEvent } = useEvents(characterUUID);
   const { refreshCharacter } = useCharacter(characterUUID);
 
   const [autoApply, setAutoApply] = useState(true);
-  const [title, setTitle] = useState(event ? event.title : "");
+  const [title, setTitle] = useState(
+    event ? event.title : (initialTitle ?? ""),
+  );
   const [details, setDetails] = useState(event ? event.details : "");
   const [gold, setGold] = useState(event ? event.gold_change : 0);
   const [downtime, setDowntime] = useState(event ? event.downtime_change : 0);
