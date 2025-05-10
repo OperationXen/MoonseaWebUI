@@ -62,6 +62,8 @@ function deleteEventFn(event: AnyEvent, characterUUID: UUID) {
       return api.delete(`/api/data/spellbook/${event.uuid}`);
     case "dt_freeform":
       return api.delete(`/api/data/freeform/${event.uuid}`);
+    case "dm_reward":
+      return api.delete(`/api/data/dm_reward/${event.uuid}`);
     case "game":
       // remove the specified character from the game
       return api.post(`/api/data/game/${event.uuid}/remove_character`, {

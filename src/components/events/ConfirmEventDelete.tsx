@@ -17,16 +17,18 @@ function ConfirmEventDelete(props: PropsType) {
     <Dialog
       open={!!event}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          borderRadius: "8px",
-          border: "1px solid darkred",
-          boxShadow: `0 0 8px inset darkred`,
-          display: "flex",
-          width: "32em",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "1em 2em",
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: "8px",
+            border: "1px solid darkred",
+            boxShadow: `0 0 8px inset darkred`,
+            display: "flex",
+            width: "32em",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "1em 2em",
+          },
         },
       }}
     >
