@@ -34,16 +34,18 @@ export default function CreateCharacterEvent(props: PropsType) {
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{
-        sx: {
-          minWidth: "42em",
-          border: "2px solid black",
-          borderRadius: "16px",
-          boxShadow: "2px 2px 60px black",
-          padding: "1.2em",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
+      slotProps={{
+        paper: {
+          sx: {
+            minWidth: "42em",
+            border: "2px solid black",
+            borderRadius: "16px",
+            boxShadow: "2px 2px 60px black",
+            padding: "1.2em",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          },
         },
       }}
     >
@@ -98,6 +100,31 @@ export default function CreateCharacterEvent(props: PropsType) {
           />
         </React.Fragment>
       )}
+      {event === "dt_mtrade" && (
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
+            <Typography>Event details</Typography>
+          </Divider>
+          <DTEventFreeForm
+            initialTitle="Visited NPC Merchant"
+            characterUUID={characterUUID}
+            onClose={handleClose}
+          />
+        </React.Fragment>
+      )}
+      {event === "dt_catchingup" && (
+        <React.Fragment>
+          <Divider sx={{ width: "95%", margin: "auto" }}>
+            <Typography>Catching up</Typography>
+          </Divider>
+          <DTEventFreeForm
+            initialTitle="Catching up"
+            characterUUID={characterUUID}
+            onClose={handleClose}
+          />
+        </React.Fragment>
+      )}
+
       {event === "dt_sbookupd" && (
         <React.Fragment>
           <Divider sx={{ width: "95%", margin: "auto" }}>
