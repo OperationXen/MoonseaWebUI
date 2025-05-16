@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { InputBase, Divider, Typography, IconButton } from "@mui/material";
-import { Box, Grid } from "@mui/material";
+import { Box, InputBase, Divider, Typography, IconButton } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -77,15 +76,23 @@ export function StatsWidget(props: PropsType) {
         boxShadow: "1px 1px 2px 1px #AAAAAA40",
       }}
     >
-      <Grid container sx={{ width: "100%" }}>
-        <Grid item xs={3} textAlign="right">
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box sx={{ flexBasis: "24px", padding: "1px 6px", display: "flex" }}>
           {icon}
-        </Grid>
-        <Grid item xs={6} textAlign="center">
-          <Typography variant="body2">{name}</Typography>
-        </Grid>
-        <Grid item xs={3} />
-      </Grid>
+        </Box>
+
+        <Typography variant="body2">{name}</Typography>
+        <Box
+          sx={{ flexBasis: "32px", padding: "1px 6px", display: "flex" }}
+        ></Box>
+      </Box>
       <Divider sx={{ width: "95%" }} />
       <Box
         sx={{
