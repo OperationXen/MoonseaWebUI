@@ -46,7 +46,11 @@ export default function CharacterSummaryCard(props: PropsType) {
 
   return (
     <Card className="p-1 border-solid rounded-lg border w-96">
-      <TierWidget level={character.level} className="absolute scale-75" />
+      <TierWidget
+        level={character.level}
+        className="scale-75"
+        sx={{ position: "absolute" }}
+      />
       <Tooltip
         title={character.token ? "Character token" : "Character token not set!"}
       >
